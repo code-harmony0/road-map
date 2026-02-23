@@ -29,23 +29,10 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Bricolage Grotesque', sans-serif;
-  min-height: 100vh;
-  padding-bottom: 120px;
-}
+body { background: var(--bg); color: var(--text); font-family: 'Bricolage Grotesque', sans-serif; min-height: 100vh; padding-bottom: 120px; }
 
 /* TOPBAR */
-.topbar {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(12,14,16,0.9);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px; height: 56px;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-}
+.topbar { position: sticky; top: 0; z-index: 100; background: rgba(12,14,16,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .topbar-left { display: flex; align-items: center; gap: 12px; }
 .topbar-logo { font-size: 13px; font-weight: 700; color: var(--text); font-family: 'JetBrains Mono', monospace; }
 .topbar-logo span { color: var(--accent); }
@@ -64,10 +51,11 @@ body {
 .top-btn:hover { border-color: var(--accent); color: var(--accent); }
 
 /* TIMER MODAL */
-.timer-modal { position: fixed; bottom: 24px; right: 24px; z-index: 200; background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; padding: 24px; width: 240px; box-shadow: 0 24px 48px rgba(0,0,0,0.5); display: none; }
+.timer-modal { position: fixed; bottom: 24px; right: 24px; z-index: 200; background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; padding: 24px; width: 260px; box-shadow: 0 24px 48px rgba(0,0,0,0.5); display: none; }
 .timer-modal.open { display: block; animation: slideUp 0.3s ease; }
-.timer-display { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 42px; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1; }
+.timer-display { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 42px; font-weight: 700; color: var(--text); margin-bottom: 4px; line-height: 1; }
 .timer-display.warn { color: var(--amber); }
+.timer-clock { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 14px; }
 .timer-label { text-align: center; font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
 .timer-controls { display: flex; gap: 8px; }
 .tm-btn { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 12px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.15s; }
@@ -81,34 +69,34 @@ body {
 .session-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border2); transition: background 0.3s; }
 .session-dot.done { background: var(--green); }
 
-/* MAIN LAYOUT */
+/* MAIN */
 .main { max-width: 980px; margin: 0 auto; padding: 48px 24px 0; }
 
 /* HERO */
 .hero { margin-bottom: 40px; }
 .hero-tag { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-dim); border: 1px solid rgba(59,130,246,0.2); border-radius: 6px; padding: 5px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 1px; margin-bottom: 20px; }
 .hero h1 { font-size: clamp(36px,5.5vw,62px); font-weight: 800; line-height: 1.0; color: #fff; margin-bottom: 12px; letter-spacing: -1.5px; }
-.hero h1 em { font-style: normal; color: var(--accent); }
+.hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--accent), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hero-sub { font-size: 15px; color: var(--muted2); font-family: 'JetBrains Mono', monospace; }
 
-/* STATS ROW */
+/* STATS */
 .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 32px; }
-.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; cursor: default; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; cursor: default; transition: border-color 0.2s; }
+.stat-card:hover { border-color: var(--border2); }
 .stat-num { font-size: 28px; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: #fff; margin-bottom: 4px; line-height: 1; }
-.stat-num span { font-size: 14px; color: var(--muted); font-weight: 400; }
 .stat-label { font-size: 12px; color: var(--muted); }
 #stat-done { color: var(--green); }
-#stat-streak { color: var(--amber); }
 
 /* TODAY'S FOCUS */
-.today-focus { background: var(--surface); border: 1px solid var(--accent); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+.today-focus { background: var(--surface); border: 1px solid rgba(59,130,246,0.3); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; position: relative; overflow: hidden; }
+.today-focus::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), #a78bfa, var(--green)); }
 .today-focus-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .today-focus-title { font-size: 15px; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
 .today-focus-date { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
 .today-tasks { display: flex; flex-direction: column; gap: 8px; }
 .today-task { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--surface2); border-radius: 8px; font-size: 13px; color: var(--muted2); border: 1px solid var(--border); }
 .today-task .tt-week { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); background: var(--bg); padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
-.today-task.tt-done { opacity: 0.5; text-decoration: line-through; }
+.today-task.tt-done { opacity: 0.4; text-decoration: line-through; }
 .today-empty { font-size: 13px; color: var(--muted); font-style: italic; }
 
 /* START DATE */
@@ -120,13 +108,11 @@ body {
 
 /* HONEST NOTE */
 .honest-note { background: #15100a; border: 1px solid rgba(245,158,11,0.25); border-left: 3px solid var(--amber); border-radius: 8px; padding: 16px 20px; margin-bottom: 40px; display: flex; gap: 14px; align-items: flex-start; }
-.honest-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
 .honest-note p { font-size: 13px; color: #b8935a; line-height: 1.7; }
 .honest-note strong { color: var(--text); }
 
 /* MONTH DIVIDER */
 .month-divider { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; margin-top: 48px; }
-.month-divider:first-of-type { margin-top: 0; }
 .md-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; white-space: nowrap; border: 1px solid var(--border); padding: 3px 8px; border-radius: 4px; }
 .md-title { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; white-space: nowrap; }
 .md-line { flex: 1; height: 1px; background: var(--border); }
@@ -134,19 +120,20 @@ body {
 
 /* WEEK CARD */
 .weeks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-.week-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; position: relative; }
+.week-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; position: relative; }
 .week-card:hover { border-color: var(--card-color, var(--border)); }
 .week-card.active-week { border-color: var(--card-color); box-shadow: 0 0 0 1px var(--card-color), 0 8px 24px rgba(0,0,0,0.4); }
-.week-card.completed-week { opacity: 0.6; }
+.week-card.completed-week { opacity: 0.55; }
 
-.wc-header { padding: 18px 20px 14px; border-bottom: 1px solid var(--border); position: relative; cursor: pointer; }
+.wc-header { padding: 18px 20px 14px; position: relative; cursor: pointer; user-select: none; }
+.wc-header:hover { background: rgba(255,255,255,0.01); }
 .wc-top-line { height: 2px; background: var(--card-color, var(--border)); position: absolute; top: 0; left: 0; right: 0; }
 .wc-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .wc-weeknum { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--card-color); text-transform: uppercase; }
 .wc-status { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
 .active-pill { background: var(--accent-dim); border: 1px solid rgba(59,130,246,0.3); color: var(--accent); padding: 2px 7px; border-radius: 4px; font-size: 9px; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
-.collapse-arrow { font-size: 10px; color: var(--muted); transition: transform 0.2s; margin-left: 6px; }
-.collapsed .collapse-arrow { transform: rotate(-90deg); }
+.collapse-icon { font-size: 14px; color: var(--muted); transition: transform 0.25s ease; display: inline-block; }
+.week-card.is-collapsed .collapse-icon { transform: rotate(-90deg); }
 .wc-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.3px; margin-bottom: 3px; }
 .wc-subtitle { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
 .wc-progress { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
@@ -154,10 +141,13 @@ body {
 .wc-pb-fill { height: 100%; background: var(--card-color); border-radius: 99px; transition: width 0.4s cubic-bezier(0.34,1.56,0.64,1); }
 .wc-pct-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); min-width: 28px; text-align: right; }
 
+/* COLLAPSIBLE BODY - proper height animation */
+.wc-body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s ease; }
+.wc-body > .wc-body-inner { overflow: hidden; }
+.week-card.is-collapsed .wc-body { grid-template-rows: 0fr; }
+
 /* Tasks */
-.wc-body { overflow: hidden; transition: max-height 0.3s ease; }
-.wc-body.collapsed { max-height: 0 !important; }
-.wc-tasks { padding: 4px 0; }
+.wc-tasks { padding: 4px 0; border-top: 1px solid var(--border); }
 .task-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 20px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid var(--border); user-select: none; }
 .task-item:last-child { border-bottom: none; }
 .task-item:hover { background: rgba(255,255,255,0.02); }
@@ -166,13 +156,15 @@ body {
 .task-check-icon { color: #fff; font-size: 10px; opacity: 0; transform: scale(0); transition: all 0.15s; }
 .task-item.done .task-check-icon { opacity: 1; transform: scale(1); }
 .task-content { flex: 1; min-width: 0; }
-.task-text { font-size: 13px; color: var(--muted2); line-height: 1.5; transition: color 0.2s; }
+.task-text { font-size: 13px; color: var(--muted2); line-height: 1.5; }
 .task-item.done .task-text { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--border2); }
-.task-meta { display: flex; align-items: center; gap: 8px; margin-top: 3px; }
+.task-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
 .task-date { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); }
 .task-note-btn { font-size: 10px; color: var(--muted); cursor: pointer; padding: 1px 5px; border-radius: 3px; background: none; border: 1px solid transparent; font-family: 'JetBrains Mono', monospace; transition: all 0.15s; }
 .task-note-btn:hover { border-color: var(--border2); color: var(--muted2); }
 .task-note-btn.has-note { color: var(--accent); border-color: rgba(59,130,246,0.3); }
+.task-resource { font-size: 10px; color: var(--muted); text-decoration: none; font-family: 'JetBrains Mono', monospace; padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border); transition: all 0.15s; white-space: nowrap; }
+.task-resource:hover { color: var(--accent); border-color: rgba(59,130,246,0.4); background: var(--accent-dim); }
 
 /* Custom tasks */
 .custom-tasks { padding: 0 20px 8px; }
@@ -190,9 +182,9 @@ body {
 .add-task-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-size: 11px; color: var(--muted2); cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: all 0.15s; }
 .add-task-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-/* Build badge + footer */
+/* Footer */
 .wc-footer { padding: 12px 20px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.01); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.build-badge { display: inline-flex; align-items: center; gap: 7px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+.build-badge { display: inline-flex; align-items: center; gap: 7px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); flex: 1; min-width: 0; }
 .build-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--card-color); flex-shrink: 0; }
 .complete-btn { background: none; border: 1px solid var(--border2); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
 .complete-btn:hover { border-color: var(--card-color); color: var(--card-color); }
@@ -212,7 +204,6 @@ body {
 .note-save { background: var(--accent); border: none; color: #fff; }
 .note-save:hover { background: #2563eb; }
 .note-cancel { background: none; border: 1px solid var(--border); color: var(--muted2); }
-.note-cancel:hover { border-color: var(--muted2); }
 
 /* BACKUP MODAL */
 .backup-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 300; display: none; align-items: center; justify-content: center; }
@@ -225,9 +216,9 @@ body {
 .backup-btn small { display: block; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 3px; }
 .backup-btn.danger { border-color: rgba(239,68,68,0.3); }
 .backup-btn.danger:hover { border-color: var(--red); color: var(--red); }
-.backup-close { margin-top: 12px; width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border); background: none; color: var(--muted2); font-size: 12px; cursor: pointer; font-family: 'Bricolage Grotesque', sans-serif; }
+.backup-close { margin-top: 12px; width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border); background: none; color: var(--muted2); font-size: 12px; cursor: pointer; }
 
-/* DAILY RHYTHM */
+/* SECTIONS */
 .daily-section { margin-top: 48px; margin-bottom: 16px; }
 .section-title { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
 .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -237,12 +228,9 @@ body {
 .rhythm-act { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
 .rhythm-desc { font-size: 12px; color: var(--muted2); line-height: 1.5; }
 .rule-card { background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(34,197,94,0.04)); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 28px; margin-top: 16px; display: flex; gap: 20px; align-items: flex-start; }
-.rule-icon { font-size: 24px; flex-shrink: 0; }
-.rule-card h4 { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 8px; letter-spacing: -0.3px; }
+.rule-card h4 { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 8px; }
 .rule-card p { font-size: 13px; color: var(--muted2); line-height: 1.7; }
 .rule-card strong { color: var(--green); }
-
-/* RESOURCES */
 .resources-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
 .resource-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
 .resource-week { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-bottom: 10px; }
@@ -250,40 +238,34 @@ body {
 .resource-link { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted2); text-decoration: none; transition: color 0.15s; }
 .resource-link:hover { color: var(--accent); }
 .rl-arrow { font-size: 10px; color: var(--muted); }
-
-/* OUTCOMES */
 .outcome-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
 .outcome-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; }
 .outcome-num { font-size: 26px; font-weight: 800; font-family: 'JetBrains Mono', monospace; background: linear-gradient(135deg, var(--accent), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
 .outcome-label { font-size: 12px; color: var(--muted2); line-height: 1.5; }
 
-/* TOAST */
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 18px; font-size: 13px; font-weight: 600; color: var(--text); z-index: 300; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; display: flex; align-items: center; gap: 8px; }
+/* TOAST + SAVE */
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 18px; font-size: 13px; font-weight: 600; color: var(--text); z-index: 300; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; }
 .toast.show { transform: translateX(-50%) translateY(0); }
 .toast.success { border-color: var(--green); color: var(--green); }
 .toast.info { border-color: var(--accent); color: var(--accent); }
 .toast.warn { border-color: var(--amber); color: var(--amber); }
-
-/* SAVE INDICATOR */
 .save-indicator { position: fixed; top: 64px; right: 24px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--green); opacity: 0; transition: opacity 0.3s; z-index: 100; pointer-events: none; }
 .save-indicator.show { opacity: 1; }
-
-/* RESET */
 .reset-btn { background: none; border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; font-size: 11px; color: var(--muted); cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: all 0.2s; }
 .reset-btn:hover { border-color: var(--red); color: var(--red); }
 
-@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
-@keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-body { animation: fadeIn 0.5s ease; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+@keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+body { animation: fadeIn 0.4s ease; }
 
-@media (max-width: 700px) {
+@media (max-width:700px) {
   .weeks-grid { grid-template-columns: 1fr; }
   .stats-row { grid-template-columns: repeat(2,1fr); }
   .rhythm-grid { grid-template-columns: 1fr; }
   .resources-grid { grid-template-columns: 1fr; }
   .outcome-grid { grid-template-columns: repeat(2,1fr); }
-  .topbar { padding: 0 12px; gap: 8px; }
+  .topbar { padding: 0 12px; gap: 6px; }
   .global-progress { display: none; }
   .streak-badge { display: none; }
 }
@@ -291,17 +273,14 @@ body { animation: fadeIn 0.5s ease; }
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
-  <div class="topbar-left">
-    <div class="topbar-logo">rn<span>&rarr;</span>senior</div>
-  </div>
+  <div class="topbar-left"><div class="topbar-logo">rn<span>&rarr;</span>senior</div></div>
   <div class="global-progress">
     <div class="gp-bar-wrap"><div class="gp-bar-fill" id="globalBar"></div></div>
     <div class="gp-pct" id="globalPct">0%</div>
   </div>
   <div class="topbar-right">
-    <div class="streak-badge">&#x1F525; <span id="streakCount">0</span>d streak</div>
+    <div class="streak-badge" id="streakBadge">&#x1F525; <span id="streakCount">0</span>d</div>
     <button class="timer-btn" id="timerBtn" onclick="toggleTimer()">
       <div class="timer-dot" id="timerDot"></div>
       <span id="timerBtnText">25:00</span>
@@ -311,13 +290,12 @@ body { animation: fadeIn 0.5s ease; }
   </div>
 </div>
 
-<!-- SAVE INDICATOR -->
 <div class="save-indicator" id="saveIndicator">saved</div>
 
-<!-- TIMER MODAL -->
 <div class="timer-modal" id="timerModal">
   <button class="tm-close" onclick="closeTimerModal()">&times;</button>
   <div class="timer-display" id="timerDisplay">25:00</div>
+  <div class="timer-clock" id="timerClock"></div>
   <div class="timer-label" id="timerLabel">FOCUS SESSION</div>
   <div class="timer-controls">
     <button class="tm-btn primary" id="tmStartBtn" onclick="startStopTimer()">Start</button>
@@ -326,15 +304,11 @@ body { animation: fadeIn 0.5s ease; }
   <div class="sessions-today">
     <span class="s-label">TODAY</span>
     <div class="session-dots" id="sessionDots">
-      <div class="session-dot"></div>
-      <div class="session-dot"></div>
-      <div class="session-dot"></div>
-      <div class="session-dot"></div>
+      <div class="session-dot"></div><div class="session-dot"></div><div class="session-dot"></div><div class="session-dot"></div>
     </div>
   </div>
 </div>
 
-<!-- NOTE MODAL -->
 <div class="note-modal-overlay" id="noteOverlay" onclick="if(event.target===this)closeNote()">
   <div class="note-modal">
     <h3 id="noteTitle">Notes</h3>
@@ -347,64 +321,34 @@ body { animation: fadeIn 0.5s ease; }
   </div>
 </div>
 
-<!-- BACKUP MODAL -->
 <div class="backup-modal-overlay" id="backupOverlay" onclick="if(event.target===this)closeBackupModal()">
   <div class="backup-modal">
     <h3>Data Backup</h3>
     <div class="backup-btns">
-      <button class="backup-btn" onclick="exportData()">
-        Export as JSON
-        <small>Download your complete progress as a file</small>
-      </button>
-      <button class="backup-btn" onclick="document.getElementById('importFile').click()">
-        Import from JSON
-        <small>Restore progress from a backup file</small>
-      </button>
-      <button class="backup-btn" onclick="copyDataToClipboard()">
-        Copy to clipboard
-        <small>Quick copy - paste into a note app as backup</small>
-      </button>
-      <button class="backup-btn danger" onclick="confirmReset();closeBackupModal()">
-        Reset all progress
-        <small>Permanently delete all data</small>
-      </button>
+      <button class="backup-btn" onclick="exportData()">Export as JSON<small>Download your complete progress as a file</small></button>
+      <button class="backup-btn" onclick="document.getElementById('importFile').click()">Import from JSON<small>Restore progress from a backup file</small></button>
+      <button class="backup-btn" onclick="copyDataToClipboard()">Copy to clipboard<small>Quick copy - paste into a note app as backup</small></button>
+      <button class="backup-btn danger" onclick="confirmReset();closeBackupModal()">Reset all progress<small>Permanently delete all data</small></button>
     </div>
     <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
     <button class="backup-close" onclick="closeBackupModal()">Close</button>
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
-
-  <!-- HERO -->
   <div class="hero">
     <div class="hero-tag">8 weeks &middot; 2 hrs/day &middot; your actual skill level</div>
     <h1>React Native &rarr;<br><em>Senior Engineer</em></h1>
     <div class="hero-sub">PostgreSQL &middot; AI Integration &middot; AWS &middot; System Design</div>
   </div>
 
-  <!-- STATS -->
   <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-num" id="stat-done">0</div>
-      <div class="stat-label">tasks completed</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num"><span id="stat-total">0</span></div>
-      <div class="stat-label">total tasks</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="stat-streak" style="color: var(--amber)">0</div>
-      <div class="stat-label">day streak</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="stat-sessions" style="color: var(--green)">0</div>
-      <div class="stat-label">focus sessions</div>
-    </div>
+    <div class="stat-card"><div class="stat-num" id="stat-done" style="color:var(--green)">0</div><div class="stat-label">tasks done</div></div>
+    <div class="stat-card"><div class="stat-num"><span id="stat-total">0</span></div><div class="stat-label">total tasks</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-streak" style="color:var(--amber)">0</div><div class="stat-label">day streak</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-sessions" style="color:var(--green)">0</div><div class="stat-label">focus sessions</div></div>
   </div>
 
-  <!-- TODAY'S FOCUS -->
   <div class="today-focus" id="todayFocus">
     <div class="today-focus-header">
       <div class="today-focus-title">Today's Focus</div>
@@ -413,63 +357,38 @@ body { animation: fadeIn 0.5s ease; }
     <div class="today-tasks" id="todayTasks"></div>
   </div>
 
-  <!-- START DATE -->
   <div class="start-section">
     <label for="startDate">Start date:</label>
     <input type="date" id="startDate" onchange="updateStartDate()">
     <div class="current-week-info" id="currentWeekInfo">Set your start date to track active week</div>
   </div>
 
-  <!-- HONEST NOTE -->
   <div class="honest-note">
-    <div class="honest-icon">&nbsp;</div>
-    <p>
-      <strong>Real baseline:</strong> You're strong in React Native (4 years, shipped apps). Backend is surface-level &mdash; MongoDB Compass for CRUD, NestJS basics. That's fine. This roadmap starts from <strong>where you actually are</strong>. Every task you check off is something you built, not watched.
-    </p>
+    <p><strong>Real baseline:</strong> You're strong in React Native (4 years, shipped apps). Backend is surface-level &mdash; MongoDB Compass for CRUD, NestJS basics. This roadmap starts from <strong>where you actually are</strong>. Every task you check off is something you built, not watched.</p>
   </div>
 
-  <!-- MONTH 1 -->
   <div class="month-divider">
-    <span class="md-tag">Month 01</span>
-    <div class="md-line"></div>
-    <span class="md-title" style="color: var(--w1)">Backend &amp; Database Foundation</span>
-    <div class="md-line"></div>
-    <span class="md-pct" id="month1pct">0%</span>
+    <span class="md-tag">Month 01</span><div class="md-line"></div>
+    <span class="md-title" style="color:var(--w1)">Backend &amp; Database Foundation</span>
+    <div class="md-line"></div><span class="md-pct" id="month1pct">0%</span>
   </div>
   <div class="weeks-grid" id="month1weeks"></div>
 
-  <!-- MONTH 2 -->
   <div class="month-divider">
-    <span class="md-tag">Month 02</span>
-    <div class="md-line"></div>
-    <span class="md-title" style="color: var(--w5)">Cloud &amp; Systems Thinking</span>
-    <div class="md-line"></div>
-    <span class="md-pct" id="month2pct">0%</span>
+    <span class="md-tag">Month 02</span><div class="md-line"></div>
+    <span class="md-title" style="color:var(--w5)">Cloud &amp; Systems Thinking</span>
+    <div class="md-line"></div><span class="md-pct" id="month2pct">0%</span>
   </div>
   <div class="weeks-grid" id="month2weeks"></div>
 
-  <!-- DAILY RHYTHM -->
   <div class="daily-section">
     <div class="section-title">Daily Rhythm</div>
     <div class="rhythm-grid">
-      <div class="rhythm-card">
-        <div class="rhythm-time">Hour 1</div>
-        <div class="rhythm-act">Build Something</div>
-        <div class="rhythm-desc">Hands on code. No videos. Open docs and type. If you can't build it, you don't know it yet.</div>
-      </div>
-      <div class="rhythm-card">
-        <div class="rhythm-time">Hour 2</div>
-        <div class="rhythm-act">Read Official Docs</div>
-        <div class="rhythm-desc">PostgreSQL docs, Prisma docs, AWS docs. Not YouTube. One concept, written down in your own words.</div>
-      </div>
-      <div class="rhythm-card">
-        <div class="rhythm-time">Weekend 3-4 hrs</div>
-        <div class="rhythm-act">Combine &amp; Ship</div>
-        <div class="rhythm-desc">Take the week's skills and build one thing that uses all of them. Then write a README explaining your decisions.</div>
-      </div>
+      <div class="rhythm-card"><div class="rhythm-time">Hour 1</div><div class="rhythm-act">Build Something</div><div class="rhythm-desc">Hands on code. No videos. Open docs and type. If you can't build it, you don't know it yet.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Hour 2</div><div class="rhythm-act">Read Official Docs</div><div class="rhythm-desc">PostgreSQL docs, Prisma docs, AWS docs. Not YouTube. One concept, written down in your own words.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Weekend 3-4 hrs</div><div class="rhythm-act">Combine &amp; Ship</div><div class="rhythm-desc">Take the week's skills and build one thing that uses all of them. Then write a README explaining your decisions.</div></div>
     </div>
     <div class="rule-card" style="margin-top:12px">
-      <div class="rule-icon">&nbsp;</div>
       <div>
         <h4>The One Rule That Makes This Work</h4>
         <p>Every concept you study &mdash; write <strong>one working example</strong> from scratch immediately after. Not a tutorial copy. Your own code, your own tiny version. That 20 minutes of struggling is worth more than 3 hours of watching.</p>
@@ -477,93 +396,117 @@ body { animation: fadeIn 0.5s ease; }
     </div>
   </div>
 
-  <!-- RESOURCES -->
-  <div style="margin-top: 48px;">
+  <div style="margin-top:48px;">
     <div class="section-title">Key Resources by Week</div>
     <div class="resources-grid">
-      <div class="resource-card">
-        <div class="resource-week">WEEK 1-2 &middot; PostgreSQL + NestJS</div>
-        <div class="resource-links">
-          <a class="resource-link" href="https://www.postgresqltutorial.com" target="_blank"><span class="rl-arrow">&rarr;</span> postgresqltutorial.com</a>
-          <a class="resource-link" href="https://www.prisma.io/docs" target="_blank"><span class="rl-arrow">&rarr;</span> prisma.io/docs</a>
-          <a class="resource-link" href="https://use-the-index-luke.com" target="_blank"><span class="rl-arrow">&rarr;</span> use-the-index-luke.com</a>
-        </div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-week">WEEK 3-4 &middot; AI Integration</div>
-        <div class="resource-links">
-          <a class="resource-link" href="https://platform.openai.com/docs" target="_blank"><span class="rl-arrow">&rarr;</span> OpenAI API docs</a>
-          <a class="resource-link" href="https://js.langchain.com/docs" target="_blank"><span class="rl-arrow">&rarr;</span> LangChain JS</a>
-          <a class="resource-link" href="https://github.com/pgvector/pgvector" target="_blank"><span class="rl-arrow">&rarr;</span> pgvector</a>
-        </div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-week">WEEK 5-6 &middot; AWS</div>
-        <div class="resource-links">
-          <a class="resource-link" href="https://aws.amazon.com/free" target="_blank"><span class="rl-arrow">&rarr;</span> AWS Free Tier</a>
-          <a class="resource-link" href="https://aws.amazon.com/training/digital/aws-cloud-practitioner-essentials" target="_blank"><span class="rl-arrow">&rarr;</span> Cloud Practitioner Essentials (free)</a>
-          <a class="resource-link" href="https://acloudguru.com" target="_blank"><span class="rl-arrow">&rarr;</span> A Cloud Guru</a>
-        </div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-week">WEEK 7-8 &middot; System Design</div>
-        <div class="resource-links">
-          <a class="resource-link" href="https://github.com/donnemartin/system-design-primer" target="_blank"><span class="rl-arrow">&rarr;</span> System Design Primer (GitHub)</a>
-          <a class="resource-link" href="https://bytebytego.com" target="_blank"><span class="rl-arrow">&rarr;</span> ByteByteGo</a>
-          <a class="resource-link" href="https://excalidraw.com" target="_blank"><span class="rl-arrow">&rarr;</span> Excalidraw</a>
-        </div>
-      </div>
+      <div class="resource-card"><div class="resource-week">WEEK 1-2 &middot; PostgreSQL + NestJS</div><div class="resource-links">
+        <a class="resource-link" href="https://www.postgresqltutorial.com" target="_blank"><span class="rl-arrow">&rarr;</span> postgresqltutorial.com</a>
+        <a class="resource-link" href="https://www.prisma.io/docs" target="_blank"><span class="rl-arrow">&rarr;</span> prisma.io/docs</a>
+        <a class="resource-link" href="https://use-the-index-luke.com" target="_blank"><span class="rl-arrow">&rarr;</span> use-the-index-luke.com</a>
+      </div></div>
+      <div class="resource-card"><div class="resource-week">WEEK 3-4 &middot; AI Integration</div><div class="resource-links">
+        <a class="resource-link" href="https://platform.openai.com/docs" target="_blank"><span class="rl-arrow">&rarr;</span> OpenAI API docs</a>
+        <a class="resource-link" href="https://js.langchain.com/docs" target="_blank"><span class="rl-arrow">&rarr;</span> LangChain JS</a>
+        <a class="resource-link" href="https://github.com/pgvector/pgvector" target="_blank"><span class="rl-arrow">&rarr;</span> pgvector</a>
+      </div></div>
+      <div class="resource-card"><div class="resource-week">WEEK 5-6 &middot; AWS</div><div class="resource-links">
+        <a class="resource-link" href="https://aws.amazon.com/free" target="_blank"><span class="rl-arrow">&rarr;</span> AWS Free Tier</a>
+        <a class="resource-link" href="https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials" target="_blank"><span class="rl-arrow">&rarr;</span> Cloud Practitioner (free)</a>
+        <a class="resource-link" href="https://acloudguru.com" target="_blank"><span class="rl-arrow">&rarr;</span> A Cloud Guru</a>
+      </div></div>
+      <div class="resource-card"><div class="resource-week">WEEK 7-8 &middot; System Design</div><div class="resource-links">
+        <a class="resource-link" href="https://github.com/donnemartin/system-design-primer" target="_blank"><span class="rl-arrow">&rarr;</span> System Design Primer</a>
+        <a class="resource-link" href="https://bytebytego.com" target="_blank"><span class="rl-arrow">&rarr;</span> ByteByteGo</a>
+        <a class="resource-link" href="https://excalidraw.com" target="_blank"><span class="rl-arrow">&rarr;</span> Excalidraw</a>
+      </div></div>
     </div>
   </div>
 
-  <!-- OUTCOMES -->
-  <div style="margin-top: 48px; margin-bottom: 0;">
+  <div style="margin-top:48px;margin-bottom:0;">
     <div class="section-title">After 8 Weeks You Can Say</div>
     <div class="outcome-grid">
-      <div class="outcome-card"><div class="outcome-num">SQL</div><div class="outcome-label">Design &amp; query relational databases with indexes &amp; transactions</div></div>
-      <div class="outcome-card"><div class="outcome-num">AI</div><div class="outcome-label">Stream LLM responses into mobile apps end-to-end</div></div>
-      <div class="outcome-card"><div class="outcome-num">AWS</div><div class="outcome-label">Deploy full stack apps with certification to prove it</div></div>
-      <div class="outcome-card"><div class="outcome-num">SD</div><div class="outcome-label">Whiteboard system design from your own shipped app experience</div></div>
-      <div class="outcome-card"><div class="outcome-num">4 yrs</div><div class="outcome-label">Real RN production experience &mdash; still your biggest differentiator</div></div>
-      <div class="outcome-card"><div class="outcome-num">1</div><div class="outcome-label">Portfolio project using all 4 skills &mdash; this gets you the interview</div></div>
+      <div class="outcome-card"><div class="outcome-num">SQL</div><div class="outcome-label">Design &amp; query relational databases</div></div>
+      <div class="outcome-card"><div class="outcome-num">AI</div><div class="outcome-label">Stream LLM responses into mobile apps</div></div>
+      <div class="outcome-card"><div class="outcome-num">AWS</div><div class="outcome-label">Deploy full stack apps to cloud</div></div>
+      <div class="outcome-card"><div class="outcome-num">SD</div><div class="outcome-label">Whiteboard system design confidently</div></div>
+      <div class="outcome-card"><div class="outcome-num">4yr</div><div class="outcome-label">Real RN production experience</div></div>
+      <div class="outcome-card"><div class="outcome-num">1</div><div class="outcome-label">Portfolio project using all 4 skills</div></div>
     </div>
   </div>
-
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// === DATA ===
+// === DATA WITH RESOURCES ===
 const WEEKS = [
   { id:'w1', num:'WEEK 01', color:'--w1', month:1, title:'PostgreSQL Basics', subtitle:'learn relational thinking first',
-    tasks:['Install PostgreSQL + pgAdmin (visual GUI, like Compass)','Understand tables, columns, data types vs MongoDB documents','Practice SELECT, INSERT, UPDATE, DELETE - 30 min/day','Learn JOINs: what foreign keys actually mean','Connect PostgreSQL to NestJS with Prisma - first integration'],
-    build:'Build: users + posts tables in Prisma, working CRUD' },
+    tasks:[
+      {t:'Install PostgreSQL + pgAdmin (visual GUI, like Compass)', url:'https://www.postgresql.org/download/', tag:'official'},
+      {t:'Understand tables, columns, data types vs MongoDB documents', url:'https://www.mongodb.com/compare/mongodb-postgresql', tag:'comparison'},
+      {t:'Practice SELECT, INSERT, UPDATE, DELETE - 30 min/day', url:'https://www.postgresqltutorial.com/postgresql-sql-syntax/', tag:'tutorial'},
+      {t:'Learn JOINs: what foreign keys actually mean', url:'https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-joins/', tag:'visual guide'},
+      {t:'Connect PostgreSQL to NestJS with Prisma - first integration', url:'https://docs.nestjs.com/recipes/prisma', tag:'nestjs docs'},
+    ], build:'Build: users + posts tables in Prisma, working CRUD' },
   { id:'w2', num:'WEEK 02', color:'--w2', month:1, title:'NestJS + PostgreSQL API', subtitle:'connect your mobile skills to backend',
-    tasks:['Solidify NestJS: modules, services, controllers pattern','Prisma relations: 1:1, 1:many, many:many schemas','Transactions - why they matter for your chat + payment apps','EXPLAIN ANALYZE - read a query plan for the first time','Add JWT auth to API (you know this concept from mobile side)'],
-    build:'Build: Full CRUD NestJS API for a chit fund / job app' },
+    tasks:[
+      {t:'Solidify NestJS: modules, services, controllers pattern', url:'https://docs.nestjs.com/first-steps', tag:'nestjs docs'},
+      {t:'Prisma relations: 1:1, 1:many, many:many schemas', url:'https://www.prisma.io/docs/orm/prisma-schema/data-model/relations', tag:'prisma docs'},
+      {t:'Transactions - why they matter for your chat + payment apps', url:'https://www.prisma.io/docs/orm/prisma-client/queries/transactions', tag:'prisma docs'},
+      {t:'EXPLAIN ANALYZE - read a query plan for the first time', url:'https://www.postgresql.org/docs/current/using-explain.html', tag:'pg docs'},
+      {t:'Add JWT auth to API (you know this concept from mobile side)', url:'https://docs.nestjs.com/security/authentication', tag:'nestjs docs'},
+    ], build:'Build: Full CRUD NestJS API for a chit fund / job app' },
   { id:'w3', num:'WEEK 03', color:'--w3', month:1, title:'AI Integration', subtitle:'add intelligence to your existing apps',
-    tasks:['Call OpenAI/Claude API from your NestJS backend','Stream AI responses - render in React Native','Prompt engineering: system prompts, few-shot examples','Function calling - AI decides which backend API to call','Store and retrieve AI responses in PostgreSQL properly'],
-    build:'Build: AI chat assistant wired into your existing RN app' },
+    tasks:[
+      {t:'Call OpenAI/Claude API from your NestJS backend', url:'https://github.com/openai/openai-node', tag:'openai sdk'},
+      {t:'Stream AI responses - render in React Native', url:'https://sdk.vercel.ai/docs/concepts/streaming', tag:'vercel ai'},
+      {t:'Prompt engineering: system prompts, few-shot examples', url:'https://www.promptingguide.ai/', tag:'free guide'},
+      {t:'Function calling - AI decides which backend API to call', url:'https://platform.openai.com/docs/guides/function-calling', tag:'openai docs'},
+      {t:'Store and retrieve AI responses in PostgreSQL properly', url:'https://www.prisma.io/docs/orm/prisma-schema/data-model/models', tag:'prisma docs'},
+    ], build:'Build: AI chat assistant wired into your existing RN app' },
   { id:'w4', num:'WEEK 04', color:'--w4', month:1, title:'AI at Scale', subtitle:'make it production-worthy',
-    tasks:['Vector embeddings concept - semantic search basics','Install pgvector, store embeddings in PostgreSQL','RAG: your app searches its own data using AI similarity','Rate limiting AI calls - cost control matters in prod','Error handling: fallbacks + caching when AI fails or is slow'],
-    build:'Build: Smart job matching for JIFFL using embeddings' },
+    tasks:[
+      {t:'Vector embeddings concept - semantic search basics', url:'https://platform.openai.com/docs/guides/embeddings', tag:'openai docs'},
+      {t:'Install pgvector, store embeddings in PostgreSQL', url:'https://github.com/pgvector/pgvector', tag:'github'},
+      {t:'RAG: your app searches its own data using AI similarity', url:'https://www.pinecone.io/learn/retrieval-augmented-generation/', tag:'pinecone'},
+      {t:'Rate limiting AI calls - cost control matters in prod', url:'https://docs.nestjs.com/security/rate-limiting', tag:'nestjs docs'},
+      {t:'Error handling: fallbacks + caching when AI fails or is slow', url:'https://docs.nestjs.com/techniques/caching', tag:'nestjs docs'},
+    ], build:'Build: Smart job matching for JIFFL using embeddings' },
   { id:'w5', num:'WEEK 05', color:'--w5', month:2, title:'AWS Foundations', subtitle:'where your apps actually live',
-    tasks:['Create AWS Free Tier account, explore the console','EC2: spin up a Linux server, SSH in, run your NestJS app','RDS: managed PostgreSQL - no setup, just connect','S3: file storage (like your Cone doc handling, at real scale)','IAM: roles and policies - understand least privilege'],
-    build:'Deploy: NestJS API on EC2 + RDS PostgreSQL - real cloud' },
+    tasks:[
+      {t:'Create AWS Free Tier account, explore the console', url:'https://aws.amazon.com/free/', tag:'aws'},
+      {t:'EC2: spin up a Linux server, SSH in, run your NestJS app', url:'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html', tag:'aws docs'},
+      {t:'RDS: managed PostgreSQL - no setup, just connect', url:'https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.PostgreSQL.html', tag:'aws docs'},
+      {t:'S3: file storage (like your Cone doc handling, at real scale)', url:'https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html', tag:'aws docs'},
+      {t:'IAM: roles and policies - understand least privilege', url:'https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html', tag:'aws docs'},
+    ], build:'Deploy: NestJS API on EC2 + RDS PostgreSQL - real cloud' },
   { id:'w6', num:'WEEK 06', color:'--w6', month:2, title:'AWS for Mobile', subtitle:'services that directly help your RN apps',
-    tasks:['API Gateway: expose NestJS to mobile safely with throttling','Lambda: serverless functions for background jobs (cron etc)','SNS: push notifications at scale (you know FCM, this is bigger)','CloudFront CDN: faster image loading in React Native','AWS Cloud Practitioner exam - study + schedule it this week'],
-    build:'Add: S3 uploads + CloudFront image delivery to your project' },
+    tasks:[
+      {t:'API Gateway: expose NestJS to mobile safely with throttling', url:'https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html', tag:'aws docs'},
+      {t:'Lambda: serverless functions for background jobs (cron etc)', url:'https://docs.aws.amazon.com/lambda/latest/dg/welcome.html', tag:'aws docs'},
+      {t:'SNS: push notifications at scale (you know FCM, this is bigger)', url:'https://docs.aws.amazon.com/sns/latest/dg/sns-mobile-application-as-subscriber.html', tag:'aws docs'},
+      {t:'CloudFront CDN: faster image loading in React Native', url:'https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html', tag:'aws docs'},
+      {t:'AWS Cloud Practitioner exam - study + schedule it this week', url:'https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials', tag:'free course'},
+    ], build:'Add: S3 uploads + CloudFront image delivery to your project' },
   { id:'w7', num:'WEEK 07', color:'--w7', month:2, title:'System Design: Mobile', subtitle:'you built these - now explain them at scale',
-    tasks:['Draw the architecture of your Zonesso chat - what would break at 1M users?','Offline-first sync: how React Query + backend handle conflicts','Real-time: WebSockets vs SSE vs polling - when to use each','Push notification system design - at Twitter scale','App performance deep dive: startup time, image cache, bundle size'],
-    build:'Draw: Zonesso architecture diagram on Excalidraw - full system' },
+    tasks:[
+      {t:'Draw the architecture of your Zonesso chat - what would break at 1M users?', url:'https://getstream.io/blog/chat-infrastructure/', tag:'stream blog'},
+      {t:'Offline-first sync: how React Query + backend handle conflicts', url:'https://watermelondb.dev/docs/Sync', tag:'watermelondb'},
+      {t:'Real-time: WebSockets vs SSE vs polling - when to use each', url:'https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API', tag:'mdn'},
+      {t:'Push notification system design - at Twitter scale', url:'https://firebase.google.com/docs/cloud-messaging', tag:'firebase'},
+      {t:'App performance deep dive: startup time, image cache, bundle size', url:'https://reactnative.dev/docs/performance', tag:'rn docs'},
+    ], build:'Draw: Zonesso architecture diagram on Excalidraw - full system' },
   { id:'w8', num:'WEEK 08', color:'--w8', month:2, title:'System Design: Backend', subtitle:'interview mode - tie everything together',
-    tasks:['Design a job feed system (whiteboard JIFFL at 10M users)','Design a payment processing system (from your Cone experience)','Classic: design a URL shortener and a rate limiter','Take the AWS Cloud Practitioner exam this week','Ship: one project with PostgreSQL + AWS + AI + README with arch decisions'],
-    build:'Ship: Final portfolio project combining all 4 skills' },
+    tasks:[
+      {t:'Design a job feed system (whiteboard JIFFL at 10M users)', url:'https://github.com/donnemartin/system-design-primer#design-a-news-feed', tag:'github'},
+      {t:'Design a payment processing system (from your Cone experience)', url:'https://docs.stripe.com/payments/accept-a-payment', tag:'stripe docs'},
+      {t:'Classic: design a URL shortener and a rate limiter', url:'https://github.com/donnemartin/system-design-primer#design-a-url-shortener', tag:'github'},
+      {t:'Take the AWS Cloud Practitioner exam this week', url:'https://www.cloudflare.com/learning/bots/what-is-rate-limiting/', tag:'cloudflare'},
+      {t:'Ship: one project with PostgreSQL + AWS + AI + README with arch decisions', url:'https://github.com/lujakob/nestjs-realworld-example-app', tag:'example app'},
+    ], build:'Ship: Final portfolio project combining all 4 skills' },
 ];
 
-// === BULLETPROOF STORAGE ===
+// === STORAGE ===
 const STORAGE_KEY = 'rn_roadmap_v3';
 const BACKUP_KEY = 'rn_roadmap_v3_backup';
 
@@ -574,153 +517,103 @@ function getDefaultState() {
 function getState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      // merge with defaults so new fields are always present
-      return { ...getDefaultState(), ...parsed };
-    }
+    if (raw) return { ...getDefaultState(), ...JSON.parse(raw) };
   } catch(e) {
-    console.error('State corrupted, trying backup...', e);
     try {
       const backup = localStorage.getItem(BACKUP_KEY);
-      if (backup) {
-        const parsed = JSON.parse(backup);
-        localStorage.setItem(STORAGE_KEY, backup);
-        showToast('Recovered from backup', 'warn');
-        return { ...getDefaultState(), ...parsed };
-      }
-    } catch(e2) { console.error('Backup also corrupted', e2); }
+      if (backup) { localStorage.setItem(STORAGE_KEY, backup); showToast('Recovered from backup', 'warn'); return { ...getDefaultState(), ...JSON.parse(backup) }; }
+    } catch(e2) {}
   }
-  // migrate from v2
   try {
     const v2 = localStorage.getItem('rn_roadmap_v2');
-    if (v2) {
-      const old = JSON.parse(v2);
-      const migrated = { ...getDefaultState(), ...old, version: 3 };
-      saveState(migrated);
-      showToast('Migrated from previous version', 'info');
-      return migrated;
-    }
+    if (v2) { const m = { ...getDefaultState(), ...JSON.parse(v2), version:3 }; saveState(m); return m; }
   } catch(e) {}
   return getDefaultState();
 }
 
-let saveDebounce = null;
 function saveState(s) {
   try {
     const json = JSON.stringify(s);
     localStorage.setItem(STORAGE_KEY, json);
-    // backup every 5 saves
-    if (!saveState._count) saveState._count = 0;
-    saveState._count++;
-    if (saveState._count % 5 === 0) {
-      localStorage.setItem(BACKUP_KEY, json);
-    }
+    if (!saveState._c) saveState._c = 0;
+    if (++saveState._c % 5 === 0) localStorage.setItem(BACKUP_KEY, json);
     showSaveIndicator();
-  } catch(e) {
-    console.error('Failed to save!', e);
-    showToast('SAVE FAILED - export your data now!', 'warn');
-  }
+  } catch(e) { showToast('SAVE FAILED - export now!', 'warn'); }
 }
 
 function showSaveIndicator() {
   const el = document.getElementById('saveIndicator');
   el.classList.add('show');
   clearTimeout(showSaveIndicator._t);
-  showSaveIndicator._t = setTimeout(() => el.classList.remove('show'), 1000);
+  showSaveIndicator._t = setTimeout(() => el.classList.remove('show'), 800);
 }
 
 let state = getState();
+window.addEventListener('beforeunload', () => { try { localStorage.setItem(BACKUP_KEY, JSON.stringify(state)); } catch(e) {} });
 
-// auto-backup on page unload
-window.addEventListener('beforeunload', () => {
-  try { localStorage.setItem(BACKUP_KEY, JSON.stringify(state)); } catch(e) {}
-});
+// === 12HR TIME ===
+function get12hr() {
+  const d = new Date();
+  let h = d.getHours(), m = d.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return `${h}:${String(m).padStart(2,'0')} ${ampm}`;
+}
 
 // === EXPORT / IMPORT ===
 function exportData() {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url;
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}));
   a.download = `roadmap-backup-${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('Exported successfully', 'success');
+  a.click(); showToast('Exported', 'success');
 }
-
 function importData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+  const file = event.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = (e) => {
     try {
-      const imported = JSON.parse(e.target.result);
-      if (!imported.tasks || typeof imported.tasks !== 'object') throw new Error('Invalid format');
-      // backup current before overwriting
+      const imp = JSON.parse(e.target.result);
+      if (!imp.tasks) throw 0;
       localStorage.setItem(BACKUP_KEY, JSON.stringify(state));
-      state = { ...getDefaultState(), ...imported };
-      saveState(state);
-      renderAll();
-      showToast('Imported successfully!', 'success');
-      closeBackupModal();
-    } catch(err) {
-      showToast('Invalid backup file', 'warn');
-    }
+      state = { ...getDefaultState(), ...imp };
+      saveState(state); renderAll(); showToast('Imported!', 'success'); closeBackupModal();
+    } catch(err) { showToast('Invalid file', 'warn'); }
   };
-  reader.readAsText(file);
-  event.target.value = '';
+  reader.readAsText(file); event.target.value = '';
 }
-
 function copyDataToClipboard() {
-  navigator.clipboard.writeText(JSON.stringify(state, null, 2)).then(() => {
-    showToast('Copied to clipboard', 'success');
-  }).catch(() => {
-    showToast('Copy failed - use export instead', 'warn');
-  });
+  navigator.clipboard.writeText(JSON.stringify(state,null,2)).then(() => showToast('Copied', 'success')).catch(() => showToast('Failed', 'warn'));
 }
-
 function openBackupModal() { document.getElementById('backupOverlay').classList.add('open'); }
 function closeBackupModal() { document.getElementById('backupOverlay').classList.remove('open'); }
 
 // === NOTES ===
 let currentNoteKey = null;
 function openNote(key, taskText, e) {
-  e.stopPropagation();
-  currentNoteKey = key;
-  document.getElementById('noteTitle').textContent = 'Notes';
+  e.stopPropagation(); currentNoteKey = key;
   document.getElementById('noteTask').textContent = taskText;
   document.getElementById('noteText').value = state.notes[key] || '';
   document.getElementById('noteOverlay').classList.add('open');
   setTimeout(() => document.getElementById('noteText').focus(), 100);
 }
-function closeNote() {
-  document.getElementById('noteOverlay').classList.remove('open');
-  currentNoteKey = null;
-}
+function closeNote() { document.getElementById('noteOverlay').classList.remove('open'); currentNoteKey = null; }
 function saveNote() {
   if (!currentNoteKey) return;
   const text = document.getElementById('noteText').value.trim();
-  if (text) { state.notes[currentNoteKey] = text; }
-  else { delete state.notes[currentNoteKey]; }
-  saveState(state);
-  closeNote();
-  renderWeekCards();
-  showToast('Note saved', 'success');
+  if (text) state.notes[currentNoteKey] = text; else delete state.notes[currentNoteKey];
+  saveState(state); closeNote(); renderWeekCards(); showToast('Note saved', 'success');
 }
 
 // === TIMER ===
-let timerInterval = null;
-let timerRunning = false;
-let timerSeconds = state.timerSeconds || 25 * 60;
-const WORK_SECONDS = 25 * 60;
+let timerInterval = null, timerRunning = false;
+let timerSeconds = state.timerSeconds || 25*60;
+const WORK_SECONDS = 25*60;
 
-function toggleTimer() { document.getElementById('timerModal').classList.toggle('open'); }
+function toggleTimer() { document.getElementById('timerModal').classList.toggle('open'); updateTimerClock(); }
 function closeTimerModal() { document.getElementById('timerModal').classList.remove('open'); }
 function startStopTimer() {
   if (timerRunning) {
-    clearInterval(timerInterval);
-    timerRunning = false;
+    clearInterval(timerInterval); timerRunning = false;
     document.getElementById('tmStartBtn').textContent = 'Start';
     document.getElementById('timerBtn').classList.remove('running');
     document.getElementById('timerDot').classList.remove('pulse');
@@ -732,8 +625,7 @@ function startStopTimer() {
     timerInterval = setInterval(() => {
       timerSeconds--;
       if (timerSeconds <= 0) {
-        clearInterval(timerInterval);
-        timerRunning = false;
+        clearInterval(timerInterval); timerRunning = false;
         document.getElementById('tmStartBtn').textContent = 'Start';
         document.getElementById('timerBtn').classList.remove('running');
         document.getElementById('timerDot').classList.remove('pulse');
@@ -753,133 +645,102 @@ function resetTimer() {
   updateTimerDisplay();
 }
 function updateTimerDisplay() {
-  const m = Math.floor(timerSeconds / 60), s = timerSeconds % 60;
+  const m = Math.floor(timerSeconds/60), s = timerSeconds%60;
   const str = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   document.getElementById('timerDisplay').textContent = str;
   document.getElementById('timerBtnText').textContent = str;
-  document.getElementById('timerDisplay').classList.toggle('warn', timerSeconds < 5 * 60);
+  document.getElementById('timerDisplay').classList.toggle('warn', timerSeconds < 5*60);
   document.getElementById('timerLabel').textContent = timerSeconds === WORK_SECONDS ? 'FOCUS SESSION' : timerRunning ? 'DEEP WORK' : 'PAUSED';
+  updateTimerClock();
+}
+function updateTimerClock() {
+  const el = document.getElementById('timerClock');
+  if (el) el.textContent = get12hr();
 }
 function completeSession() {
   const today = new Date().toDateString();
   if (state.sessionsDate !== today) { state.sessionsToday = 0; state.sessionsDate = today; }
-  state.sessions = (state.sessions || 0) + 1;
-  state.sessionsToday = Math.min((state.sessionsToday || 0) + 1, 4);
-  updateStreak();
-  saveState(state);
-  updateStats();
-  updateSessionDots();
+  state.sessions = (state.sessions||0) + 1;
+  state.sessionsToday = Math.min((state.sessionsToday||0) + 1, 4);
+  updateStreak(); saveState(state); updateStats(); updateSessionDots();
 }
 function updateSessionDots() {
   const today = new Date().toDateString();
-  const count = state.sessionsDate === today ? (state.sessionsToday || 0) : 0;
-  document.querySelectorAll('.session-dot').forEach((d, i) => d.classList.toggle('done', i < count));
+  const count = state.sessionsDate === today ? (state.sessionsToday||0) : 0;
+  document.querySelectorAll('.session-dot').forEach((d,i) => d.classList.toggle('done', i < count));
 }
 
-// === STREAK (with 1-day grace) ===
+// === STREAK (1-day grace) ===
 function updateStreak() {
   const today = new Date().toDateString();
   if (state.lastStudyDay === today) return;
-  const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
-  const twoDaysAgo = new Date(); twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-  if (state.lastStudyDay === yesterday.toDateString() || state.lastStudyDay === twoDaysAgo.toDateString()) {
-    state.streak = (state.streak || 0) + 1;
-  } else if (state.lastStudyDay !== today) {
-    state.streak = 1;
-  }
+  const y = new Date(); y.setDate(y.getDate()-1);
+  const y2 = new Date(); y2.setDate(y2.getDate()-2);
+  if (state.lastStudyDay === y.toDateString() || state.lastStudyDay === y2.toDateString()) {
+    state.streak = (state.streak||0) + 1;
+  } else { state.streak = 1; }
   state.lastStudyDay = today;
-  state.bestStreak = Math.max(state.bestStreak || 0, state.streak);
+  state.bestStreak = Math.max(state.bestStreak||0, state.streak);
 }
 
 // === WEEK DETECTION ===
 function getCurrentWeekIndex() {
   if (!state.startDate) return -1;
-  const start = new Date(state.startDate);
-  const now = new Date();
-  const diffDays = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-  if (diffDays < 0) return -1;
-  return Math.min(Math.floor(diffDays / 7), 7);
+  const diff = Math.floor((new Date() - new Date(state.startDate)) / 864e5);
+  return diff < 0 ? -1 : Math.min(Math.floor(diff/7), 7);
 }
 function updateStartDate() {
   state.startDate = document.getElementById('startDate').value;
-  saveState(state);
-  renderWeekCards();
-  updateWeekInfo();
-  updateTodayFocus();
+  saveState(state); renderWeekCards(); updateWeekInfo(); updateTodayFocus();
 }
 function updateWeekInfo() {
   const idx = getCurrentWeekIndex();
   const info = document.getElementById('currentWeekInfo');
   if (idx < 0) { info.textContent = 'Set your start date to track active week'; return; }
   if (idx > 7) { info.textContent = 'You\'ve completed the 8-week plan!'; return; }
-  const daysIn = Math.floor((new Date() - new Date(state.startDate)) / (1000*60*60*24));
-  const dayOfWeek = (daysIn % 7) + 1;
-  info.textContent = `Week ${idx + 1} of 8 - Day ${dayOfWeek}`;
+  const d = Math.floor((new Date() - new Date(state.startDate)) / 864e5);
+  info.textContent = `Week ${idx+1} of 8 - Day ${(d%7)+1}`;
 }
 
 // === TODAY'S FOCUS ===
 function updateTodayFocus() {
   const container = document.getElementById('todayTasks');
   const dateEl = document.getElementById('todayDate');
-  const now = new Date();
-  dateEl.textContent = now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
-
-  const activeIdx = getCurrentWeekIndex();
-  if (activeIdx < 0 || activeIdx > 7) {
-    container.innerHTML = '<div class="today-empty">Set a start date to see today\'s tasks</div>';
-    return;
-  }
-
-  // show uncompleted tasks from current week (and previous if any left)
-  let focusTasks = [];
-  for (let i = Math.max(0, activeIdx - 1); i <= Math.min(activeIdx, 7); i++) {
-    const week = WEEKS[i];
-    week.tasks.forEach((t, ti) => {
-      const key = `${week.id}_${ti}`;
-      focusTasks.push({ text: t, key, done: !!state.tasks[key], weekNum: week.num, weekId: week.id });
+  dateEl.textContent = new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit', hour12:true });
+  const idx = getCurrentWeekIndex();
+  if (idx < 0 || idx > 7) { container.innerHTML = '<div class="today-empty">Set a start date to see today\'s tasks</div>'; return; }
+  let ft = [];
+  for (let i = Math.max(0,idx-1); i <= Math.min(idx,7); i++) {
+    WEEKS[i].tasks.forEach((task,ti) => {
+      const key = `${WEEKS[i].id}_${ti}`;
+      ft.push({ text: task.t, key, done: !!state.tasks[key], weekNum: WEEKS[i].num });
     });
   }
-
-  // show incomplete first, then completed
-  const incomplete = focusTasks.filter(t => !t.done);
-  const complete = focusTasks.filter(t => t.done);
-  const display = [...incomplete.slice(0, 5), ...complete.slice(0, 2)];
-
-  if (display.length === 0) {
-    container.innerHTML = '<div class="today-empty">All caught up! Move to next week.</div>';
-    return;
-  }
-
-  container.innerHTML = display.map(t => `
-    <div class="today-task${t.done ? ' tt-done' : ''}">
-      <span class="tt-week">${t.weekNum}</span>
-      ${t.text}
-    </div>
-  `).join('');
+  const inc = ft.filter(t => !t.done), comp = ft.filter(t => t.done);
+  const disp = [...inc.slice(0,5), ...comp.slice(0,2)];
+  if (!disp.length) { container.innerHTML = '<div class="today-empty">All caught up! Move to next week.</div>'; return; }
+  container.innerHTML = disp.map(t => `<div class="today-task${t.done?' tt-done':''}"><span class="tt-week">${t.weekNum}</span>${t.text}</div>`).join('');
 }
 
 // === RENDER ===
 function renderWeekCards() {
   const activeIdx = getCurrentWeekIndex();
-  ['month1weeks', 'month2weeks'].forEach((id, mi) => {
-    const container = document.getElementById(id);
-    container.innerHTML = '';
-    WEEKS.filter(w => w.month === mi + 1).forEach(week => {
-      const globalIdx = WEEKS.indexOf(week);
-      const isActive = globalIdx === activeIdx;
-      const isDone = state.weeksDone[week.id];
+  ['month1weeks','month2weeks'].forEach((id,mi) => {
+    const c = document.getElementById(id); c.innerHTML = '';
+    WEEKS.filter(w => w.month === mi+1).forEach(week => {
+      const gi = WEEKS.indexOf(week), isActive = gi === activeIdx, isDone = state.weeksDone[week.id];
       const isCollapsed = !!state.collapsedWeeks[week.id];
-      const tasks = week.tasks.map((t, ti) => {
+      const tasks = week.tasks.map((task,ti) => {
         const key = `${week.id}_${ti}`;
-        return { text: t, key, checked: !!state.tasks[key], date: state.taskDates[key] || null, hasNote: !!state.notes[key] };
+        return { ...task, key, checked:!!state.tasks[key], date:state.taskDates[key]||null, hasNote:!!state.notes[key] };
       });
-      const customTasks = state.customTasks[week.id] || [];
-      const completedCount = tasks.filter(t => t.checked).length + customTasks.filter(ct => ct.done).length;
-      const totalCount = tasks.length + customTasks.length;
-      const pct = Math.round((completedCount / totalCount) * 100);
+      const ct = state.customTasks[week.id] || [];
+      const doneCount = tasks.filter(t=>t.checked).length + ct.filter(t=>t.done).length;
+      const total = tasks.length + ct.length;
+      const pct = Math.round((doneCount/total)*100);
 
       const card = document.createElement('div');
-      card.className = `week-card${isActive ? ' active-week' : ''}${isDone ? ' completed-week' : ''}${isCollapsed ? ' collapsed' : ''}`;
+      card.className = `week-card${isActive?' active-week':''}${isDone?' completed-week':''}${isCollapsed?' is-collapsed':''}`;
       card.style.setProperty('--card-color', `var(${week.color})`);
       card.innerHTML = `
         <div class="wc-top-line"></div>
@@ -887,207 +748,151 @@ function renderWeekCards() {
           <div class="wc-meta">
             <div class="wc-weeknum">${week.num}</div>
             <div class="wc-status">
-              ${isActive ? '<span class="active-pill">ACTIVE</span>' : ''}
-              ${isDone ? '<span style="color:var(--green);font-size:11px">Done</span>' : `${completedCount}/${totalCount}`}
-              <span class="collapse-arrow">${isCollapsed ? '>' : 'v'}</span>
+              ${isActive?'<span class="active-pill">ACTIVE</span>':''}
+              ${isDone?'<span style="color:var(--green);font-size:11px">Done</span>':`${doneCount}/${total}`}
+              <span class="collapse-icon">&#9660;</span>
             </div>
           </div>
           <div class="wc-title">${week.title}</div>
           <div class="wc-subtitle">${week.subtitle}</div>
-          <div class="wc-progress">
-            <div class="wc-pb"><div class="wc-pb-fill" style="width:${pct}%"></div></div>
-            <div class="wc-pct-text">${pct}%</div>
-          </div>
+          <div class="wc-progress"><div class="wc-pb"><div class="wc-pb-fill" style="width:${pct}%"></div></div><div class="wc-pct-text">${pct}%</div></div>
         </div>
-        <div class="wc-body${isCollapsed ? ' collapsed' : ''}" id="body-${week.id}">
+        <div class="wc-body"><div class="wc-body-inner">
           <div class="wc-tasks">
             ${tasks.map(t => `
-              <div class="task-item${t.checked ? ' done' : ''}" onclick="toggleTask('${t.key}', '${week.id}')">
+              <div class="task-item${t.checked?' done':''}" onclick="toggleTask('${t.key}','${week.id}')">
                 <div class="task-check"><span class="task-check-icon">&#10003;</span></div>
                 <div class="task-content">
-                  <div class="task-text">${t.text}</div>
+                  <div class="task-text">${t.t}</div>
                   <div class="task-meta">
-                    ${t.date ? `<span class="task-date">${t.date}</span>` : ''}
-                    <button class="task-note-btn${t.hasNote ? ' has-note' : ''}" onclick="openNote('${t.key}','${t.text.replace(/'/g,"\\'")}',event)">${t.hasNote ? 'notes' : '+ note'}</button>
+                    ${t.date?`<span class="task-date">${t.date}</span>`:''}
+                    <button class="task-note-btn${t.hasNote?' has-note':''}" onclick="openNote('${t.key}','${t.t.replace(/'/g,"\\'")}',event)">${t.hasNote?'notes':'+ note'}</button>
+                    <a class="task-resource" href="${t.url}" target="_blank" onclick="event.stopPropagation()">${t.tag}</a>
                   </div>
                 </div>
               </div>
             `).join('')}
           </div>
-          ${customTasks.length > 0 ? `
-            <div class="custom-tasks">
-              ${customTasks.map((ct, ci) => `
-                <div class="custom-task-item${ct.done ? ' done' : ''}">
-                  <div class="ct-check${ct.done ? ' checked' : ''}" onclick="toggleCustomTask('${week.id}',${ci})">${ct.done ? '&#10003;' : ''}</div>
-                  <span style="flex:1">${ct.text}</span>
-                  <span class="ct-del" onclick="deleteCustomTask('${week.id}',${ci})">x</span>
-                </div>
-              `).join('')}
+          ${ct.length?`<div class="custom-tasks">${ct.map((x,ci) => `
+            <div class="custom-task-item${x.done?' done':''}">
+              <div class="ct-check${x.done?' checked':''}" onclick="toggleCustomTask('${week.id}',${ci})">${x.done?'&#10003;':''}</div>
+              <span style="flex:1">${x.text}</span>
+              <span class="ct-del" onclick="deleteCustomTask('${week.id}',${ci})">x</span>
             </div>
-          ` : ''}
+          `).join('')}</div>`:''}
           <div class="add-task-row">
             <input class="add-task-input" placeholder="Add your own task..." onkeydown="if(event.key==='Enter')addCustomTask('${week.id}',this)">
             <button class="add-task-btn" onclick="addCustomTask('${week.id}',this.previousElementSibling)">+</button>
           </div>
           <div class="wc-footer">
             <div class="build-badge"><div class="build-dot"></div>${week.build}</div>
-            <button class="complete-btn${isDone ? ' done-btn' : ''}" onclick="toggleWeekComplete('${week.id}',event)">
-              ${isDone ? 'Done' : 'Mark Done'}
-            </button>
+            <button class="complete-btn${isDone?' done-btn':''}" onclick="toggleWeekComplete('${week.id}',event)">${isDone?'Done':'Mark Done'}</button>
           </div>
-        </div>
+        </div></div>
       `;
-      container.appendChild(card);
+      c.appendChild(card);
     });
   });
-  updateStats();
-  updateMonthPct();
+  updateStats(); updateMonthPct();
 }
 
-// === COLLAPSE ===
+// === COLLAPSE (proper grid-row animation) ===
 function toggleCollapse(weekId) {
   state.collapsedWeeks[weekId] = !state.collapsedWeeks[weekId];
   saveState(state);
-  const body = document.getElementById('body-' + weekId);
-  if (body) body.classList.toggle('collapsed', state.collapsedWeeks[weekId]);
-  // update arrow
-  const card = body?.closest('.week-card');
-  if (card) {
-    card.classList.toggle('collapsed', state.collapsedWeeks[weekId]);
-    const arrow = card.querySelector('.collapse-arrow');
-    if (arrow) arrow.textContent = state.collapsedWeeks[weekId] ? '>' : 'v';
-  }
+  // find all week cards and toggle the right one
+  document.querySelectorAll('.week-card').forEach(card => {
+    const weeknum = card.querySelector('.wc-weeknum');
+    const week = WEEKS.find(w => w.id === weekId);
+    if (weeknum && week && weeknum.textContent === week.num) {
+      card.classList.toggle('is-collapsed', state.collapsedWeeks[weekId]);
+    }
+  });
 }
 
-// === TASK INTERACTIONS ===
+// === TASKS ===
 function toggleTask(key, weekId) {
   state.tasks[key] = !state.tasks[key];
-  // track completion date
-  if (state.tasks[key]) {
-    state.taskDates[key] = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' });
-  } else {
-    delete state.taskDates[key];
-  }
-  updateStreak();
-  saveState(state);
-  renderWeekCards();
-  updateTodayFocus();
+  if (state.tasks[key]) state.taskDates[key] = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', hour:'numeric', minute:'2-digit', hour12:true });
+  else delete state.taskDates[key];
+  updateStreak(); saveState(state); renderWeekCards(); updateTodayFocus();
   if (state.tasks[key]) showToast('Task completed', 'success');
 }
-
 function toggleWeekComplete(weekId, e) {
-  e.stopPropagation();
-  state.weeksDone[weekId] = !state.weeksDone[weekId];
-  saveState(state);
-  renderWeekCards();
-  showToast(state.weeksDone[weekId] ? 'Week complete!' : 'Week unmarked', state.weeksDone[weekId] ? 'success' : 'info');
+  e.stopPropagation(); state.weeksDone[weekId] = !state.weeksDone[weekId];
+  saveState(state); renderWeekCards();
+  showToast(state.weeksDone[weekId]?'Week complete!':'Week unmarked', state.weeksDone[weekId]?'success':'info');
 }
-
-// === CUSTOM TASKS ===
 function addCustomTask(weekId, input) {
-  const text = input.value.trim();
-  if (!text) return;
+  const text = input.value.trim(); if (!text) return;
   if (!state.customTasks[weekId]) state.customTasks[weekId] = [];
-  state.customTasks[weekId].push({ text, done: false });
-  input.value = '';
-  saveState(state);
-  renderWeekCards();
+  state.customTasks[weekId].push({ text, done:false });
+  input.value = ''; saveState(state); renderWeekCards();
 }
-
 function toggleCustomTask(weekId, idx) {
-  if (state.customTasks[weekId] && state.customTasks[weekId][idx]) {
-    state.customTasks[weekId][idx].done = !state.customTasks[weekId][idx].done;
-    saveState(state);
-    renderWeekCards();
-  }
+  if (state.customTasks[weekId]?.[idx]) { state.customTasks[weekId][idx].done = !state.customTasks[weekId][idx].done; saveState(state); renderWeekCards(); }
 }
-
 function deleteCustomTask(weekId, idx) {
-  if (state.customTasks[weekId]) {
-    state.customTasks[weekId].splice(idx, 1);
-    saveState(state);
-    renderWeekCards();
-  }
+  if (state.customTasks[weekId]) { state.customTasks[weekId].splice(idx,1); saveState(state); renderWeekCards(); }
 }
 
 // === STATS ===
 function updateStats() {
-  const baseTasks = WEEKS.reduce((a, w) => a + w.tasks.length, 0);
-  const customCount = Object.values(state.customTasks || {}).reduce((a, arr) => a + arr.length, 0);
-  const totalTasks = baseTasks + customCount;
-  const doneTasks = Object.values(state.tasks).filter(Boolean).length + Object.values(state.customTasks || {}).reduce((a, arr) => a + arr.filter(t => t.done).length, 0);
-  const pct = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
-
-  document.getElementById('stat-done').textContent = doneTasks;
-  document.getElementById('stat-total').textContent = totalTasks;
-  document.getElementById('stat-streak').textContent = state.streak || 0;
-  document.getElementById('stat-sessions').textContent = state.sessions || 0;
-  document.getElementById('streakCount').textContent = state.streak || 0;
-  document.getElementById('globalBar').style.width = pct + '%';
-  document.getElementById('globalPct').textContent = pct + '%';
+  const base = WEEKS.reduce((a,w) => a+w.tasks.length, 0);
+  const custom = Object.values(state.customTasks||{}).reduce((a,arr) => a+arr.length, 0);
+  const total = base + custom;
+  const done = Object.values(state.tasks).filter(Boolean).length + Object.values(state.customTasks||{}).reduce((a,arr) => a+arr.filter(t=>t.done).length, 0);
+  const pct = total>0 ? Math.round((done/total)*100) : 0;
+  document.getElementById('stat-done').textContent = done;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-streak').textContent = state.streak||0;
+  document.getElementById('stat-sessions').textContent = state.sessions||0;
+  document.getElementById('streakCount').textContent = state.streak||0;
+  document.getElementById('globalBar').style.width = pct+'%';
+  document.getElementById('globalPct').textContent = pct+'%';
 }
-
 function updateMonthPct() {
-  [1, 2].forEach(mo => {
-    const weeks = WEEKS.filter(w => w.month === mo);
-    const total = weeks.reduce((a, w) => a + w.tasks.length + (state.customTasks[w.id] || []).length, 0);
-    const done = weeks.reduce((a, w) => {
-      const baseDone = w.tasks.filter((_, ti) => state.tasks[`${w.id}_${ti}`]).length;
-      const customDone = (state.customTasks[w.id] || []).filter(t => t.done).length;
-      return a + baseDone + customDone;
+  [1,2].forEach(mo => {
+    const weeks = WEEKS.filter(w => w.month===mo);
+    const total = weeks.reduce((a,w) => a+w.tasks.length+(state.customTasks[w.id]||[]).length, 0);
+    const done = weeks.reduce((a,w) => {
+      return a + w.tasks.filter((_,ti)=>state.tasks[`${w.id}_${ti}`]).length + (state.customTasks[w.id]||[]).filter(t=>t.done).length;
     }, 0);
-    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-    document.getElementById(`month${mo}pct`).textContent = pct + '%';
+    document.getElementById(`month${mo}pct`).textContent = (total>0?Math.round((done/total)*100):0)+'%';
   });
 }
 
 // === TOAST ===
 let toastTimeout;
-function showToast(msg, type = 'info') {
+function showToast(msg, type='info') {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast ${type} show`;
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => t.classList.remove('show'), 2500);
+  t.textContent = msg; t.className = `toast ${type} show`;
+  clearTimeout(toastTimeout); toastTimeout = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
 // === RESET ===
 function confirmReset() {
-  if (confirm('Reset all progress? This cannot be undone.\n\nTip: Export your data first from the backup menu.')) {
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(BACKUP_KEY);
-    state = getDefaultState();
-    renderAll();
-    showToast('Progress reset', 'info');
+  if (confirm('Reset all progress? Export first!\n\nThis cannot be undone.')) {
+    localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(BACKUP_KEY);
+    state = getDefaultState(); renderAll(); showToast('Reset', 'info');
   }
 }
 
-// === KEYBOARD SHORTCUTS ===
+// === KEYBOARD ===
 document.addEventListener('keydown', (e) => {
-  // Ctrl/Cmd+E = export
-  if ((e.ctrlKey || e.metaKey) && e.key === 'e') { e.preventDefault(); exportData(); }
-  // Ctrl/Cmd+B = backup modal
-  if ((e.ctrlKey || e.metaKey) && e.key === 'b') { e.preventDefault(); openBackupModal(); }
-  // Escape = close modals
-  if (e.key === 'Escape') { closeNote(); closeBackupModal(); closeTimerModal(); }
-  // Space = start/stop timer when modal is open
-  if (e.key === ' ' && document.getElementById('timerModal').classList.contains('open')) {
-    if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-      e.preventDefault(); startStopTimer();
-    }
-  }
+  if ((e.ctrlKey||e.metaKey) && e.key==='e') { e.preventDefault(); exportData(); }
+  if ((e.ctrlKey||e.metaKey) && e.key==='b') { e.preventDefault(); openBackupModal(); }
+  if (e.key==='Escape') { closeNote(); closeBackupModal(); closeTimerModal(); }
+  if (e.key===' ' && document.getElementById('timerModal').classList.contains('open') && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) { e.preventDefault(); startStopTimer(); }
 });
+
+// update clock every minute
+setInterval(() => { updateTimerClock(); }, 30000);
 
 // === INIT ===
 function renderAll() {
   if (state.startDate) document.getElementById('startDate').value = state.startDate;
-  renderWeekCards();
-  updateStats();
-  updateMonthPct();
-  updateWeekInfo();
-  updateTimerDisplay();
-  updateSessionDots();
-  updateTodayFocus();
+  renderWeekCards(); updateStats(); updateMonthPct(); updateWeekInfo(); updateTimerDisplay(); updateSessionDots(); updateTodayFocus();
 }
 renderAll();
 </script>
