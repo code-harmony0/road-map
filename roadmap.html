@@ -163,8 +163,17 @@ body { background: var(--bg); color: var(--text); font-family: 'Bricolage Grotes
 .task-note-btn { font-size: 10px; color: var(--muted); cursor: pointer; padding: 1px 5px; border-radius: 3px; background: none; border: 1px solid transparent; font-family: 'JetBrains Mono', monospace; transition: all 0.15s; }
 .task-note-btn:hover { border-color: var(--border2); color: var(--muted2); }
 .task-note-btn.has-note { color: var(--accent); border-color: rgba(59,130,246,0.3); }
-.task-resource { font-size: 10px; color: var(--muted); text-decoration: none; font-family: 'JetBrains Mono', monospace; padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border); transition: all 0.15s; white-space: nowrap; }
-.task-resource:hover { color: var(--accent); border-color: rgba(59,130,246,0.4); background: var(--accent-dim); }
+.task-resource { font-size: 10px; text-decoration: none; font-family: 'JetBrains Mono', monospace; padding: 2px 8px; border-radius: 4px; transition: all 0.15s; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+.task-resource.res-repo { color: #a78bfa; border: 1px solid rgba(167,139,250,0.35); background: rgba(167,139,250,0.08); }
+.task-resource.res-repo:hover { background: rgba(167,139,250,0.18); border-color: rgba(167,139,250,0.6); }
+.task-resource.res-docs { color: #38bdf8; border: 1px solid rgba(56,189,248,0.35); background: rgba(56,189,248,0.08); }
+.task-resource.res-docs:hover { background: rgba(56,189,248,0.18); border-color: rgba(56,189,248,0.6); }
+.task-resource.res-blog { color: #fb923c; border: 1px solid rgba(251,146,60,0.35); background: rgba(251,146,60,0.08); }
+.task-resource.res-blog:hover { background: rgba(251,146,60,0.18); border-color: rgba(251,146,60,0.6); }
+.task-resource.res-interactive { color: #34d399; border: 1px solid rgba(52,211,153,0.35); background: rgba(52,211,153,0.08); }
+.task-resource.res-interactive:hover { background: rgba(52,211,153,0.18); border-color: rgba(52,211,153,0.6); }
+.task-resource.res-video { color: #f87171; border: 1px solid rgba(248,113,113,0.35); background: rgba(248,113,113,0.08); }
+.task-resource.res-video:hover { background: rgba(248,113,113,0.18); border-color: rgba(248,113,113,0.6); }
 
 /* Custom tasks */
 .custom-tasks { padding: 0 20px 8px; }
@@ -442,67 +451,166 @@ body { animation: fadeIn 0.4s ease; }
 const WEEKS = [
   { id:'w1', num:'WEEK 01', color:'--w1', month:1, title:'PostgreSQL Basics', subtitle:'learn relational thinking first',
     tasks:[
-      {t:'Install PostgreSQL + pgAdmin (visual GUI, like Compass)', url:'https://www.postgresql.org/download/', tag:'official'},
-      {t:'Understand tables, columns, data types vs MongoDB documents', url:'https://www.mongodb.com/compare/mongodb-postgresql', tag:'comparison'},
-      {t:'Practice SELECT, INSERT, UPDATE, DELETE - 30 min/day', url:'https://www.postgresqltutorial.com/postgresql-sql-syntax/', tag:'tutorial'},
-      {t:'Learn JOINs: what foreign keys actually mean', url:'https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-joins/', tag:'visual guide'},
-      {t:'Connect PostgreSQL to NestJS with Prisma - first integration', url:'https://docs.nestjs.com/recipes/prisma', tag:'nestjs docs'},
+      {t:'Install PostgreSQL + pgAdmin (visual GUI, like Compass)', links:[
+        {url:'https://github.com/dwyl/learn-postgresql',tag:'learn-postgresql',type:'repo'},
+        {url:'https://www.postgresql.org/download/',tag:'official download',type:'docs'},
+      ]},
+      {t:'Understand tables, columns, data types vs MongoDB documents', links:[
+        {url:'https://www.mongodb.com/compare/sql-vs-nosql',tag:'SQL vs NoSQL',type:'blog'},
+        {url:'https://github.com/FerretDB/FerretDB',tag:'FerretDB (Mongo on PG)',type:'repo'},
+      ]},
+      {t:'Practice SELECT, INSERT, UPDATE, DELETE - 30 min/day', links:[
+        {url:'https://sqlbolt.com/',tag:'SQLBolt (interactive!)',type:'interactive'},
+        {url:'https://www.postgresqltutorial.com/postgresql-sql-syntax/',tag:'PG tutorial',type:'docs'},
+      ]},
+      {t:'Learn JOINs: what foreign keys actually mean', links:[
+        {url:'https://sql-joins.leozhu.me/',tag:'Visual SQL Joins',type:'interactive'},
+        {url:'https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-joins/',tag:'PG joins guide',type:'docs'},
+      ]},
+      {t:'Connect PostgreSQL to NestJS with Prisma - first integration', links:[
+        {url:'https://github.com/notiz-dev/nestjs-prisma-starter',tag:'NestJS+Prisma starter',type:'repo'},
+        {url:'https://docs.nestjs.com/recipes/prisma',tag:'official recipe',type:'docs'},
+      ]},
     ], build:'Build: users + posts tables in Prisma, working CRUD' },
   { id:'w2', num:'WEEK 02', color:'--w2', month:1, title:'NestJS + PostgreSQL API', subtitle:'connect your mobile skills to backend',
     tasks:[
-      {t:'Solidify NestJS: modules, services, controllers pattern', url:'https://docs.nestjs.com/first-steps', tag:'nestjs docs'},
-      {t:'Prisma relations: 1:1, 1:many, many:many schemas', url:'https://www.prisma.io/docs/orm/prisma-schema/data-model/relations', tag:'prisma docs'},
-      {t:'Transactions - why they matter for your chat + payment apps', url:'https://www.prisma.io/docs/orm/prisma-client/queries/transactions', tag:'prisma docs'},
-      {t:'EXPLAIN ANALYZE - read a query plan for the first time', url:'https://www.postgresql.org/docs/current/using-explain.html', tag:'pg docs'},
-      {t:'Add JWT auth to API (you know this concept from mobile side)', url:'https://docs.nestjs.com/security/authentication', tag:'nestjs docs'},
+      {t:'Solidify NestJS: modules, services, controllers pattern', links:[
+        {url:'https://docs.nestjs.com/',tag:'NestJS docs',type:'docs'},
+        {url:'https://github.com/nestjs/nest/tree/master/sample',tag:'official samples',type:'repo'},
+      ]},
+      {t:'Prisma relations: 1:1, 1:many, many:many schemas', links:[
+        {url:'https://www.prisma.io/docs/orm/prisma-schema/data-model/relations',tag:'Prisma relations',type:'docs'},
+      ]},
+      {t:'Transactions - why they matter for your chat + payment apps', links:[
+        {url:'https://www.prisma.io/docs/orm/prisma-client/queries/transactions',tag:'Prisma transactions',type:'docs'},
+      ]},
+      {t:'EXPLAIN ANALYZE - read a query plan for the first time', links:[
+        {url:'https://thoughtbot.com/blog/reading-an-explain-analyze-query-plan',tag:'EXPLAIN guide (great)',type:'blog'},
+        {url:'https://www.postgresql.org/docs/current/using-explain.html',tag:'PG official',type:'docs'},
+      ]},
+      {t:'Add JWT auth to API (you know this concept from mobile side)', links:[
+        {url:'https://docs.nestjs.com/security/authentication',tag:'NestJS auth docs',type:'docs'},
+        {url:'https://github.com/notiz-dev/nestjs-prisma-starter',tag:'starter w/ auth',type:'repo'},
+      ]},
     ], build:'Build: Full CRUD NestJS API for a chit fund / job app' },
   { id:'w3', num:'WEEK 03', color:'--w3', month:1, title:'AI Integration', subtitle:'add intelligence to your existing apps',
     tasks:[
-      {t:'Call OpenAI/Claude API from your NestJS backend', url:'https://github.com/openai/openai-node', tag:'openai sdk'},
-      {t:'Stream AI responses - render in React Native', url:'https://sdk.vercel.ai/docs/concepts/streaming', tag:'vercel ai'},
-      {t:'Prompt engineering: system prompts, few-shot examples', url:'https://www.promptingguide.ai/', tag:'free guide'},
-      {t:'Function calling - AI decides which backend API to call', url:'https://platform.openai.com/docs/guides/function-calling', tag:'openai docs'},
-      {t:'Store and retrieve AI responses in PostgreSQL properly', url:'https://www.prisma.io/docs/orm/prisma-schema/data-model/models', tag:'prisma docs'},
+      {t:'Call OpenAI/Claude API from your NestJS backend', links:[
+        {url:'https://github.com/openai/openai-node',tag:'OpenAI Node SDK',type:'repo'},
+        {url:'https://github.com/openai/openai-cookbook',tag:'OpenAI Cookbook',type:'repo'},
+      ]},
+      {t:'Stream AI responses - render in React Native', links:[
+        {url:'https://github.com/vercel/ai-sdk',tag:'Vercel AI SDK',type:'repo'},
+      ]},
+      {t:'Prompt engineering: system prompts, few-shot examples', links:[
+        {url:'https://github.com/dair-ai/Prompt-Engineering-Guide',tag:'Prompt Guide (48k stars)',type:'repo'},
+        {url:'https://www.promptingguide.ai/',tag:'promptingguide.ai',type:'interactive'},
+      ]},
+      {t:'Function calling - AI decides which backend API to call', links:[
+        {url:'https://platform.openai.com/docs/guides/function-calling',tag:'OpenAI fn calling',type:'docs'},
+        {url:'https://github.com/openai/openai-cookbook',tag:'cookbook examples',type:'repo'},
+      ]},
+      {t:'Store and retrieve AI responses in PostgreSQL properly', links:[
+        {url:'https://github.com/langchain-ai/langchainjs',tag:'LangChain.js',type:'repo'},
+        {url:'https://www.prisma.io/docs/orm/prisma-schema/data-model/models',tag:'Prisma models',type:'docs'},
+      ]},
     ], build:'Build: AI chat assistant wired into your existing RN app' },
   { id:'w4', num:'WEEK 04', color:'--w4', month:1, title:'AI at Scale', subtitle:'make it production-worthy',
     tasks:[
-      {t:'Vector embeddings concept - semantic search basics', url:'https://platform.openai.com/docs/guides/embeddings', tag:'openai docs'},
-      {t:'Install pgvector, store embeddings in PostgreSQL', url:'https://github.com/pgvector/pgvector', tag:'github'},
-      {t:'RAG: your app searches its own data using AI similarity', url:'https://www.pinecone.io/learn/retrieval-augmented-generation/', tag:'pinecone'},
-      {t:'Rate limiting AI calls - cost control matters in prod', url:'https://docs.nestjs.com/security/rate-limiting', tag:'nestjs docs'},
-      {t:'Error handling: fallbacks + caching when AI fails or is slow', url:'https://docs.nestjs.com/techniques/caching', tag:'nestjs docs'},
+      {t:'Vector embeddings concept - semantic search basics', links:[
+        {url:'https://jalammar.github.io/illustrated-word2vec/',tag:'Illustrated Word2Vec',type:'blog'},
+        {url:'https://platform.openai.com/docs/guides/embeddings',tag:'OpenAI embeddings',type:'docs'},
+      ]},
+      {t:'Install pgvector, store embeddings in PostgreSQL', links:[
+        {url:'https://github.com/pgvector/pgvector',tag:'pgvector repo',type:'repo'},
+      ]},
+      {t:'RAG: your app searches its own data using AI similarity', links:[
+        {url:'https://www.pinecone.io/learn/retrieval-augmented-generation/',tag:'What is RAG?',type:'blog'},
+      ]},
+      {t:'Rate limiting AI calls - cost control matters in prod', links:[
+        {url:'https://github.com/animir/node-rate-limiter-flexible',tag:'rate-limiter-flexible',type:'repo'},
+        {url:'https://docs.nestjs.com/security/rate-limiting',tag:'NestJS throttle',type:'docs'},
+      ]},
+      {t:'Error handling: fallbacks + caching when AI fails or is slow', links:[
+        {url:'https://github.com/node-cache/node-cache',tag:'node-cache',type:'repo'},
+        {url:'https://docs.nestjs.com/techniques/caching',tag:'NestJS caching',type:'docs'},
+      ]},
     ], build:'Build: Smart job matching for JIFFL using embeddings' },
   { id:'w5', num:'WEEK 05', color:'--w5', month:2, title:'AWS Foundations', subtitle:'where your apps actually live',
     tasks:[
-      {t:'Create AWS Free Tier account, explore the console', url:'https://aws.amazon.com/free/', tag:'aws'},
-      {t:'EC2: spin up a Linux server, SSH in, run your NestJS app', url:'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html', tag:'aws docs'},
-      {t:'RDS: managed PostgreSQL - no setup, just connect', url:'https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.PostgreSQL.html', tag:'aws docs'},
-      {t:'S3: file storage (like your Cone doc handling, at real scale)', url:'https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html', tag:'aws docs'},
-      {t:'IAM: roles and policies - understand least privilege', url:'https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html', tag:'aws docs'},
+      {t:'Create AWS Free Tier account, explore the console', links:[
+        {url:'https://aws.amazon.com/getting-started/',tag:'AWS getting started',type:'docs'},
+      ]},
+      {t:'EC2: spin up a Linux server, SSH in, run your NestJS app', links:[
+        {url:'https://aws.amazon.com/ec2/getting-started/',tag:'EC2 quickstart',type:'docs'},
+      ]},
+      {t:'RDS: managed PostgreSQL - no setup, just connect', links:[
+        {url:'https://aws.amazon.com/rds/postgresql/getting-started/',tag:'RDS PG setup',type:'docs'},
+      ]},
+      {t:'S3: file storage (like your Cone doc handling, at real scale)', links:[
+        {url:'https://aws.amazon.com/s3/getting-started/',tag:'S3 basics',type:'docs'},
+      ]},
+      {t:'IAM: roles and policies - understand least privilege', links:[
+        {url:'https://www.youtube.com/watch?v=Z3Spx6Inz80',tag:'IAM explained (video)',type:'video'},
+        {url:'https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html',tag:'IAM docs',type:'docs'},
+      ]},
     ], build:'Deploy: NestJS API on EC2 + RDS PostgreSQL - real cloud' },
   { id:'w6', num:'WEEK 06', color:'--w6', month:2, title:'AWS for Mobile', subtitle:'services that directly help your RN apps',
     tasks:[
-      {t:'API Gateway: expose NestJS to mobile safely with throttling', url:'https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html', tag:'aws docs'},
-      {t:'Lambda: serverless functions for background jobs (cron etc)', url:'https://docs.aws.amazon.com/lambda/latest/dg/welcome.html', tag:'aws docs'},
-      {t:'SNS: push notifications at scale (you know FCM, this is bigger)', url:'https://docs.aws.amazon.com/sns/latest/dg/sns-mobile-application-as-subscriber.html', tag:'aws docs'},
-      {t:'CloudFront CDN: faster image loading in React Native', url:'https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html', tag:'aws docs'},
-      {t:'AWS Cloud Practitioner exam - study + schedule it this week', url:'https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials', tag:'free course'},
+      {t:'API Gateway: expose NestJS to mobile safely with throttling', links:[
+        {url:'https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html',tag:'API Gateway guide',type:'docs'},
+      ]},
+      {t:'Lambda: serverless functions for background jobs (cron etc)', links:[
+        {url:'https://docs.aws.amazon.com/lambda/latest/dg/nodejs-package.html',tag:'Lambda + Node.js',type:'docs'},
+      ]},
+      {t:'SNS: push notifications at scale (you know FCM, this is bigger)', links:[
+        {url:'https://docs.aws.amazon.com/sns/latest/dg/sns-mobile-push-notifications.html',tag:'SNS push guide',type:'docs'},
+      ]},
+      {t:'CloudFront CDN: faster image loading in React Native', links:[
+        {url:'https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GettingStarted.html',tag:'CloudFront setup',type:'docs'},
+      ]},
+      {t:'AWS Cloud Practitioner exam - study + schedule it this week', links:[
+        {url:'https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials',tag:'Free course (official)',type:'interactive'},
+      ]},
     ], build:'Add: S3 uploads + CloudFront image delivery to your project' },
   { id:'w7', num:'WEEK 07', color:'--w7', month:2, title:'System Design: Mobile', subtitle:'you built these - now explain them at scale',
     tasks:[
-      {t:'Draw the architecture of your Zonesso chat - what would break at 1M users?', url:'https://getstream.io/blog/chat-infrastructure/', tag:'stream blog'},
-      {t:'Offline-first sync: how React Query + backend handle conflicts', url:'https://watermelondb.dev/docs/Sync', tag:'watermelondb'},
-      {t:'Real-time: WebSockets vs SSE vs polling - when to use each', url:'https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API', tag:'mdn'},
-      {t:'Push notification system design - at Twitter scale', url:'https://firebase.google.com/docs/cloud-messaging', tag:'firebase'},
-      {t:'App performance deep dive: startup time, image cache, bundle size', url:'https://reactnative.dev/docs/performance', tag:'rn docs'},
+      {t:'Draw the architecture of your Zonesso chat - what would break at 1M users?', links:[
+        {url:'https://github.com/donnemartin/system-design-primer',tag:'System Design Primer (285k stars)',type:'repo'},
+        {url:'https://getstream.io/blog/chat-infrastructure/',tag:'Chat at scale',type:'blog'},
+      ]},
+      {t:'Offline-first sync: how React Query + backend handle conflicts', links:[
+        {url:'https://pouchdb.com/guides/',tag:'Offline-first guide',type:'blog'},
+      ]},
+      {t:'Real-time: WebSockets vs SSE vs polling - when to use each', links:[
+        {url:'https://blog.bytebytego.com/p/websockets-vs-sse-vs-polling',tag:'ByteByteGo comparison',type:'blog'},
+        {url:'https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API',tag:'MDN WebSockets',type:'docs'},
+      ]},
+      {t:'Push notification system design - at Twitter scale', links:[
+        {url:'https://firebase.google.com/docs/cloud-messaging',tag:'FCM docs',type:'docs'},
+      ]},
+      {t:'App performance deep dive: startup time, image cache, bundle size', links:[
+        {url:'https://reactnative.dev/docs/performance',tag:'RN performance docs',type:'docs'},
+      ]},
     ], build:'Draw: Zonesso architecture diagram on Excalidraw - full system' },
   { id:'w8', num:'WEEK 08', color:'--w8', month:2, title:'System Design: Backend', subtitle:'interview mode - tie everything together',
     tasks:[
-      {t:'Design a job feed system (whiteboard JIFFL at 10M users)', url:'https://github.com/donnemartin/system-design-primer#design-a-news-feed', tag:'github'},
-      {t:'Design a payment processing system (from your Cone experience)', url:'https://docs.stripe.com/payments/accept-a-payment', tag:'stripe docs'},
-      {t:'Classic: design a URL shortener and a rate limiter', url:'https://github.com/donnemartin/system-design-primer#design-a-url-shortener', tag:'github'},
-      {t:'Take the AWS Cloud Practitioner exam this week', url:'https://www.cloudflare.com/learning/bots/what-is-rate-limiting/', tag:'cloudflare'},
-      {t:'Ship: one project with PostgreSQL + AWS + AI + README with arch decisions', url:'https://github.com/lujakob/nestjs-realworld-example-app', tag:'example app'},
+      {t:'Design a job feed system (whiteboard JIFFL at 10M users)', links:[
+        {url:'https://github.com/donnemartin/system-design-primer#design-the-facebook-news-feed',tag:'Feed design (GitHub)',type:'repo'},
+      ]},
+      {t:'Design a payment processing system (from your Cone experience)', links:[
+        {url:'https://docs.stripe.com/payments/accept-a-payment',tag:'Stripe payments',type:'docs'},
+      ]},
+      {t:'Classic: design a URL shortener and a rate limiter', links:[
+        {url:'https://github.com/donnemartin/system-design-primer#design-a-url-shortener-like-tinyurl',tag:'URL shortener design',type:'repo'},
+        {url:'https://github.com/donnemartin/system-design-primer#design-a-rate-limiter',tag:'Rate limiter design',type:'repo'},
+      ]},
+      {t:'Take the AWS Cloud Practitioner exam this week', links:[
+        {url:'https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials',tag:'Free exam prep',type:'interactive'},
+      ]},
+      {t:'Ship: one project with PostgreSQL + AWS + AI + README with arch decisions', links:[
+        {url:'https://github.com/lujakob/nestjs-realworld-example-app',tag:'NestJS RealWorld example',type:'repo'},
+      ]},
     ], build:'Ship: Final portfolio project combining all 4 skills' },
 ];
 
@@ -767,7 +875,7 @@ function renderWeekCards() {
                   <div class="task-meta">
                     ${t.date?`<span class="task-date">${t.date}</span>`:''}
                     <button class="task-note-btn${t.hasNote?' has-note':''}" onclick="openNote('${t.key}','${t.t.replace(/'/g,"\\'")}',event)">${t.hasNote?'notes':'+ note'}</button>
-                    <a class="task-resource" href="${t.url}" target="_blank" onclick="event.stopPropagation()">${t.tag}</a>
+                    ${(t.links||[]).map(l => `<a class="task-resource res-${l.type||'docs'}" href="${l.url}" target="_blank" onclick="event.stopPropagation()">${l.tag}</a>`).join('')}
                   </div>
                 </div>
               </div>
