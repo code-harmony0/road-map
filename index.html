@@ -141,10 +141,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Bricolage Grotes
 .wc-pb-fill { height: 100%; background: var(--card-color); border-radius: 99px; transition: width 0.4s cubic-bezier(0.34,1.56,0.64,1); }
 .wc-pct-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); min-width: 28px; text-align: right; }
 
-/* COLLAPSIBLE BODY - proper height animation */
-.wc-body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s ease; }
-.wc-body > .wc-body-inner { overflow: hidden; }
-.week-card.is-collapsed .wc-body { grid-template-rows: 0fr; }
+/* COLLAPSIBLE BODY */
+.wc-body { }
+.week-card.is-collapsed .wc-body { display: none; }
+.week-card.is-collapsed .wc-header { border-bottom: none; }
 
 /* Tasks */
 .wc-tasks { padding: 4px 0; border-top: 1px solid var(--border); }
@@ -757,7 +757,7 @@ function renderWeekCards() {
           <div class="wc-subtitle">${week.subtitle}</div>
           <div class="wc-progress"><div class="wc-pb"><div class="wc-pb-fill" style="width:${pct}%"></div></div><div class="wc-pct-text">${pct}%</div></div>
         </div>
-        <div class="wc-body"><div class="wc-body-inner">
+        <div class="wc-body">
           <div class="wc-tasks">
             ${tasks.map(t => `
               <div class="task-item${t.checked?' done':''}" onclick="toggleTask('${t.key}','${week.id}')">
@@ -788,7 +788,7 @@ function renderWeekCards() {
             <div class="build-badge"><div class="build-dot"></div>${week.build}</div>
             <button class="complete-btn${isDone?' done-btn':''}" onclick="toggleWeekComplete('${week.id}',event)">${isDone?'Done':'Mark Done'}</button>
           </div>
-        </div></div>
+        </div>
       `;
       c.appendChild(card);
     });
