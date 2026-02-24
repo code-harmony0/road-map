@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>8-Week Senior Engineer Roadmap</title>
+<title>12-Week Senior Engineer Roadmap</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -26,6 +26,8 @@
   --w3: #10b981; --w4: #059669;
   --w5: #f97316; --w6: #ea580c;
   --w7: #eab308; --w8: #ca8a04;
+  --w9: #ec4899; --w10: #d946ef;
+  --w11: #06b6d4; --w12: #0891b2;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
@@ -273,7 +275,7 @@ body { animation: fadeIn 0.4s ease; }
   .stats-row { grid-template-columns: repeat(2,1fr); }
   .rhythm-grid { grid-template-columns: 1fr; }
   .resources-grid { grid-template-columns: 1fr; }
-  .outcome-grid { grid-template-columns: repeat(2,1fr); }
+  .outcome-grid { grid-template-columns: repeat(2,1fr) !important; }
   .topbar { padding: 0 12px; gap: 6px; }
   .global-progress { display: none; }
   .streak-badge { display: none; }
@@ -346,7 +348,7 @@ body { animation: fadeIn 0.4s ease; }
 
 <div class="main">
   <div class="hero">
-    <div class="hero-tag">8 weeks &middot; 2 hrs/day &middot; your actual skill level</div>
+    <div class="hero-tag">12 weeks &middot; 2 hrs/day &middot; your actual skill level</div>
     <h1>React Native &rarr;<br><em>Senior Engineer</em></h1>
     <div class="hero-sub">PostgreSQL &middot; AI Integration &middot; AWS &middot; System Design</div>
   </div>
@@ -390,18 +392,56 @@ body { animation: fadeIn 0.4s ease; }
   </div>
   <div class="weeks-grid" id="month2weeks"></div>
 
+  <div class="month-divider">
+    <span class="md-tag">Month 03</span><div class="md-line"></div>
+    <span class="md-title" style="color:var(--w9)">Interview Prep &amp; Growth</span>
+    <div class="md-line"></div><span class="md-pct" id="month3pct">0%</span>
+  </div>
+  <div class="weeks-grid" id="month3weeks"></div>
+
   <div class="daily-section">
-    <div class="section-title">Daily Rhythm</div>
+    <div class="section-title">Daily Schedule (Realistic)</div>
     <div class="rhythm-grid">
-      <div class="rhythm-card"><div class="rhythm-time">Hour 1</div><div class="rhythm-act">Build Something</div><div class="rhythm-desc">Hands on code. No videos. Open docs and type. If you can't build it, you don't know it yet.</div></div>
-      <div class="rhythm-card"><div class="rhythm-time">Hour 2</div><div class="rhythm-act">Read Official Docs</div><div class="rhythm-desc">PostgreSQL docs, Prisma docs, AWS docs. Not YouTube. One concept, written down in your own words.</div></div>
-      <div class="rhythm-card"><div class="rhythm-time">Weekend 3-4 hrs</div><div class="rhythm-act">Combine &amp; Ship</div><div class="rhythm-desc">Take the week's skills and build one thing that uses all of them. Then write a README explaining your decisions.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">6:00 - 7:00 AM</div><div class="rhythm-act">Deep Work</div><div class="rhythm-desc">Hands-on coding. Open docs and type. Build something from scratch. If you can't build it, you don't know it yet.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Commute</div><div class="rhythm-act">Podcasts &amp; Talks</div><div class="rhythm-desc">Backend Engineering Show, System Design Podcast, AWS Podcast. Passive learning while traveling.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Lunch Break</div><div class="rhythm-act">1 SQL Problem</div><div class="rhythm-desc">One LeetCode Database or HackerRank SQL problem. 15-20 minutes. Builds muscle memory over time.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Evening 30 min</div><div class="rhythm-act">Review &amp; Read</div><div class="rhythm-desc">Light review of what you built. Read one concept in official docs. Write it down in your own words.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Saturday 4 hrs</div><div class="rhythm-act">Build &amp; Ship</div><div class="rhythm-desc">Take the week's skills and build one thing using all of them. Write a README explaining your decisions.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Sunday 2 hrs</div><div class="rhythm-act">Theory + Plan</div><div class="rhythm-desc">System design reading, plan next week's tasks. Review notes. Do one mock interview question on paper.</div></div>
     </div>
     <div class="rule-card" style="margin-top:12px">
       <div>
         <h4>The One Rule That Makes This Work</h4>
         <p>Every concept you study &mdash; write <strong>one working example</strong> from scratch immediately after. Not a tutorial copy. Your own code, your own tiny version. That 20 minutes of struggling is worth more than 3 hours of watching.</p>
       </div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;">
+    <div class="section-title">AI Tools for 3x Faster Learning</div>
+    <div class="rhythm-grid">
+      <div class="rhythm-card"><div class="rhythm-time">Code</div><div class="rhythm-act">Cursor AI / Claude Code</div><div class="rhythm-desc">Build projects with AI pair programming. Ask it to explain code you don't understand. Learn by doing with instant feedback.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Explain</div><div class="rhythm-act">Claude / ChatGPT</div><div class="rhythm-desc">"Explain database indexing like I'm 5." "Ask me a system design question, then critique my answer." Active learning.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Design</div><div class="rhythm-act">Excalidraw</div><div class="rhythm-desc">Draw every system design on Excalidraw. Whiteboard practice. Export as portfolio pieces. Visual thinking = better interviews.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Memorize</div><div class="rhythm-act">Anki Flashcards</div><div class="rhythm-desc">SQL commands, AWS services, system design patterns. Spaced repetition = long-term retention. 10 min/day max.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Practice</div><div class="rhythm-act">LeetCode + HackerRank</div><div class="rhythm-desc">Focus on SQL problems and system design, not DSA grind. 1 problem/day during lunch. Consistency beats intensity.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Validate</div><div class="rhythm-act">Gemini CLI</div><div class="rhythm-desc">Analyze your entire codebase for issues. "Review my auth implementation for security gaps." Large context = deep analysis.</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;">
+    <div class="section-title">Podcasts for Commute</div>
+    <div class="resources-grid">
+      <div class="resource-card"><div class="resource-week">Backend &amp; Architecture</div><div class="resource-links">
+        <a class="resource-link" href="https://www.youtube.com/c/BackendEngineeringShow" target="_blank"><span class="rl-arrow">&rarr;</span> Backend Engineering Show (Huss)</a>
+        <a class="resource-link" href="https://www.youtube.com/c/SystemDesignInterview" target="_blank"><span class="rl-arrow">&rarr;</span> System Design Interview (Alex Xu)</a>
+        <a class="resource-link" href="https://changelog.com/podcast" target="_blank"><span class="rl-arrow">&rarr;</span> The Changelog</a>
+      </div></div>
+      <div class="resource-card"><div class="resource-week">Cloud &amp; DevOps</div><div class="resource-links">
+        <a class="resource-link" href="https://aws.amazon.com/podcasts/" target="_blank"><span class="rl-arrow">&rarr;</span> AWS Podcast (official)</a>
+        <a class="resource-link" href="https://www.youtube.com/@ByteByteGo" target="_blank"><span class="rl-arrow">&rarr;</span> ByteByteGo (YouTube)</a>
+        <a class="resource-link" href="https://softwareengineeringdaily.com/" target="_blank"><span class="rl-arrow">&rarr;</span> Software Engineering Daily</a>
+      </div></div>
     </div>
   </div>
 
@@ -431,15 +471,49 @@ body { animation: fadeIn 0.4s ease; }
     </div>
   </div>
 
-  <div style="margin-top:48px;margin-bottom:0;">
-    <div class="section-title">After 8 Weeks You Can Say</div>
+  <div style="margin-top:48px;">
+    <div class="section-title">After 12 Weeks You Can Say</div>
     <div class="outcome-grid">
-      <div class="outcome-card"><div class="outcome-num">SQL</div><div class="outcome-label">Design &amp; query relational databases</div></div>
-      <div class="outcome-card"><div class="outcome-num">AI</div><div class="outcome-label">Stream LLM responses into mobile apps</div></div>
-      <div class="outcome-card"><div class="outcome-num">AWS</div><div class="outcome-label">Deploy full stack apps to cloud</div></div>
-      <div class="outcome-card"><div class="outcome-num">SD</div><div class="outcome-label">Whiteboard system design confidently</div></div>
-      <div class="outcome-card"><div class="outcome-num">4yr</div><div class="outcome-label">Real RN production experience</div></div>
-      <div class="outcome-card"><div class="outcome-num">1</div><div class="outcome-label">Portfolio project using all 4 skills</div></div>
+      <div class="outcome-card"><div class="outcome-num">SQL</div><div class="outcome-label">Design &amp; query relational databases with window functions, CTEs, indexing</div></div>
+      <div class="outcome-card"><div class="outcome-num">AI</div><div class="outcome-label">Stream LLM responses, RAG, embeddings, function calling</div></div>
+      <div class="outcome-card"><div class="outcome-num">AWS</div><div class="outcome-label">Deploy full stack apps to cloud + Cloud Practitioner certified</div></div>
+      <div class="outcome-card"><div class="outcome-num">SD</div><div class="outcome-label">Whiteboard WhatsApp, Uber, payment systems confidently</div></div>
+      <div class="outcome-card"><div class="outcome-num">CI</div><div class="outcome-label">Docker + GitHub Actions + Terraform CI/CD pipeline</div></div>
+      <div class="outcome-card"><div class="outcome-num">4yr</div><div class="outcome-label">Real RN production + full-stack portfolio project</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;">
+    <div class="section-title">Your Senior Engineer Narrative</div>
+    <div class="rule-card">
+      <div>
+        <h4 style="font-size:15px;line-height:1.6;font-weight:400;color:var(--muted2);">
+          <em>"I'm a <strong style="color:#fff">Mobile Systems Engineer</strong> with 4 years of React Native experience. Recently, I've architected full-stack solutions using <strong style="color:var(--w1)">PostgreSQL</strong> and <strong style="color:var(--w5)">AWS</strong>, integrated <strong style="color:var(--w3)">LLMs</strong> for intelligent features, and designed <strong style="color:var(--w7)">offline-first systems</strong> for scale. I led the technical design of a fintech platform handling complex relational data and real-time sync. I'm <strong style="color:var(--green)">AWS Cloud Practitioner certified</strong> and skilled in system design for mobile applications."</em>
+        </h4>
+        <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;">
+          <span style="background:var(--green-dim);border:1px solid rgba(34,197,94,0.3);color:var(--green);padding:4px 10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:11px;">Senior RN Engineer: $120K-$150K</span>
+          <span style="background:var(--accent-dim);border:1px solid rgba(59,130,246,0.3);color:var(--accent);padding:4px 10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:11px;">Mobile Architect: $140K-$180K</span>
+          <span style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.3);color:#a78bfa;padding:4px 10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:11px;">Full-Stack Mobile Lead: $130K-$170K</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;">
+    <div class="section-title">Investment &amp; ROI</div>
+    <div class="outcome-grid" style="grid-template-columns:repeat(4,1fr);">
+      <div class="outcome-card"><div class="outcome-num" style="font-size:20px;">$100</div><div class="outcome-label">AWS Cloud Practitioner exam</div></div>
+      <div class="outcome-card"><div class="outcome-num" style="font-size:20px;">$35</div><div class="outcome-label">A Cloud Guru (1 month)</div></div>
+      <div class="outcome-card"><div class="outcome-num" style="font-size:20px;">$50</div><div class="outcome-label">DDIA book (lifetime ref)</div></div>
+      <div class="outcome-card" style="border-color:rgba(34,197,94,0.3);"><div class="outcome-num" style="font-size:20px;">+$30-50K</div><div class="outcome-label">Expected salary increase</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;margin-bottom:0;">
+    <div class="section-title">6-Month Extension (After Landing the Job)</div>
+    <div class="rhythm-grid" style="grid-template-columns:1fr 1fr;">
+      <div class="rhythm-card"><div class="rhythm-time">Months 3-4</div><div class="rhythm-act">Deepen Infrastructure</div><div class="rhythm-desc">AWS Solutions Architect Associate cert. Kubernetes fundamentals. Advanced system design (microservices, distributed systems). First open source contributions.</div></div>
+      <div class="rhythm-card"><div class="rhythm-time">Months 5-6</div><div class="rhythm-act">Staff Engineer Track</div><div class="rhythm-desc">Technical leadership and mentoring. Domain specialization (fintech, healthtech, AI). Public speaking or blogging. Interview at $180K+ roles.</div></div>
     </div>
   </div>
 </div>
@@ -467,6 +541,14 @@ const WEEKS = [
         {url:'https://sql-joins.leozhu.me/',tag:'Visual SQL Joins',type:'interactive'},
         {url:'https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-joins/',tag:'PG joins guide',type:'docs'},
       ]},
+      {t:'Normalization: 3NF, when to denormalize for performance', links:[
+        {url:'https://www.guru99.com/database-normalization.html',tag:'Normalization guide',type:'blog'},
+        {url:'https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-data-types/',tag:'PG data types',type:'docs'},
+      ]},
+      {t:'Window functions: ROW_NUMBER, RANK, LEAD, LAG - SQL power tools', links:[
+        {url:'https://www.postgresqltutorial.com/postgresql-window-function/',tag:'PG window funcs',type:'docs'},
+        {url:'https://sqlbolt.com/lesson/select_queries_with_expressions',tag:'SQLBolt practice',type:'interactive'},
+      ]},
       {t:'Connect PostgreSQL to NestJS with Prisma - first integration', links:[
         {url:'https://github.com/notiz-dev/nestjs-prisma-starter',tag:'NestJS+Prisma starter',type:'repo'},
         {url:'https://docs.nestjs.com/recipes/prisma',tag:'official recipe',type:'docs'},
@@ -481,12 +563,24 @@ const WEEKS = [
       {t:'Prisma relations: 1:1, 1:many, many:many schemas', links:[
         {url:'https://www.prisma.io/docs/orm/prisma-schema/data-model/relations',tag:'Prisma relations',type:'docs'},
       ]},
-      {t:'Transactions - why they matter for your chat + payment apps', links:[
+      {t:'Transactions & ACID - why they matter for chat + payment apps', links:[
         {url:'https://www.prisma.io/docs/orm/prisma-client/queries/transactions',tag:'Prisma transactions',type:'docs'},
+        {url:'https://www.postgresql.org/docs/current/transaction-iso.html',tag:'PG isolation levels',type:'docs'},
+      ]},
+      {t:'Indexing strategies: B-tree, GIN, GiST - make queries fast', links:[
+        {url:'https://use-the-index-luke.com/',tag:'Use The Index, Luke',type:'blog'},
+        {url:'https://www.postgresql.org/docs/current/indexes.html',tag:'PG indexes docs',type:'docs'},
       ]},
       {t:'EXPLAIN ANALYZE - read a query plan for the first time', links:[
         {url:'https://thoughtbot.com/blog/reading-an-explain-analyze-query-plan',tag:'EXPLAIN guide (great)',type:'blog'},
         {url:'https://www.postgresql.org/docs/current/using-explain.html',tag:'PG official',type:'docs'},
+      ]},
+      {t:'CTEs (Common Table Expressions) - readable complex queries', links:[
+        {url:'https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-cte/',tag:'CTE tutorial',type:'docs'},
+      ]},
+      {t:'Concurrency: locking, MVCC - how PG handles multiple writes', links:[
+        {url:'https://www.postgresql.org/docs/current/mvcc.html',tag:'PG MVCC docs',type:'docs'},
+        {url:'https://www.citusdata.com/blog/2018/02/15/when-postgresql-blocks/',tag:'When PG blocks',type:'blog'},
       ]},
       {t:'Add JWT auth to API (you know this concept from mobile side)', links:[
         {url:'https://docs.nestjs.com/security/authentication',tag:'NestJS auth docs',type:'docs'},
@@ -502,7 +596,7 @@ const WEEKS = [
       {t:'Stream AI responses - render in React Native', links:[
         {url:'https://github.com/vercel/ai-sdk',tag:'Vercel AI SDK',type:'repo'},
       ]},
-      {t:'Prompt engineering: system prompts, few-shot examples', links:[
+      {t:'Prompt engineering: system prompts, few-shot, chain-of-thought', links:[
         {url:'https://github.com/dair-ai/Prompt-Engineering-Guide',tag:'Prompt Guide (48k stars)',type:'repo'},
         {url:'https://www.promptingguide.ai/',tag:'promptingguide.ai',type:'interactive'},
       ]},
@@ -515,7 +609,7 @@ const WEEKS = [
         {url:'https://www.prisma.io/docs/orm/prisma-schema/data-model/models',tag:'Prisma models',type:'docs'},
       ]},
     ], build:'Build: AI chat assistant wired into your existing RN app' },
-  { id:'w4', num:'WEEK 04', color:'--w4', month:1, title:'AI at Scale', subtitle:'make it production-worthy',
+  { id:'w4', num:'WEEK 04', color:'--w4', month:1, title:'AI at Scale + Backend Architecture', subtitle:'production patterns that matter',
     tasks:[
       {t:'Vector embeddings concept - semantic search basics', links:[
         {url:'https://jalammar.github.io/illustrated-word2vec/',tag:'Illustrated Word2Vec',type:'blog'},
@@ -527,19 +621,33 @@ const WEEKS = [
       {t:'RAG: your app searches its own data using AI similarity', links:[
         {url:'https://www.pinecone.io/learn/retrieval-augmented-generation/',tag:'What is RAG?',type:'blog'},
       ]},
+      {t:'Microservices vs Monolith - when to use which (spoiler: start mono)', links:[
+        {url:'https://microservices.io/patterns/monolithic.html',tag:'microservices.io',type:'blog'},
+        {url:'https://www.youtube.com/watch?v=y8OnoxKotPQ',tag:'Monolith First (video)',type:'video'},
+      ]},
+      {t:'Message queues: Redis Pub/Sub, BullMQ for background jobs', links:[
+        {url:'https://github.com/taskforcesh/bullmq',tag:'BullMQ repo',type:'repo'},
+        {url:'https://docs.nestjs.com/techniques/queues',tag:'NestJS queues',type:'docs'},
+      ]},
       {t:'Rate limiting AI calls - cost control matters in prod', links:[
         {url:'https://github.com/animir/node-rate-limiter-flexible',tag:'rate-limiter-flexible',type:'repo'},
         {url:'https://docs.nestjs.com/security/rate-limiting',tag:'NestJS throttle',type:'docs'},
       ]},
-      {t:'Error handling: fallbacks + caching when AI fails or is slow', links:[
+      {t:'Caching strategies: Redis, CDN, in-memory - when AI or DB is slow', links:[
         {url:'https://github.com/node-cache/node-cache',tag:'node-cache',type:'repo'},
         {url:'https://docs.nestjs.com/techniques/caching',tag:'NestJS caching',type:'docs'},
+        {url:'https://redis.io/docs/latest/develop/get-started/',tag:'Redis quickstart',type:'docs'},
       ]},
     ], build:'Build: Smart job matching for JIFFL using embeddings' },
-  { id:'w5', num:'WEEK 05', color:'--w5', month:2, title:'AWS Foundations', subtitle:'where your apps actually live',
+  { id:'w5', num:'WEEK 05', color:'--w5', month:2, title:'AWS + Docker Foundations', subtitle:'where your apps actually live',
     tasks:[
       {t:'Create AWS Free Tier account, explore the console', links:[
         {url:'https://aws.amazon.com/getting-started/',tag:'AWS getting started',type:'docs'},
+      ]},
+      {t:'Docker: containerize your NestJS app (Dockerfile + docker-compose)', links:[
+        {url:'https://docs.docker.com/get-started/',tag:'Docker get started',type:'docs'},
+        {url:'https://github.com/BretFisher/node-docker-good-defaults',tag:'Node Docker defaults',type:'repo'},
+        {url:'https://www.youtube.com/watch?v=pTFZFxd4hOI',tag:'Docker in 1hr (video)',type:'video'},
       ]},
       {t:'EC2: spin up a Linux server, SSH in, run your NestJS app', links:[
         {url:'https://aws.amazon.com/ec2/getting-started/',tag:'EC2 quickstart',type:'docs'},
@@ -554,8 +662,8 @@ const WEEKS = [
         {url:'https://www.youtube.com/watch?v=Z3Spx6Inz80',tag:'IAM explained (video)',type:'video'},
         {url:'https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html',tag:'IAM docs',type:'docs'},
       ]},
-    ], build:'Deploy: NestJS API on EC2 + RDS PostgreSQL - real cloud' },
-  { id:'w6', num:'WEEK 06', color:'--w6', month:2, title:'AWS for Mobile', subtitle:'services that directly help your RN apps',
+    ], build:'Deploy: Dockerized NestJS API on EC2 + RDS PostgreSQL' },
+  { id:'w6', num:'WEEK 06', color:'--w6', month:2, title:'AWS for Mobile + CI/CD', subtitle:'services that directly help your RN apps',
     tasks:[
       {t:'API Gateway: expose NestJS to mobile safely with throttling', links:[
         {url:'https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html',tag:'API Gateway guide',type:'docs'},
@@ -569,15 +677,26 @@ const WEEKS = [
       {t:'CloudFront CDN: faster image loading in React Native', links:[
         {url:'https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GettingStarted.html',tag:'CloudFront setup',type:'docs'},
       ]},
+      {t:'CloudWatch: monitoring, alarms, logs - know when your app breaks', links:[
+        {url:'https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/GettingStarted.html',tag:'CloudWatch guide',type:'docs'},
+      ]},
+      {t:'CI/CD: GitHub Actions to auto-deploy on push (build, test, deploy)', links:[
+        {url:'https://docs.github.com/en/actions/quickstart',tag:'Actions quickstart',type:'docs'},
+        {url:'https://github.com/actions/starter-workflows',tag:'starter workflows',type:'repo'},
+      ]},
       {t:'AWS Cloud Practitioner exam - study + schedule it this week', links:[
         {url:'https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials',tag:'Free course (official)',type:'interactive'},
       ]},
-    ], build:'Add: S3 uploads + CloudFront image delivery to your project' },
+    ], build:'Add: S3 uploads + CloudFront + GitHub Actions CI/CD pipeline' },
   { id:'w7', num:'WEEK 07', color:'--w7', month:2, title:'System Design: Mobile', subtitle:'you built these - now explain them at scale',
     tasks:[
       {t:'Draw the architecture of your Zonesso chat - what would break at 1M users?', links:[
         {url:'https://github.com/donnemartin/system-design-primer',tag:'System Design Primer (285k stars)',type:'repo'},
         {url:'https://getstream.io/blog/chat-infrastructure/',tag:'Chat at scale',type:'blog'},
+      ]},
+      {t:'Design WhatsApp: end-to-end encrypted messaging at billion scale', links:[
+        {url:'https://github.com/donnemartin/system-design-primer#design-a-chat-system',tag:'Chat system design',type:'repo'},
+        {url:'https://blog.bytebytego.com/p/design-a-chat-system',tag:'ByteByteGo chat',type:'blog'},
       ]},
       {t:'Offline-first sync: how React Query + backend handle conflicts', links:[
         {url:'https://pouchdb.com/guides/',tag:'Offline-first guide',type:'blog'},
@@ -586,11 +705,16 @@ const WEEKS = [
         {url:'https://blog.bytebytego.com/p/websockets-vs-sse-vs-polling',tag:'ByteByteGo comparison',type:'blog'},
         {url:'https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API',tag:'MDN WebSockets',type:'docs'},
       ]},
+      {t:'Design Uber: real-time location tracking + matching at scale', links:[
+        {url:'https://github.com/donnemartin/system-design-primer#design-uber',tag:'Uber design (GitHub)',type:'repo'},
+        {url:'https://blog.bytebytego.com/p/design-uber',tag:'ByteByteGo Uber',type:'blog'},
+      ]},
       {t:'Push notification system design - at Twitter scale', links:[
         {url:'https://firebase.google.com/docs/cloud-messaging',tag:'FCM docs',type:'docs'},
       ]},
       {t:'App performance deep dive: startup time, image cache, bundle size', links:[
         {url:'https://reactnative.dev/docs/performance',tag:'RN performance docs',type:'docs'},
+        {url:'https://shopify.engineering/measuring-react-native-app-startup',tag:'Shopify RN perf',type:'blog'},
       ]},
     ], build:'Draw: Zonesso architecture diagram on Excalidraw - full system' },
   { id:'w8', num:'WEEK 08', color:'--w8', month:2, title:'System Design: Backend', subtitle:'interview mode - tie everything together',
@@ -612,6 +736,93 @@ const WEEKS = [
         {url:'https://github.com/lujakob/nestjs-realworld-example-app',tag:'NestJS RealWorld example',type:'repo'},
       ]},
     ], build:'Ship: Final portfolio project combining all 4 skills' },
+
+  // === BONUS MONTH: Interview Prep & Growth ===
+  { id:'w9', num:'WEEK 09', color:'--w9', month:3, title:'Interview Mastery', subtitle:'behavioral + coding + mock interviews',
+    tasks:[
+      {t:'Prepare 5 STAR method stories from your real experience', links:[
+        {url:'https://www.themuse.com/advice/star-interview-method',tag:'STAR method guide',type:'blog'},
+      ]},
+      {t:'Practice LeetCode SQL problems - 1 per day for a week', links:[
+        {url:'https://leetcode.com/problemset/database/',tag:'LeetCode Database',type:'interactive'},
+        {url:'https://www.hackerrank.com/domains/sql',tag:'HackerRank SQL',type:'interactive'},
+      ]},
+      {t:'Do 2 mock system design interviews on Pramp (free)', links:[
+        {url:'https://www.pramp.com/',tag:'Pramp (free mocks)',type:'interactive'},
+        {url:'https://interviewing.io/',tag:'interviewing.io',type:'interactive'},
+      ]},
+      {t:'Document 3 leadership stories: conflict, failure, mentoring', links:[
+        {url:'https://www.youtube.com/watch?v=PJKYqLP6MRE',tag:'Amazon leadership tips',type:'video'},
+      ]},
+      {t:'Practice explaining your Zonesso architecture in 5 minutes', links:[
+        {url:'https://excalidraw.com/',tag:'Excalidraw (whiteboard)',type:'interactive'},
+      ]},
+    ], build:'Ready: Can confidently explain your technical decisions' },
+  { id:'w10', num:'WEEK 10', color:'--w10', month:3, title:'Docker & DevOps Deep Dive', subtitle:'infrastructure as code mindset',
+    tasks:[
+      {t:'Multi-stage Docker builds: smaller images, faster deploys', links:[
+        {url:'https://docs.docker.com/build/building/multi-stage/',tag:'Multi-stage builds',type:'docs'},
+        {url:'https://github.com/docker/awesome-compose',tag:'awesome-compose',type:'repo'},
+      ]},
+      {t:'docker-compose for local dev: PostgreSQL + Redis + NestJS + RN', links:[
+        {url:'https://docs.docker.com/compose/gettingstarted/',tag:'Compose tutorial',type:'docs'},
+      ]},
+      {t:'Terraform basics: define AWS infra as code (EC2 + RDS)', links:[
+        {url:'https://developer.hashicorp.com/terraform/tutorials/aws-get-started',tag:'Terraform AWS tutorial',type:'interactive'},
+        {url:'https://github.com/terraform-aws-modules',tag:'Terraform AWS modules',type:'repo'},
+      ]},
+      {t:'GitHub Actions: build + test + deploy pipeline for your project', links:[
+        {url:'https://github.com/sdras/awesome-actions',tag:'awesome-actions',type:'repo'},
+        {url:'https://docs.github.com/en/actions/deployment',tag:'GH deploy docs',type:'docs'},
+      ]},
+      {t:'Environment secrets management: .env vs AWS Secrets Manager', links:[
+        {url:'https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html',tag:'Secrets Manager',type:'docs'},
+      ]},
+    ], build:'Build: Full CI/CD pipeline that auto-deploys your project' },
+  { id:'w11', num:'WEEK 11', color:'--w11', month:3, title:'Advanced Architecture', subtitle:'event-driven + distributed systems',
+    tasks:[
+      {t:'Event-driven architecture: pub/sub, event sourcing concepts', links:[
+        {url:'https://microservices.io/patterns/data/event-sourcing.html',tag:'Event sourcing pattern',type:'blog'},
+        {url:'https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html',tag:'AWS EventBridge',type:'docs'},
+      ]},
+      {t:'Redis deep dive: caching, pub/sub, rate limiting, sessions', links:[
+        {url:'https://github.com/redis/node-redis',tag:'node-redis',type:'repo'},
+        {url:'https://university.redis.io/',tag:'Redis University (free)',type:'interactive'},
+      ]},
+      {t:'Database replication: read replicas, connection pooling', links:[
+        {url:'https://www.postgresql.org/docs/current/high-availability.html',tag:'PG HA docs',type:'docs'},
+        {url:'https://www.prisma.io/docs/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool',tag:'Prisma pooling',type:'docs'},
+      ]},
+      {t:'API versioning, rate limiting, pagination - production API patterns', links:[
+        {url:'https://blog.bytebytego.com/p/api-design-best-practices',tag:'ByteByteGo API design',type:'blog'},
+      ]},
+      {t:'Read "Designing Data-Intensive Applications" chapters 1-6', links:[
+        {url:'https://dataintensive.net/',tag:'DDIA book site',type:'docs'},
+        {url:'https://github.com/ept/ddia-references',tag:'DDIA references',type:'repo'},
+      ]},
+    ], build:'Design: Event-driven notification system for your app' },
+  { id:'w12', num:'WEEK 12', color:'--w12', month:3, title:'6-Month Growth Vision', subtitle:'continue after you land the job',
+    tasks:[
+      {t:'Plan AWS Solutions Architect Associate cert (next 3 months)', links:[
+        {url:'https://aws.amazon.com/certification/certified-solutions-architect-associate/',tag:'SA Associate',type:'docs'},
+        {url:'https://www.youtube.com/watch?v=Ia-UEYYR44s',tag:'SA course (free video)',type:'video'},
+      ]},
+      {t:'Kubernetes basics: pods, services, deployments - container orchestration', links:[
+        {url:'https://kubernetes.io/docs/tutorials/kubernetes-basics/',tag:'K8s basics',type:'interactive'},
+        {url:'https://github.com/kelseyhightower/kubernetes-the-hard-way',tag:'K8s the hard way',type:'repo'},
+      ]},
+      {t:'Start contributing to open source (NestJS, Prisma, or RN ecosystem)', links:[
+        {url:'https://github.com/firstcontributions/first-contributions',tag:'first-contributions',type:'repo'},
+        {url:'https://goodfirstissue.dev/',tag:'Good First Issues',type:'interactive'},
+      ]},
+      {t:'Start a technical blog or Twitter/LinkedIn presence', links:[
+        {url:'https://dev.to/',tag:'dev.to',type:'interactive'},
+        {url:'https://hashnode.com/',tag:'Hashnode',type:'interactive'},
+      ]},
+      {t:'Build your "Senior Engineer" narrative and update resume + LinkedIn', links:[
+        {url:'https://www.levels.fyi/',tag:'levels.fyi (salary data)',type:'interactive'},
+      ]},
+    ], build:'Launch: Public portfolio + blog + open source contributions' },
 ];
 
 // === STORAGE ===
@@ -795,7 +1006,7 @@ function updateStreak() {
 function getCurrentWeekIndex() {
   if (!state.startDate) return -1;
   const diff = Math.floor((new Date() - new Date(state.startDate)) / 864e5);
-  return diff < 0 ? -1 : Math.min(Math.floor(diff/7), 7);
+  return diff < 0 ? -1 : Math.min(Math.floor(diff/7), 11);
 }
 function updateStartDate() {
   state.startDate = document.getElementById('startDate').value;
@@ -805,7 +1016,7 @@ function updateWeekInfo() {
   const idx = getCurrentWeekIndex();
   const info = document.getElementById('currentWeekInfo');
   if (idx < 0) { info.textContent = 'Set your start date to track active week'; return; }
-  if (idx > 7) { info.textContent = 'You\'ve completed the 8-week plan!'; return; }
+  if (idx > 11) { info.textContent = 'You\'ve completed the 12-week plan!'; return; }
   const d = Math.floor((new Date() - new Date(state.startDate)) / 864e5);
   info.textContent = `Week ${idx+1} of 8 - Day ${(d%7)+1}`;
 }
@@ -833,7 +1044,7 @@ function updateTodayFocus() {
 // === RENDER ===
 function renderWeekCards() {
   const activeIdx = getCurrentWeekIndex();
-  ['month1weeks','month2weeks'].forEach((id,mi) => {
+  ['month1weeks','month2weeks','month3weeks'].forEach((id,mi) => {
     const c = document.getElementById(id); c.innerHTML = '';
     WEEKS.filter(w => w.month === mi+1).forEach(week => {
       const gi = WEEKS.indexOf(week), isActive = gi === activeIdx, isDone = state.weeksDone[week.id];
@@ -960,7 +1171,7 @@ function updateStats() {
   document.getElementById('globalPct').textContent = pct+'%';
 }
 function updateMonthPct() {
-  [1,2].forEach(mo => {
+  [1,2,3].forEach(mo => {
     const weeks = WEEKS.filter(w => w.month===mo);
     const total = weeks.reduce((a,w) => a+w.tasks.length+(state.customTasks[w.id]||[]).length, 0);
     const done = weeks.reduce((a,w) => {
