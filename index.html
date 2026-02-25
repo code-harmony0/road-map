@@ -774,23 +774,7 @@
       </button>
     </div>
 
-    <script>
-      // Load roadmap data
-      fetch("./roadmap.json")
-        .then((response) => response.json())
-        .then((data) => {
-          window.ROADMAP_DATA = data
-          // Load app after data is available
-          const script = document.createElement("script")
-          script.src = "app.js"
-          document.body.appendChild(script)
-        })
-        .catch((error) => {
-          console.error("Failed to load roadmap data:", error)
-          document.getElementById("toast").textContent =
-            "Failed to load roadmap data"
-          document.getElementById("toast").classList.add("show", "warn")
-        })
-    </script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>

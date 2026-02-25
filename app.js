@@ -1,8 +1,8 @@
 const STORAGE_KEY = "rn_roadmap_v4"
 const BACKUP_KEY = "rn_roadmap_v4_backup"
 
-// Load roadmap data from global variable injected by HTML
-let ROADMAP_DATA = window.ROADMAP_DATA || {}
+// Load roadmap data from global variable in data.js
+let ROADMAP_DATA = { roadmap: window.WEEKS || [] }
 let WEEKS = []
 
 // Convert roadmap data to WEEKS format for backward compatibility
@@ -11,8 +11,8 @@ function convertToWeeksFormat(roadmap) {
     ...week,
     tasks: week.tasks.map((task) => ({
       id: task.id,
-      text: task.text,
-      t: task.text, // Backward compatibility
+      text: task.t || task.text,
+      t: task.t || task.text, // Backward compatibility
       time: task.time,
       why: task.why,
       links: task.links || [],
@@ -21,7 +21,7 @@ function convertToWeeksFormat(roadmap) {
 }
 
 // Initialize WEEKS when script loads
-WEEKS = convertToWeeksFormat(ROADMAP_DATA.roadmap || [])
+WEEKS = convertToWeeksFormat(ROADMAP_DATA.roadmap)
 console.log("WEEKS initialized on script load:", WEEKS.length)
 
 function getDefaultState() {
@@ -634,207 +634,122 @@ function updateTodayFocus() {
   const completedTasks = focusTasks.filter((t) => t.done).length
   const progressPercent =
     totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0
+}
 
-  if (totalTasks > 0) {
-    container.innerHTML += `
-      <div class="today-progress">
-        <div class="today-progress-bar">
-          <div class="today-progress-fill" style="width: ${progressPercent}%"></div>
-        </div>
-        <div class="today-progress-text">${completedTasks}/${totalTasks} completed</div>
-      </div>
-    `
-  }
-
-  // Update FAB content when today's focus changes
-  updateFabContent()
+function createBackup(s) {
+  try {
+    localStorage.setItem(BACKUP_KEY, JSON.stringify(s))
+  } catch (e) {}
 }
 
 function renderWeekCards() {
-  console.log("=== renderWeekCards called ===")
-  console.log("WEEKS length:", WEEKS.length)
-  console.log("WEEKS data:", WEEKS)
-
-  const dayInfo = getCurrentDayInfo()
-  const activeIdx = dayInfo.isValid ? dayInfo.weekIndex : -1
-  console.log("Day info:", dayInfo, "Active index:", activeIdx)
-
-  // TEMPORARY FIX: Force all weeks to be expanded for debugging
-  Object.keys(state.collapsedWeeks).forEach((weekId) => {
-    delete state.collapsedWeeks[weekId]
-  })
-
-  // Auto-collapse future weeks, expand current and past weeks
-  WEEKS.forEach((week, index) => {
-    if (dayInfo.isValid) {
-      // Auto-collapse future weeks, keep current and past weeks expanded
-      if (index > dayInfo.weekIndex) {
-        state.collapsedWeeks[week.id] = true
-      } else {
-        delete state.collapsedWeeks[week.id]
-      }
-    } else {
-      // If no start date is set, expand all weeks
-      delete state.collapsedWeeks[week.id]
-    }
-  })
   ;["month1weeks", "month2weeks", "month3weeks"].forEach((id, mi) => {
-    console.log(`Processing month container: ${id}`)
-    const c = document.getElementById(id)
-    console.log(`Container ${id} found:`, !!c)
-    if (!c) {
-      console.error(`Container ${id} not found!`)
-      return
-    }
-    c.innerHTML = ""
+    const container = document.getElementById(id)
+    if (!container) return
+    container.innerHTML = ""
 
     const monthWeeks = WEEKS.filter((w) => w.month === mi + 1)
-    console.log(`Month ${mi + 1} weeks:`, monthWeeks.length)
-
     monthWeeks.forEach((week) => {
-      console.log(
-        `Rendering week ${week.id}, tasks count:`,
-        week.tasks?.length || 0,
-      )
-      const gi = WEEKS.indexOf(week),
-        isActive = gi === activeIdx,
-        isDone = state.weeksDone[week.id]
-      const isCollapsed = !!state.collapsedWeeks[week.id]
-      const isFuture = dayInfo.isValid && gi > dayInfo.weekIndex
-
-      const tasks = week.tasks.map((task, ti) => {
-        const key = `${week.id}_${ti}`
-        console.log(`Task ${ti}:`, task)
-        return {
-          ...task,
-          key,
-          checked: !!state.tasks[key],
-          date: state.taskDates[key] || null,
-          hasNote: !!state.notes[key],
-        }
-      })
-      const ct = state.customTasks[week.id] || []
-      const doneCount =
-        tasks.filter((t) => t.checked).length + ct.filter((t) => t.done).length
-      const total = tasks.length + ct.length
-      const pct = Math.round((doneCount / total) * 100)
-
+      const isCollapsed = state.collapsedWeeks[week.id]
       const card = document.createElement("div")
-      card.className = `week-card${isActive ? " active-week" : ""}${isDone ? " completed-week" : ""}${isCollapsed ? " is-collapsed" : ""}${isFuture ? " future-week" : ""}`
-      card.style.setProperty("--card-color", `var(${week.color})`)
+      card.className = "week-card"
+      if (isCollapsed) card.classList.add("is-collapsed")
 
-      let mistakesHtml = ""
-      if (week.mistakes && week.mistakes.length) {
-        mistakesHtml = `
-          <div class="mistakes-box">
-            <div class="mistakes-title">Common Mistakes to Avoid</div>
-            ${week.mistakes.map((m) => `<div class="mistake-item">${m}</div>`).join("")}
-          </div>
-        `
-      }
-
-      let deliverableHtml = ""
-      if (week.deliverable) {
-        deliverableHtml = `<div class="deliverable-box">Deliverable: ${week.deliverable}</div>`
-      }
-
-      // Add future week indicator
-      let futureIndicator = ""
-      if (isFuture) {
-        futureIndicator =
-          '<div class="future-week-indicator">🔒 Future Week - Auto-collapsed</div>'
-      }
+      const doneTasks = week.tasks.filter(
+        (_, ti) => state.tasks[`${week.id}_${ti}`],
+      ).length
+      const customTasks = state.customTasks[week.id] || []
+      const doneCustom = customTasks.filter((t) => t.done).length
+      const total = week.tasks.length + customTasks.length
+      const done = doneTasks + doneCustom
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0
 
       card.innerHTML = `
-        <div class="wc-top-line"></div>
         <div class="wc-header" onclick="toggleCollapse('${week.id}')">
-          <div class="wc-meta">
-            <div class="wc-weeknum">${week.num}</div>
-            <div class="wc-status">
-              ${isActive ? '<span class="active-pill">ACTIVE</span>' : ""}
-              ${isFuture ? '<span class="future-pill">FUTURE</span>' : ""}
-              ${isDone ? '<span style="color:var(--green);font-size:11px">Done</span>' : `${doneCount}/${total}`}
-              <span class="collapse-icon">${isFuture ? "🔒" : isCollapsed ? "▶" : "▼"}</span>
-            </div>
+          <div class="wc-header-main">
+            <div class="wc-weeknum" style="color: var(${week.color})">${
+        week.num
+      }</div>
+            <div class="wc-title">${week.title}</div>
           </div>
-          <div class="wc-title">${week.title}</div>
-          <div class="wc-subtitle">${week.subtitle}</div>
-          ${week.goal ? `<div class="wc-goal">Goal: ${week.goal}</div>` : ""}
-          ${week.interviewQuestion ? `<div class="wc-interview">Interview: "${week.interviewQuestion}"</div>` : ""}
-          <div class="wc-progress"><div class="wc-pb"><div class="wc-pb-fill" style="width:${pct}%"></div></div><div class="wc-pct-text">${pct}%</div></div>
+          <div class="wc-header-right">
+            <div class="wc-progress-mini">
+              <div class="wc-progress-bar"><div class="wc-progress-fill" style="width: ${pct}%"></div></div>
+              <span class="wc-pct">${pct}%</span>
+            </div>
+            <span class="wc-icon">${isCollapsed ? "▲" : "▼"}</span>
+          </div>
         </div>
         <div class="wc-body">
-          ${futureIndicator}
+          <div class="wc-subtitle">${week.subtitle}</div>
           <div class="wc-tasks">
-            ${tasks
-              .map(
-                (t) => `
-              <div class="task-item${t.checked ? " done" : ""}" onclick="toggleTask('${t.key}','${week.id}')">
-                <div class="task-check"><span class="task-check-icon">&#10003;</span></div>
-                <div class="task-content">
-                  <div class="task-text">${t.t}</div>
-                  ${t.why ? `<div class="task-why">${t.why}</div>` : ""}
-                  <div class="task-meta">
-                    ${t.time ? `<span class="task-time">${t.time}</span>` : ""}
-                    ${t.date ? `<span class="task-date">${t.date}</span>` : ""}
-                    <button class="task-note-btn${t.hasNote ? " has-note" : ""}" onclick="openNote('${t.key}','${t.t.replace(/'/g, "\\'")}',event)">${t.hasNote ? "notes" : "+ note"}</button>
-                    ${(t.links || []).map((l) => `<a class="task-resource res-${l.type || "docs"}" href="${l.url}" target="_blank" onclick="event.stopPropagation()">${l.tag}</a>`).join("")}
+            ${week.tasks
+              .map((task, ti) => {
+                const key = `${week.id}_${ti}`
+                const isDone = !!state.tasks[key]
+                const hasNote = !!state.notes[key]
+                return `
+                <div class="task-item ${isDone ? "done" : ""}" onclick="toggleTask('${key}', '${week.id}')">
+                  <div class="task-check">${isDone ? "✓" : ""}</div>
+                  <div class="task-content">
+                    <div class="task-text">${task.t}</div>
+                    ${task.why ? `<div class="task-why">${task.why}</div>` : ""}
+                    ${
+                      task.links?.length
+                        ? `
+                      <div class="task-links" onclick="event.stopPropagation()">
+                        ${task.links
+                          .map(
+                            (l) =>
+                              `<a href="${l.url}" target="_blank" class="task-link tag-${l.type}">${l.tag}</a>`,
+                          )
+                          .join("")}
+                      </div>
+                    `
+                        : ""
+                    }
+                  </div>
+                  <div class="task-actions">
+                    <button class="task-note-btn ${hasNote ? "active" : ""}" onclick="openNote('${key}', '${task.t.replace(/'/g, "\\'")}', event)">
+                      ${hasNote ? "📝" : "🗒️"}
+                    </button>
                   </div>
                 </div>
+              `
+              })
+              .join("")}
+            ${customTasks
+              .map(
+                (t, ti) => `
+              <div class="task-item custom ${t.done ? "done" : ""}" onclick="toggleCustomTask('${week.id}', ${ti})">
+                <div class="task-check">${t.done ? "✓" : ""}</div>
+                <div class="task-text">${t.text}</div>
+                <button class="task-del" onclick="event.stopPropagation(); deleteCustomTask('${week.id}', ${ti})">&times;</button>
               </div>
             `,
               )
               .join("")}
           </div>
-          ${mistakesHtml}
-          ${deliverableHtml}
-          ${
-            ct.length
-              ? `<div class="custom-tasks">${ct
-                  .map(
-                    (x, ci) => `
-            <div class="custom-task-item${x.done ? " done" : ""}">
-              <div class="ct-check${x.done ? " checked" : ""}" onclick="toggleCustomTask('${week.id}',${ci})">${x.done ? "&#10003;" : ""}</div>
-              <span style="flex:1">${x.text}</span>
-              <span class="ct-del" onclick="deleteCustomTask('${week.id}',${ci})">x</span>
-            </div>
-          `,
-                  )
-                  .join("")}</div>`
-              : ""
-          }
-          <div class="add-task-row">
-            <input class="add-task-input" placeholder="Add your own task..." onkeydown="if(event.key==='Enter')addCustomTask('${week.id}',this)">
-            <button class="add-task-btn" onclick="addCustomTask('${week.id}',this.previousElementSibling)">+</button>
-          </div>
-          <div class="wc-footer">
-            <div class="build-badge"><div class="build-dot"></div>${week.timeEstimate ? `~${week.timeEstimate} total` : ""}</div>
-            <button class="complete-btn${isDone ? " done-btn" : ""}" onclick="toggleWeekComplete('${week.id}',event)">${isDone ? "Done" : "Mark Done"}</button>
+          <div class="wc-add-task" onclick="event.stopPropagation()">
+            <input type="text" placeholder="Add custom task..." onkeydown="if(event.key==='Enter') addCustomTask('${week.id}', this)">
           </div>
         </div>
       `
-      c.appendChild(card)
+      container.appendChild(card)
     })
   })
-  updateStats()
-  updateMonthPct()
 }
 
 function toggleCollapse(weekId) {
   state.collapsedWeeks[weekId] = !state.collapsedWeeks[weekId]
   saveState(state)
-  document.querySelectorAll(".week-card").forEach((card) => {
-    const weeknum = card.querySelector(".wc-weeknum")
-    const week = WEEKS.find((w) => w.id === weekId)
-    if (weeknum && week && weeknum.textContent === week.num) {
-      card.classList.toggle("is-collapsed", state.collapsedWeeks[weekId])
-    }
-  })
+  renderWeekCards()
 }
 
 function toggleTask(key, weekId) {
   state.tasks[key] = !state.tasks[key]
-  if (state.tasks[key])
+  if (state.tasks[key]) {
+    playSuccessSound()
     state.taskDates[key] = new Date().toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
@@ -842,7 +757,9 @@ function toggleTask(key, weekId) {
       minute: "2-digit",
       hour12: true,
     })
-  else delete state.taskDates[key]
+  } else {
+    delete state.taskDates[key]
+  }
   updateStreak()
   saveState(state)
   renderWeekCards()
@@ -1014,7 +931,11 @@ function renderAll() {
 }
 
 // Render when DOM is ready
-document.addEventListener("DOMContentLoaded", renderAll)
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", renderAll)
+} else {
+  renderAll()
+}
 
 // Sticky Focus FAB functionality
 let lastScrollY = 0
