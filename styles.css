@@ -1439,18 +1439,65 @@ body {
   animation: fadeIn 0.4s ease;
 }
 
-@media (max-width: 1200px) {
-  .weeks-grid {
-    grid-template-columns: 1fr 1fr;
+@media (max-width: 1400px) {
+  .main {
+    max-width: 1200px;
+    padding: 48px 24px 0;
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1200px) {
+  .main {
+    max-width: 1000px;
+  }
+  .weeks-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stats-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .main {
+    max-width: 100%;
+    padding: 32px 16px 0;
+  }
   .weeks-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   .stats-row {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 6vw, 48px);
+  }
+  .topbar {
+    padding: 0 16px;
+  }
+  .global-progress {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding: 24px 12px 0;
+  }
+  .hero {
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(24px, 7vw, 40px);
+  }
+  .hero-sub {
+    font-size: 13px;
+  }
+  .stats-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
   .rhythm-grid {
     grid-template-columns: 1fr;
@@ -1459,16 +1506,82 @@ body {
     grid-template-columns: 1fr;
   }
   .outcome-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: 1fr !important;
   }
   .topbar {
     padding: 0 12px;
-    gap: 6px;
+    gap: 8px;
   }
   .global-progress {
     display: none;
   }
   .streak-badge {
     display: none;
+  }
+  .timer-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  .top-btn,
+  .reset-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  .wc-header {
+    padding: 14px 16px 12px;
+  }
+  .wc-title {
+    font-size: 18px;
+  }
+  .wc-subtitle {
+    font-size: 12px;
+  }
+  .wc-goal,
+  .wc-interview {
+    font-size: 11px;
+  }
+  .task-text {
+    font-size: 14px;
+  }
+  .task-why {
+    font-size: 12px;
+  }
+  .task-time,
+  .task-date {
+    font-size: 10px;
+  }
+  .task-resource {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+}
+
+@media (max-width: 400px) {
+  .topbar-logo {
+    font-size: 11px;
+  }
+  .timer-btn {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+  .top-btn,
+  .reset-btn {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+  .wc-header {
+    padding: 12px 14px 10px;
+  }
+  .wc-title {
+    font-size: 16px;
+  }
+  .wc-subtitle {
+    font-size: 11px;
+  }
+  .task-text {
+    font-size: 13px;
+  }
+  .task-why {
+    font-size: 11px;
   }
 }
