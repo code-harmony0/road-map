@@ -396,18 +396,19 @@ function renderTimeline() {
   // Add progress bar
   const progressBar = document.createElement("div")
   progressBar.className = "timeline-progress"
+  progressBar.style.width = "0%"
 
   // Create timeline nodes
   WEEKS.forEach((week, index) => {
     const progress = getWeekProgress(index)
     const node = document.createElement("div")
     node.className = "timeline-node"
-    node.setAttribute("data-week", `W${week.num}`)
+    node.setAttribute("data-week", `W${index + 1}`)
 
     // Determine node state based on progress and current week
     if (index === currentWeekIndex) {
       node.classList.add("active")
-      node.textContent = progress > 0 ? progress + "%" : week.num
+      node.textContent = progress > 0 ? progress + "%" : index + 1
     } else if (progress === 100) {
       node.classList.add("completed")
       node.textContent = "✓"
@@ -415,13 +416,13 @@ function renderTimeline() {
       node.classList.add("partial")
       node.textContent = progress + "%"
     } else {
-      node.textContent = week.num
+      node.textContent = index + 1
     }
 
     // Add click handler to scroll to week
     node.addEventListener("click", () => {
       const weekCard = document.querySelector(
-        `.week-card:has(.wc-weeknum="${week.num}")`,
+        `.week-card[data-week-id="${week.id}"]`,
       )
       if (weekCard) {
         weekCard.scrollIntoView({ behavior: "smooth", block: "center" })
@@ -653,6 +654,7 @@ function renderWeekCards() {
       const isCollapsed = state.collapsedWeeks[week.id]
       const card = document.createElement("div")
       card.className = "week-card"
+      card.dataset.weekId = week.id
       if (isCollapsed) card.classList.add("is-collapsed")
 
       const doneTasks = week.tasks.filter(

@@ -14,7 +14,7 @@
       content="12-week self-study roadmap from React Native Developer to Senior Mobile Systems Engineer"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -42,17 +42,16 @@
         <button
           class="sound-btn"
           id="soundBtn"
-          onclick="toggleSoundEffects()"
           title="Toggle sound effects"
         >
           <span id="soundIcon">🔊</span>
         </button>
-        <button class="timer-btn" id="timerBtn" onclick="toggleTimer()">
+        <button class="timer-btn" id="timerBtn">
           <div class="timer-dot" id="timerDot"></div>
           <span id="timerBtnText">25:00</span>
         </button>
-        <button class="top-btn" onclick="openBackupModal()">backup</button>
-        <button class="reset-btn" onclick="confirmReset()">reset</button>
+        <button class="top-btn" id="backupBtn">backup</button>
+        <button class="reset-btn" id="resetBtn">reset</button>
       </div>
     </div>
 
@@ -71,7 +70,7 @@
     </div>
 
     <div class="timer-modal" id="timerModal">
-      <button class="tm-close" onclick="closeTimerModal()">&times;</button>
+      <button class="tm-close" id="timerCloseBtn">&times;</button>
       <div class="timer-display" id="timerDisplay">25:00</div>
       <div class="timer-clock" id="timerClock"></div>
       <div class="timer-label" id="timerLabel">FOCUS SESSION</div>
@@ -79,11 +78,10 @@
         <button
           class="tm-btn primary"
           id="tmStartBtn"
-          onclick="startStopTimer()"
         >
           Start
         </button>
-        <button class="tm-btn" onclick="resetTimer()">Reset</button>
+        <button class="tm-btn" id="tmResetBtn">Reset</button>
       </div>
       <div class="sessions-today">
         <span class="s-label">TODAY</span>
@@ -99,7 +97,6 @@
     <div
       class="note-modal-overlay"
       id="noteOverlay"
-      onclick="if (event.target === this) closeNote()"
     >
       <div class="note-modal">
         <h3 id="noteTitle">Notes</h3>
@@ -109,8 +106,8 @@
           placeholder="What did you learn? What was tricky? Key takeaways..."
         ></textarea>
         <div class="note-actions">
-          <button class="note-cancel" onclick="closeNote()">Cancel</button>
-          <button class="note-save" onclick="saveNote()">Save</button>
+          <button class="note-cancel" id="noteCancelBtn">Cancel</button>
+          <button class="note-save" id="noteSaveBtn">Save</button>
         </div>
       </div>
     </div>
@@ -118,34 +115,24 @@
     <div
       class="backup-modal-overlay"
       id="backupOverlay"
-      onclick="if (event.target === this) closeBackupModal()"
     >
       <div class="backup-modal">
         <h3>Data Backup</h3>
         <div class="backup-btns">
-          <button class="backup-btn" onclick="exportData()">
+          <button class="backup-btn" id="backupExportBtn">
             Export as JSON<small
               >Download your complete progress as a file</small
             >
           </button>
-          <button
-            class="backup-btn"
-            onclick="document.getElementById('importFile').click()"
-          >
+          <button class="backup-btn" id="backupImportBtn">
             Import from JSON<small>Restore progress from a backup file</small>
           </button>
-          <button class="backup-btn" onclick="copyDataToClipboard()">
+          <button class="backup-btn" id="backupCopyBtn">
             Copy to clipboard<small
               >Quick copy - paste into a note app as backup</small
             >
           </button>
-          <button
-            class="backup-btn danger"
-            onclick="
-              confirmReset()
-              closeBackupModal()
-            "
-          >
+          <button class="backup-btn danger" id="backupResetBtn">
             Reset all progress<small>Permanently delete all data</small>
           </button>
         </div>
@@ -154,9 +141,8 @@
           id="importFile"
           accept=".json"
           style="display: none"
-          onchange="importData(event)"
         />
-        <button class="backup-close" onclick="closeBackupModal()">Close</button>
+        <button class="backup-close" id="backupCloseBtn">Close</button>
       </div>
     </div>
 
@@ -168,8 +154,11 @@
         <h1>
           React Native &rarr;<br /><em>Senior Mobile Systems Engineer</em>
         </h1>
-        <div class="hero-sub">
-          PostgreSQL &middot; AI Integration &middot; AWS &middot; System Design
+        <div class="hero-sub skill-tags" aria-label="Core skills">
+          <span class="skill-tag skill-blue">PostgreSQL</span>
+          <span class="skill-tag skill-mint">AI Integration</span>
+          <span class="skill-tag skill-orange">AWS</span>
+          <span class="skill-tag skill-blue">System Design</span>
         </div>
       </div>
 
@@ -198,20 +187,20 @@
         </div>
       </div>
 
+      <div class="start-section">
+        <label for="startDate">Start date:</label>
+        <input type="date" id="startDate" />
+        <div class="current-week-info" id="currentWeekInfo">
+          Set your start date to track active week
+        </div>
+      </div>
+
       <div class="today-focus" id="todayFocus">
         <div class="today-focus-header">
           <div class="today-focus-title">Today's Focus</div>
           <div class="today-focus-date" id="todayDate"></div>
         </div>
         <div class="today-tasks" id="todayTasks"></div>
-      </div>
-
-      <div class="start-section">
-        <label for="startDate">Start date:</label>
-        <input type="date" id="startDate" onchange="updateStartDate()" />
-        <div class="current-week-info" id="currentWeekInfo">
-          Set your start date to track active week
-        </div>
       </div>
 
       <div class="honest-note">
@@ -768,13 +757,11 @@
       <button
         class="fab-action-btn"
         id="fabActionBtn"
-        onclick="toggleTimerFromFab()"
       >
-        <span class="fab-action-icon">⏱️</span>
+        <span class="fab-action-text" id="fabActionText">Start</span>
       </button>
     </div>
 
-    <script src="data.js"></script>
-    <script src="app.js"></script>
+    <script type="module" src="src/main.js"></script>
   </body>
 </html>

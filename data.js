@@ -1,4 +1,4 @@
-const WEEKS = [
+export const WEEKS = [
   {
     id:'w1',
     num:'WEEK 01',
@@ -491,6 +491,7 @@ const WEEKS = [
   },
 ];
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { WEEKS };
+// Backward compatibility for any non-module consumers.
+if (typeof window !== "undefined") {
+  window.WEEKS = WEEKS
 }
