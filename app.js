@@ -671,6 +671,11 @@ function renderWeekCards() {
   const dayInfo = getCurrentDayInfo()
   const activeIdx = dayInfo.isValid ? dayInfo.weekIndex : -1
 
+  // TEMPORARY FIX: Force all weeks to be expanded for debugging
+  Object.keys(state.collapsedWeeks).forEach((weekId) => {
+    delete state.collapsedWeeks[weekId]
+  })
+
   // Auto-collapse future weeks, expand current and past weeks
   WEEKS.forEach((week, index) => {
     if (dayInfo.isValid) {
