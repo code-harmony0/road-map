@@ -102,7 +102,29 @@ body {
 .topbar-right {
   display: flex;
   align-items: center;
+  gap: 12px;
+}
+.cloud-sync-section {
+  display: flex;
+  align-items: center;
   gap: 8px;
+  margin-right: 8px;
+}
+.cloud-sync-active {
+  color: var(--green);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.cloud-sync-inactive {
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 .streak-badge {
   display: flex;

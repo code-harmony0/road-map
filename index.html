@@ -31,6 +31,18 @@
         <div class="gp-pct" id="globalPct">0%</div>
       </div>
       <div class="topbar-right">
+        <div class="cloud-sync-section">
+          <span id="cloudSyncStatus" class="cloud-sync-inactive"
+            >💾 Local Storage Only</span
+          >
+          <button
+            id="cloudSyncButton"
+            class="top-btn"
+            onclick="signInToCloud()"
+          >
+            Sign In
+          </button>
+        </div>
         <div class="streak-badge" id="streakBadge">
           &#x1F525; <span id="streakCount">0</span>d
         </div>
@@ -736,9 +748,9 @@
         .then((response) => response.json())
         .then((data) => {
           window.ROADMAP_DATA = data
-          // Load app.js after data is available
+          // Load cloud sync enabled app after data is available
           const script = document.createElement("script")
-          script.src = "app.js"
+          script.src = "app-with-cloud.js"
           document.body.appendChild(script)
         })
         .catch((error) => {
