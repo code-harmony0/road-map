@@ -33,19 +33,20 @@
       <div class="topbar-right">
         <div class="cloud-sync-section">
           <span id="cloudSyncStatus" class="cloud-sync-inactive"
-            >💾 Local Storage Only</span
+            >💾 Local Storage Backup</span
           >
-          <button
-            id="cloudSyncButton"
-            class="top-btn"
-            onclick="signInToCloud()"
-          >
-            Sign In
-          </button>
         </div>
         <div class="streak-badge" id="streakBadge">
           &#x1F525; <span id="streakCount">0</span>d
         </div>
+        <button
+          class="sound-btn"
+          id="soundBtn"
+          onclick="toggleSoundEffects()"
+          title="Toggle sound effects"
+        >
+          <span id="soundIcon">🔊</span>
+        </button>
         <button class="timer-btn" id="timerBtn" onclick="toggleTimer()">
           <div class="timer-dot" id="timerDot"></div>
           <span id="timerBtnText">25:00</span>
@@ -56,6 +57,18 @@
     </div>
 
     <div class="save-indicator" id="saveIndicator">saved</div>
+
+    <!-- Visual Timeline -->
+    <div class="visual-timeline" id="visualTimeline">
+      <div class="timeline-container">
+        <div class="timeline-track"></div>
+        <div class="timeline-nodes" id="timelineNodes"></div>
+      </div>
+      <div class="timeline-label">
+        <span>React Native</span>
+        <span>Senior Engineer</span>
+      </div>
+    </div>
 
     <div class="timer-modal" id="timerModal">
       <button class="tm-close" onclick="closeTimerModal()">&times;</button>
@@ -742,15 +755,34 @@
 
     <div class="toast" id="toast"></div>
 
+    <!-- Sticky Focus FAB -->
+    <div class="sticky-focus-fab" id="stickyFocusFab">
+      <div class="fab-timer-section">
+        <div class="fab-timer-display" id="fabTimerDisplay">25:00</div>
+        <div class="fab-timer-status" id="fabTimerStatus">FOCUS</div>
+      </div>
+      <div class="fab-task-section">
+        <div class="fab-task-label">Current Focus</div>
+        <div class="fab-task-title" id="fabTaskTitle">No active task</div>
+      </div>
+      <button
+        class="fab-action-btn"
+        id="fabActionBtn"
+        onclick="toggleTimerFromFab()"
+      >
+        <span class="fab-action-icon">⏱️</span>
+      </button>
+    </div>
+
     <script>
       // Load roadmap data
       fetch("./roadmap.json")
         .then((response) => response.json())
         .then((data) => {
           window.ROADMAP_DATA = data
-          // Load cloud sync enabled app after data is available
+          // Load app after data is available
           const script = document.createElement("script")
-          script.src = "app-with-cloud.js"
+          script.src = "app.js"
           document.body.appendChild(script)
         })
         .catch((error) => {

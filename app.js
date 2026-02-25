@@ -42,37 +42,42 @@ function getDefaultState() {
 function getState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) return { ...getDefaultState(), ...JSON.parse(raw) }
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      // Validate state structure
+      if (parsed && typeof parsed === "object" && parsed.version === 4) {
+        // Create automatic backup
+        createBackup(parsed)
+        return { ...getDefaultState(), ...parsed }
+      }
+    }
   } catch (e) {
+    console.warn("Failed to load state, trying backup:", e)
     try {
       const backup = localStorage.getItem(BACKUP_KEY)
       if (backup) {
-        localStorage.setItem(STORAGE_KEY, backup)
-        showToast("Recovered from backup", "warn")
-        return { ...getDefaultState(), ...JSON.parse(backup) }
+        const parsed = JSON.parse(backup)
+        if (parsed && typeof parsed === "object") {
+          localStorage.setItem(STORAGE_KEY, backup)
+          showToast("Recovered from backup", "warn")
+          return { ...getDefaultState(), ...parsed }
+        }
       }
-    } catch (e2) {}
-  }
-  try {
-    const v3 = localStorage.getItem("rn_roadmap_v3")
-    if (v3) {
-      const m = { ...getDefaultState(), ...JSON.parse(v3), version: 4 }
-      saveState(m)
-      return m
+    } catch (backupError) {
+      console.error("Backup recovery failed:", backupError)
     }
-  } catch (e) {}
+  }
   return getDefaultState()
 }
 
-function saveState(s) {
+function saveState(state) {
   try {
-    const json = JSON.stringify(s)
-    localStorage.setItem(STORAGE_KEY, json)
-    if (!saveState._c) saveState._c = 0
-    if (++saveState._c % 5 === 0) localStorage.setItem(BACKUP_KEY, json)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    createBackup(state)
     showSaveIndicator()
-  } catch (e) {
-    showToast("SAVE FAILED - export now!", "warn")
+  } catch (error) {
+    console.error("Failed to save state:", error)
+    showToast("Failed to save progress", "error")
   }
 }
 
@@ -84,6 +89,75 @@ function showSaveIndicator() {
 }
 
 let state = getState()
+
+// Success sound effect for task completion
+function playSuccessSound() {
+  // Check if user has disabled sound effects
+  if (state.soundEffectsEnabled === false) {
+    return
+  }
+
+  try {
+    // Create a subtle success sound using Web Audio API
+    const audioContext = new (
+      window.AudioContext || window.webkitAudioContext
+    )()
+
+    // Create a pleasant success chord (C major)
+    const notes = [261.63, 329.63, 392.0] // C4, E4, G4
+    const duration = 0.15
+
+    notes.forEach((frequency, index) => {
+      const oscillator = audioContext.createOscillator()
+      const gainNode = audioContext.createGain()
+
+      oscillator.connect(gainNode)
+      gainNode.connect(audioContext.destination)
+
+      oscillator.frequency.value = frequency
+      oscillator.type = "sine"
+
+      // Envelope for smooth sound
+      const now = audioContext.currentTime
+      gainNode.gain.setValueAtTime(0, now)
+      gainNode.gain.linearRampToValueAtTime(0.1, now + 0.01) // Quick attack
+      gainNode.gain.exponentialRampToValueAtTime(0.01, now + duration) // Smooth decay
+
+      oscillator.start(now + index * 0.05) // Slight delay between notes
+      oscillator.stop(now + duration + index * 0.05)
+    })
+  } catch (error) {
+    // Silently fail if audio is not supported
+    console.debug("Audio not supported:", error)
+  }
+}
+
+// Toggle sound effects preference
+function toggleSoundEffects() {
+  state.soundEffectsEnabled = state.soundEffectsEnabled !== false // Default to true
+  saveState(state)
+
+  // Update button UI
+  const soundBtn = document.getElementById("soundBtn")
+  const soundIcon = document.getElementById("soundIcon")
+
+  if (state.soundEffectsEnabled) {
+    soundBtn.classList.remove("muted")
+    soundIcon.textContent = "🔊"
+  } else {
+    soundBtn.classList.add("muted")
+    soundIcon.textContent = "🔇"
+  }
+
+  showToast(
+    state.soundEffectsEnabled
+      ? "Sound effects enabled"
+      : "Sound effects disabled",
+    "info",
+  )
+}
+window.toggleSoundEffects = toggleSoundEffects
+
 window.addEventListener("beforeunload", () => {
   try {
     localStorage.setItem(BACKUP_KEY, JSON.stringify(state))
@@ -281,6 +355,148 @@ function getCurrentWeekIndex() {
   const diff = Math.floor((new Date() - new Date(state.startDate)) / 864e5)
   return diff < 0 ? -1 : Math.min(Math.floor(diff / 7), 11)
 }
+
+// Calculate weekly progress percentage for timeline
+function getWeekProgress(weekIndex) {
+  if (!WEEKS[weekIndex]) return 0
+
+  const week = WEEKS[weekIndex]
+  const tasks = week.tasks.map((task, ti) => {
+    const key = `${week.id}_${ti}`
+    return {
+      checked: !!state.tasks[key],
+    }
+  })
+
+  const customTasks = state.customTasks[week.id] || []
+  const totalTasks = tasks.length + customTasks.length
+  const completedTasks =
+    tasks.filter((t) => t.checked).length +
+    customTasks.filter((t) => t.done).length
+
+  return totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0
+}
+
+// Render visual timeline
+function renderTimeline() {
+  const container = document.getElementById("timelineNodes")
+  if (!container) return
+
+  const dayInfo = getCurrentDayInfo()
+  const currentWeekIndex = dayInfo.isValid ? dayInfo.weekIndex : -1
+
+  // Clear existing nodes
+  container.innerHTML = ""
+
+  // Add progress bar
+  const progressBar = document.createElement("div")
+  progressBar.className = "timeline-progress"
+
+  // Create timeline nodes
+  WEEKS.forEach((week, index) => {
+    const progress = getWeekProgress(index)
+    const node = document.createElement("div")
+    node.className = "timeline-node"
+    node.setAttribute("data-week", `W${week.num}`)
+
+    // Determine node state based on progress and current week
+    if (index === currentWeekIndex) {
+      node.classList.add("active")
+      node.textContent = progress > 0 ? progress + "%" : week.num
+    } else if (progress === 100) {
+      node.classList.add("completed")
+      node.textContent = "✓"
+    } else if (progress > 0) {
+      node.classList.add("partial")
+      node.textContent = progress + "%"
+    } else {
+      node.textContent = week.num
+    }
+
+    // Add click handler to scroll to week
+    node.addEventListener("click", () => {
+      const weekCard = document.querySelector(
+        `.week-card:has(.wc-weeknum="${week.num}")`,
+      )
+      if (weekCard) {
+        weekCard.scrollIntoView({ behavior: "smooth", block: "center" })
+        // Briefly highlight the week
+        weekCard.style.transition = "box-shadow 0.3s ease"
+        weekCard.style.boxShadow = "0 0 20px rgba(59, 130, 246, 0.3)"
+        setTimeout(() => {
+          weekCard.style.boxShadow = ""
+        }, 1000)
+      }
+    })
+
+    container.appendChild(node)
+  })
+
+  // Update progress bar width based on overall progress
+  const overallProgress =
+    WEEKS.reduce((acc, week, index) => {
+      return acc + getWeekProgress(index)
+    }, 0) / WEEKS.length
+
+  // Insert progress bar before nodes
+  const timelineContainer = container.parentElement
+  const existingProgress = timelineContainer.querySelector(".timeline-progress")
+  if (existingProgress) {
+    existingProgress.remove()
+  }
+  timelineContainer.insertBefore(progressBar, container)
+
+  // Animate progress bar
+  setTimeout(() => {
+    progressBar.style.width = `${overallProgress}%`
+  }, 100)
+}
+
+// Enhanced utility function to calculate current day information
+function getCurrentDayInfo() {
+  if (!state.startDate) {
+    return {
+      isValid: false,
+      message: "Set your start date to track active week",
+    }
+  }
+
+  const startDate = new Date(state.startDate)
+  const currentDate = new Date()
+  const diffTime = currentDate.getTime() - startDate.getTime()
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+
+  if (diffDays < 0) {
+    return {
+      isValid: false,
+      message: "Start date is in the future",
+    }
+  }
+
+  const totalDays = 12 * 7 // 12 weeks, 7 days each
+  if (diffDays >= totalDays) {
+    return {
+      isValid: false,
+      message: "You have completed the 12-week plan!",
+    }
+  }
+
+  const weekIndex = Math.floor(diffDays / 7)
+  const dayInWeek = diffDays % 7
+  const weekNumber = weekIndex + 1
+  const dayNumber = dayInWeek + 1
+
+  return {
+    isValid: true,
+    weekIndex,
+    dayInWeek,
+    weekNumber,
+    dayNumber,
+    totalDaysCompleted: diffDays,
+    daysRemaining: totalDays - diffDays,
+    progressPercentage: Math.round((diffDays / totalDays) * 100),
+  }
+}
 function updateStartDate() {
   state.startDate = document.getElementById("startDate").value
   saveState(state)
@@ -289,23 +505,22 @@ function updateStartDate() {
   updateTodayFocus()
 }
 function updateWeekInfo() {
-  const idx = getCurrentWeekIndex()
   const info = document.getElementById("currentWeekInfo")
-  if (idx < 0) {
-    info.textContent = "Set your start date to track active week"
+  const dayInfo = getCurrentDayInfo()
+
+  if (!dayInfo.isValid) {
+    info.textContent = dayInfo.message
     return
   }
-  if (idx > 11) {
-    info.textContent = "You have completed the 12-week plan!"
-    return
-  }
-  const d = Math.floor((new Date() - new Date(state.startDate)) / 864e5)
-  info.textContent = `Week ${idx + 1} of 12 - Day ${(d % 7) + 1}`
+
+  info.textContent = `Week ${dayInfo.weekNumber} of 12 - Day ${dayInfo.dayNumber}`
 }
 
 function updateTodayFocus() {
   const container = document.getElementById("todayTasks")
   const dateEl = document.getElementById("todayDate")
+
+  // Update current date/time display
   dateEl.textContent = new Date().toLocaleDateString("en-US", {
     weekday: "short",
     month: "short",
@@ -314,42 +529,137 @@ function updateTodayFocus() {
     minute: "2-digit",
     hour12: true,
   })
-  const idx = getCurrentWeekIndex()
-  if (idx < 0 || idx > 11) {
-    container.innerHTML =
-      '<div class="today-empty">Set a start date to see today\'s tasks</div>'
+
+  const dayInfo = getCurrentDayInfo()
+
+  if (!dayInfo.isValid) {
+    container.innerHTML = `<div class="today-empty">${dayInfo.message}</div>`
     return
   }
-  let ft = []
-  for (let i = Math.max(0, idx - 1); i <= Math.min(idx, 11); i++) {
-    WEEKS[i].tasks.forEach((task, ti) => {
-      const key = `${WEEKS[i].id}_${ti}`
-      ft.push({
+
+  // Get tasks from current week and previous week for context
+  let focusTasks = []
+
+  // Add current week tasks (highest priority)
+  if (WEEKS[dayInfo.weekIndex]) {
+    WEEKS[dayInfo.weekIndex].tasks.forEach((task, taskIndex) => {
+      const key = `${WEEKS[dayInfo.weekIndex].id}_${taskIndex}`
+      focusTasks.push({
         text: task.t,
         key,
         done: !!state.tasks[key],
-        weekNum: WEEKS[i].num,
+        weekNum: WEEKS[dayInfo.weekIndex].num,
+        priority: "current",
+        time: task.time,
+        why: task.why,
       })
     })
   }
-  const inc = ft.filter((t) => !t.done),
-    comp = ft.filter((t) => t.done)
-  const disp = [...inc.slice(0, 5), ...comp.slice(0, 2)]
-  if (!disp.length) {
+
+  // Add previous week incomplete tasks (lower priority)
+  if (dayInfo.weekIndex > 0 && WEEKS[dayInfo.weekIndex - 1]) {
+    WEEKS[dayInfo.weekIndex - 1].tasks.forEach((task, taskIndex) => {
+      const key = `${WEEKS[dayInfo.weekIndex - 1].id}_${taskIndex}`
+      if (!state.tasks[key]) {
+        focusTasks.push({
+          text: task.t,
+          key,
+          done: false,
+          weekNum: WEEKS[dayInfo.weekIndex - 1].num,
+          priority: "backlog",
+          time: task.time,
+          why: task.why,
+        })
+      }
+    })
+  }
+
+  // Sort tasks: incomplete current week first, then backlog, then completed
+  const incompleteCurrent = focusTasks.filter(
+    (t) => t.priority === "current" && !t.done,
+  )
+  const incompleteBacklog = focusTasks.filter(
+    (t) => t.priority === "backlog" && !t.done,
+  )
+  const completed = focusTasks.filter((t) => t.done)
+
+  // Limit display to actionable items
+  const displayTasks = [
+    ...incompleteCurrent.slice(0, 5), // Show up to 5 current week tasks
+    ...incompleteBacklog.slice(0, 2), // Show up to 2 backlog tasks
+    ...completed.slice(0, 1), // Show 1 completed for context
+  ]
+
+  if (!displayTasks.length) {
     container.innerHTML =
-      '<div class="today-empty">All caught up! Move to next week.</div>'
+      '<div class="today-empty">All caught up! Great job! 🎉</div>'
     return
   }
-  container.innerHTML = disp
-    .map(
-      (t) =>
-        `<div class="today-task${t.done ? " tt-done" : ""}"><span class="tt-week">${t.weekNum}</span>${t.text}</div>`,
-    )
+
+  // Render tasks with enhanced UI
+  container.innerHTML = displayTasks
+    .map((task) => {
+      const priorityClass =
+        task.priority === "current" ? "tt-current" : "tt-backlog"
+      const doneClass = task.done ? "tt-done" : ""
+      const timeInfo = task.time
+        ? `<span class="tt-time">${task.time}</span>`
+        : ""
+
+      return `
+        <div class="today-task ${doneClass} ${priorityClass}" onclick="toggleTask('${task.key}','${WEEKS[dayInfo.weekIndex].id}')">
+          <div class="tt-left">
+            <span class="tt-week">${task.weekNum}</span>
+            <div class="tt-content">
+              <div class="tt-text">${task.text}</div>
+              ${task.why ? `<div class="tt-why">${task.why}</div>` : ""}
+              ${timeInfo}
+            </div>
+          </div>
+          <div class="tt-check">
+            ${task.done ? '<span class="tt-check-icon">✓</span>' : ""}
+          </div>
+        </div>
+      `
+    })
     .join("")
+
+  // Add progress indicator
+  const totalTasks = focusTasks.length
+  const completedTasks = focusTasks.filter((t) => t.done).length
+  const progressPercent =
+    totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0
+
+  if (totalTasks > 0) {
+    container.innerHTML += `
+      <div class="today-progress">
+        <div class="today-progress-bar">
+          <div class="today-progress-fill" style="width: ${progressPercent}%"></div>
+        </div>
+        <div class="today-progress-text">${completedTasks}/${totalTasks} completed</div>
+      </div>
+    `
+  }
+
+  // Update FAB content when today's focus changes
+  updateFabContent()
 }
 
 function renderWeekCards() {
-  const activeIdx = getCurrentWeekIndex()
+  const dayInfo = getCurrentDayInfo()
+  const activeIdx = dayInfo.isValid ? dayInfo.weekIndex : -1
+
+  // Auto-collapse future weeks, expand current and past weeks
+  WEEKS.forEach((week, index) => {
+    if (dayInfo.isValid) {
+      // Auto-collapse future weeks, keep current and past weeks expanded
+      if (index > dayInfo.weekIndex) {
+        state.collapsedWeeks[week.id] = true
+      } else {
+        delete state.collapsedWeeks[week.id]
+      }
+    }
+  })
   ;["month1weeks", "month2weeks", "month3weeks"].forEach((id, mi) => {
     const c = document.getElementById(id)
     c.innerHTML = ""
@@ -358,6 +668,8 @@ function renderWeekCards() {
         isActive = gi === activeIdx,
         isDone = state.weeksDone[week.id]
       const isCollapsed = !!state.collapsedWeeks[week.id]
+      const isFuture = dayInfo.isValid && gi > dayInfo.weekIndex
+
       const tasks = week.tasks.map((task, ti) => {
         const key = `${week.id}_${ti}`
         return {
@@ -375,7 +687,7 @@ function renderWeekCards() {
       const pct = Math.round((doneCount / total) * 100)
 
       const card = document.createElement("div")
-      card.className = `week-card${isActive ? " active-week" : ""}${isDone ? " completed-week" : ""}${isCollapsed ? " is-collapsed" : ""}`
+      card.className = `week-card${isActive ? " active-week" : ""}${isDone ? " completed-week" : ""}${isCollapsed ? " is-collapsed" : ""}${isFuture ? " future-week" : ""}`
       card.style.setProperty("--card-color", `var(${week.color})`)
 
       let mistakesHtml = ""
@@ -393,6 +705,13 @@ function renderWeekCards() {
         deliverableHtml = `<div class="deliverable-box">Deliverable: ${week.deliverable}</div>`
       }
 
+      // Add future week indicator
+      let futureIndicator = ""
+      if (isFuture) {
+        futureIndicator =
+          '<div class="future-week-indicator">🔒 Future Week - Auto-collapsed</div>'
+      }
+
       card.innerHTML = `
         <div class="wc-top-line"></div>
         <div class="wc-header" onclick="toggleCollapse('${week.id}')">
@@ -400,8 +719,9 @@ function renderWeekCards() {
             <div class="wc-weeknum">${week.num}</div>
             <div class="wc-status">
               ${isActive ? '<span class="active-pill">ACTIVE</span>' : ""}
+              ${isFuture ? '<span class="future-pill">FUTURE</span>' : ""}
               ${isDone ? '<span style="color:var(--green);font-size:11px">Done</span>' : `${doneCount}/${total}`}
-              <span class="collapse-icon">&#9660;</span>
+              <span class="collapse-icon">${isFuture ? "🔒" : isCollapsed ? "▶" : "▼"}</span>
             </div>
           </div>
           <div class="wc-title">${week.title}</div>
@@ -411,6 +731,7 @@ function renderWeekCards() {
           <div class="wc-progress"><div class="wc-pb"><div class="wc-pb-fill" style="width:${pct}%"></div></div><div class="wc-pct-text">${pct}%</div></div>
         </div>
         <div class="wc-body">
+          ${futureIndicator}
           <div class="wc-tasks">
             ${tasks
               .map(
@@ -493,13 +814,17 @@ function toggleTask(key, weekId) {
   saveState(state)
   renderWeekCards()
   updateTodayFocus()
+  renderTimeline()
+  updateFabContent()
   if (state.tasks[key]) showToast("Task completed", "success")
 }
+
 function toggleWeekComplete(weekId, e) {
   e.stopPropagation()
   state.weeksDone[weekId] = !state.weeksDone[weekId]
   saveState(state)
   renderWeekCards()
+  renderTimeline()
   showToast(
     state.weeksDone[weekId] ? "Week complete!" : "Week unmarked",
     state.weeksDone[weekId] ? "success" : "info",
@@ -513,12 +838,21 @@ function addCustomTask(weekId, input) {
   input.value = ""
   saveState(state)
   renderWeekCards()
+  renderTimeline()
 }
 function toggleCustomTask(weekId, idx) {
   if (state.customTasks[weekId]?.[idx]) {
+    const wasCompleted = state.customTasks[weekId][idx].done
     state.customTasks[weekId][idx].done = !state.customTasks[weekId][idx].done
+
+    // Play success sound when custom task is completed (not when unchecked)
+    if (!wasCompleted && state.customTasks[weekId][idx].done) {
+      playSuccessSound()
+    }
+
     saveState(state)
     renderWeekCards()
+    renderTimeline()
   }
 }
 function deleteCustomTask(weekId, idx) {
@@ -526,6 +860,7 @@ function deleteCustomTask(weekId, idx) {
     state.customTasks[weekId].splice(idx, 1)
     saveState(state)
     renderWeekCards()
+    renderTimeline()
   }
 }
 
@@ -620,6 +955,20 @@ setInterval(() => {
 function renderAll() {
   if (state.startDate)
     document.getElementById("startDate").value = state.startDate
+
+  // Initialize sound button state
+  const soundBtn = document.getElementById("soundBtn")
+  const soundIcon = document.getElementById("soundIcon")
+  if (soundBtn && soundIcon) {
+    if (state.soundEffectsEnabled === false) {
+      soundBtn.classList.add("muted")
+      soundIcon.textContent = "🔇"
+    } else {
+      soundBtn.classList.remove("muted")
+      soundIcon.textContent = "🔊"
+    }
+  }
+
   renderWeekCards()
   updateStats()
   updateMonthPct()
@@ -627,6 +976,100 @@ function renderAll() {
   updateTimerDisplay()
   updateSessionDots()
   updateTodayFocus()
+  renderTimeline()
+  initializeStickyFab()
 }
 
 document.addEventListener("DOMContentLoaded", renderAll)
+
+// Sticky Focus FAB functionality
+let lastScrollY = 0
+let scrollThreshold = 100
+let fabVisible = false
+
+function initializeStickyFab() {
+  const fab = document.getElementById("stickyFocusFab")
+  if (!fab) return
+
+  // Show/hide FAB based on scroll
+  window.addEventListener("scroll", () => {
+    const currentScrollY = window.scrollY
+
+    // Show FAB when scrolling down past threshold
+    if (currentScrollY > scrollThreshold && !fabVisible) {
+      fab.classList.add("visible")
+      fabVisible = true
+    }
+    // Hide FAB when scrolling back to top
+    else if (currentScrollY < scrollThreshold && fabVisible) {
+      fab.classList.remove("visible")
+      fabVisible = false
+    }
+
+    lastScrollY = currentScrollY
+  })
+
+  // Initialize FAB content
+  updateFabContent()
+}
+
+function updateFabContent() {
+  const fabTimerDisplay = document.getElementById("fabTimerDisplay")
+  const fabTimerStatus = document.getElementById("fabTimerStatus")
+  const fabTaskTitle = document.getElementById("fabTaskTitle")
+  const fab = document.getElementById("stickyFocusFab")
+
+  if (!fabTimerDisplay || !fabTimerStatus || !fabTaskTitle || !fab) return
+
+  // Update timer display
+  const m = Math.floor(timerSeconds / 60)
+  const s = timerSeconds % 60
+  const timerStr = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+  fabTimerDisplay.textContent = timerStr
+
+  // Update timer status
+  if (timerRunning) {
+    fabTimerStatus.textContent =
+      timerSeconds === WORK_SECONDS ? "FOCUS" : "DEEP WORK"
+    fab.classList.add("timer-running")
+  } else {
+    fabTimerStatus.textContent = "READY"
+    fab.classList.remove("timer-running")
+  }
+
+  // Update current focus task
+  const currentTask = getCurrentFocusTask()
+  fabTaskTitle.textContent = currentTask || "No active task"
+}
+
+function getCurrentFocusTask() {
+  const dayInfo = getCurrentDayInfo()
+  if (!dayInfo.isValid) return null
+
+  // Get incomplete current week tasks
+  if (WEEKS[dayInfo.weekIndex]) {
+    const incompleteTasks = WEEKS[dayInfo.weekIndex].tasks.filter(
+      (task, taskIndex) => {
+        const key = `${WEEKS[dayInfo.weekIndex].id}_${taskIndex}`
+        return !state.tasks[key]
+      },
+    )
+
+    if (incompleteTasks.length > 0) {
+      return incompleteTasks[0].t
+    }
+  }
+
+  return null
+}
+
+function toggleTimerFromFab() {
+  toggleTimer()
+}
+
+// Enhanced timer display update to include FAB
+const originalUpdateTimerDisplay = updateTimerDisplay
+updateTimerDisplay = function () {
+  originalUpdateTimerDisplay()
+  updateFabContent()
+}
