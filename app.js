@@ -41,6 +41,21 @@ if (!initializeWeeks()) {
   }, 500)
 }
 
+// Also try to render on DOM content loaded in case data is already loaded
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded fired, WEEKS length:", WEEKS.length)
+  if (WEEKS.length > 0) {
+    renderAll()
+  } else {
+    // If WEEKS is empty, try to initialize again
+    setTimeout(() => {
+      if (initializeWeeks()) {
+        console.log("Successfully initialized on DOMContentLoaded retry")
+      }
+    }, 100)
+  }
+})
+
 function getDefaultState() {
   return {
     tasks: {},
@@ -1029,8 +1044,6 @@ function renderAll() {
   renderTimeline()
   initializeStickyFab()
 }
-
-document.addEventListener("DOMContentLoaded", renderAll)
 
 // Sticky Focus FAB functionality
 let lastScrollY = 0

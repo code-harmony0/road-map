@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Week Cards</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .week-card { border: 1px solid #ccc; margin: 10px 0; padding: 10px; }
+        .task-item { margin: 5px 0; padding: 5px; background: #f5f5f5; }
+        .debug { background: #ffeb3b; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Week Cards Debug Test</h1>
+    <div class="debug" id="debugInfo">Loading...</div>
+    <div id="testContainer"></div>
+
+    <script>
+        // Test data loading and rendering
+        fetch('./roadmap.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Roadmap data loaded:', data);
+                document.getElementById('debugInfo').innerHTML = `
+                    Roadmap loaded successfully!<br>
+                    Weeks in roadmap: ${data.roadmap.length}<br>
+                    First week: ${data.roadmap[0].title}<br>
+                    Tasks in first week: ${data.roadmap[0].tasks.length}
+                `;
+                
+                // Test rendering
+                const container = document.getElementById('testContainer');
+                data.roadmap.slice(0, 2).forEach((week, index) => {
+                    const weekDiv = document.createElement('div');
+                    weekDiv.className = 'week-card';
+                    weekDiv.innerHTML = `
+                        <h3>${week.num}: ${week.title}</h3>
+                        <p>${week.subtitle}</p>
+                        <div class="tasks">
+                            ${week.tasks.map(task => `
+                                <div class="task-item">
+                                    <strong>${task.text}</strong><br>
+                                    <small>${task.time} - ${task.why}</small>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(weekDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading roadmap:', error);
+                document.getElementById('debugInfo').innerHTML = `Error: ${error.message}`;
+            });
+    </script>
+</body>
+</html>
