@@ -680,6 +680,9 @@ function renderWeekCards() {
       } else {
         delete state.collapsedWeeks[week.id]
       }
+    } else {
+      // If no start date is set, expand all weeks
+      delete state.collapsedWeeks[week.id]
     }
   })
   ;["month1weeks", "month2weeks", "month3weeks"].forEach((id, mi) => {
@@ -687,6 +690,10 @@ function renderWeekCards() {
     if (!c) return
     c.innerHTML = ""
     WEEKS.filter((w) => w.month === mi + 1).forEach((week) => {
+      console.log(
+        `Rendering week ${week.id}, tasks count:`,
+        week.tasks?.length || 0,
+      )
       const gi = WEEKS.indexOf(week),
         isActive = gi === activeIdx,
         isDone = state.weeksDone[week.id]
@@ -695,6 +702,7 @@ function renderWeekCards() {
 
       const tasks = week.tasks.map((task, ti) => {
         const key = `${week.id}_${ti}`
+        console.log(`Task ${ti}:`, task)
         return {
           ...task,
           key,
