@@ -10,6 +10,11 @@ function get12hr() {
   return `${h}:${String(m).padStart(2, "0")} ${ampm}`
 }
 
+function setText(id, v) {
+  const el = document.getElementById(id)
+  if (el) el.textContent = String(v)
+}
+
 export function createTimer({ store, onSessionComplete, onTick }) {
   let timerInterval = null
   let timerRunning = false
@@ -70,10 +75,18 @@ export function createTimer({ store, onSessionComplete, onTick }) {
     const startBtn = document.getElementById("tmStartBtn")
     if (startBtn) startBtn.textContent = timerRunning ? "Pause" : "Start"
 
+    const dashStartBtn = document.getElementById("dashTimerStartBtn")
+    if (dashStartBtn) dashStartBtn.textContent = timerRunning ? "Pause" : "Start"
+
+    const dashCard = document.getElementById("dashTimerCard")
+    dashCard?.classList.toggle("running", timerRunning)
+
     const timerBtn = document.getElementById("timerBtn")
     const timerDot = document.getElementById("timerDot")
     timerBtn?.classList.toggle("running", timerRunning)
     timerDot?.classList.toggle("pulse", timerRunning)
+
+    document.body.classList.toggle("focus-mode", timerRunning)
   }
 
   function updateTimerDisplay() {
@@ -89,6 +102,8 @@ export function createTimer({ store, onSessionComplete, onTick }) {
     }
     if (timerBtnText) timerBtnText.textContent = str
 
+    setText("dashTimerDisplay", str)
+
     const label = document.getElementById("timerLabel")
     if (label) {
       label.textContent =
@@ -99,12 +114,22 @@ export function createTimer({ store, onSessionComplete, onTick }) {
             : "PAUSED"
     }
 
+    const dashLabel =
+      timerSeconds === WORK_SECONDS
+        ? "FOCUS SESSION"
+        : timerRunning
+          ? "DEEP WORK"
+          : "PAUSED"
+    setText("dashTimerLabel", dashLabel)
+
     updateTimerClock()
   }
 
   function updateTimerClock() {
     const el = document.getElementById("timerClock")
     if (el) el.textContent = get12hr()
+
+    setText("dashTimerClock", get12hr())
   }
 
   function updateSessionDots() {

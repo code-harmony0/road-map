@@ -23,6 +23,11 @@ import {
 import { openNote, closeNote, saveNote } from "./features/notes.js"
 import { createTimer } from "./features/timer.js"
 import { createStickyFab } from "./features/stickyFab.js"
+import {
+  openStandupModal,
+  closeStandupModal,
+  copyStandupToClipboard,
+} from "./features/standup.js"
 
 const WEEKS = convertToWeeksFormat(WEEKS_RAW)
 
@@ -71,6 +76,15 @@ function renderAll() {
   updateWeekInfo(state)
   renderTodayFocus(WEEKS, state)
   renderTimeline(WEEKS, state)
+
+  const dailyNotes = document.getElementById("dailyNotes")
+  if (dailyNotes && document.activeElement !== dailyNotes) {
+    dailyNotes.value = state.dailyNotes || ""
+    dailyNotes.style.height = "auto"
+    dailyNotes.style.height = `${dailyNotes.scrollHeight}px`
+  }
+
+  timer.updateTimerDisplay()
   stickyFab.updateContent()
 }
 
@@ -152,6 +166,11 @@ function toggleCustomTask(weekId, idx) {
   const wasCompleted = existing.done
   store.setState((state) => {
     state.customTasks[weekId][idx].done = !state.customTasks[weekId][idx].done
+    if (state.customTasks[weekId][idx].done) {
+      state.customTasks[weekId][idx].doneAt = new Date().toISOString()
+    } else {
+      delete state.customTasks[weekId][idx].doneAt
+    }
   })
 
   if (!wasCompleted && store.getState().customTasks[weekId][idx].done) {
@@ -228,6 +247,9 @@ function bindUI() {
   document.getElementById("tmStartBtn")?.addEventListener("click", timer.startStop)
   document.getElementById("tmResetBtn")?.addEventListener("click", timer.reset)
 
+  document.getElementById("dashTimerStartBtn")?.addEventListener("click", timer.startStop)
+  document.getElementById("dashTimerResetBtn")?.addEventListener("click", timer.reset)
+
   document.getElementById("noteCancelBtn")?.addEventListener("click", closeNote)
   document.getElementById("noteSaveBtn")?.addEventListener("click", onSaveNote)
   document.getElementById("noteOverlay")?.addEventListener("click", (e) => {
@@ -239,6 +261,16 @@ function bindUI() {
   document.getElementById("backupCloseBtn")?.addEventListener("click", closeBackupModal)
   document.getElementById("backupOverlay")?.addEventListener("click", (e) => {
     if (e.target === e.currentTarget) closeBackupModal()
+  })
+
+  document.getElementById("standupBtn")?.addEventListener("click", () => {
+    openStandupModal(WEEKS, store.getState())
+  })
+  document.getElementById("standupCloseBtn")?.addEventListener("click", closeStandupModal)
+  document.getElementById("standupCloseX")?.addEventListener("click", closeStandupModal)
+  document.getElementById("standupCopyBtn")?.addEventListener("click", copyStandupToClipboard)
+  document.getElementById("standupOverlay")?.addEventListener("click", (e) => {
+    if (e.target === e.currentTarget) closeStandupModal()
   })
 
   const importFile = document.getElementById("importFile")
@@ -254,6 +286,22 @@ function bindUI() {
 
   document.getElementById("startDate")?.addEventListener("change", updateStartDate)
 
+  const dailyNotes = document.getElementById("dailyNotes")
+  if (dailyNotes && !dailyNotes.dataset.bound) {
+    const autosize = () => {
+      dailyNotes.style.height = "auto"
+      dailyNotes.style.height = `${dailyNotes.scrollHeight}px`
+    }
+    dailyNotes.addEventListener("input", () => {
+      autosize()
+      store.setState((state) => {
+        state.dailyNotes = dailyNotes.value
+      })
+    })
+    dailyNotes.dataset.bound = "1"
+    autosize()
+  }
+
   ;["month1weeks", "month2weeks", "month3weeks"].forEach((id) => {
     const el = document.getElementById(id)
     if (!el) return
@@ -261,14 +309,60 @@ function bindUI() {
     el.addEventListener("keydown", onWeeksGridKeydown)
   })
   document.getElementById("todayTasks")?.addEventListener("click", onTodayTasksClick)
+  document.getElementById("todayTasks")?.addEventListener("keydown", onTodayTasksKeydown)
+}
+
+function runWeeksGridAction(el, e) {
+  const action = el.dataset.action
+  if (action === "toggleCollapse") {
+    toggleCollapse(el.dataset.weekId)
+    return true
+  }
+
+  if (action === "toggleTask") {
+    toggleTask(el.dataset.key)
+    return true
+  }
+
+  if (action === "openNote") {
+    const key = el.dataset.key
+    openNote(store.getState(), key, getTaskTextByKey(key), e)
+    return true
+  }
+
+  if (action === "toggleCustomTask") {
+    toggleCustomTask(el.dataset.weekId, Number(el.dataset.index))
+    return true
+  }
+
+  if (action === "deleteCustomTask") {
+    deleteCustomTask(el.dataset.weekId, Number(el.dataset.index))
+    return true
+  }
+
+  return false
 }
 
 function onWeeksGridKeydown(e) {
-  if (e.key !== "Enter") return
-  const input = e.target
-  if (!(input instanceof HTMLInputElement)) return
-  if (input.dataset.action !== "addCustomTask") return
-  addCustomTask(input.dataset.weekId, input)
+  const target = e.target
+  if (target instanceof HTMLInputElement && target.dataset.action === "addCustomTask") {
+    if (e.key !== "Enter") return
+    addCustomTask(target.dataset.weekId, target)
+    return
+  }
+
+  if (e.key !== "Enter" && e.key !== " ") return
+  if (e.target.closest("[data-skip-toggle]")) return
+
+  // Let native controls handle their own keyboard interactions.
+  if (target instanceof HTMLButtonElement) return
+  if (target instanceof HTMLAnchorElement) return
+  if (target instanceof HTMLTextAreaElement) return
+
+  const el = target.closest?.("[data-action]")
+  if (!el) return
+  e.preventDefault()
+  runWeeksGridAction(el, e)
 }
 
 function onWeeksGridClick(e) {
@@ -277,37 +371,24 @@ function onWeeksGridClick(e) {
   const el = e.target.closest("[data-action]")
   if (!el) return
 
-  const action = el.dataset.action
-  if (action === "toggleCollapse") {
-    toggleCollapse(el.dataset.weekId)
-    return
-  }
-
-  if (action === "toggleTask") {
-    toggleTask(el.dataset.key)
-    return
-  }
-
-  if (action === "openNote") {
-    const key = el.dataset.key
-    openNote(store.getState(), key, getTaskTextByKey(key), e)
-    return
-  }
-
-  if (action === "toggleCustomTask") {
-    toggleCustomTask(el.dataset.weekId, Number(el.dataset.index))
-    return
-  }
-
-  if (action === "deleteCustomTask") {
-    deleteCustomTask(el.dataset.weekId, Number(el.dataset.index))
-  }
+  runWeeksGridAction(el, e)
 }
 
 function onTodayTasksClick(e) {
   const el = e.target.closest("[data-action]")
   if (!el) return
   if (el.dataset.action === "toggleTask") toggleTask(el.dataset.key)
+}
+
+function onTodayTasksKeydown(e) {
+  if (e.key !== "Enter" && e.key !== " ") return
+  const target = e.target
+  if (!(target instanceof Element)) return
+  const el = target.closest("[data-action]")
+  if (!el) return
+  if (el.dataset.action !== "toggleTask") return
+  e.preventDefault()
+  toggleTask(el.dataset.key)
 }
 
 function renderWhenReady() {
@@ -340,6 +421,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closeNote()
     closeBackupModal()
+    closeStandupModal()
     timer.closeTimerModal()
   }
   if (

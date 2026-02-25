@@ -13,6 +13,7 @@ export function getDefaultState() {
     sessionsDate: null,
     timerSeconds: WORK_SECONDS,
     notes: {},
+    dailyNotes: "",
     customTasks: {},
     taskDates: {},
     collapsedWeeks: {},

@@ -1,9 +1,18 @@
+function syncModalOpenClass() {
+  const noteOpen = document.getElementById("noteOverlay")?.classList.contains("open")
+  const backupOpen = document.getElementById("backupOverlay")?.classList.contains("open")
+  const standupOpen = document.getElementById("standupOverlay")?.classList.contains("open")
+  document.body.classList.toggle("modal-open", !!(noteOpen || backupOpen || standupOpen))
+}
+
 export function openBackupModal() {
   document.getElementById("backupOverlay")?.classList.add("open")
+  syncModalOpenClass()
 }
 
 export function closeBackupModal() {
   document.getElementById("backupOverlay")?.classList.remove("open")
+  syncModalOpenClass()
 }
 
 export function exportData(state) {

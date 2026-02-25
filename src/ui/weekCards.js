@@ -20,7 +20,7 @@ export function renderWeekCards(weeks, state) {
       const pct = total > 0 ? Math.round((done / total) * 100) : 0
 
       card.innerHTML = `
-        <div class="wc-header" data-action="toggleCollapse" data-week-id="${week.id}">
+        <div class="wc-header" data-action="toggleCollapse" data-week-id="${week.id}" role="button" tabindex="0" aria-label="Toggle ${week.num}: ${week.title}">
           <div class="wc-header-main">
             <div class="wc-weeknum" style="color: var(${week.color})">${week.num}</div>
             <div class="wc-title">${week.title}</div>
@@ -42,10 +42,13 @@ export function renderWeekCards(weeks, state) {
                 const isDone = !!state.tasks[key]
                 const hasNote = !!state.notes[key]
                 return `
-                <div class="task-item ${isDone ? "done" : ""}" data-action="toggleTask" data-key="${key}">
+                <div class="task-item ${isDone ? "done" : ""}" data-action="toggleTask" data-key="${key}" role="button" tabindex="0" aria-label="Toggle task: ${task.t.replace(/"/g, "&quot;")}">
                   <div class="task-check"></div>
                   <div class="task-content">
-                    <div class="task-text">${task.t}</div>
+                    <div class="task-head">
+                      <div class="task-text">${task.t}</div>
+                      ${task.time ? `<div class="task-est">⏱ ${task.time}</div>` : ""}
+                    </div>
                     ${task.why ? `<div class="task-why">${task.why}</div>` : ""}
                     ${
                       task.links?.length
@@ -74,7 +77,7 @@ export function renderWeekCards(weeks, state) {
             ${customTasks
               .map(
                 (t, ti) => `
-              <div class="task-item custom ${t.done ? "done" : ""}" data-action="toggleCustomTask" data-week-id="${week.id}" data-index="${ti}">
+              <div class="task-item custom ${t.done ? "done" : ""}" data-action="toggleCustomTask" data-week-id="${week.id}" data-index="${ti}" role="button" tabindex="0" aria-label="Toggle custom task: ${t.text.replace(/"/g, "&quot;")}">
                 <div class="task-check"></div>
                 <div class="task-text">${t.text}</div>
                 <button class="task-del" data-action="deleteCustomTask" data-week-id="${week.id}" data-index="${ti}">&times;</button>

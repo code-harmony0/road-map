@@ -1,0 +1,200 @@
+/* ===== Modals (Notes / Backup / Standup) ===== */
+
+.note-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 520;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.note-modal-overlay.open {
+  display: flex;
+}
+
+.note-modal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 24px;
+  width: 90%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow: auto;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.2s ease;
+}
+
+.note-modal h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.note-modal .nm-task {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.note-modal textarea {
+  width: 100%;
+  min-height: 140px;
+  height: auto;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 14px;
+  color: #e2e8f0;
+  font-family: "Plus Jakarta Sans", "Inter", system-ui, -apple-system,
+    Segoe UI, Roboto, Arial, sans-serif;
+  outline: none;
+  resize: none;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+.note-modal textarea:focus {
+  border-color: #06b6d4;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+}
+
+.note-modal textarea::placeholder {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.note-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.note-actions button {
+  padding: 7px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: "Plus Jakarta Sans", "Inter", system-ui, -apple-system,
+    Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.note-save {
+  background: #10b981;
+  border: none;
+  color: #022c22;
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.18);
+}
+
+.note-save:hover {
+  background: #10b981;
+  box-shadow: 0 12px 26px rgba(16, 185, 129, 0.3);
+  transform: translateY(-1px);
+}
+
+.note-cancel {
+  background: none;
+  border: none;
+  color: #94a3b8;
+}
+
+.note-cancel:hover {
+  color: #ffffff;
+}
+
+.note-actions button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.22);
+}
+
+.backup-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 520;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.backup-modal-overlay.open {
+  display: flex;
+}
+
+.backup-modal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+}
+
+.backup-modal h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.backup-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.backup-btn {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  font-family: "Plus Jakarta Sans", "Inter", system-ui, -apple-system,
+    Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.backup-btn:hover {
+  border-color: var(--accent);
+}
+
+.backup-btn small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 3px;
+}
+
+.backup-btn.danger {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.backup-btn.danger:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.backup-close {
+  margin-top: 12px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--muted2);
+  font-size: 12px;
+  cursor: pointer;
+}

@@ -33,6 +33,9 @@ export function renderTimeline(weeks, state) {
     node.className = "timeline-node"
     node.setAttribute("data-week", `W${index + 1}`)
     node.setAttribute("title", `Week ${index + 1}`)
+    node.setAttribute("role", "button")
+    node.setAttribute("tabindex", "0")
+    node.setAttribute("aria-label", `Go to week ${index + 1}`)
 
     if (activeIndex < 0) node.classList.add("future")
     else if (index < activeIndex) node.classList.add("completed")
@@ -49,6 +52,12 @@ export function renderTimeline(weeks, state) {
       setTimeout(() => {
         weekCard.style.boxShadow = ""
       }, 1000)
+    })
+
+    node.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return
+      e.preventDefault()
+      node.click()
     })
 
     container.appendChild(node)

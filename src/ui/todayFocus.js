@@ -35,13 +35,22 @@ export function renderTodayFocus(weeks, state) {
     return
   }
 
+  const firstIncompleteIndex = todaysTasks.findIndex((t) => !t.done)
+
   container.innerHTML = todaysTasks
-    .map((task) => {
+    .map((task, idx) => {
       const doneClass = task.done ? "tt-done" : ""
-      const timeInfo = task.time ? `<span class="tt-time">${task.time}</span>` : ""
+      const stateClass =
+        task.done
+          ? "tt-done"
+          : idx === firstIncompleteIndex
+            ? "tt-current"
+            : "tt-backlog"
+
+      const timeInfo = task.time ? `<span class="tt-pill">⏱ ${task.time}</span>` : ""
 
       return `
-        <div class="today-task ${doneClass} tt-current" data-action="toggleTask" data-key="${task.key}">
+        <div class="today-task ${doneClass} ${stateClass}" data-action="toggleTask" data-key="${task.key}" role="button" tabindex="0" aria-label="Toggle task: ${task.text.replace(/"/g, "&quot;")}">
           <div class="tt-left">
             <span class="tt-week">W${task.activeWeek} · D${task.activeDay}</span>
             <div class="tt-content">

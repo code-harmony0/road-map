@@ -1,5 +1,12 @@
 let currentNoteKey = null
 
+function syncModalOpenClass() {
+  const noteOpen = document.getElementById("noteOverlay")?.classList.contains("open")
+  const backupOpen = document.getElementById("backupOverlay")?.classList.contains("open")
+  const standupOpen = document.getElementById("standupOverlay")?.classList.contains("open")
+  document.body.classList.toggle("modal-open", !!(noteOpen || backupOpen || standupOpen))
+}
+
 function autosizeTextarea(el) {
   if (!el) return
   el.style.height = "auto"
@@ -21,6 +28,7 @@ export function openNote(state, key, taskText, e) {
     autosizeTextarea(noteText)
   }
   document.getElementById("noteOverlay")?.classList.add("open")
+  syncModalOpenClass()
   setTimeout(() => {
     document.getElementById("noteText")?.focus()
     autosizeTextarea(document.getElementById("noteText"))
@@ -29,6 +37,7 @@ export function openNote(state, key, taskText, e) {
 
 export function closeNote() {
   document.getElementById("noteOverlay")?.classList.remove("open")
+  syncModalOpenClass()
   currentNoteKey = null
 }
 
