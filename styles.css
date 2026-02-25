@@ -1387,6 +1387,8 @@ p {
   padding: 24px;
   width: 90%;
   max-width: 480px;
+  max-height: 80vh;
+  overflow: auto;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
   animation: slideUp 0.2s ease;
 }
@@ -1404,24 +1406,27 @@ p {
 }
 .note-modal textarea {
   width: 100%;
-  height: 140px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px;
-  font-size: 13px;
-  color: var(--text);
+  min-height: 140px;
+  height: auto;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 14px;
+  color: #e2e8f0;
   font-family: "Plus Jakarta Sans", "Inter", system-ui, -apple-system,
     Segoe UI, Roboto, Arial, sans-serif;
   outline: none;
-  resize: vertical;
-  line-height: 1.6;
+  resize: none;
+  line-height: 1.5;
+  overflow: hidden;
 }
 .note-modal textarea:focus {
-  border-color: var(--accent);
+  border-color: #06b6d4;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
 }
 .note-modal textarea::placeholder {
-  color: var(--muted);
+  color: rgba(148, 163, 184, 0.7);
 }
 .note-actions {
   display: flex;
@@ -1440,17 +1445,28 @@ p {
     Segoe UI, Roboto, Arial, sans-serif;
 }
 .note-save {
-  background: var(--accent);
+  background: #10b981;
   border: none;
-  color: #fff;
+  color: #022c22;
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.18);
 }
 .note-save:hover {
-  background: #2563eb;
+  background: #10b981;
+  box-shadow: 0 12px 26px rgba(16, 185, 129, 0.3);
+  transform: translateY(-1px);
 }
 .note-cancel {
   background: none;
-  border: 1px solid var(--border);
-  color: var(--muted2);
+  border: none;
+  color: #94a3b8;
+}
+.note-cancel:hover {
+  color: #ffffff;
+}
+
+.note-actions button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.22);
 }
 
 .backup-modal-overlay {
