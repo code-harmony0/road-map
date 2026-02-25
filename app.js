@@ -20,41 +20,9 @@ function convertToWeeksFormat(roadmap) {
   }))
 }
 
-// Initialize WEEKS when data is available
-function initializeWeeks() {
-  if (ROADMAP_DATA.roadmap && ROADMAP_DATA.roadmap.length > 0) {
-    WEEKS = convertToWeeksFormat(ROADMAP_DATA.roadmap)
-    console.log("WEEKS initialized:", WEEKS.length, "weeks")
-    renderAll() // Render after data is loaded
-    return true
-  }
-  return false
-}
-
-// Try to initialize now
-if (!initializeWeeks()) {
-  // If not available, wait for it
-  setTimeout(() => {
-    if (!initializeWeeks()) {
-      console.error("Failed to load roadmap data after waiting")
-    }
-  }, 500)
-}
-
-// Also try to render on DOM content loaded in case data is already loaded
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded fired, WEEKS length:", WEEKS.length)
-  if (WEEKS.length > 0) {
-    renderAll()
-  } else {
-    // If WEEKS is empty, try to initialize again
-    setTimeout(() => {
-      if (initializeWeeks()) {
-        console.log("Successfully initialized on DOMContentLoaded retry")
-      }
-    }, 100)
-  }
-})
+// Initialize WEEKS when script loads
+WEEKS = convertToWeeksFormat(ROADMAP_DATA.roadmap || [])
+console.log("WEEKS initialized on script load:", WEEKS.length)
 
 function getDefaultState() {
   return {
@@ -1044,6 +1012,9 @@ function renderAll() {
   renderTimeline()
   initializeStickyFab()
 }
+
+// Render when DOM is ready
+document.addEventListener("DOMContentLoaded", renderAll)
 
 // Sticky Focus FAB functionality
 let lastScrollY = 0
