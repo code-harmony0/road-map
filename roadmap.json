@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "title": "React Native to Senior Engineer - 12 Week Roadmap",
+    "description": "An interactive roadmap for React Native developers to become Senior Mobile Systems Engineers",
+    "version": "1.0.0",
+    "lastUpdated": "2026-02-25"
+  },
+  "settings": {
+    "defaultTimeEstimate": "6 hours",
+    "maxTasksPerWeek": 8,
+    "weekColors": ["--w1", "--w2", "--w3", "--w4", "--w5", "--w6", "--w7", "--w8", "--w9", "--w10", "--w11", "--w12"]
+  },
+  "roadmap": [
+    {
+      "id": "w1",
+      "num": "WEEK 01",
+      "color": "--w1",
+      "month": 1,
+      "title": "PostgreSQL: From Documents to Relations",
+      "subtitle": "Why MongoDB habits hurt you at scale",
+      "goal": "Ace \"design a database schema\" interview question",
+      "interviewQuestion": "Design a schema for Uber (drivers, riders, trips, payments)",
+      "timeEstimate": "6 hours",
+      "deliverable": "GitHub repo: nestjs-postgresql-starter with User/Post CRUD, JWT auth, deployed to Railway",
+      "mistakes": [
+        "Installing PostgreSQL but not configuring authentication properly",
+        "Skipping EXPLAIN ANALYZE - you cannot optimize what you cannot measure",
+        "Using an ORM before understanding raw SQL"
+      ],
+      "tasks": [
+        {
+          "id": "w1_t1",
+          "text": "Install PostgreSQL 15+ and pgAdmin (visual GUI, similar to MongoDB Compass)",
+          "time": "30 min",
+          "why": "You need local database for experimentation and learning",
+          "links": [
+            {"url": "https://github.com/dwyl/learn-postgresql", "tag": "learn-postgresql", "type": "repo"},
+            {"url": "https://www.postgresql.org/download/", "tag": "official download", "type": "docs"}
+          ]
+        },
+        {
+          "id": "w1_t2",
+          "text": "Understand tables, columns, data types versus MongoDB documents",
+          "time": "45 min",
+          "why": "Relational thinking is fundamentally different from document thinking",
+          "links": [
+            {"url": "https://www.mongodb.com/compare/sql-vs-nosql", "tag": "SQL vs NoSQL", "type": "blog"},
+            {"url": "https://github.com/FerretDB/FerretDB", "tag": "FerretDB (Mongo on PostgreSQL)", "type": "repo"}
+          ]
+        },
+        {
+          "id": "w1_t3",
+          "text": "Practice SELECT, INSERT, UPDATE, DELETE until you can write them without looking",
+          "time": "1 hour",
+          "why": "These are 80% of your daily queries - muscle memory matters",
+          "links": [
+            {"url": "https://sqlbolt.com/", "tag": "SQLBolt (interactive)", "type": "interactive"},
+            {"url": "https://www.postgresqltutorial.com/postgresql-sql-syntax/", "tag": "PostgreSQL tutorial", "type": "docs"}
+          ]
+        },
+        {
+          "id": "w1_t4",
+          "text": "Master JOINs: understand what foreign keys actually mean",
+          "time": "1 hour",
+          "why": "JOINs are where relational databases shine - this is power tool",
+          "links": [
+            {"url": "https://sql-joins.leozhu.me/", "tag": "Visual SQL Joins", "type": "interactive"},
+            {"url": "https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-joins/", "tag": "PostgreSQL joins guide", "type": "docs"}
+          ]
+        },
+        {
+          "id": "w1_t5",
+          "text": "Learn normalization: 3NF and when to intentionally denormalize for performance",
+          "time": "45 min",
+          "why": "Normalization prevents data anomalies; denormalization speeds up reads",
+          "links": [
+            {"url": "https://www.guru99.com/database-normalization.html", "tag": "Normalization guide", "type": "blog"},
+            {"url": "https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-data-types/", "tag": "PostgreSQL data types", "type": "docs"}
+          ]
+        },
+        {
+          "id": "w1_t6",
+          "text": "Window functions: ROW_NUMBER, RANK, LEAD, LAG - SQL power tools",
+          "time": "1 hour",
+          "why": "Window functions solve problems that are painful in application code",
+          "links": [
+            {"url": "https://www.postgresqltutorial.com/postgresql-window-function/", "tag": "PostgreSQL window functions", "type": "docs"},
+            {"url": "https://sqlbolt.com/lesson/select_queries_with_expressions", "tag": "SQLBolt practice", "type": "interactive"}
+          ]
+        },
+        {
+          "id": "w1_t7",
+          "text": "Connect PostgreSQL to NestJS with Prisma - your first integration",
+          "time": "1 hour",
+          "why": "Prisma is modern standard for TypeScript database access",
+          "links": [
+            {"url": "https://github.com/notiz-dev/nestjs-prisma-starter", "tag": "NestJS+Prisma starter", "type": "repo"},
+            {"url": "https://docs.nestjs.com/recipes/prisma", "tag": "official recipe", "type": "docs"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "w2",
+      "num": "WEEK 02",
+      "color": "--w2",
+      "month": 1,
+      "title": "Advanced SQL & Database Architecture",
+      "subtitle": "Beyond basic queries - think like a DBA",
+      "goal": "Optimize slow queries and design scalable schemas",
+      "interviewQuestion": "How would you optimize a database with 100M users?",
+      "timeEstimate": "6 hours",
+      "deliverable": "Optimized database schema with indexes, migrations, and performance tests",
+      "mistakes": [
+        "Not using indexes properly - most common performance killer",
+        "Ignoring query execution plans",
+        "Over-normalizing - sometimes simpler is faster"
+      ],
+      "tasks": [
+        {
+          "id": "w2_t1",
+          "text": "Master indexes: B-tree, hash, GIN, and when to use each",
+          "time": "1 hour",
+          "why": "Indexes are the single biggest performance lever in databases",
+          "links": [
+            {"url": "https://www.postgresqltutorial.com/postgresql-indexes/", "tag": "PostgreSQL indexes guide", "type": "docs"},
+            {"url": "https://use-the-index-luke.com/", "tag": "Use The Index, Luke!", "type": "blog"}
+          ]
+        },
+        {
+          "id": "w2_t2",
+          "text": "EXPLAIN ANALYZE: Read query plans like a senior engineer",
+          "time": "1 hour",
+          "why": "You cannot optimize what you cannot measure",
+          "links": [
+            {"url": "https://www.postgresql.org/docs/current/using-explain.html", "tag": "EXPLAIN docs", "type": "docs"},
+            {"url": "https://www.cybertec-postgresql.com/en/explain-analyze/", "tag": "EXPLAIN ANALYZE tutorial", "type": "blog"}
+          ]
+        },
+        {
+          "id": "w2_t3",
+          "text": "Database migrations: Version control your schema changes",
+          "time": "45 min",
+          "why": "Production databases evolve - migrations keep them consistent",
+          "links": [
+            {"url": "https://www.prisma.io/docs/concepts/components/prisma-migrate", "tag": "Prisma migrations", "type": "docs"},
+            {"url": "https://github.com/salsita/node-pg-migrate", "tag": "node-pg-migrate", "type": "repo"}
+          ]
+        },
+        {
+          "id": "w2_t4",
+          "text": "Connection pooling: PgBouncer and why you need it",
+          "time": "30 min",
+          "why": "Every production app needs connection pooling",
+          "links": [
+            {"url": "https://www.pgbouncer.org/", "tag": "PgBouncer docs", "type": "docs"},
+            {"url": "https://github.com/brianc/node-postgres#connection-pooling", "tag": "node-postgres pooling", "type": "docs"}
+          ]
+        },
+        {
+          "id": "w2_t5",
+          "text": "Transactions: ACID properties and isolation levels",
+          "time": "1 hour",
+          "why": "Understand data consistency at the database level",
+          "links": [
+            {"url": "https://www.postgresql.org/docs/current/transaction-iso.html", "tag": "Transaction isolation", "type": "docs"},
+            {"url": "https://github.com/vercel/next.js/tree/canary/examples/with-postgresql", "tag": "Next.js + PostgreSQL", "type": "repo"}
+          ]
+        },
+        {
+          "id": "w2_t6",
+          "text": "Build a REST API with NestJS + PostgreSQL from scratch",
+          "time": "2 hours",
+          "why": "Apply all concepts in a real project",
+          "links": [
+            {"url": "https://docs.nestjs.com/controllers", "tag": "NestJS controllers", "type": "docs"},
+            {"url": "https://github.com/nestjs/nest/tree/master/sample/01-rest-cats", "tag": "NestJS sample", "type": "repo"}
+          ]
+        }
+      ]
+    }
+  ]
+}

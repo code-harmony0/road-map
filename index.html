@@ -51,7 +51,13 @@
       <div class="timer-clock" id="timerClock"></div>
       <div class="timer-label" id="timerLabel">FOCUS SESSION</div>
       <div class="timer-controls">
-        <button class="tm-btn primary" id="tmStartBtn" onclick="startStopTimer()">Start</button>
+        <button
+          class="tm-btn primary"
+          id="tmStartBtn"
+          onclick="startStopTimer()"
+        >
+          Start
+        </button>
         <button class="tm-btn" onclick="resetTimer()">Reset</button>
       </div>
       <div class="sessions-today">
@@ -65,11 +71,18 @@
       </div>
     </div>
 
-    <div class="note-modal-overlay" id="noteOverlay" onclick="if (event.target === this) closeNote()">
+    <div
+      class="note-modal-overlay"
+      id="noteOverlay"
+      onclick="if (event.target === this) closeNote()"
+    >
       <div class="note-modal">
         <h3 id="noteTitle">Notes</h3>
         <div class="nm-task" id="noteTask"></div>
-        <textarea id="noteText" placeholder="What did you learn? What was tricky? Key takeaways..."></textarea>
+        <textarea
+          id="noteText"
+          placeholder="What did you learn? What was tricky? Key takeaways..."
+        ></textarea>
         <div class="note-actions">
           <button class="note-cancel" onclick="closeNote()">Cancel</button>
           <button class="note-save" onclick="saveNote()">Save</button>
@@ -77,38 +90,69 @@
       </div>
     </div>
 
-    <div class="backup-modal-overlay" id="backupOverlay" onclick="if (event.target === this) closeBackupModal()">
+    <div
+      class="backup-modal-overlay"
+      id="backupOverlay"
+      onclick="if (event.target === this) closeBackupModal()"
+    >
       <div class="backup-modal">
         <h3>Data Backup</h3>
         <div class="backup-btns">
           <button class="backup-btn" onclick="exportData()">
-            Export as JSON<small>Download your complete progress as a file</small>
+            Export as JSON<small
+              >Download your complete progress as a file</small
+            >
           </button>
-          <button class="backup-btn" onclick="document.getElementById('importFile').click()">
+          <button
+            class="backup-btn"
+            onclick="document.getElementById('importFile').click()"
+          >
             Import from JSON<small>Restore progress from a backup file</small>
           </button>
           <button class="backup-btn" onclick="copyDataToClipboard()">
-            Copy to clipboard<small>Quick copy - paste into a note app as backup</small>
+            Copy to clipboard<small
+              >Quick copy - paste into a note app as backup</small
+            >
           </button>
-          <button class="backup-btn danger" onclick="confirmReset(); closeBackupModal();">
+          <button
+            class="backup-btn danger"
+            onclick="
+              confirmReset()
+              closeBackupModal()
+            "
+          >
             Reset all progress<small>Permanently delete all data</small>
           </button>
         </div>
-        <input type="file" id="importFile" accept=".json" style="display: none" onchange="importData(event)" />
+        <input
+          type="file"
+          id="importFile"
+          accept=".json"
+          style="display: none"
+          onchange="importData(event)"
+        />
         <button class="backup-close" onclick="closeBackupModal()">Close</button>
       </div>
     </div>
 
     <div class="main">
       <div class="hero">
-        <div class="hero-tag">12 weeks &middot; 2 hrs/day &middot; React Native to Senior Engineer</div>
-        <h1>React Native &rarr;<br /><em>Senior Mobile Systems Engineer</em></h1>
-        <div class="hero-sub">PostgreSQL &middot; AI Integration &middot; AWS &middot; System Design</div>
+        <div class="hero-tag">
+          12 weeks &middot; 2 hrs/day &middot; React Native to Senior Engineer
+        </div>
+        <h1>
+          React Native &rarr;<br /><em>Senior Mobile Systems Engineer</em>
+        </h1>
+        <div class="hero-sub">
+          PostgreSQL &middot; AI Integration &middot; AWS &middot; System Design
+        </div>
       </div>
 
       <div class="stats-row">
         <div class="stat-card">
-          <div class="stat-num" id="stat-done" style="color: var(--green)">0</div>
+          <div class="stat-num" id="stat-done" style="color: var(--green)">
+            0
+          </div>
           <div class="stat-label">tasks done</div>
         </div>
         <div class="stat-card">
@@ -116,11 +160,15 @@
           <div class="stat-label">total tasks</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num" id="stat-streak" style="color: var(--amber)">0</div>
+          <div class="stat-num" id="stat-streak" style="color: var(--amber)">
+            0
+          </div>
           <div class="stat-label">day streak</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num" id="stat-sessions" style="color: var(--green)">0</div>
+          <div class="stat-num" id="stat-sessions" style="color: var(--green)">
+            0
+          </div>
           <div class="stat-label">focus sessions</div>
         </div>
       </div>
@@ -136,7 +184,9 @@
       <div class="start-section">
         <label for="startDate">Start date:</label>
         <input type="date" id="startDate" onchange="updateStartDate()" />
-        <div class="current-week-info" id="currentWeekInfo">Set your start date to track active week</div>
+        <div class="current-week-info" id="currentWeekInfo">
+          Set your start date to track active week
+        </div>
       </div>
 
       <div class="honest-note">
@@ -152,7 +202,9 @@
       <div class="month-divider">
         <span class="md-tag">Month 01</span>
         <div class="md-line"></div>
-        <span class="md-title" style="color: var(--w1)">Backend &amp; Database Foundation</span>
+        <span class="md-title" style="color: var(--w1)"
+          >Backend &amp; Database Foundation</span
+        >
         <div class="md-line"></div>
         <span class="md-pct" id="month1pct">0%</span>
       </div>
@@ -161,7 +213,9 @@
       <div class="month-divider">
         <span class="md-tag">Month 02</span>
         <div class="md-line"></div>
-        <span class="md-title" style="color: var(--w5)">Cloud &amp; Systems Thinking</span>
+        <span class="md-title" style="color: var(--w5)"
+          >Cloud &amp; Systems Thinking</span
+        >
         <div class="md-line"></div>
         <span class="md-pct" id="month2pct">0%</span>
       </div>
@@ -170,7 +224,9 @@
       <div class="month-divider">
         <span class="md-tag">Month 03</span>
         <div class="md-line"></div>
-        <span class="md-title" style="color: var(--w9)">Interview Prep &amp; Career Growth</span>
+        <span class="md-title" style="color: var(--w9)"
+          >Interview Prep &amp; Career Growth</span
+        >
         <div class="md-line"></div>
         <span class="md-pct" id="month3pct">0%</span>
       </div>
@@ -179,55 +235,105 @@
       <div class="final-deliverables">
         <h3>Week 12 Final Deliverables - Your Senior Engineer Portfolio</h3>
         <div class="deliverable-list">
-          <div class="deliverable-item"><div class="deliverable-check"></div>GitHub Repository: nestjs-postgresql-api (public, with README)</div>
-          <div class="deliverable-item"><div class="deliverable-check"></div>GitHub Repository: ai-chat-react-native (OpenAI integration demo)</div>
-          <div class="deliverable-item"><div class="deliverable-check"></div>AWS Architecture Diagram (Excalidraw or Lucidchart)</div>
-          <div class="deliverable-item"><div class="deliverable-check"></div>Technical Blog Post: "Migrating from MongoDB to PostgreSQL"</div>
-          <div class="deliverable-item"><div class="deliverable-check"></div>LinkedIn Article: "12 Weeks from React Native to Senior Engineer"</div>
-          <div class="deliverable-item"><div class="deliverable-check"></div>Updated Resume with PostgreSQL, AI Integration, AWS skills</div>
-          <div class="deliverable-item"><div class="deliverable-check"></div>AWS Cloud Practitioner Certification (or scheduled)</div>
-          <div class="deliverable-item"><div class="deliverable-check"></div>3 Completed Mock Interviews (system design + behavioral)</div>
+          <div class="deliverable-item">
+            <div class="deliverable-check"></div>
+            GitHub Repository: nestjs-postgresql-api (public, with README)
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-check"></div>
+            GitHub Repository: ai-chat-react-native (OpenAI integration demo)
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-check"></div>
+            AWS Architecture Diagram (Excalidraw or Lucidchart)
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-check"></div>
+            Technical Blog Post: "Migrating from MongoDB to PostgreSQL"
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-check"></div>
+            LinkedIn Article: "12 Weeks from React Native to Senior Engineer"
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-check"></div>
+            Updated Resume with PostgreSQL, AI Integration, AWS skills
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-check"></div>
+            AWS Cloud Practitioner Certification (or scheduled)
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-check"></div>
+            3 Completed Mock Interviews (system design + behavioral)
+          </div>
         </div>
       </div>
 
       <div class="daily-section">
-        <div class="section-title">Daily Schedule (Realistic While Working)</div>
+        <div class="section-title">
+          Daily Schedule (Realistic While Working)
+        </div>
         <div class="rhythm-grid">
           <div class="rhythm-card">
             <div class="rhythm-time">6:00 - 7:00 AM</div>
             <div class="rhythm-act">Deep Work</div>
-            <div class="rhythm-desc">Hands-on coding. Build, don't watch. If you cannot build it from scratch, you do not know it yet.</div>
+            <div class="rhythm-desc">
+              Hands-on coding. Build, don't watch. If you cannot build it from
+              scratch, you do not know it yet.
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">Commute</div>
             <div class="rhythm-act">Podcasts &amp; Audio</div>
-            <div class="rhythm-desc">Backend Engineering Show, System Design Podcast, AWS Podcast. Passive learning while traveling.</div>
+            <div class="rhythm-desc">
+              Backend Engineering Show, System Design Podcast, AWS Podcast.
+              Passive learning while traveling.
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">Lunch Break</div>
             <div class="rhythm-act">One SQL Problem</div>
-            <div class="rhythm-desc">LeetCode Database or HackerRank SQL. 15-20 minutes. Builds pattern recognition over time.</div>
+            <div class="rhythm-desc">
+              LeetCode Database or HackerRank SQL. 15-20 minutes. Builds pattern
+              recognition over time.
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">Evening 30 min</div>
             <div class="rhythm-act">Review &amp; Document</div>
-            <div class="rhythm-desc">Review what you built. Write notes in your own words. Update progress on this roadmap.</div>
+            <div class="rhythm-desc">
+              Review what you built. Write notes in your own words. Update
+              progress on this roadmap.
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">Saturday 4 hrs</div>
             <div class="rhythm-act">Build &amp; Ship</div>
-            <div class="rhythm-desc">Combine the week's skills into one deliverable. Write README explaining your architecture decisions.</div>
+            <div class="rhythm-desc">
+              Combine the week's skills into one deliverable. Write README
+              explaining your architecture decisions.
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">Sunday 2 hrs</div>
             <div class="rhythm-act">Plan &amp; Mock Interview</div>
-            <div class="rhythm-desc">Plan next week. Do one system design question on paper/whiteboard. Review past notes.</div>
+            <div class="rhythm-desc">
+              Plan next week. Do one system design question on paper/whiteboard.
+              Review past notes.
+            </div>
           </div>
         </div>
         <div class="rule-card" style="margin-top: 12px">
           <div>
             <h4>The One Rule That Makes This Work</h4>
-            <p>Every concept you study &mdash; write <strong>one working example</strong> from scratch immediately after. Not a tutorial copy. Your own code, your own tiny version. That 20 minutes of struggling is worth more than 3 hours of watching videos.</p>
+            <p>
+              Every concept you study &mdash; write
+              <strong>one working example</strong> from scratch immediately
+              after. Not a tutorial copy. Your own code, your own tiny version.
+              That 20 minutes of struggling is worth more than 3 hours of
+              watching videos.
+            </p>
           </div>
         </div>
       </div>
@@ -238,32 +344,50 @@
           <div class="rhythm-card">
             <div class="rhythm-time">Cursor AI</div>
             <div class="rhythm-act">Code with AI Pair</div>
-            <div class="rhythm-desc">Build projects faster. Ask it to explain errors. Generate boilerplate. Review your code for issues.</div>
+            <div class="rhythm-desc">
+              Build projects faster. Ask it to explain errors. Generate
+              boilerplate. Review your code for issues.
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">Claude / ChatGPT</div>
             <div class="rhythm-act">Active Learning</div>
-            <div class="rhythm-desc">"Explain database indexing like I am five." "Ask me a system design question, then critique my answer."</div>
+            <div class="rhythm-desc">
+              "Explain database indexing like I am five." "Ask me a system
+              design question, then critique my answer."
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">Excalidraw</div>
             <div class="rhythm-act">Visual Thinking</div>
-            <div class="rhythm-desc">Draw every system design. Whiteboard practice. Export as portfolio pieces. Visual thinking equals better interviews.</div>
+            <div class="rhythm-desc">
+              Draw every system design. Whiteboard practice. Export as portfolio
+              pieces. Visual thinking equals better interviews.
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">Anki</div>
             <div class="rhythm-act">Spaced Repetition</div>
-            <div class="rhythm-desc">SQL commands, AWS services, system design patterns. 10 minutes per day maximum. Long-term retention.</div>
+            <div class="rhythm-desc">
+              SQL commands, AWS services, system design patterns. 10 minutes per
+              day maximum. Long-term retention.
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">LeetCode / HackerRank</div>
             <div class="rhythm-act">Daily Practice</div>
-            <div class="rhythm-desc">Focus on SQL problems and system design, not DSA grind. One problem per day during lunch.</div>
+            <div class="rhythm-desc">
+              Focus on SQL problems and system design, not DSA grind. One
+              problem per day during lunch.
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">Gemini CLI</div>
             <div class="rhythm-act">Code Review</div>
-            <div class="rhythm-desc">Analyze entire codebase for issues. "Review my authentication implementation for security gaps."</div>
+            <div class="rhythm-desc">
+              Analyze entire codebase for issues. "Review my authentication
+              implementation for security gaps."
+            </div>
           </div>
         </div>
       </div>
@@ -274,17 +398,50 @@
           <div class="resource-card">
             <div class="resource-week">Backend &amp; Architecture</div>
             <div class="resource-links">
-              <a class="resource-link" href="https://www.youtube.com/c/BackendEngineeringShow" target="_blank"><span class="rl-arrow">&rarr;</span> Backend Engineering Show (Hussein Nasser)</a>
-              <a class="resource-link" href="https://www.youtube.com/c/SystemDesignInterview" target="_blank"><span class="rl-arrow">&rarr;</span> System Design Interview (Alex Xu)</a>
-              <a class="resource-link" href="https://changelog.com/podcast" target="_blank"><span class="rl-arrow">&rarr;</span> The Changelog</a>
+              <a
+                class="resource-link"
+                href="https://www.youtube.com/c/BackendEngineeringShow"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> Backend Engineering Show
+                (Hussein Nasser)</a
+              >
+              <a
+                class="resource-link"
+                href="https://www.youtube.com/c/SystemDesignInterview"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> System Design Interview
+                (Alex Xu)</a
+              >
+              <a
+                class="resource-link"
+                href="https://changelog.com/podcast"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> The Changelog</a
+              >
             </div>
           </div>
           <div class="resource-card">
             <div class="resource-week">Cloud &amp; DevOps</div>
             <div class="resource-links">
-              <a class="resource-link" href="https://aws.amazon.com/podcasts/" target="_blank"><span class="rl-arrow">&rarr;</span> AWS Podcast (Official)</a>
-              <a class="resource-link" href="https://www.youtube.com/@ByteByteGo" target="_blank"><span class="rl-arrow">&rarr;</span> ByteByteGo (YouTube)</a>
-              <a class="resource-link" href="https://softwareengineeringdaily.com/" target="_blank"><span class="rl-arrow">&rarr;</span> Software Engineering Daily</a>
+              <a
+                class="resource-link"
+                href="https://aws.amazon.com/podcasts/"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> AWS Podcast (Official)</a
+              >
+              <a
+                class="resource-link"
+                href="https://www.youtube.com/@ByteByteGo"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> ByteByteGo (YouTube)</a
+              >
+              <a
+                class="resource-link"
+                href="https://softwareengineeringdaily.com/"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> Software Engineering
+                Daily</a
+              >
             </div>
           </div>
         </div>
@@ -294,35 +451,101 @@
         <div class="section-title">Key Resources by Week</div>
         <div class="resources-grid">
           <div class="resource-card">
-            <div class="resource-week">WEEK 1-2 &middot; PostgreSQL + NestJS</div>
+            <div class="resource-week">
+              WEEK 1-2 &middot; PostgreSQL + NestJS
+            </div>
             <div class="resource-links">
-              <a class="resource-link" href="https://www.postgresqltutorial.com" target="_blank"><span class="rl-arrow">&rarr;</span> postgresqltutorial.com</a>
-              <a class="resource-link" href="https://www.prisma.io/docs" target="_blank"><span class="rl-arrow">&rarr;</span> prisma.io/docs</a>
-              <a class="resource-link" href="https://use-the-index-luke.com" target="_blank"><span class="rl-arrow">&rarr;</span> use-the-index-luke.com</a>
+              <a
+                class="resource-link"
+                href="https://www.postgresqltutorial.com"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> postgresqltutorial.com</a
+              >
+              <a
+                class="resource-link"
+                href="https://www.prisma.io/docs"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> prisma.io/docs</a
+              >
+              <a
+                class="resource-link"
+                href="https://use-the-index-luke.com"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> use-the-index-luke.com</a
+              >
             </div>
           </div>
           <div class="resource-card">
             <div class="resource-week">WEEK 3-4 &middot; AI Integration</div>
             <div class="resource-links">
-              <a class="resource-link" href="https://platform.openai.com/docs" target="_blank"><span class="rl-arrow">&rarr;</span> OpenAI API Documentation</a>
-              <a class="resource-link" href="https://js.langchain.com/docs" target="_blank"><span class="rl-arrow">&rarr;</span> LangChain JavaScript</a>
-              <a class="resource-link" href="https://github.com/pgvector/pgvector" target="_blank"><span class="rl-arrow">&rarr;</span> pgvector (PostgreSQL Extension)</a>
+              <a
+                class="resource-link"
+                href="https://platform.openai.com/docs"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> OpenAI API
+                Documentation</a
+              >
+              <a
+                class="resource-link"
+                href="https://js.langchain.com/docs"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> LangChain JavaScript</a
+              >
+              <a
+                class="resource-link"
+                href="https://github.com/pgvector/pgvector"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> pgvector (PostgreSQL
+                Extension)</a
+              >
             </div>
           </div>
           <div class="resource-card">
             <div class="resource-week">WEEK 5-6 &middot; AWS Cloud</div>
             <div class="resource-links">
-              <a class="resource-link" href="https://aws.amazon.com/free" target="_blank"><span class="rl-arrow">&rarr;</span> AWS Free Tier</a>
-              <a class="resource-link" href="https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials" target="_blank"><span class="rl-arrow">&rarr;</span> Cloud Practitioner Essentials (Free)</a>
-              <a class="resource-link" href="https://acloudguru.com" target="_blank"><span class="rl-arrow">&rarr;</span> A Cloud Guru</a>
+              <a
+                class="resource-link"
+                href="https://aws.amazon.com/free"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> AWS Free Tier</a
+              >
+              <a
+                class="resource-link"
+                href="https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> Cloud Practitioner
+                Essentials (Free)</a
+              >
+              <a
+                class="resource-link"
+                href="https://acloudguru.com"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> A Cloud Guru</a
+              >
             </div>
           </div>
           <div class="resource-card">
             <div class="resource-week">WEEK 7-8 &middot; System Design</div>
             <div class="resource-links">
-              <a class="resource-link" href="https://github.com/donnemartin/system-design-primer" target="_blank"><span class="rl-arrow">&rarr;</span> System Design Primer (GitHub)</a>
-              <a class="resource-link" href="https://bytebytego.com" target="_blank"><span class="rl-arrow">&rarr;</span> ByteByteGo</a>
-              <a class="resource-link" href="https://excalidraw.com" target="_blank"><span class="rl-arrow">&rarr;</span> Excalidraw (Whiteboard)</a>
+              <a
+                class="resource-link"
+                href="https://github.com/donnemartin/system-design-primer"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> System Design Primer
+                (GitHub)</a
+              >
+              <a
+                class="resource-link"
+                href="https://bytebytego.com"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> ByteByteGo</a
+              >
+              <a
+                class="resource-link"
+                href="https://excalidraw.com"
+                target="_blank"
+                ><span class="rl-arrow">&rarr;</span> Excalidraw (Whiteboard)</a
+              >
             </div>
           </div>
         </div>
@@ -333,27 +556,45 @@
         <div class="outcome-grid">
           <div class="outcome-card">
             <div class="outcome-num">SQL</div>
-            <div class="outcome-label">Design and query relational databases with window functions, CTEs, and indexing strategies</div>
+            <div class="outcome-label">
+              Design and query relational databases with window functions, CTEs,
+              and indexing strategies
+            </div>
           </div>
           <div class="outcome-card">
             <div class="outcome-num">AI</div>
-            <div class="outcome-label">Integrate LLMs, streaming responses, RAG, embeddings, and function calling</div>
+            <div class="outcome-label">
+              Integrate LLMs, streaming responses, RAG, embeddings, and function
+              calling
+            </div>
           </div>
           <div class="outcome-card">
             <div class="outcome-num">AWS</div>
-            <div class="outcome-label">Deploy full-stack applications to cloud infrastructure with AWS Cloud Practitioner certification</div>
+            <div class="outcome-label">
+              Deploy full-stack applications to cloud infrastructure with AWS
+              Cloud Practitioner certification
+            </div>
           </div>
           <div class="outcome-card">
             <div class="outcome-num">SD</div>
-            <div class="outcome-label">Whiteboard system design for WhatsApp, Uber, and payment systems confidently</div>
+            <div class="outcome-label">
+              Whiteboard system design for WhatsApp, Uber, and payment systems
+              confidently
+            </div>
           </div>
           <div class="outcome-card">
             <div class="outcome-num">DevOps</div>
-            <div class="outcome-label">Docker containerization, GitHub Actions CI/CD, and infrastructure as code with Terraform</div>
+            <div class="outcome-label">
+              Docker containerization, GitHub Actions CI/CD, and infrastructure
+              as code with Terraform
+            </div>
           </div>
           <div class="outcome-card">
             <div class="outcome-num">4+ Years</div>
-            <div class="outcome-label">React Native production experience plus full-stack architecture portfolio</div>
+            <div class="outcome-label">
+              React Native production experience plus full-stack architecture
+              portfolio
+            </div>
           </div>
         </div>
       </div>
@@ -362,13 +603,72 @@
         <div class="section-title">Your Senior Engineer Narrative</div>
         <div class="rule-card">
           <div>
-            <h4 style="font-size: 15px; line-height: 1.6; font-weight: 400; color: var(--muted2);">
-              <em>"I am a <strong style="color: #fff">Mobile Systems Engineer</strong> with 4 years of React Native experience. Recently, I have architected full-stack solutions using <strong style="color: var(--w1)">PostgreSQL</strong> and <strong style="color: var(--w5)">AWS</strong>, integrated <strong style="color: var(--w3)">Large Language Models</strong> for intelligent features, and designed <strong style="color: var(--w7)">offline-first systems</strong> for scale. I led the technical design of a fintech platform handling complex relational data and real-time synchronization. I am <strong style="color: var(--green)">AWS Cloud Practitioner certified</strong> and skilled in system design for mobile applications."</em>
+            <h4
+              style="
+                font-size: 15px;
+                line-height: 1.6;
+                font-weight: 400;
+                color: var(--muted2);
+              "
+            >
+              <em
+                >"I am a
+                <strong style="color: #fff">Mobile Systems Engineer</strong>
+                with 4 years of React Native experience. Recently, I have
+                architected full-stack solutions using
+                <strong style="color: var(--w1)">PostgreSQL</strong> and
+                <strong style="color: var(--w5)">AWS</strong>, integrated
+                <strong style="color: var(--w3)">Large Language Models</strong>
+                for intelligent features, and designed
+                <strong style="color: var(--w7)">offline-first systems</strong>
+                for scale. I led the technical design of a fintech platform
+                handling complex relational data and real-time synchronization.
+                I am
+                <strong style="color: var(--green)"
+                  >AWS Cloud Practitioner certified</strong
+                >
+                and skilled in system design for mobile applications."</em
+              >
             </h4>
-            <div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px">
-              <span style="background: var(--green-dim); border: 1px solid rgba(34, 197, 94, 0.3); color: var(--green); padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">Senior RN Engineer: $120K-$150K</span>
-              <span style="background: var(--accent-dim); border: 1px solid rgba(59, 130, 246, 0.3); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">Mobile Architect: $140K-$180K</span>
-              <span style="background: rgba(167, 139, 250, 0.1); border: 1px solid rgba(167, 139, 250, 0.3); color: #a78bfa; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">Full-Stack Mobile Lead: $130K-$170K</span>
+            <div
+              style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px"
+            >
+              <span
+                style="
+                  background: var(--green-dim);
+                  border: 1px solid rgba(34, 197, 94, 0.3);
+                  color: var(--green);
+                  padding: 4px 10px;
+                  border-radius: 6px;
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 11px;
+                "
+                >Senior RN Engineer: $120K-$150K</span
+              >
+              <span
+                style="
+                  background: var(--accent-dim);
+                  border: 1px solid rgba(59, 130, 246, 0.3);
+                  color: var(--accent);
+                  padding: 4px 10px;
+                  border-radius: 6px;
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 11px;
+                "
+                >Mobile Architect: $140K-$180K</span
+              >
+              <span
+                style="
+                  background: rgba(167, 139, 250, 0.1);
+                  border: 1px solid rgba(167, 139, 250, 0.3);
+                  color: #a78bfa;
+                  padding: 4px 10px;
+                  border-radius: 6px;
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 11px;
+                "
+                >Full-Stack Mobile Lead: $130K-$170K</span
+              >
             </div>
           </div>
         </div>
@@ -387,9 +687,14 @@
           </div>
           <div class="outcome-card">
             <div class="outcome-num" style="font-size: 20px">$50</div>
-            <div class="outcome-label">Designing Data-Intensive Applications Book</div>
+            <div class="outcome-label">
+              Designing Data-Intensive Applications Book
+            </div>
           </div>
-          <div class="outcome-card" style="border-color: rgba(34, 197, 94, 0.3)">
+          <div
+            class="outcome-card"
+            style="border-color: rgba(34, 197, 94, 0.3)"
+          >
             <div class="outcome-num" style="font-size: 20px">+$30-50K</div>
             <div class="outcome-label">Expected Salary Increase</div>
           </div>
@@ -397,17 +702,27 @@
       </div>
 
       <div style="margin-top: 48px; margin-bottom: 0">
-        <div class="section-title">6-Month Extension (After Landing the Job)</div>
+        <div class="section-title">
+          6-Month Extension (After Landing the Job)
+        </div>
         <div class="rhythm-grid" style="grid-template-columns: 1fr 1fr">
           <div class="rhythm-card">
             <div class="rhythm-time">Months 3-4</div>
             <div class="rhythm-act">Deepen Infrastructure</div>
-            <div class="rhythm-desc">AWS Solutions Architect Associate certification. Kubernetes fundamentals. Advanced system design with microservices and distributed systems. First open source contributions.</div>
+            <div class="rhythm-desc">
+              AWS Solutions Architect Associate certification. Kubernetes
+              fundamentals. Advanced system design with microservices and
+              distributed systems. First open source contributions.
+            </div>
           </div>
           <div class="rhythm-card">
             <div class="rhythm-time">Months 5-6</div>
             <div class="rhythm-act">Staff Engineer Track</div>
-            <div class="rhythm-desc">Technical leadership and mentoring. Domain specialization in fintech, healthtech, or AI. Public speaking or technical blogging. Interview at $180K+ roles.</div>
+            <div class="rhythm-desc">
+              Technical leadership and mentoring. Domain specialization in
+              fintech, healthtech, or AI. Public speaking or technical blogging.
+              Interview at $180K+ roles.
+            </div>
           </div>
         </div>
       </div>
@@ -415,7 +730,23 @@
 
     <div class="toast" id="toast"></div>
 
-    <script src="data.js"></script>
-    <script src="app.js"></script>
+    <script>
+      // Load roadmap data
+      fetch("./roadmap.json")
+        .then((response) => response.json())
+        .then((data) => {
+          window.ROADMAP_DATA = data
+          // Load app.js after data is available
+          const script = document.createElement("script")
+          script.src = "app.js"
+          document.body.appendChild(script)
+        })
+        .catch((error) => {
+          console.error("Failed to load roadmap data:", error)
+          document.getElementById("toast").textContent =
+            "Failed to load roadmap data"
+          document.getElementById("toast").classList.add("show", "warn")
+        })
+    </script>
   </body>
 </html>
