@@ -3,13 +3,16 @@ const BACKUP_KEY = "rn_roadmap_v4_backup"
 
 // Load roadmap data from global variable injected by HTML
 let ROADMAP_DATA = window.ROADMAP_DATA || {}
+let WEEKS = []
 
 // Convert roadmap data to WEEKS format for backward compatibility
 function convertToWeeksFormat(roadmap) {
   return roadmap.map((week) => ({
     ...week,
     tasks: week.tasks.map((task) => ({
-      t: task.text,
+      id: task.id,
+      text: task.text,
+      t: task.text, // Backward compatibility
       time: task.time,
       why: task.why,
       links: task.links || [],
@@ -17,7 +20,26 @@ function convertToWeeksFormat(roadmap) {
   }))
 }
 
-let WEEKS = convertToWeeksFormat(ROADMAP_DATA.roadmap || [])
+// Initialize WEEKS when data is available
+function initializeWeeks() {
+  if (ROADMAP_DATA.roadmap && ROADMAP_DATA.roadmap.length > 0) {
+    WEEKS = convertToWeeksFormat(ROADMAP_DATA.roadmap)
+    console.log("WEEKS initialized:", WEEKS.length, "weeks")
+    renderAll() // Render after data is loaded
+    return true
+  }
+  return false
+}
+
+// Try to initialize now
+if (!initializeWeeks()) {
+  // If not available, wait for it
+  setTimeout(() => {
+    if (!initializeWeeks()) {
+      console.error("Failed to load roadmap data after waiting")
+    }
+  }, 500)
+}
 
 function getDefaultState() {
   return {
@@ -662,6 +684,7 @@ function renderWeekCards() {
   })
   ;["month1weeks", "month2weeks", "month3weeks"].forEach((id, mi) => {
     const c = document.getElementById(id)
+    if (!c) return
     c.innerHTML = ""
     WEEKS.filter((w) => w.month === mi + 1).forEach((week) => {
       const gi = WEEKS.indexOf(week),
