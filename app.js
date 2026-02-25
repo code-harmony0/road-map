@@ -668,8 +668,13 @@ function updateTodayFocus() {
 }
 
 function renderWeekCards() {
+  console.log("=== renderWeekCards called ===")
+  console.log("WEEKS length:", WEEKS.length)
+  console.log("WEEKS data:", WEEKS)
+
   const dayInfo = getCurrentDayInfo()
   const activeIdx = dayInfo.isValid ? dayInfo.weekIndex : -1
+  console.log("Day info:", dayInfo, "Active index:", activeIdx)
 
   // TEMPORARY FIX: Force all weeks to be expanded for debugging
   Object.keys(state.collapsedWeeks).forEach((weekId) => {
@@ -691,10 +696,19 @@ function renderWeekCards() {
     }
   })
   ;["month1weeks", "month2weeks", "month3weeks"].forEach((id, mi) => {
+    console.log(`Processing month container: ${id}`)
     const c = document.getElementById(id)
-    if (!c) return
+    console.log(`Container ${id} found:`, !!c)
+    if (!c) {
+      console.error(`Container ${id} not found!`)
+      return
+    }
     c.innerHTML = ""
-    WEEKS.filter((w) => w.month === mi + 1).forEach((week) => {
+
+    const monthWeeks = WEEKS.filter((w) => w.month === mi + 1)
+    console.log(`Month ${mi + 1} weeks:`, monthWeeks.length)
+
+    monthWeeks.forEach((week) => {
       console.log(
         `Rendering week ${week.id}, tasks count:`,
         week.tasks?.length || 0,
