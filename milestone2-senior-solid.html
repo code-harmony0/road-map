@@ -1,0 +1,1747 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Milestone 2: Senior Solid - React Native to Senior Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-primary: #0c0e10;
+        --bg-surface: #13161a;
+        --bg-elevated: #1a1d22;
+        --border-color: #2a2d35;
+        --text-primary: #f0f1f5;
+        --text-secondary: #9ca3af;
+        --accent-blue: #3b82f6;
+        --accent-green: #22c55e;
+        --accent-amber: #f59e0b;
+        --accent-red: #ef4444;
+        --accent-purple: #6366f1;
+        --accent-cyan: #06b6d4;
+        --accent-pink: #ec4899;
+        --accent-yellow: #eab308;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      /* Layout */
+      .app-layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 300px;
+        background: var(--bg-surface);
+        border-right: 1px solid var(--border-color);
+        padding: 1.5rem;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        flex-shrink: 0;
+      }
+
+      .sidebar-title {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--accent-pink);
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .schedule-card {
+        background: var(--bg-elevated);
+        border-radius: 12px;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        margin-bottom: 1rem;
+      }
+
+      .schedule-header {
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .schedule-time {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--accent-amber);
+        margin-bottom: 0.5rem;
+      }
+
+      .schedule-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        padding: 0.4rem 0;
+      }
+
+      .schedule-item-icon {
+        flex-shrink: 0;
+      }
+
+      /* Sidebar Stats */
+      .sidebar-stats {
+        margin-top: 1.5rem;
+      }
+
+      .sidebar-stat {
+        background: var(--bg-elevated);
+        border-radius: 8px;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        border: 1px solid var(--border-color);
+      }
+
+      .sidebar-stat-label {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.25rem;
+      }
+
+      .sidebar-stat-value {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--accent-green);
+      }
+
+      /* Main Content */
+      .main-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Header Styles */
+      .header {
+        background: linear-gradient(
+          135deg,
+          var(--bg-surface) 0%,
+          var(--bg-primary) 100%
+        );
+        border-bottom: 1px solid var(--border-color);
+        padding: 2rem 1rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--accent-blue),
+          var(--accent-purple),
+          var(--accent-pink),
+          var(--accent-red)
+        );
+      }
+
+      .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .header-title {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          var(--text-primary),
+          var(--accent-pink)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+      }
+
+      .header-subtitle {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+      }
+
+      /* Salary Tracker */
+      .salary-tracker {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        align-items: flex-end;
+      }
+
+      .salary-input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .salary-label {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      .salary-input {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1rem;
+        color: var(--text-primary);
+        width: 180px;
+        transition: border-color 0.2s;
+      }
+
+      .salary-input:focus {
+        outline: none;
+        border-color: var(--accent-green);
+      }
+
+      .salary-target {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .salary-target-value {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--accent-green);
+      }
+
+      .salary-progress {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .salary-progress-bar {
+        height: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        overflow: hidden;
+        margin-top: 0.5rem;
+      }
+
+      .salary-progress-fill {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--accent-green),
+          var(--accent-amber)
+        );
+        border-radius: 6px;
+        transition: width 0.5s ease;
+      }
+
+      /* Promoted Button */
+      .promote-btn {
+        background: linear-gradient(
+          135deg,
+          var(--accent-green),
+          var(--accent-cyan)
+        );
+        border: none;
+        border-radius: 12px;
+        padding: 1rem 2rem;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--bg-primary);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        margin-left: auto;
+      }
+
+      .promote-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4);
+      }
+
+      /* Main Content */
+      .main-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        flex: 1;
+      }
+
+      /* Progress Stats */
+      .progress-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .progress-stat-card {
+        background: var(--bg-surface);
+        border-radius: 12px;
+        padding: 1.25rem;
+        border: 1px solid var(--border-color);
+        text-align: center;
+      }
+
+      .progress-stat-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .progress-stat-value {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+      }
+
+      .progress-stat-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+
+      /* Month Grid */
+      .months-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+
+      @media (max-width: 900px) {
+        .months-grid {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          display: none;
+        }
+        .salary-tracker {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .promote-btn {
+          margin-left: 0;
+          margin-top: 1rem;
+        }
+      }
+
+      /* Month Card */
+      .month-card {
+        background: var(--bg-surface);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .month-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .month-card-header {
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .month-card:nth-child(1) .month-card-header {
+        border-top: 4px solid var(--accent-blue);
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.15),
+          transparent
+        );
+      }
+
+      .month-card:nth-child(2) .month-card-header {
+        border-top: 4px solid var(--accent-purple);
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.15),
+          transparent
+        );
+      }
+
+      .month-card:nth-child(3) .month-card-header {
+        border-top: 4px solid var(--accent-pink);
+        background: linear-gradient(
+          135deg,
+          rgba(236, 72, 153, 0.15),
+          transparent
+        );
+      }
+
+      .month-card:nth-child(4) .month-card-header {
+        border-top: 4px solid var(--accent-red);
+        background: linear-gradient(
+          135deg,
+          rgba(239, 68, 68, 0.15),
+          transparent
+        );
+      }
+
+      .month-badge {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 0.75rem;
+      }
+
+      .month-card:nth-child(1) .month-badge {
+        background: rgba(59, 130, 246, 0.2);
+        color: var(--accent-blue);
+      }
+      .month-card:nth-child(2) .month-badge {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-purple);
+      }
+      .month-card:nth-child(3) .month-badge {
+        background: rgba(236, 72, 153, 0.2);
+        color: var(--accent-pink);
+      }
+      .month-card:nth-child(4) .month-badge {
+        background: rgba(239, 68, 68, 0.2);
+        color: var(--accent-red);
+      }
+
+      .month-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+      }
+
+      .month-subtitle {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+      }
+
+      .month-card-body {
+        padding: 0 1.5rem 1.5rem;
+      }
+
+      /* Skills Section */
+      .skills-section {
+        margin-bottom: 1rem;
+      }
+
+      .skills-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+      }
+
+      .skills-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .skill-tag {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 6px;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-color);
+      }
+
+      /* Output Section */
+      .output-section {
+        background: var(--bg-elevated);
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-left: 3px solid var(--accent-green);
+      }
+
+      .output-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent-green);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .output-text {
+        font-size: 0.9rem;
+      }
+
+      /* At Work Section */
+      .at-work-section {
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.1),
+          rgba(99, 102, 241, 0.1)
+        );
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+      }
+
+      .at-work-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent-blue);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .at-work-text {
+        font-size: 0.9rem;
+        color: var(--text-primary);
+      }
+
+      /* Tasks */
+      .tasks-section {
+        margin-bottom: 1rem;
+      }
+
+      .tasks-header {
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .task-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: var(--bg-elevated);
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        transition: background 0.2s;
+      }
+
+      .task-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .task-checkbox {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--border-color);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        margin-top: 2px;
+        transition: all 0.2s;
+      }
+
+      .task-checkbox.completed {
+        background: var(--accent-green);
+        border-color: var(--accent-green);
+      }
+
+      .task-checkbox.completed::after {
+        content: "✓";
+        color: var(--bg-primary);
+        font-weight: bold;
+        font-size: 0.8rem;
+      }
+
+      .task-content {
+        flex: 1;
+      }
+
+      .task-text {
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+        transition: all 0.2s;
+      }
+
+      .task-text.completed {
+        text-decoration: line-through;
+        color: var(--text-secondary);
+      }
+
+      .task-meta {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+
+      .task-time {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.1rem 0.4rem;
+        border-radius: 3px;
+      }
+
+      .at-work-badge {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.4rem;
+        border-radius: 4px;
+        background: rgba(59, 130, 246, 0.2);
+        color: var(--accent-blue);
+        font-weight: 500;
+      }
+
+      /* Certification Progress */
+      .cert-progress {
+        margin-top: 1rem;
+      }
+
+      .cert-label {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .cert-bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .cert-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+      }
+
+      /* Footer */
+      .footer {
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border-color);
+        padding: 2rem 1rem;
+        margin-top: 2rem;
+        text-align: center;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-teaser {
+        background: linear-gradient(
+          135deg,
+          var(--bg-elevated),
+          rgba(99, 102, 241, 0.1)
+        );
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .footer-teaser h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-teaser p {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+      }
+
+      .milestone-1-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(
+          135deg,
+          var(--accent-blue),
+          var(--accent-purple)
+        );
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+
+      .milestone-1-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+      }
+
+      .footer-text {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+      }
+
+      /* Confetti Canvas */
+      #confettiCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .month-card {
+        animation: fadeIn 0.5s ease forwards;
+      }
+
+      .month-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .month-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .month-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .month-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Confetti Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <h3 class="sidebar-title">💼 While Employed Learning</h3>
+
+        <div class="schedule-card">
+          <div class="schedule-header"><span>📅</span> Weekly Schedule</div>
+          <div class="schedule-time">10 hrs/week realistic</div>
+
+          <div class="schedule-item">
+            <span class="schedule-item-icon">🌅</span>
+            <span>Morning: 1 hr before work</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-item-icon">🍽️</span>
+            <span>Lunch: 1 SQL problem</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-item-icon">🏠</span>
+            <span>Evening: 2 hrs deep work</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-item-icon">🚗</span>
+            <span>Commute: Podcasts</span>
+          </div>
+        </div>
+
+        <div class="schedule-card">
+          <div class="schedule-header"><span>📅</span> Weekend Schedule</div>
+          <div class="schedule-time">4-6 hrs weekend</div>
+
+          <div class="schedule-item">
+            <span class="schedule-item-icon">☕</span>
+            <span>Saturday: 4 hrs deep work</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-item-icon">🎯</span>
+            <span>Sunday: Review + planning</span>
+          </div>
+        </div>
+
+        <div class="sidebar-stats">
+          <div class="sidebar-stat">
+            <div class="sidebar-stat-label">Blog Posts Written</div>
+            <div class="sidebar-stat-value" id="blogCount">0</div>
+          </div>
+          <div class="sidebar-stat">
+            <div class="sidebar-stat-label">Mentees Helped</div>
+            <div class="sidebar-stat-value" id="menteeCount">0</div>
+          </div>
+          <div class="sidebar-stat">
+            <div class="sidebar-stat-label">Tech Talks Given</div>
+            <div class="sidebar-stat-value" id="talkCount">0</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Wrapper -->
+      <div class="main-wrapper">
+        <!-- Header -->
+        <header class="header">
+          <div class="header-content">
+            <h1 class="header-title">Milestone 2: Senior Solid</h1>
+            <p class="header-subtitle">
+              Months 3-6: Excel in your new role, scale to $180K
+            </p>
+
+            <div class="salary-tracker">
+              <div class="salary-input-group">
+                <label class="salary-label">I was hired at:</label>
+                <input
+                  type="text"
+                  class="salary-input"
+                  id="currentSalary"
+                  placeholder="$100,000"
+                />
+              </div>
+
+              <div class="salary-target">
+                <span class="salary-label">Target Salary</span>
+                <span class="salary-target-value">$180,000+</span>
+              </div>
+
+              <div class="salary-progress">
+                <span class="salary-label">Progress</span>
+                <div class="salary-progress-bar">
+                  <div
+                    class="salary-progress-fill"
+                    id="salaryProgressFill"
+                    style="width: 0%"
+                  ></div>
+                </div>
+              </div>
+
+              <button class="promote-btn" id="promoteBtn">
+                <span>🎉</span> I got promoted!
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+          <!-- Progress Stats -->
+          <div class="progress-stats">
+            <div class="progress-stat-card">
+              <div class="progress-stat-icon">✅</div>
+              <div
+                class="progress-stat-value"
+                id="tasksCompleted"
+                style="color: var(--accent-green)"
+              >
+                0
+              </div>
+              <div class="progress-stat-label">Tasks Completed</div>
+            </div>
+            <div class="progress-stat-card">
+              <div class="progress-stat-icon">📝</div>
+              <div
+                class="progress-stat-value"
+                id="blogPosts"
+                style="color: var(--accent-pink)"
+              >
+                0
+              </div>
+              <div class="progress-stat-label">Blog Posts</div>
+            </div>
+            <div class="progress-stat-card">
+              <div class="progress-stat-icon">👥</div>
+              <div
+                class="progress-stat-value"
+                id="mentorships"
+                style="color: var(--accent-purple)"
+              >
+                0
+              </div>
+              <div class="progress-stat-label">Mentorship Sessions</div>
+            </div>
+            <div class="progress-stat-card">
+              <div class="progress-stat-icon">🎤</div>
+              <div
+                class="progress-stat-value"
+                id="techTalks"
+                style="color: var(--accent-amber)"
+              >
+                0
+              </div>
+              <div class="progress-stat-label">Tech Talks</div>
+            </div>
+          </div>
+
+          <!-- Months Grid -->
+          <div class="months-grid" id="monthsGrid">
+            <!-- Month 3: Deepen Backend -->
+            <article class="month-card">
+              <div class="month-card-header">
+                <span class="month-badge">MONTH 3</span>
+                <h2 class="month-title">Deepen Backend</h2>
+                <p class="month-subtitle">
+                  Master infrastructure and databases
+                </p>
+              </div>
+              <div class="month-card-body">
+                <div class="skills-section">
+                  <div class="skills-label">Skills to Build</div>
+                  <div class="skills-list">
+                    <span class="skill-tag">Kubernetes (EKS)</span>
+                    <span class="skill-tag">Pods & Services</span>
+                    <span class="skill-tag">Terraform</span>
+                    <span class="skill-tag">PostgreSQL Advanced</span>
+                    <span class="skill-tag">Partitioning</span>
+                    <span class="skill-tag">Replication</span>
+                  </div>
+                </div>
+
+                <div class="output-section">
+                  <div class="output-label"><span>📦</span> Output</div>
+                  <div class="output-text">
+                    Lead backend migration at work OR build side project with
+                    K8s
+                  </div>
+                </div>
+
+                <div class="at-work-section">
+                  <div class="at-work-label"><span>💼</span> At Work</div>
+                  <div class="at-work-text">
+                    Propose PostgreSQL optimization to your team
+                  </div>
+                </div>
+
+                <div class="tasks-section">
+                  <div class="tasks-header">Tasks</div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m3', 0)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Learn Kubernetes basics - pods, services, deployments
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">3 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m3', 1)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Set up local K8s cluster with Minikube or Kind
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">2 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m3', 2)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Learn Terraform basics - infrastructure as code
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">3 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m3', 3)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Advanced PostgreSQL - partitioning and replication
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">4 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m3', 4)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Deploy app to EKS with Terraform
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">4 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cert-progress">
+                  <div class="cert-label">
+                    <span>CKA Progress</span>
+                    <span id="ckaProgress">0%</span>
+                  </div>
+                  <div class="cert-bar">
+                    <div
+                      class="cert-fill"
+                      id="ckaBar"
+                      style="width: 0%; background: var(--accent-blue)"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Month 4: Advanced AI/ML -->
+            <article class="month-card">
+              <div class="month-card-header">
+                <span class="month-badge">MONTH 4</span>
+                <h2 class="month-title">Advanced AI/ML</h2>
+                <p class="month-subtitle">Ship production AI features</p>
+              </div>
+              <div class="month-card-body">
+                <div class="skills-section">
+                  <div class="skills-label">Skills to Build</div>
+                  <div class="skills-list">
+                    <span class="skill-tag">Vector Databases</span>
+                    <span class="skill-tag">Pinecone</span>
+                    <span class="skill-tag">Weaviate</span>
+                    <span class="skill-tag">Fine-tuning</span>
+                    <span class="skill-tag">Multi-modal AI</span>
+                    <span class="skill-tag">Vision + Text</span>
+                  </div>
+                </div>
+
+                <div class="output-section">
+                  <div class="output-label"><span>📦</span> Output</div>
+                  <div class="output-text">
+                    Ship AI feature at work - smart search, recommendations, or
+                    automation
+                  </div>
+                </div>
+
+                <div class="at-work-section">
+                  <div class="at-work-label"><span>💼</span> At Work</div>
+                  <div class="at-work-text">
+                    Add smart search to your product
+                  </div>
+                </div>
+
+                <div class="tasks-section">
+                  <div class="tasks-header">Tasks</div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m4', 0)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Set up Pinecone or Weaviate vector database
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">2 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m4', 1)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Generate embeddings for your data
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">2 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m4', 2)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">Build semantic search API</div>
+                      <div class="task-meta">
+                        <span class="task-time">3 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m4', 3)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Learn fine-tuning for your domain
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">4 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m4', 4)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Explore multi-modal AI (vision + text)
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">3 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cert-progress">
+                  <div class="cert-label">
+                    <span>AI Feature Progress</span>
+                    <span id="aiProgress">0%</span>
+                  </div>
+                  <div class="cert-bar">
+                    <div
+                      class="cert-fill"
+                      id="aiBar"
+                      style="width: 0%; background: var(--accent-purple)"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Month 5: System Design Mastery -->
+            <article class="month-card">
+              <div class="month-card-header">
+                <span class="month-badge">MONTH 5</span>
+                <h2 class="month-title">System Design Mastery</h2>
+                <p class="month-subtitle">
+                  Architecture, certifications, open source
+                </p>
+              </div>
+              <div class="month-card-body">
+                <div class="skills-section">
+                  <div class="skills-label">Skills to Build</div>
+                  <div class="skills-list">
+                    <span class="skill-tag">DDIA Book</span>
+                    <span class="skill-tag">AWS Solutions Arch</span>
+                    <span class="skill-tag">Open Source</span>
+                    <span class="skill-tag">NestJS</span>
+                    <span class="skill-tag">Prisma</span>
+                    <span class="skill-tag">Tech Talks</span>
+                  </div>
+                </div>
+
+                <div class="output-section">
+                  <div class="output-label"><span>📦</span> Output</div>
+                  <div class="output-text">
+                    Give tech talk at company or meetup
+                  </div>
+                </div>
+
+                <div class="at-work-section">
+                  <div class="at-work-label"><span>💼</span> At Work</div>
+                  <div class="at-work-text">
+                    Present architecture review to the team
+                  </div>
+                </div>
+
+                <div class="tasks-section">
+                  <div class="tasks-header">Tasks</div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m5', 0)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Read "Designing Data-Intensive Applications" (Part 1)
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">8 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m5', 1)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        AWS Solutions Architect Associate course
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">15 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m5', 2)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">Take AWS SAA-C03 exam</div>
+                      <div class="task-meta">
+                        <span class="task-time">3 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m5', 3)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Contribute to open source (NestJS, Prisma, or React
+                        Native)
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">6 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m5', 4)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">Prepare and give tech talk</div>
+                      <div class="task-meta">
+                        <span class="task-time">4 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cert-progress">
+                  <div class="cert-label">
+                    <span>AWS Cert Progress</span>
+                    <span id="awsProgress">0%</span>
+                  </div>
+                  <div class="cert-bar">
+                    <div
+                      class="cert-fill"
+                      id="awsBar"
+                      style="width: 0%; background: var(--accent-amber)"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Month 6: Leadership & Visibility -->
+            <article class="month-card">
+              <div class="month-card-header">
+                <span class="month-badge">MONTH 6</span>
+                <h2 class="month-title">Leadership & Visibility</h2>
+                <p class="month-subtitle">Mentor, blog, build reputation</p>
+              </div>
+              <div class="month-card-body">
+                <div class="skills-section">
+                  <div class="skills-label">Skills to Build</div>
+                  <div class="skills-list">
+                    <span class="skill-tag">Mentoring</span>
+                    <span class="skill-tag">Technical Writing</span>
+                    <span class="skill-tag">Blog Posts</span>
+                    <span class="skill-tag">Twitter/LinkedIn</span>
+                    <span class="skill-tag">Sprint Planning</span>
+                    <span class="skill-tag">Code Reviews</span>
+                  </div>
+                </div>
+
+                <div class="output-section">
+                  <div class="output-label"><span>📦</span> Output</div>
+                  <div class="output-text">
+                    10 blog posts, 1000+ followers on social media
+                  </div>
+                </div>
+
+                <div class="at-work-section">
+                  <div class="at-work-label"><span>💼</span> At Work</div>
+                  <div class="at-work-text">
+                    Lead sprint planning and conduct code reviews
+                  </div>
+                </div>
+
+                <div class="tasks-section">
+                  <div class="tasks-header">Tasks</div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m6', 0)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">Mentor 1-2 junior developers</div>
+                      <div class="task-meta">
+                        <span class="task-time">8 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m6', 1)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Write 1 technical blog post per week
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">10 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m6', 2)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">
+                        Build public reputation on Twitter/LinkedIn
+                      </div>
+                      <div class="task-meta">
+                        <span class="task-time">6 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m6', 3)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">Lead sprint planning sessions</div>
+                      <div class="task-meta">
+                        <span class="task-time">4 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="task-item">
+                    <div
+                      class="task-checkbox"
+                      onclick="toggleTask('m6', 4)"
+                    ></div>
+                    <div class="task-content">
+                      <div class="task-text">Conduct thorough code reviews</div>
+                      <div class="task-meta">
+                        <span class="task-time">6 hrs</span>
+                        <span class="at-work-badge">Apply at Work</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cert-progress">
+                  <div class="cert-label">
+                    <span>Blog Goal</span>
+                    <span id="blogProgress">0/10</span>
+                  </div>
+                  <div class="cert-bar">
+                    <div
+                      class="cert-fill"
+                      id="blogBar"
+                      style="width: 0%; background: var(--accent-pink)"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer-content">
+            <div class="footer-teaser">
+              <h2>Remember: Milestone 1 is still available!</h2>
+              <p>
+                Jump back to strengthen your fundamentals or help others get
+                started
+              </p>
+              <a href="milestone1-job-ready.html" class="milestone-1-btn">
+                <span>📚</span> Back to Milestone 1
+              </a>
+            </div>
+            <p class="footer-text">
+              React Native to Senior Engineer Roadmap • 2026
+            </p>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      // State management
+      const STORAGE_KEY = "milestone2_progress"
+      let progress = {
+        tasks: {},
+        currentSalary: 0,
+        blogPosts: 0,
+        mentorships: 0,
+        techTalks: 0,
+        ckaProgress: 0,
+        aiProgress: 0,
+        awsProgress: 0,
+      }
+
+      // Month data
+      const MONTHS = {
+        m3: { name: "Month 3", tasks: 5 },
+        m4: { name: "Month 4", tasks: 5 },
+        m5: { name: "Month 5", tasks: 5 },
+        m6: { name: "Month 6", tasks: 5 },
+      }
+
+      // Initialize
+      function init() {
+        loadProgress()
+        renderStats()
+        setupSalaryTracker()
+        setupPromoteButton()
+        setupIncrementButtons()
+      }
+
+      // Load/Save
+      function loadProgress() {
+        const saved = localStorage.getItem(STORAGE_KEY)
+        if (saved) {
+          progress = { ...progress, ...JSON.parse(saved) }
+        }
+        // Restore task checkboxes
+        Object.keys(progress.tasks).forEach((key) => {
+          if (progress.tasks[key]) {
+            const checkbox = document.querySelector(
+              `[onclick="toggleTask('${key.split("-")[0]}', ${key.split("-")[1]})"]`,
+            )
+            if (checkbox) {
+              checkbox.classList.add("completed")
+              checkbox.nextElementSibling
+                .querySelector(".task-text")
+                .classList.add("completed")
+            }
+          }
+        })
+      }
+
+      function saveProgress() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
+      }
+
+      // Toggle task
+      function toggleTask(monthId, taskIndex) {
+        const key = `${monthId}-${taskIndex}`
+        progress.tasks[key] = !progress.tasks[key]
+        saveProgress()
+        updateStats()
+
+        // Update UI
+        const checkbox = event.target
+        const taskText = checkbox.nextElementSibling.querySelector(".task-text")
+
+        if (progress.tasks[key]) {
+          checkbox.classList.add("completed")
+          taskText.classList.add("completed")
+        } else {
+          checkbox.classList.remove("completed")
+          taskText.classList.remove("completed")
+        }
+      }
+
+      // Update stats
+      function updateStats() {
+        let totalTasks = 0
+        let completedTasks = 0
+
+        Object.keys(MONTHS).forEach((monthId) => {
+          for (let i = 0; i < MONTHS[monthId].tasks; i++) {
+            totalTasks++
+            if (progress.tasks[`${monthId}-${i}`]) {
+              completedTasks++
+            }
+          }
+        })
+
+        document.getElementById("tasksCompleted").textContent = completedTasks
+
+        // Update certification progress
+        const m3Tasks = Object.keys(progress.tasks).filter(
+          (k) => k.startsWith("m3-") && progress.tasks[k],
+        ).length
+        const m4Tasks = Object.keys(progress.tasks).filter(
+          (k) => k.startsWith("m4-") && progress.tasks[k],
+        ).length
+        const m5Tasks = Object.keys(progress.tasks).filter(
+          (k) => k.startsWith("m5-") && progress.tasks[k],
+        ).length
+        const m6Tasks = Object.keys(progress.tasks).filter(
+          (k) => k.startsWith("m6-") && progress.tasks[k],
+        ).length
+
+        document.getElementById("ckaProgress").textContent =
+          Math.round((m3Tasks / 5) * 100) + "%"
+        document.getElementById("ckaBar").style.width =
+          (m3Tasks / 5) * 100 + "%"
+
+        document.getElementById("aiProgress").textContent =
+          Math.round((m4Tasks / 5) * 100) + "%"
+        document.getElementById("aiBar").style.width = (m4Tasks / 5) * 100 + "%"
+
+        document.getElementById("awsProgress").textContent =
+          Math.round((m5Tasks / 5) * 100) + "%"
+        document.getElementById("awsBar").style.width =
+          (m5Tasks / 5) * 100 + "%"
+
+        document.getElementById("blogProgress").textContent = m6Tasks + "/10"
+        document.getElementById("blogBar").style.width =
+          Math.min((m6Tasks / 10) * 100, 100) + "%"
+      }
+
+      function renderStats() {
+        document.getElementById("blogCount").textContent = progress.blogPosts
+        document.getElementById("menteeCount").textContent =
+          progress.mentorships
+        document.getElementById("talkCount").textContent = progress.techTalks
+
+        document.getElementById("blogPosts").textContent = progress.blogPosts
+        document.getElementById("mentorships").textContent =
+          progress.mentorships
+        document.getElementById("techTalks").textContent = progress.techTalks
+
+        updateStats()
+
+        // Restore salary
+        if (progress.currentSalary > 0) {
+          document.getElementById("currentSalary").value =
+            "$" + progress.currentSalary.toLocaleString()
+          updateSalaryProgress()
+        }
+      }
+
+      // Salary tracker
+      function setupSalaryTracker() {
+        const salaryInput = document.getElementById("currentSalary")
+
+        salaryInput.addEventListener("input", function (e) {
+          let value = e.target.value.replace(/[^0-9]/g, "")
+          if (value) {
+            progress.currentSalary = parseInt(value)
+            e.target.value = "$" + parseInt(value).toLocaleString()
+            saveProgress()
+            updateSalaryProgress()
+          }
+        })
+      }
+
+      function updateSalaryProgress() {
+        const target = 180000
+        const current = progress.currentSalary
+        const percentage = Math.min((current / target) * 100, 100)
+        document.getElementById("salaryProgressFill").style.width =
+          percentage + "%"
+      }
+
+      // Promote button with confetti
+      function setupPromoteButton() {
+        document
+          .getElementById("promoteBtn")
+          .addEventListener("click", function () {
+            triggerConfetti()
+            alert(
+              "🎉 Congratulations on your promotion! You're on your way to $180K+!",
+            )
+          })
+      }
+
+      // Increment buttons
+      function setupIncrementButtons() {
+        // Blog posts
+        document
+          .getElementById("blogPosts")
+          .parentElement.addEventListener("click", function () {
+            progress.blogPosts++
+            saveProgress()
+            renderStats()
+          })
+
+        // Mentorships
+        document
+          .getElementById("mentorships")
+          .parentElement.addEventListener("click", function () {
+            progress.mentorships++
+            saveProgress()
+            renderStats()
+          })
+
+        // Tech talks
+        document
+          .getElementById("techTalks")
+          .parentElement.addEventListener("click", function () {
+            progress.techTalks++
+            saveProgress()
+            renderStats()
+          })
+      }
+
+      // Confetti effect
+      function triggerConfetti() {
+        const canvas = document.getElementById("confettiCanvas")
+        const ctx = canvas.getContext("2d")
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+
+        const colors = [
+          "#22c55e",
+          "#3b82f6",
+          "#6366f1",
+          "#ec4899",
+          "#f59e0b",
+          "#eab308",
+        ]
+        const confetti = []
+
+        for (let i = 0; i < 150; i++) {
+          confetti.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            size: Math.random() * 10 + 5,
+            speed: Math.random() * 3 + 2,
+            angle: Math.random() * Math.PI * 2,
+            spin: Math.random() * 0.2 - 0.1,
+          })
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+          let stillFalling = false
+          confetti.forEach((c) => {
+            if (c.y < canvas.height) {
+              stillFalling = true
+              c.y += c.speed
+              c.x += Math.sin(c.angle) * 2
+              c.angle += c.spin
+
+              ctx.save()
+              ctx.translate(c.x, c.y)
+              ctx.rotate(c.angle)
+              ctx.fillStyle = c.color
+              ctx.fillRect(-c.size / 2, -c.size / 2, c.size, c.size * 0.6)
+              ctx.restore()
+            }
+          })
+
+          if (stillFalling) {
+            requestAnimationFrame(animate)
+          } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+          }
+        }
+
+        animate()
+      }
+
+      // Initialize on load
+      window.addEventListener("DOMContentLoaded", init)
+    </script>
+  </body>
+</html>

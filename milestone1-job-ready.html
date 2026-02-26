@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milestone 1: Job Ready - React Native to Senior Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0c0e10;
+      --bg-surface: #13161a;
+      --bg-elevated: #1a1d22;
+      --border-color: #2a2d35;
+      --text-primary: #f0f1f5;
+      --text-secondary: #9ca3af;
+      --accent-blue: #3b82f6;
+      --accent-green: #22c55e;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-purple: #6366f1;
+      --accent-cyan: #06b6d4;
+      --accent-pink: #ec4899;
+      --accent-yellow: #eab308;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Header Styles */
+    .header {
+      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-primary) 100%);
+      border-bottom: 1px solid var(--border-color);
+      padding: 2rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-green), var(--accent-amber), var(--accent-yellow));
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--text-primary), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .header-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .stat-value {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .stat-streak {
+      color: var(--accent-amber);
+    }
+
+    /* Progress Section */
+    .progress-section {
+      background: var(--bg-elevated);
+      border-radius: 12px;
+      padding: 1.25rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .progress-label {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .progress-percentage {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .progress-bar-container {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-green), var(--accent-amber), var(--accent-yellow));
+    }
+
+    /* Focus Timer Button */
+    .focus-timer-btn {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      z-index: 1000;
+    }
+
+    .focus-timer-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(59, 130, 246, 0.6);
+    }
+
+    .focus-timer-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Timer Modal */
+    .timer-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .timer-modal.active {
+      display: flex;
+    }
+
+    .timer-modal-content {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      min-width: 320px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .timer-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 4rem;
+      font-weight: 600;
+      margin: 1.5rem 0;
+      color: var(--text-primary);
+    }
+
+    .timer-display.rest {
+      color: var(--accent-amber);
+    }
+
+    .timer-controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .timer-btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .timer-btn-start {
+      background: var(--accent-green);
+      color: var(--bg-primary);
+    }
+
+    .timer-btn-pause {
+      background: var(--accent-amber);
+      color: var(--bg-primary);
+    }
+
+    .timer-btn-reset {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .timer-close {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    /* Today's Focus Section */
+    .today-focus {
+      background: linear-gradient(135deg, var(--bg-elevated), rgba(99, 102, 241, 0.1));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .today-focus-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .today-focus-icon {
+      font-size: 1.5rem;
+    }
+
+    .today-focus-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .today-focus-list {
+      list-style: none;
+    }
+
+    .today-focus-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .today-focus-item:last-child {
+      border-bottom: none;
+    }
+
+    .today-focus-check {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--accent-purple);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .today-focus-check.completed {
+      background: var(--accent-purple);
+    }
+
+    .today-focus-text {
+      flex: 1;
+    }
+
+    .today-focus-week {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Week Sections Grid */
+    .weeks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .weeks-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Week Card */
+    .week-card {
+      background: var(--bg-surface);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .week-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .week-card-header {
+      padding: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      border-top: 4px solid;
+      position: relative;
+    }
+
+    .week-card-header::after {
+      content: '';
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid var(--text-secondary);
+      border-bottom: 2px solid var(--text-secondary);
+      transform: rotate(45deg);
+      transition: transform 0.3s;
+    }
+
+    .week-card.collapsed .week-card-header::after {
+      transform: rotate(-45deg);
+    }
+
+    .week-card.collapsed .week-card-body {
+      display: none;
+    }
+
+    .week-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+    }
+
+    .week-card-header-content {
+      flex: 1;
+    }
+
+    .week-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .week-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .week-card-body {
+      padding: 0 1.25rem 1.25rem;
+    }
+
+    /* Interview Question Section */
+    .interview-section {
+      background: rgba(34, 197, 94, 0.1);
+      border-left: 4px solid var(--accent-green);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .interview-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-green);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .interview-question {
+      font-size: 1rem;
+      color: var(--accent-green);
+      font-weight: 500;
+    }
+
+    /* Output Section */
+    .output-section {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 4px solid var(--accent-blue);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .output-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-blue);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .output-text {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+
+    .output-text code {
+      background: rgba(59, 130, 246, 0.2);
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+    }
+
+    /* Time Estimate */
+    .time-estimate {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Tasks */
+    .tasks-section {
+      margin-bottom: 1rem;
+    }
+
+    .tasks-header {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--bg-elevated);
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      transition: background 0.2s;
+    }
+
+    .task-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .task-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s;
+    }
+
+    .task-checkbox.completed {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+    }
+
+    .task-checkbox.completed::after {
+      content: '✓';
+      color: var(--bg-primary);
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+
+    .task-content {
+      flex: 1;
+    }
+
+    .task-text {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      transition: all 0.2s;
+    }
+
+    .task-text.completed {
+      text-decoration: line-through;
+      color: var(--text-secondary);
+    }
+
+    .task-meta {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .task-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+    }
+
+    .task-tooltip-trigger {
+      font-size: 0.75rem;
+      color: var(--accent-blue);
+      cursor: help;
+      position: relative;
+    }
+
+    .task-tooltip {
+      display: none;
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      width: 250px;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .task-tooltip-trigger:hover .task-tooltip {
+      display: block;
+    }
+
+    /* Common Mistakes */
+    .mistakes-section {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid var(--accent-red);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .mistakes-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent-red);
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .mistake-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .mistake-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .mistake-icon {
+      color: var(--accent-red);
+      flex-shrink: 0;
+    }
+
+    /* Resources */
+    .resources-section {
+      margin-top: 1rem;
+    }
+
+    .resources-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .resource-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1px solid;
+    }
+
+    .resource-link:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+
+    .resource-link.docs {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .resource-link.repo {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
+    }
+
+    .resource-link.video {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: var(--accent-red);
+      color: var(--accent-red);
+    }
+
+    .resource-link.interactive {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    /* Week 8 Checklist - Full Width */
+    .week-8-section {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, var(--bg-surface), rgba(234, 179, 8, 0.1));
+      border: 2px solid var(--accent-yellow);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .week-8-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .week-8-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      background: var(--accent-yellow);
+      color: var(--bg-primary);
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .week-8-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .week-8-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+
+    .week-8-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .week-8-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--bg-elevated);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .week-8-checkbox {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--accent-yellow);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .week-8-checkbox.completed {
+      background: var(--accent-yellow);
+    }
+
+    .week-8-checkbox.completed::after {
+      content: '✓';
+      color: var(--bg-primary);
+      font-weight: bold;
+    }
+
+    .week-8-content {
+      flex: 1;
+    }
+
+    .week-8-text {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .week-8-text.completed {
+      text-decoration: line-through;
+      color: var(--text-secondary);
+    }
+
+    .week-8-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* Export/Import Controls */
+    .data-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .data-btn {
+      padding: 0.75rem 1.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      cursor: pointer;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .data-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent-blue);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 1rem;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-teaser {
+      background: linear-gradient(135deg, var(--bg-elevated), rgba(236, 72, 153, 0.1));
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-teaser h2 {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(90deg, var(--text-primary), var(--accent-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-teaser p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .milestone-2-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .milestone-2-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 1.5rem 1rem;
+      }
+
+      .stats-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .week-card-header {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .resource-links {
+        flex-direction: column;
+      }
+
+      .resource-link {
+        justify-content: center;
+      }
+
+      .week-8-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Accessibility */
+    :focus {
+      outline: 2px solid var(--accent-blue);
+      outline-offset: 2px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Tooltip accessibility */
+    .task-tooltip-trigger:focus .task-tooltip {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <h1 class="header-title">Milestone 1: Job Ready</h1>
+      <p class="header-subtitle">8 weeks to your first $120K+ offer</p>
+      
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span>Tasks Done:</span>
+          <span class="stat-value" id="tasksCount">0 / 0</span>
+        </div>
+        <div class="stat-item">
+          <span>Day Streak:</span>
+          <span class="stat-streak" id="streakCount">0 days</span>
+        </div>
+        <div class="stat-item">
+          <span>Focus Sessions:</span>
+          <span class="stat-value" id="focusCount">0</span>
+        </div>
+        <div class="stat-item">
+          <span>Time Invested:</span>
+          <span class="stat-value" id="timeInvested">0 hours</span>
+        </div>
+      </div>
+      
+      <div class="progress-section">
+        <div class="progress-header">
+          <span class="progress-label">Milestone Progress</span>
+          <span class="progress-percentage" id="progressText">0%</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Focus Timer Button -->
+  <button class="focus-timer-btn" id="focusTimerBtn" aria-label="Open Focus Timer">
+    ⏱️
+  </button>
+
+  <!-- Timer Modal -->
+  <div class="timer-modal" id="timerModal">
+    <div class="timer-modal-content">
+      <h2>Focus Timer</h2>
+      <div class="timer-display" id="timerDisplay">25:00</div>
+      <div class="timer-controls">
+        <button class="timer-btn timer-btn-start" id="timerStartBtn">Start</button>
+        <button class="timer-btn timer-btn-pause" id="timerPauseBtn" style="display:none">Pause</button>
+        <button class="timer-btn timer-btn-reset" id="timerResetBtn">Reset</button>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">Pomodoro: 25 min work, 5 min rest</p>
+      <button class="timer-close" id="timerCloseBtn">&times;</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Data Controls -->
+    <div class="data-controls">
+      <button class="data-btn" id="exportBtn">
+        <span>💾</span> Export Progress
+      </button>
+      <button class="data-btn" id="importBtn">
+        <span>📂</span> Import Progress
+      </button>
+      <input type="file" id="importFile" accept=".json" style="display: none;">
+    </div>
+
+    <!-- Today's Focus -->
+    <section class="today-focus" id="todayFocus">
+      <div class="today-focus-header">
+        <span class="today-focus-icon">🎯</span>
+        <h2 class="today-focus-title">Today's Focus</h2>
+      </div>
+      <ul class="today-focus-list" id="todayFocusList">
+        <!-- Populated by JS -->
+      </ul>
+    </section>
+
+    <!-- Weeks Grid -->
+    <div class="weeks-grid" id="weeksGrid">
+      <!-- Week cards populated by JS -->
+    </div>
+
+    <!-- Week 8 Checklist -->
+    <section class="week-8-section" id="week8Section">
+      <div class="week-8-header">
+        <span class="week-8-badge">WEEK 08</span>
+        <h2 class="week-8-title">Job Application Blitz</h2>
+        <p class="week-8-subtitle">Deploy your career to production</p>
+      </div>
+      <div class="week-8-grid" id="week8Grid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-teaser">
+        <h2>Ready for Milestone 2?</h2>
+        <p>From Junior to Mid-Level: Deepening expertise in system design, microservices, and advanced architectures</p>
+        <button class="milestone-2-btn" id="milestone2Btn">
+          <span>🚀</span> Unlock Milestone 2
+        </button>
+      </div>
+      <p class="footer-text">React Native to Senior Engineer Roadmap • 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    // Week Data
+    const WEEKS = [
+      {
+        id: 'w1',
+        num: 'WEEK 01',
+        title: 'PostgreSQL Crash Course',
+        subtitle: 'From MongoDB to relational thinking',
+        color: '#6366f1',
+        interviewQuestion: 'Design a database schema for Uber',
+        output: 'GitHub repo: finance-api-postgres with User/Expense CRUD',
+        timeEstimate: '6 hours',
+        mistakes: [
+          'Installing PostgreSQL but not configuring auth',
+          'Using ORM before understanding raw SQL',
+          'Skipping EXPLAIN ANALYZE'
+        ],
+        tasks: [
+          {t: 'Install PostgreSQL 15+ and pgAdmin', time: '30 min', why: 'You need local DB for experimentation'},
+          {t: 'Master SELECT, INSERT, UPDATE, DELETE', time: '1 hr', why: '80% of daily queries - muscle memory'},
+          {t: 'Learn JOINs and foreign keys', time: '1 hr', why: 'Where relational databases shine'},
+          {t: 'Window functions: ROW_NUMBER, RANK, LEAD, LAG', time: '1 hr', why: 'Solve complex problems simply'},
+          {t: 'Connect PostgreSQL to NestJS with Prisma', time: '1.5 hr', why: 'Modern TypeScript ORM standard'},
+          {t: 'Build CRUD API with authentication', time: '1 hr', why: 'Production-ready foundation'}
+        ],
+        resources: [
+          {name: 'PostgreSQL Tutorial', url: 'https://www.postgresqltutorial.com', type: 'docs'},
+          {name: 'SQLBolt Interactive', url: 'https://sqlbolt.com', type: 'interactive'},
+          {name: 'NestJS Prisma Starter', url: 'https://github.com/notiz-dev/nestjs-prisma-starter', type: 'repo'}
+        ]
+      },
+      {
+        id: 'w2',
+        num: 'WEEK 02',
+        title: 'NestJS + PostgreSQL Production API',
+        subtitle: 'Building enterprise-grade backends',
+        color: '#22c55e',
+        interviewQuestion: 'How do you handle database transactions in a payment system?',
+        output: 'GitHub repo: production-nest-api with auth, validation, tests',
+        timeEstimate: '8 hours',
+        mistakes: [
+          'Not using DTOs for validation',
+          'No error handling middleware',
+          'Missing API documentation'
+        ],
+        tasks: [
+          {t: 'Set up NestJS project with TypeScript', time: '30 min', why: 'Baseline for enterprise projects'},
+          {t: 'Implement JWT authentication', time: '1.5 hr', why: 'Industry standard for APIs'},
+          {t: 'Add request validation with class-validator', time: '1 hr', why: 'Never trust client input'},
+          {t: 'Create global error handling', time: '1 hr', why: 'Clean error responses'},
+          {t: 'Write unit tests for services', time: '1.5 hr', why: 'Catch bugs before production'},
+          {t: 'Add Swagger API documentation', time: '1.5 hr', why: 'Team collaboration essential'},
+          {t: 'Implement rate limiting', time: '1 hr', why: 'Protect from abuse'}
+        ],
+        resources: [
+          {name: 'NestJS Docs', url: 'https://docs.nestjs.com', type: 'docs'},
+          {name: 'NestJS Testing Guide', url: 'https://docs.nestjs.com/fundamentals/testing', type: 'docs'},
+          {name: 'NestJS Authentication', url: 'https://docs.nestjs.com/security/authentication', type: 'docs'}
+        ]
+      },
+      {
+        id: 'w3',
+        num: 'WEEK 03',
+        title: 'AI Integration Basics',
+        subtitle: 'OpenAI API and prompt engineering',
+        color: '#f59e0b',
+        interviewQuestion: 'How would you add AI features to an existing mobile app?',
+        output: 'GitHub repo: ai-expense-tracker with OpenAI integration',
+        timeEstimate: '7 hours',
+        mistakes: [
+          'Hardcoding API keys in client code',
+          'Not handling rate limits',
+          'Poor prompt design'
+        ],
+        tasks: [
+          {t: 'Set up OpenAI API account and keys', time: '30 min', why: 'Get $5 free tier for learning'},
+          {t: 'Learn prompt engineering basics', time: '1 hr', why: 'Better prompts = better results'},
+          {t: 'Build text generation endpoint', time: '1.5 hr', why: 'Core AI feature'},
+          {t: 'Implement streaming responses', time: '1 hr', why: 'Better UX with progress'},
+          {t: 'Add error handling for API limits', time: '1 hr', why: 'Prevent service disruption'},
+          {t: 'Create expense categorization AI logic', time: '1.5 hr', why: 'Real-world AI application'},
+          {t: 'Build React Native AI UI', time: '1.5 hr', why: 'Integrate with mobile'}
+        ],
+        resources: [
+          {name: 'OpenAI API Docs', url: 'https://platform.openai.com/docs', type: 'docs'},
+          {name: 'Prompt Engineering Guide', url: 'https://platform.openai.com/docs/guides/prompt-engineering', type: 'docs'},
+          {name: 'OpenAI Cookbook', url: 'https://github.com/openai/openai-cookbook', type: 'repo'}
+        ]
+      },
+      {
+        id: 'w4',
+        num: 'WEEK 04',
+        title: 'AI at Scale',
+        subtitle: 'RAG, embeddings, and vector databases',
+        color: '#eab308',
+        interviewQuestion: 'Explain how you would build a semantic search feature',
+        output: 'GitHub repo: ai-knowledge-base with RAG implementation',
+        timeEstimate: '9 hours',
+        mistakes: [
+          'Not chunking documents properly',
+          'No context injection',
+          'Ignoring embedding costs'
+        ],
+        tasks: [
+          {t: 'Set up Pinecone vector database', time: '1 hr', why: 'Store embeddings efficiently'},
+          {t: 'Generate embeddings with OpenAI', time: '1 hr', why: 'Convert text to vectors'},
+          {t: 'Build retrieval pipeline', time: '1.5 hr', why: 'Get relevant context'},
+          {t: 'Implement RAG architecture', time: '2 hr', why: 'Ground AI in facts'},
+          {t: 'Add conversation memory', time: '1.5 hr', why: 'Context-aware responses'},
+          {t: 'Optimize token usage and costs', time: '1.5 hr', why: 'Production economics'},
+          {t: 'Deploy vector search API', time: '1 hr', why: 'Production-ready service'}
+        ],
+        resources: [
+          {name: 'Pinecone Docs', url: 'https://docs.pinecone.io', type: 'docs'},
+          {name: 'LangChain JS', url: 'https://js.langchain.com', type: 'docs'},
+          {name: 'RAG Tutorial', url: 'https://docs.pinecone.io/docs/retrieval-augmented-generation', type: 'docs'}
+        ]
+      },
+      {
+        id: 'w5',
+        num: 'WEEK 05',
+        title: 'AWS Foundations',
+        subtitle: 'EC2, RDS, S3, and cloud basics',
+        color: '#6366f1',
+        interviewQuestion: 'Design a 3-tier architecture on AWS',
+        output: 'AWS deployment: finance-api on EC2 with RDS PostgreSQL',
+        timeEstimate: '8 hours',
+        mistakes: [
+          'Running everything in one region',
+          'No backups configured',
+          'Using root credentials'
+        ],
+        tasks: [
+          {t: 'Set up AWS free tier account', time: '30 min', why: '$300 credits for learning'},
+          {t: 'Launch EC2 instance with Ubuntu', time: '1 hr', why: 'Virtual server basics'},
+          {t: 'Set up RDS PostgreSQL database', time: '1 hr', why: 'Managed database service'},
+          {t: 'Create S3 bucket for assets', time: '30 min', why: 'Object storage essentials'},
+          {t: 'Configure security groups', time: '1 hr', why: 'Network security basics'},
+          {t: 'Set up CloudWatch monitoring', time: '1.5 hr', why: 'Know your metrics'},
+          {t: 'Deploy NestJS to EC2', time: '1.5 hr', why: 'Production deployment'},
+          {t: 'Set up automated backups', time: '1 hr', why: 'Disaster recovery'}
+        ],
+        resources: [
+          {name: 'AWS Free Tier', url: 'https://aws.amazon.com/free', type: 'docs'},
+          {name: 'EC2 Getting Started', url: 'https://docs.aws.amazon.com/ec2', type: 'docs'},
+          {name: 'RDS User Guide', url: 'https://docs.aws.amazon.com/rds', type: 'docs'}
+        ]
+      },
+      {
+        id: 'w6',
+        num: 'WEEK 06',
+        title: 'AWS for Mobile + CI/CD',
+        subtitle: 'Cognito, AppSync, and deployment automation',
+        color: '#22c55e',
+        interviewQuestion: 'How would you implement user auth for a mobile app?',
+        output: 'Deployed app: React Native with AWS backend on GitHub Actions',
+        timeEstimate: '10 hours',
+        mistakes: [
+          'No environment separation',
+          'Hardcoded configs',
+          'Manual deployments'
+        ],
+        tasks: [
+          {t: 'Set up AWS Cognito for auth', time: '1.5 hr', why: 'Managed user auth'},
+          {t: 'Configure Cognito in React Native', time: '1.5 hr', why: 'Mobile integration'},
+          {t: 'Deploy with Amplify or CLI', time: '1 hr', why: 'Multiple deployment options'},
+          {t: 'Build GitHub Actions CI/CD', time: '2 hr', why: 'Automate deployments'},
+          {t: 'Set up staging environment', time: '1.5 hr', why: 'Test before production'},
+          {t: 'Configure environment variables', time: '1 hr', why: '12-Factor App principle'},
+          {t: 'Add automated testing in CI', time: '1 hr', why: 'Quality gates'},
+          {t: 'Set up CloudFront CDN', time: '1 hr', why: 'Global performance'}
+        ],
+        resources: [
+          {name: 'AWS Cognito Docs', url: 'https://docs.aws.amazon.com/cognito', type: 'docs'},
+          {name: 'GitHub Actions', url: 'https://docs.github.com/en/actions', type: 'docs'},
+          {name: 'AWS CDK', url: 'https://docs.aws.amazon.com/cdk', type: 'docs'}
+        ]
+      },
+      {
+        id: 'w7',
+        num: 'WEEK 07',
+        title: 'System Design - Mobile Architecture',
+        subtitle: 'Scalable patterns and real-world systems',
+        color: '#f59e0b',
+        interviewQuestion: 'Design Instagram or WhatsApp',
+        output: '5 architecture diagrams: News Feed, Chat, Notifications, Search, Photo Upload',
+        timeEstimate: '6 hours',
+        mistakes: [
+          'Starting with tech before requirements',
+          'No capacity planning',
+          'Ignoring mobile constraints'
+        ],
+        tasks: [
+          {t: 'Watch System Design primer', time: '1 hr', why: 'Framework for interviews'},
+          {t: 'Learn caching strategies', time: '1 hr', why: 'CDN, Redis, local'},
+          {t: 'Study database sharding', time: '1 hr', why: 'Scale beyond single DB'},
+          {t: 'Design News Feed system', time: '1 hr', why: 'Classic interview problem'},
+          {t: 'Design Chat system', time: '1 hr', why: 'Real-time challenges'},
+          {t: 'Create 5 Excalidraw diagrams', time: '1 hr', why: 'Visual communication'}
+        ],
+        resources: [
+          {name: 'System Primer YouTube', url: 'https://www.youtube.com/watch?v=ZgdS0UVutHk', type: 'video'},
+          {name: 'System Design Primer', url: 'https://github.com/donnemartin/system-design-primer', type: 'repo'},
+          {name: 'Excalidraw', url: 'https://excalidraw.com', type: 'docs'}
+        ]
+      },
+    ];
+
+    // Week 8 Data
+    const WEEK8_ITEMS = [
+      { id: 'w8-1', text: 'GitHub repo: finance-api-postgres', desc: 'PostgreSQL + NestJS + JWT with tests' },
+      { id: 'w8-2', text: 'GitHub repo: ai-expense-tracker', desc: 'OpenAI integration + demo video on README' },
+      { id: 'w8-3', text: 'AWS Cloud Practitioner certification', desc: 'Or AWS Developer Associate (preferred)' },
+      { id: 'w8-4', text: '3 Excalidraw architecture diagrams', desc: 'Posted to LinkedIn or blog' },
+      { id: 'w8-5', text: '5 STAR stories written and practiced', desc: 'Situation, Task, Action, Result' },
+      { id: 'w8-6', text: 'Resume updated with "PostgreSQL, AI Integration, AWS"', desc: 'Focus on outcomes, not duties' },
+      { id: 'w8-7', text: 'LinkedIn headline updated', desc: 'React Native + AI + AWS specialist' },
+      { id: 'w8-8', text: '50 job applications sent', desc: 'With personalized cover letters' },
+      { id: 'w8-9', text: '3-5 interview calls scheduled', desc: 'Focus on remote-first companies' }
+    ];
+
+    // State management
+    const STORAGE_KEY = 'milestone1_progress';
+    let progress = { tasks: {}, weeksCollapsed: {}, focusSessions: 0, lastActive: null };
+
+    // Initialize
+    function init() {
+      loadProgress();
+      renderWeeks();
+      renderWeek8();
+      renderTodaysFocus();
+      updateStats();
+      setupTimer();
+      setupDataControls();
+      setupMilestone2();
+    }
+
+    // Load/Save progress
+    function loadProgress() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        progress = { ...progress, ...JSON.parse(saved) };
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    }
+
+    // Calculate streak
+    function calculateStreak() {
+      if (!progress.lastActive) return 0;
+      const last = new Date(progress.lastActive);
+      const today = new Date();
+      const diff = Math.floor((today - last) / (1000 * 60 * 60 * 24));
+      return diff <= 1 ? progress.streak || 0 : 0;
+    }
+
+    // Update streak on interaction
+    function updateStreak() {
+      const today = new Date().toISOString().split('T')[0];
+      if (progress.lastActive !== today) {
+        if (progress.lastActive && new Date(progress.lastActive).toISOString().split('T')[0] === new Date(Date.now() - 86400000).toISOString().split('T')[0]) {
+          progress.streak = (progress.streak || 0) + 1;
+        } else {
+          progress.streak = 1;
+        }
+        progress.lastActive = today;
+        saveProgress();
+      }
+    }
+
+    // Toggle task
+    function toggleTask(weekId, taskIndex) {
+      const key = `${weekId}-${taskIndex}`;
+      progress.tasks[key] = !progress.tasks[key];
+      saveProgress();
+      updateStats();
+      updateStreak();
+      renderTodaysFocus();
+    }
+
+    // Toggle week 8 item
+    function toggleWeek8(index) {
+      const key = `week8-${index}`;
+      progress.tasks[key] = !progress.tasks[key];
+      saveProgress();
+      updateStats();
+      updateStreak();
+    }
+
+    // Toggle collapse
+    function toggleCollapse(weekId) {
+      progress.weeksCollapsed[weekId] = !progress.weeksCollapsed[weekId];
+      saveProgress();
+      renderWeeks();
+    }
+
+    // Render weeks
+    function renderWeeks() {
+      const container = document.getElementById('weeksGrid');
+      container.innerHTML = WEEKS.map((week, weekIndex) => {
+        const isCollapsed = progress.weeksCollapsed[week.id];
+        const completedTasks = week.tasks.filter((_, i) => progress.tasks[`${week.id}-${i}`]).length;
+        
+        return `
+          <article class="week-card ${isCollapsed ? 'collapsed' : ''}" style="--week-color: ${week.color}">
+            <div class="week-card-header" onclick="toggleCollapse('${week.id}')" style="border-top-color: ${week.color}">
+              <span class="week-badge" style="color: ${week.color}">${week.num}</span>
+              <div class="week-card-header-content">
+                <h3 class="week-title">${week.title}</h3>
+                <p class="week-subtitle">${week.subtitle}</p>
+              </div>
+            </div>
+            <div class="week-card-body">
+              <!-- Interview Question -->
+              <div class="interview-section">
+                <div class="interview-label">
+                  <span>🎯</span> Interview Question You'll Ace
+                </div>
+                <div class="interview-question">${week.interviewQuestion}</div>
+              </div>
+
+              <!-- Output -->
+              <div class="output-section">
+                <div class="output-label">
+                  <span>📦</span> Specific Output
+                </div>
+                <div class="output-text">${formatOutput(week.output)}</div>
+              </div>
+
+              <!-- Time -->
+              <div class="time-estimate">
+                <span>⏱️</span> ${week.timeEstimate} total
+              </div>
+
+              <!-- Tasks -->
+              <div class="tasks-section">
+                <div class="tasks-header">Tasks (${completedTasks}/${week.tasks.length})</div>
+                ${week.tasks.map((task, taskIndex) => `
+                  <div class="task-item">
+                    <div class="task-checkbox ${progress.tasks[`${week.id}-${taskIndex}`] ? 'completed' : ''}" 
+                         onclick="toggleTask('${week.id}', ${taskIndex})"
+                         aria-label="${progress.tasks[`${week.id}-${taskIndex}`] ? 'Unmark' : 'Mark'} task as complete">
+                    </div>
+                    <div class="task-content">
+                      <div class="task-text ${progress.tasks[`${week.id}-${taskIndex}`] ? 'completed' : ''}">${task.t}</div>
+                      <div class="task-meta">
+                        <span class="task-time">${task.time}</span>
+                        <span class="task-tooltip-trigger">
+                          Why?
+                          <div class="task-tooltip">${task.why}</div>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+
+              <!-- Common Mistakes -->
+              <div class="mistakes-section">
+                <div class="mistakes-header">
+                  <span>⚠️</span> Common Mistakes
+                </div>
+                ${week.mistakes.map(mistake => `
+                  <div class="mistake-item">
+                    <span class="mistake-icon">×</span>
+                    <span>${mistake}</span>
+                  </div>
+                `).join('')}
+              </div>
+
+              <!-- Resources -->
+              <div class="resources-section">
+                <div class="resources-label">Resources</div>
+                <div class="resource-links">
+                  ${week.resources.map(res => `
+                    <a href="${res.url}" target="_blank" rel="noopener" class="resource-link ${res.type}">
+                      ${getResourceIcon(res.type)} ${res.name}
+                    </a>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Render Week 8
+    function renderWeek8() {
+      const container = document.getElementById('week8Grid');
+      container.innerHTML = WEEK8_ITEMS.map((item, index) => {
+        const isCompleted = progress.tasks[`week8-${index}`];
+        return `
+          <div class="week-8-item">
+            <div class="week-8-checkbox ${isCompleted ? 'completed' : ''}" 
+                 onclick="toggleWeek8(${index})">
+            </div>
+            <div class="week-8-content">
+              <div class="week-8-text ${isCompleted ? 'completed' : ''}">${item.text}</div>
+              <div class="week-8-desc">${item.desc}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render today's focus
+    function renderTodaysFocus() {
+      const container = document.getElementById('todayFocusList');
+      const today = new Date().getDay();
+      const currentWeekIndex = Math.max(0, Math.floor(today / 2));
+      const currentWeek = WEEKS[currentWeekIndex];
+      
+      if (!currentWeek) {
+        container.innerHTML = '<li class="today-focus-item"><span class="today-focus-week">Start with Week 1</span> Choose a week above to begin!</li>';
+        return;
+      }
+
+      const incompleteTasks = currentWeek.tasks
+        .map((task, i) => ({ ...task, index: i, weekId: currentWeek.id }))
+        .filter(item => !progress.tasks[`${item.weekId}-${item.index}`])
+        .slice(0, 3);
+
+      if (incompleteTasks.length === 0) {
+        container.innerHTML = `
+          <li class="today-focus-item">
+            <div class="today-focus-check completed">✓</div>
+            <div class="today-focus-content">
+              <div class="today-focus-text" style="text-decoration: line-through; color: var(--accent-green);">
+                All tasks complete for ${currentWeek.title}!
+              </div>
+            </div>
+          </li>
+        `;
+        return;
+      }
+
+      container.innerHTML = incompleteTasks.map(task => `
+        <li class="today-focus-item">
+          <div class="today-focus-check ${progress.tasks[`${task.weekId}-${task.index}`] ? 'completed' : ''}" 
+               onclick="toggleTask('${task.weekId}', ${task.index}); renderTodaysFocus()">
+          </div>
+          <div class="today-focus-text">
+            <div style="font-weight: 500;">${task.t}</div>
+            <div class="today-focus-week">${currentWeek.num} • ${task.time}</div>
+          </div>
+        </li>
+      `).join('');
+    }
+
+    // Format output text
+    function formatOutput(output) {
+      return output.replace(/`([^`]+)`/g, '<code>$1</code>');
+    }
+
+    // Get resource icon
+    function getResourceIcon(type) {
+      const icons = { docs: '📚', repo: '🔗', video: '🎬', interactive: '💻' };
+      return icons[type] || '🔗';
+    }
+
+    // Update stats
+    function updateStats() {
+      const totalTasks = WEEKS.reduce((sum, w) => sum + w.tasks.length, 0) + WEEK8_ITEMS.length;
+      const completedTasks = Object.values(progress.tasks).filter(t => t).length;
+      const percentage = Math.round((completedTasks / totalTasks) * 100);
+
+      document.getElementById('tasksCount').textContent = `${completedTasks} / ${totalTasks}`;
+      document.getElementById('streakCount').textContent = `${calculateStreak()} days`;
+      document.getElementById('focusCount').textContent = progress.focusSessions || 0;
+      document.getElementById('timeInvested').textContent = `${Math.floor((completedTasks * 1.2))} hours`;
+      document.getElementById('progressText').textContent = `${percentage}%`;
+      document.getElementById('progressBar').style.width = `${percentage}%`;
+      
+      // Check completion
+      if (percentage === 100) {
+        showCompletionMessage();
+      }
+    }
+
+    // Timer functionality
+    function setupTimer() {
+      let timeLeft = 25 * 60;
+      let isRunning = false;
+      let isRest = false;
+      let timerInterval = null;
+
+      const display = document.getElementById('timerDisplay');
+      const startBtn = document.getElementById('timerStartBtn');
+      const pauseBtn = document.getElementById('timerPauseBtn');
+      const resetBtn = document.getElementById('timerResetBtn');
+      const modal = document.getElementById('timerModal');
+
+      function updateDisplay() {
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        display.classList.toggle('rest', isRest);
+      }
+
+      function start() {
+        isRunning = true;
+        startBtn.style.display = 'none';
+        pauseBtn.style.display = 'inline-block';
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          updateDisplay();
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            isRunning = false;
+            if (!isRest) {
+              progress.focusSessions = (progress.focusSessions || 0) + 1;
+              saveProgress();
+              updateStats();
+              alert('Focus session complete! Take a 5-minute break.');
+              isRest = true;
+              timeLeft = 5 * 60;
+            } else {
+              isRest = false;
+              timeLeft = 25 * 60;
+            }
+            updateDisplay();
+            startBtn.style.display = 'inline-block';
+            pauseBtn.style.display = 'none';
+          }
+        }, 1000);
+      }
+
+      function pause() {
+        isRunning = false;
+        clearInterval(timerInterval);
+        startBtn.style.display = 'inline-block';
+        pauseBtn.style.display = 'none';
+      }
+
+      function reset() {
+        pause();
+        isRest = false;
+        timeLeft = 25 * 60;
+        updateDisplay();
+      }
+
+      startBtn.onclick = start;
+      pauseBtn.onclick = pause;
+      resetBtn.onclick = reset;
+
+      document.getElementById('focusTimerBtn').onclick = () => {
+        modal.classList.add('active');
+      };
+
+      document.getElementById('timerCloseBtn').onclick = () => {
+        modal.classList.remove('active');
+      };
+
+      modal.onclick = (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      };
+    }
+
+    // Export/Import
+    function setupDataControls() {
+      // Export
+      document.getElementById('exportBtn').onclick = () => {
+        const data = {
+          ...progress,
+          exportedAt: new Date().toISOString(),
+          version: '1.0'
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `milestone1-progress-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      };
+
+      // Import
+      const importFile = document.getElementById('importFile');
+      document.getElementById('importBtn').onclick = () => importFile.click();
+      importFile.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const data = JSON.parse(event.target.result);
+            progress = { ...progress, ...data.tasks ? data : { tasks: data } };
+            saveProgress();
+            renderWeeks();
+            renderWeek8();
+            renderTodaysFocus();
+            updateStats();
+            alert('Progress imported successfully!');
+          } catch (err) {
+            alert('Error importing file. Please check the format.');
+          }
+        };
+        reader.readAsText(file);
+        importFile.value = '';
+      };
+    }
+
+    // Milestone 2 placeholder
+    function setupMilestone2() {
+      document.getElementById('milestone2Btn').onclick = () => {
+        const percentage = parseInt(document.getElementById('progressText').textContent);
+        if (percentage >= 100) {
+          alert('Congratulations on completing Milestone 1! Milestone 2 is coming soon.');
+        } else {
+          alert(`Complete ${100 - percentage}% more of Milestone 1 to unlock Milestone 2!`);
+        }
+      };
+    }
+
+    // Completion message
+    function showCompletionMessage() {
+      if (!progress.completionShown) {
+        progress.completionShown = true;
+        saveProgress();
+        setTimeout(() => {
+          alert('🎉 Milestone 1 Complete! You are Job Ready! Time to apply for those $120K+ positions!');
+        }, 1000);
+      }
+    }
+
+    // Initialize everything
+    init();
+  </script>
+</body>
+</html>

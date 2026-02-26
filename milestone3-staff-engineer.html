@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milestone 3: Staff Engineer Track - Months 7-12</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0c0e10;
+      --bg-surface: #13161a;
+      --bg-elevated: #1a1d22;
+      --bg-card: #1e2127;
+      --border-color: #2a2d35;
+      --border-light: #3a3d45;
+      --text-primary: #f0f1f5;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent-gold: #f59e0b;
+      --accent-amber: #fbbf24;
+      --accent-yellow: #eab308;
+      --accent-purple: #a78bfa;
+      --accent-green: #22c55e;
+      --accent-blue: #3b82f6;
+      --accent-red: #ef4444;
+      --accent-cyan: #06b6d4;
+      --path-staff: #f59e0b;
+      --path-consultant: #06b6d4;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-primary) 100%);
+      border-bottom: 1px solid var(--border-color);
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber), var(--accent-yellow));
+    }
+
+    .header-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber), #fde68a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .header-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    /* Path Toggle */
+    .path-toggle {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.5rem;
+      display: inline-flex;
+      gap: 0.5rem;
+    }
+
+    .path-btn {
+      padding: 0.875rem 2rem;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .path-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .path-btn.active.staff {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(251, 191, 36, 0.1));
+      color: var(--accent-gold);
+      border: 1px solid var(--accent-gold);
+    }
+
+    .path-btn.active.consultant {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.1));
+      color: var(--accent-cyan);
+      border: 1px solid var(--accent-cyan);
+    }
+
+    /* Timeline Container */
+    .timeline-section {
+      padding: 3rem 2rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .timeline-outer {
+      min-width: 100%;
+    }
+
+    .timeline-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .timeline-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .timeline-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* Timeline */
+    .timeline {
+      display: flex;
+      gap: 2rem;
+      padding: 2rem 1rem;
+      min-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 60px;
+      left: 2rem;
+      right: 2rem;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber), var(--accent-cyan));
+      border-radius: 3px;
+    }
+
+    .timeline-month {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+      padding-top: 40px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      top: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--bg-primary);
+      border: 4px solid var(--accent-gold);
+      z-index: 1;
+    }
+
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .timeline-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.15);
+      border-color: var(--accent-gold);
+    }
+
+    .timeline-month-label {
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-milestone {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .card-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .card-output {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+      border-left: 3px solid var(--accent-gold);
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--accent-amber);
+    }
+
+    .salary-band {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .salary-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .salary-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent-amber);
+    }
+
+    /* Path Specific Styles */
+    .path-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .path-content {
+      display: none;
+    }
+
+    .path-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Phase Sections */
+    .phase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .phase-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .phase-card:hover {
+      border-color: var(--accent-gold);
+      transform: translateY(-4px);
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .phase-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      background: var(--accent-gold);
+      color: var(--bg-primary);
+      border-radius: 4px;
+    }
+
+    .phase-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .phase-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .phase-description {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .tasks-list {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .task-item:last-child {
+      border-bottom: none;
+    }
+
+    .task-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .task-checkbox.staff.completed {
+      background: var(--accent-gold);
+      border-color: var(--accent-gold);
+    }
+
+    .task-checkbox.consultant.completed {
+      background: var(--accent-cyan);
+      border-color: var(--accent-cyan);
+    }
+
+    .task-checkbox.completed::after {
+      content: '✓';
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: var(--bg-primary);
+    }
+
+    .task-text {
+      flex: 1;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+
+    .task-text.completed {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .task-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Output Section */
+    .output-section {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .output-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .output-text {
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+
+    /* Income Calculator (Consultant Path) */
+    .calculator-section {
+      background: linear-gradient(135deg, var(--bg-card), rgba(6, 182, 212, 0.05));
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem;
+    }
+
+    .calculator-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .calculator-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .calculator-subtitle {
+      color: var(--text-secondary);
+    }
+
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .input-group {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+    }
+
+    .calculation-result {
+      background: var(--bg-primary);
+      border: 2px solid var(--accent-gold);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .result-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+
+    .result-subtext {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+
+    /* Conference Form */
+    .conference-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem;
+    }
+
+    .conference-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .conference-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .form-input,
+    .form-textarea {
+      padding: 0.875rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-btn {
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 1rem;
+    }
+
+    .form-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Client Pipeline */
+    .pipeline-section {
+      background: linear-gradient(135deg, var(--bg-card), rgba(6, 182, 212, 0.05));
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem;
+    }
+
+    .pipeline-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .pipeline-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .pipeline-column {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      min-height: 200px;
+    }
+
+    .pipeline-column-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid;
+    }
+
+    .column-prospect { border-color: var(--text-muted); }
+    .column-qualified { border-color: var(--accent-blue); }
+    .column-proposal { border-color: var(--accent-purple); }
+    .column-contract { border-color: var(--accent-gold); }
+    .column-retainer { border-color: var(--accent-green); }
+
+    .pipeline-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      background: var(--bg-primary);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .pipeline-add-btn {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px dashed var(--border-light);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .pipeline-add-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    .client-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      cursor: grab;
+      transition: all 0.2s;
+    }
+
+    .client-card:hover {
+      border-color: var(--accent-gold);
+      transform: translateY(-2px);
+    }
+
+    .client-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .client-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent-gold);
+    }
+
+    /* Tips Section */
+    .tips-section {
+      background: var(--bg-card);
+      border-left: 4px solid var(--accent-gold);
+      border-radius: 0 12px 12px 0;
+      padding: 1.5rem;
+      margin: 2rem;
+    }
+
+    .tips-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .tips-list {
+      list-style: none;
+    }
+
+    .tips-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      color: var(--text-secondary);
+    }
+
+    .tips-icon {
+      color: var(--accent-gold);
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--accent-amber);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 2rem 1rem;
+      }
+
+      .path-toggle {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .timeline {
+        min-width: auto;
+        flex-direction: column;
+      }
+
+      .timeline::before {
+        display: none;
+      }
+
+      .timeline-month {
+        min-width: auto;
+      }
+
+      .phase-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+
+      .calculator-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pipeline-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-elevated);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-light);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-gold);
+    }
+
+    /* Focus styles */
+    :focus {
+      outline: 2px solid var(--accent-gold);
+      outline-offset: 2px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Domain Selection */
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .domain-card {
+      background: var(--bg-elevated);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .domain-card:hover {
+      border-color: var(--accent-gold);
+      transform: translateY(-2px);
+    }
+
+    .domain-card.selected {
+      border-color: var(--accent-gold);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+    }
+
+    .domain-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .domain-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .domain-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1 class="header-title">Milestone 3: Staff Track</h1>
+    <p class="header-subtitle">Months 7-12: $200K+ or $150/hr consulting. Choose your path to technical leadership.</p>
+    
+    <div class="path-toggle">
+      <button class="path-btn active staff" id="staffBtn" onclick="switchPath('staff')">
+        🏢 Staff Engineer
+      </button>
+      <button class="path-btn consultant" id="consultantBtn" onclick="switchPath('consultant')">
+        💼 Independent Consultant
+      </button>
+    </div>
+  </header>
+
+  <!-- Timeline Section -->
+  <section class="timeline-section">
+    <div class="timeline-outer">
+      <div class="timeline-header">
+        <h2 class="timeline-title">Your Next 6 Months</h2>
+        <p class="timeline-subtitle">Scroll horizontally to see your journey to senior-level success</p>
+      </div>
+      
+      <div class="timeline" id="timeline">
+        <!-- Months will be populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Path Content -->
+  <div class="path-container">
+    <!-- Staff Engineer Path -->
+    <div class="path-content active" id="staffPath">
+      
+      <!-- Stats -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" id="staffTasksComplete">0</span>
+          <span class="stat-label">Tasks Complete</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="staffProgress">0%</span>
+          <span class="stat-label">Path Progress</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">$200K+</span>
+          <span class="stat-label">Target Comp</span>
+        </div>
+      </div>
+
+      <!-- Phase 1: Domain Expertise -->
+      <div class="phase-grid">
+        <div class="phase-card">
+          <div class="phase-header">
+            <div>
+              <span class="phase-badge">MONTHS 7-8</span>
+              <h3 class="phase-title">Domain Expertise</h3>
+            </div>
+          </div>
+          
+          <p class="phase-description">
+            Deep specialization in one domain. Become the go-to person for complex problems.
+          </p>
+
+          <div class="domain-grid">
+            <div class="domain-card" data-domain="fintech" onclick="selectDomain('fintech')">
+              <div class="domain-icon">💳</div>
+              <div class="domain-name">Fintech</div>
+              <div class="domain-desc">Payments, trading, banking systems</div>
+            </div>
+            <div class="domain-card" data-domain="healthtech" onclick="selectDomain('healthtech')">
+              <div class="domain-icon">🏥</div>
+              <div class="domain-name">Healthtech</div>
+              <div class="domain-desc">HIPAA, EHR, telemedicine</div>
+            </div>
+            <div class="domain-card" data-domain="ai" onclick="selectDomain('ai')">
+              <div class="domain-icon">🧠</div>
+              <div class="domain-name">AI Infrastructure</div>
+              <div class="domain-desc">ML pipelines, model serving</div>
+            </div>
+          </div>
+
+          <ul class="tasks-list" data-phase="staff-domain">
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sd1" onclick="toggleTask(this, 'staff-domain')"></div>
+              <span class="task-text">Complete compliance certification (SOC2/PCI/HIPAA)</span>
+              <span class="task-time">40 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sd2" onclick="toggleTask(this, 'staff-domain')"></div>
+              <span class="task-text">Build domain-specific architecture diagrams</span>
+              <span class="task-time">20 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sd3" onclick="toggleTask(this, 'staff-domain')"></div>
+              <span class="task-text">Write technical reference guide for team</span>
+              <span class="task-time">15 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sd4" onclick="toggleTask(this, 'staff-domain')"></div>
+              <span class="task-text">Mentor 2 junior engineers in domain</span>
+              <span class="task-time">Ongoing</span>
+            </li>
+          </ul>
+
+          <div class="output-section">
+            <div class="output-label">Expected Output</div>
+            <div class="output-text">Recognized as domain expert. Team comes to you for complex technical decisions.</div>
+          </div>
+        </div>
+
+        <!-- Phase 2: Architecture at Scale -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <div>
+              <span class="phase-badge">MONTHS 9-10</span>
+              <h3 class="phase-title">Architecture at Scale</h3>
+            </div>
+          </div>
+          
+          <p class="phase-description">
+            Design systems that serve millions. Lead cross-team initiatives and influence company strategy.
+          </p>
+
+          <ul class="tasks-list" data-phase="staff-architecture">
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sa1" onclick="toggleTask(this, 'staff-architecture')"></div>
+              <span class="task-text">Design system for 10M+ users</span>
+              <span class="task-time">30 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sa2" onclick="toggleTask(this, 'staff-architecture')"></div>
+              <span class="task-text">Write Architecture RFC for adoption</span>
+              <span class="task-time">20 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sa3" onclick="toggleTask(this, 'staff-architecture')"></div>
+              <span class="task-text">Lead cross-team initiative</span>
+              <span class="task-time">40 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sa4" onclick="toggleTask(this, 'staff-architecture')"></div>
+              <span class="task-text">Present architecture review to VPs</span>
+              <span class="task-time">10 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sa5" onclick="toggleTask(this, 'staff-architecture')"></div>
+              <span class="task-text">Document cost vs performance trade-offs</span>
+              <span class="task-time">15 hrs</span>
+            </li>
+          </ul>
+
+          <div class="output-section">
+            <div class="output-label">Expected Output</div>
+            <div class="output-text">Architecture RFCs adopted company-wide. Recognition as technical decision-maker.</div>
+          </div>
+        </div>
+
+        <!-- Phase 3: Industry Recognition -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <div>
+              <span class="phase-badge">MONTHS 11-12</span>
+              <h3 class="phase-title">Industry Recognition</h3>
+            </div>
+          </div>
+          
+          <p class="phase-description">
+            Become a thought leader. Speak at conferences, maintain open source, join advisory boards.
+          </p>
+
+          <ul class="tasks-list" data-phase="staff-recognition">
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sr1" onclick="toggleTask(this, 'staff-recognition')"></div>
+              <span class="task-text">Submit CFP to major conferences</span>
+              <span class="task-time">10 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sr2" onclick="toggleTask(this, 'staff-recognition')"></div>
+              <span class="task-text">Accepted speaker at 1 conference</span>
+              <span class="task-time">40 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sr3" onclick="toggleTask(this, 'staff-recognition')"></div>
+              <span class="task-text">Become open source maintainer</span>
+              <span class="task-time">20 hrs/month</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sr4" onclick="toggleTask(this, 'staff-recognition')"></div>
+              <span class="task-text">Join advisory board or council</span>
+              <span class="task-time">Ongoing</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox staff" data-task="sr5" onclick="toggleTask(this, 'staff-recognition')"></div>
+              <span class="task-text">Negotiate $200K+ offer</span>
+              <span class="task-time">Variable</span>
+            </li>
+          </ul>
+
+          <div class="output-section">
+            <div class="output-label">Expected Output</div>
+            <div class="output-text">$200K+ total comp offer. Industry recognition as expert. Multiple opportunities.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conference CFP Form -->
+      <div class="conference-section">
+        <div class="conference-header">
+          <h3 class="conference-title">My First Conference Talk 🎤</h3>
+          <p class="phase-subtitle">Draft your CFP submission. Target: React Native EU, AWS Summit, or App.js Conf</p>
+        </div>
+        
+        <form class="form-grid" id="cfpForm">
+          <div class="form-group">
+            <label class="form-label">Talk Title</label>
+            <input type="text" class="form-input" placeholder="e.g., Scaling React Native to 10M Users" id="talkTitle">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Conference Target</label>
+            <select class="form-input" id="conferenceTarget">
+              <option value="">Select conference...</option>
+              <option value="react-native-eu">React Native EU</option>
+              <option value="aws-summit">AWS Summit</option>
+              <option value="appjs">App.js Conf</option>
+              <option value="react-conf">React Conf</option>
+              <option value="qcon">QCon</option>
+            </select>
+          </div>
+          
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label">Abstract (100-300 words)</label>
+            <textarea class="form-textarea" placeholder="What problem did you solve? What insights will attendees gain? What makes this unique?" id="talkAbstract"></textarea>
+          </div>
+          
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label">Key Takeaways (3 bullet points)</label>
+            <textarea class="form-textarea" placeholder="1. Attendees will learn...
+2. Practical implementation of...
+3. Common pitfalls to avoid..." id="talkTakeaways"></textarea>
+          </div>
+          
+          <button type="button" class="form-btn" onclick="saveCFP()">Save Talk Draft</button>
+        </form>
+      </div>
+
+      <!-- Tips -->
+      <div class="tips-section">
+        <div class="tips-title">
+          <span>💡</span>
+          Staff Engineer Tips
+        </div>
+        <ul class="tips-list">
+          <li class="tips-item"><span class="tips-icon">→</span> Focus on impact, not just technical depth</li>
+          <li class="tips-item"><span class="tips-icon">→</span> Build relationships across teams and org levels</li>
+          <li class="tips-item"><span class="tips-icon">→</span> Document everything - your thinking process matters</li>
+          <li class="tips-item"><span class="tips-icon">→</span> Find a Staff Engineer mentor at your level+1</li>
+          <li class="tips-item"><span class="tips-icon">→</span> Practice system design aloud regularly</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Consultant Path -->
+    <div class="path-content" id="consultantPath">
+      
+      <!-- Stats -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" id="consultantTasksComplete">0</span>
+          <span class="stat-label">Tasks Complete</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="consultantProgress">0%</span>
+          <span class="stat-label">Path Progress</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="consultantRate">$150</span>
+          <span class="stat-label">Target Rate</span>
+        </div>
+      </div>
+
+      <!-- Income Calculator -->
+      <div class="calculator-section">
+        <div class="calculator-header">
+          <h3 class="calculator-title">Consulting Income Calculator 💰</h3>
+          <p class="calculator-subtitle">Plan your path to $15-20K/month</p>
+        </div>
+        
+        <div class="calculator-grid">
+          <div class="input-group">
+            <label class="input-label">Hourly Rate ($)</label>
+            <input type="number" class="input-field" value="150" min="50" max="500" id="rateInput" onchange="calculateIncome()">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Hours per Week</label>
+            <input type="number" class="input-field" value="30" min="5" max="60" id="hoursInput" onchange="calculateIncome()">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Weeks per Month</label>
+            <input type="number" class="input-field" value="4" min="1" max="5" id="weeksInput" onchange="calculateIncome()">
+          </div>
+        </div>
+        
+        <div class="calculation-result">
+          <div class="result-label">Monthly Income</div>
+          <div class="result-value" id="monthlyIncome">$18,000</div>
+          <div class="result-subtext">Annual: <span id="annualIncome">$216,000</span> | Daily: <span id="dailyIncome">$1,500</span></div>
+        </div>
+      </div>
+
+      <!-- Phase Grid -->
+      <div class="phase-grid">
+        <!-- Month 7-8: Specialization -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <div>
+              <span class="phase-badge" style="background: var(--accent-cyan); color: var(--bg-primary);">MONTHS 7-8</span>
+              <h3 class="phase-title">Specialization</h3>
+            </div>
+          </div>
+          
+          <p class="phase-description">
+            Focus on a narrow niche. Build case studies that demonstrate your expertise and value.
+          </p>
+
+          <div class="domain-grid">
+            <div class="domain-card" data-niche="performance" onclick="selectNiche('performance')">
+              <div class="domain-icon">⚡</div>
+              <div class="domain-name">React Native Performance</div>
+              <div class="domain-desc">Startup optimization, CI/CD speed</div>
+            </div>
+            <div class="domain-card" data-niche="ai" onclick="selectNiche('ai')">
+              <div class="domain-icon">🤖</div>
+              <div class="domain-name">AI Integration</div>
+              <div class="domain-desc">LLM integration, embeddings, RAG</div>
+            </div>
+            <div class="domain-card" data-niche="migration" onclick="selectNiche('migration')">
+              <div class="domain-icon">☁️</div>
+              <div class="domain-name">Cloud Migration</div>
+              <div class="domain-desc">Legacy to cloud, AWS/GCP cost optimization</div>
+            </div>
+          </div>
+
+          <ul class="tasks-list" data-phase="consultant-specialization">
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="cs1" onclick="toggleTask(this, 'consultant-specialization')"></div>
+              <span class="task-text">Build 3 detailed case studies</span>
+              <span class="task-time">60 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="cs2" onclick="toggleTask(this, 'consultant-specialization')"></div>
+              <span class="task-text">Create niche-specific content (blog/LinkedIn)</span>
+              <span class="task-time">40 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="cs3" onclick="toggleTask(this, 'consultant-specialization')"></div>
+              <span class="task-text">Set up consulting LLC/business</span>
+              <span class="task-time">20 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="cs4" onclick="toggleTask(this, 'consultant-specialization')"></div>
+              <span class="task-text">Define service packages & pricing</span>
+              <span class="task-time">15 hrs</span>
+            </li>
+          </ul>
+
+          <div class="output-section" style="border-color: var(--accent-cyan); background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(6, 182, 212, 0.05));">
+            <div class="output-label" style="color: var(--accent-cyan);">Expected Output</div>
+            <div class="output-text">Clear niche positioning. 3 detailed case studies. Business entity ready.</div>
+          </div>
+        </div>
+
+        <!-- Month 9-10: Client Acquisition -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <div>
+              <span class="phase-badge" style="background: var(--accent-cyan); color: var(--bg-primary);">MONTHS 9-10</span>
+              <h3 class="phase-title">Client Acquisition</h3>
+            </div>
+          </div>
+          
+          <p class="phase-description">
+            Build your personal brand and convert leads into retainer clients. Network aggressively.
+          </p>
+
+          <ul class="tasks-list" data-phase="consultant-acquisition">
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="ca1" onclick="toggleTask(this, 'consultant-acquisition')"></div>
+              <span class="task-text">Attend 2 industry conferences</span>
+              <span class="task-time">40 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="ca2" onclick="toggleTask(this, 'consultant-acquisition')"></div>
+              <span class="task-text">Build LinkedIn following (target: 5K)</span>
+              <span class="task-time">20 hrs/month</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="ca3" onclick="toggleTask(this, 'consultant-acquisition')"></div>
+              <span class="task-text">Create lead magnet (guide, template, workshop)</span>
+              <span class="task-time">30 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="ca4" onclick="toggleTask(this, 'consultant-acquisition')"></div>
+              <span class="task-text">Set up discovery calls (target: 20)</span>
+              <span class="task-time">20 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="ca5" onclick="toggleTask(this, 'consultant-acquisition')"></div>
+              <span class="task-text">Close 2-3 retainer clients</span>
+              <span class="task-time">Variable</span>
+            </li>
+          </ul>
+
+          <div class="output-section" style="border-color: var(--accent-cyan); background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(6, 182, 212, 0.05));">
+            <div class="output-label" style="color: var(--accent-cyan);">Expected Output</div>
+            <div class="output-text">2-3 retainer clients. Pipeline of qualified leads. 5K+ LinkedIn followers.</div>
+          </div>
+        </div>
+
+        <!-- Month 11-12: Scale -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <div>
+              <span class="phase-badge" style="background: var(--accent-cyan); color: var(--bg-primary);">MONTHS 11-12</span>
+              <h3 class="phase-title">Scale & Premium Rates</h3>
+            </div>
+          </div>
+          
+          <p class="phase-description">
+            Raise rates to $150-200/hr. Consider building a small agency or stay high-ticket solo.
+          </p>
+
+          <ul class="tasks-list" data-phase="consultant-scale">
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="csc1" onclick="toggleTask(this, 'consultant-scale')"></div>
+              <span class="task-text">Increase rates to $150+/hr</span>
+              <span class="task-time">Ongoing</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="csc2" onclick="toggleTask(this, 'consultant-scale')"></div>
+              <span class="task-text">Hire subcontractor or form agency</span>
+              <span class="task-time">40 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="csc3" onclick="toggleTask(this, 'consultant-scale')"></div>
+              <span class="task-text">Systematize delivery (templates, SOPs)</span>
+              <span class="task-time">30 hrs</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="csc4" onclick="toggleTask(this, 'consultant-scale')"></div>
+              <span class="task-text">Achieve $15-20K monthly income</span>
+              <span class="task-time">Ongoing</span>
+            </li>
+            <li class="task-item">
+              <div class="task-checkbox consultant" data-task="csc5" onclick="toggleTask(this, 'consultant-scale')"></div>
+              <span class="task-text">Achieve location independence</span>
+              <span class="task-time">Lifestyle</span>
+            </li>
+          </ul>
+
+          <div class="output-section" style="border-color: var(--accent-cyan); background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(6, 182, 212, 0.05));">
+            <div class="output-label" style="color: var(--accent-cyan);">Expected Output</div>
+            <div class="output-text">$15-20K/month income. 100% remote work freedom. Premium positioning.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Client Pipeline -->
+      <div class="pipeline-section">
+        <div class="pipeline-header">
+          <h3 class="pipeline-title">Client Pipeline Tracker 📊</h3>
+          <p class="phase-subtitle">Track prospects from discovery to retainer</p>
+        </div>
+        
+        <div class="pipeline-grid">
+          <div class="pipeline-column" data-stage="prospect">
+            <div class="pipeline-column-header column-prospect">
+              <span style="color: var(--text-muted); font-weight: 600;">Prospects</span>
+              <span class="pipeline-count" id="count-prospect">0</span>
+            </div>
+            <div class="pipeline-cards" id="prospect-list"></div>
+            <button class="pipeline-add-btn" onclick="addClient('prospect')">+ Add Prospect</button>
+          </div>
+          
+          <div class="pipeline-column" data-stage="qualified">
+            <div class="pipeline-column-header column-qualified">
+              <span style="color: var(--accent-blue); font-weight: 600;">Qualified</span>
+              <span class="pipeline-count" id="count-qualified">0</span>
+            </div>
+            <div class="pipeline-cards" id="qualified-list"></div>
+            <button class="pipeline-add-btn" onclick="addClient('qualified')">+ Add Lead</button>
+          </div>
+          
+          <div class="pipeline-column" data-stage="proposal">
+            <div class="pipeline-column-header column-proposal">
+              <span style="color: var(--accent-purple); font-weight: 600;">Proposal Sent</span>
+              <span class="pipeline-count" id="count-proposal">0</span>
+            </div>
+            <div class="pipeline-cards" id="proposal-list"></div>
+            <button class="pipeline-add-btn" onclick="addClient('proposal')">+ Add Proposal</button>
+          </div>
+          
+          <div class="pipeline-column" data-stage="contract">
+            <div class="pipeline-column-header column-contract">
+              <span style="color: var(--accent-gold); font-weight: 600;">Contract Negotiation</span>
+              <span class="pipeline-count" id="count-contract">0</span>
+            </div>
+            <div class="pipeline-cards" id="contract-list"></div>
+            <button class="pipeline-add-btn" onclick="addClient('contract')">+ Add Contract</button>
+          </div>
+          
+          <div class="pipeline-column" data-stage="retainer">
+            <div class="pipeline-column-header column-retainer">
+              <span style="color: var(--accent-green); font-weight: 600;">Retainer Clients</span>
+              <span class="pipeline-count" id="count-retainer">0</span>
+            </div>
+            <div class="pipeline-cards" id="retainer-list"></div>
+            <button class="pipeline-add-btn" onclick="addClient('retainer')">+ Add Client</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Consultant Tips -->
+      <div class="tips-section" style="border-left-color: var(--accent-cyan);">
+        <div class="tips-title">
+          <span>💡</span>
+          Consultant Tips
+        </div>
+        <ul class="tips-list">
+          <li class="tips-item"><span class="tips-icon" style="color: var(--accent-cyan)">→</span> Start with productized services, then customize</li>
+          <li class="tips-item"><span class="tips-icon" style="color: var(--accent-cyan)">→</span> Always require 50% payment upfront</li>
+          <li class="tips-item"><span class="tips-icon" style="color: var(--accent-cyan)">→</span> Document and templatize everything you do twice</li>
+          <li class="tips-item"><span class="tips-icon" style="color: var(--accent-cyan)">→</span> Your network is your net worth - invest in relationships</li>
+          <li class="tips-item"><span class="tips-icon" style="color: var(--accent-cyan)">→</span> Say no more than you say yes to find premium clients</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Timeline data
+    const timelineData = {
+      staff: [
+        {
+          month: 'MONTH 7',
+          title: 'Domain Fundamentals',
+          subtitle: 'Deep dive into your chosen domain',
+          milestone: 'Compliance Expert',
+          salary: '$160-180K'
+        },
+        {
+          month: 'MONTH 8',
+          title: 'Applied Domain',
+          subtitle: 'Real-world problems in your niche',
+          milestone: 'Domain Authority',
+          salary: '$170-190K'
+        },
+        {
+          month: 'MONTH 9',
+          title: 'Scale Design',
+          subtitle: 'Architecture for 10M+ users',
+          milestone: 'Architect Level',
+          salary: '$180-200K'
+        },
+        {
+          month: 'MONTH 10',
+          title: 'Cross-Team Impact',
+          subtitle: 'Lead initiatives and RFCs',
+          milestone: 'System Owner',
+          salary: '$190-210K'
+        },
+        {
+          month: 'MONTH 11',
+          title: 'Thought Leadership',
+          subtitle: 'Speaking and open source',
+          milestone: 'Industry Voice',
+          salary: '$200-220K'
+        },
+        {
+          month: 'MONTH 12',
+          title: 'Career Climax',
+          subtitle: 'Offers and recognition',
+          milestone: '$200K+ Staff',
+          salary: '$200K+ Total Comp'
+        }
+      ],
+      consultant: [
+        {
+          month: 'MONTH 7',
+          title: 'Niche Selection',
+          subtitle: 'Choose your specialization',
+          milestone: 'Niche Defined',
+          salary: '$50-100/hr'
+        },
+        {
+          month: 'MONTH 8',
+          title: 'Case Studies',
+          subtitle: 'Document your expertise',
+          milestone: 'Portfolio Ready',
+          salary: '$75-125/hr'
+        },
+        {
+          month: 'MONTH 9',
+          title: 'Lead Gen',
+          subtitle: 'Content and networking',
+          milestone: 'Pipeline Building',
+          salary: '$125-150/hr'
+        },
+        {
+          month: 'MONTH 10',
+          title: 'First Clients',
+          subtitle: 'Close retainer deals',
+          milestone: '2-3 Retainers',
+          salary: '$150/hr'
+        },
+        {
+          month: 'MONTH 11',
+          title: 'Rate Increase',
+          subtitle: 'Premium positioning',
+          milestone: 'Premium Consultant',
+          salary: '$150-200/hr'
+        },
+        {
+          month: 'MONTH 12',
+          title: 'Scale Mode',
+          subtitle: 'Agency or high-ticket solo',
+          milestone: '$15-20K/mo',
+          salary: '$180-250K Annual'
+        }
+      ]
+    };
+
+    // State
+    let currentPath = 'staff';
+    let completedTasks = JSON.parse(localStorage.getItem('milestone3_tasks') || '{}');
+    let clients = JSON.parse(localStorage.getItem('milestone3_clients') || '[]');
+    let selectedDomain = localStorage.getItem('milestone3_domain')
+    let selectedNiche = localStorage.getItem('milestone3_niche');
+
+    // Initialize
+    function init() {
+      renderTimeline();
+      loadTasks();
+      loadPipeline();
+      calculateIncome();
+      if (selectedDomain) selectDomain(selectedDomain, false);
+      if (selectedNiche) selectNiche(selectedNiche, false);
+    }
+
+    // Path switching
+    function switchPath(path) {
+      currentPath = path;
+      
+      // Toggle buttons
+      document.getElementById('staffBtn').classList.toggle('active', path === 'staff');
+      document.getElementById('consultantBtn').classList.toggle('active', path === 'consultant');
+      
+      // Show/hide content
+      document.getElementById('staffPath').classList.toggle('active', path === 'staff');
+      document.getElementById('consultantPath').classList.toggle('active', path === 'consultant');
+      
+      // Re-render timeline
+      renderTimeline();
+      
+      // Save preference
+      localStorage.setItem('milestone3_path', path);
+    }
+
+    // Render timeline
+    function renderTimeline() {
+      const timeline = document.getElementById('timeline');
+      const data = timelineData[currentPath];
+      
+      timeline.innerHTML = data.map((item, index) => `
+        <div class="timeline-month">
+          <div class="timeline-dot" style="border-color: ${currentPath === 'staff' ? 'var(--accent-gold)' : 'var(--accent-cyan)'}"></div>
+          <div class="timeline-month-label">${item.month}</div>
+          <div class="timeline-milestone">${item.milestone}</div>
+          <div class="timeline-card">
+            <h3 class="card-title">${item.title}</h3>
+            <p class="card-subtitle">${item.subtitle}</p>
+            <div class="salary-band">
+              <span class="salary-label">Target</span>
+              <span class="salary-value">${item.salary}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Task toggling
+    function toggleTask(checkbox, phase) {
+      const isCompleted = checkbox.classList.contains('completed');
+      const path = checkbox.classList.contains('staff') ? 'staff' : 'consultant';
+      
+      if (isCompleted) {
+        checkbox.classList.remove('completed');
+        checkbox.nextElementSibling.classList.remove('completed');
+        delete completedTasks[path + '-' + checkbox.dataset.task];
+      } else {
+        checkbox.classList.add('completed');
+        checkbox.nextElementSibling.classList.add('completed');
+        completedTasks[path + '-' + checkbox.dataset.task] = true;
+      }
+      
+      localStorage.setItem('milestone3_tasks', JSON.stringify(completedTasks));
+      updateProgress(path);
+    }
+
+    // Load saved tasks
+    function loadTasks() {
+      Object.entries(completedTasks).forEach(([key, value]) => {
+        if (!value) return;
+        const [path, taskId] = key.split('-', 2);
+        const checkbox = document.querySelector(`[data-task="${taskId}"].${path}`);
+        if (checkbox) {
+          checkbox.classList.add('completed');
+          checkbox.nextElementSibling.classList.add('completed');
+        }
+      });
+      
+      updateProgress('staff');
+      updateProgress('consultant');
+    }
+
+    // Update progress
+    function updateProgress(path) {
+      const checkboxes = document.querySelectorAll(`.${path}-path .task-checkbox.${path}, .task-checkbox.${path}`);
+      const completed = Object.keys(completedTasks).filter(k => k.startsWith(path + '-')).length;
+      const total = Array.from(checkboxes).filter(cb => cb.classList.contains(path)).length;
+      const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+      
+      if (path === 'staff') {
+        document.getElementById('staffTasksComplete').textContent = completed;
+        document.getElementById('staffProgress').textContent = percentage + '%';
+      } else {
+        document.getElementById('consultantTasksComplete').textContent = completed;
+        document.getElementById('consultantProgress').textContent = percentage + '%';
+      }
+    }
+
+    // Domain selection
+    function selectDomain(domain, save = true) {
+      document.querySelectorAll('.domain-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      
+      const selected = document.querySelector(`[data-domain="${domain}"]`);
+      if (selected) selected.classList.add('selected');
+      
+      if (save) {
+        selectedDomain = domain;
+        localStorage.setItem('milestone3_domain', domain);
+      }
+    }
+
+    // Niche selection
+    function selectNiche(niche, save = true) {
+      document.querySelectorAll('.domain-card[data-niche]').forEach(card => {
+        card.classList.remove('selected');
+      });
+      
+      const selected = document.querySelector(`[data-niche="${niche}"]`);
+      if (selected) selected.classList.add('selected');
+      
+      if (save) {
+        selectedNiche = niche;
+        localStorage.setItem('milestone3_niche', niche);
+      }
+    }
+
+    // Income calculator
+    function calculateIncome() {
+      const rate = parseInt(document.getElementById('rateInput').value) || 150;
+      const hours = parseInt(document.getElementById('hoursInput').value) || 30;
+      const weeks = parseInt(document.getElementById('weeksInput').value) || 4;
+      
+      const monthly = rate * hours * weeks;
+      const annual = monthly * 12;
+      const daily = rate * hours / 5; // Assuming 5-day week
+      
+      document.getElementById('monthlyIncome').textContent = '$' + monthly.toLocaleString();
+      document.getElementById('annualIncome').textContent = '$' + annual.toLocaleString();
+      document.getElementById('dailyIncome').textContent = '$' + Math.round(daily).toLocaleString();
+      document.getElementById('consultantRate').textContent = '$' + rate;
+    }
+
+    // CFP Form
+    function saveCFP() {
+      const title = document.getElementById('talkTitle').value;
+      const conference = document.getElementById('conferenceTarget').value;
+      const abstract = document.getElementById('talkAbstract').value;
+      const takeaways = document.getElementById('talkTakeaways').value;
+      
+      if (!title || !conference) {
+        alert('Please fill in the title and conference target');
+        return;
+      }
+      
+      const cfp = {
+        title,
+        conference,
+        abstract,
+        takeaways,
+        date: new Date().toISOString()
+      };
+      
+      localStorage.setItem('milestone3_cfp', JSON.stringify(cfp));
+      alert('Talk draft saved! Review and submit at the conference CFP portal.');
+    }
+
+    // Client Pipeline
+    function addClient(stage) {
+      const name = prompt('Client/Prospect name:');
+      if (!name) return;
+      
+      const value = prompt('Estimated monthly value ($):') || '0';
+      
+      const client = {
+        id: Date.now(),
+        name,
+        value: parseInt(value) || 0,
+        stage,
+        date: new Date().toISOString()
+      };
+      
+      clients.push(client);
+      localStorage.setItem('milestone3_clients', JSON.stringify(clients));
+      renderClient(client);
+      updatePipelineCounts();
+    }
+
+    function renderClient(client) {
+      const list = document.getElementById(`${client.stage}-list`);
+      const card = document.createElement('div');
+      card.className = 'client-card';
+      card.innerHTML = `
+        <div class="client-name">${client.name}</div>
+        <div class="client-value">$${client.value.toLocaleString()}/mo</div>
+      `;
+      card.onclick = () => moveClient(client.id, card);
+      list.appendChild(card);
+    }
+
+    function moveClient(id, cardElement) {
+      const client = clients.find(c => c.id === id);
+      if (!client) return;
+      
+      const stages = ['prospect', 'qualified', 'proposal', 'contract', 'retainer'];
+      const currentIndex = stages.indexOf(client.stage);
+      
+      if (currentIndex < stages.length - 1) {
+        const newStage = stages[currentIndex + 1];
+        client.stage = newStage;
+        localStorage.setItem('milestone3_clients', JSON.stringify(clients));
+        
+        // Move card in DOM
+        document.getElementById(`${newStage}-list`).appendChild(cardElement);
+        updatePipelineCounts();
+      } else {
+        // Remove from pipeline
+        clients = clients.filter(c => c.id !== id);
+        localStorage.setItem('milestone3_clients', JSON.stringify(clients));
+        cardElement.remove();
+        updatePipelineCounts();
+      }
+    }
+
+    function loadPipeline() {
+      clients.forEach(renderClient);
+      updatePipelineCounts();
+    }
+
+    function updatePipelineCounts() {
+      const stages = ['prospect', 'qualified', 'proposal', 'contract', 'retainer'];
+      stages.forEach(stage => {
+        const count = clients.filter(c => c.stage === stage).length;
+        document.getElementById(`count-${stage}`).textContent = count;
+      });
+    }
+
+    // Load saved path preference
+    const savedPath = localStorage.getItem('milestone3_path');
+    if (savedPath && savedPath !== currentPath) {
+      switchPath(savedPath);
+    }
+
+    // Initialize on load
+    init();
+  </script>
+</body>
+</html>

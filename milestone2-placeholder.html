@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milestone 2: Senior Solid - Coming Soon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0c0e10;
+      --bg-surface: #13161a;
+      --bg-elevated: #1a1d22;
+      --border-color: #2a2d35;
+      --text-primary: #f0f1f5;
+      --text-secondary: #9ca3af;
+      --accent-purple: #8b5cf6;
+      --accent-blue: #3b82f6;
+      --accent-gold: #f59e0b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+    }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      background: var(--accent-purple);
+      color: var(--bg-primary);
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .coming-soon {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .description {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    .preview-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: left;
+    }
+
+    .preview-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .topic-list {
+      list-style: none;
+    }
+
+    .topic-item {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .topic-item:last-child {
+      border-bottom: none;
+    }
+
+    .topic-icon {
+      font-size: 1.25rem;
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      background: var(--accent-purple);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 2rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="badge">MILESTONE 02</span>
+    <h1>Senior Solid</h1>
+    <p class="subtitle">4 Months to $180K</p>
+    
+    <div class="coming-soon">🚀</div>
+    
+    <p class="description">
+      Focus on deepening your expertise in system design, microservices, and advanced architectures.
+      This milestone is currently being developed.
+    </p>
+
+    <div class="preview-card">
+      <div class="preview-title">
+        <span>🔮</span>
+        Coming Soon - Key Topics
+      </div>
+      <ul class="topic-list">
+        <li class="topic-item">
+          <span class="topic-icon">🏗️</span>
+          <span>Advanced System Design Patterns</span>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">☸️</span>
+          <span>Kubernetes & Container Orchestration</span>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">📊</span>
+          <span>Performance & Monitoring at Scale</span>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">🔐</span>
+          <span>Security Architecture Best Practices</span>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">🧪</span>
+          <span>Chaos Engineering & Reliability</span>
+        </li>
+      </ul>
+    </div>
+
+    <a href="#milestone-1" class="action-btn" id="backBtn">
+      <span>←</span>
+      Continue with Milestone 1
+    </a>
+  </div>
+
+  <script>
+    // Sync with parent
+    document.getElementById('backBtn').addEventListener('click', function(e) {
+      if (window.parent !== window) {
+        e.preventDefault();
+        window.parent.location.hash = '#milestone-1';
+      }
+    });
+  </script>
+</body>
+</html>
