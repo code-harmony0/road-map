@@ -2472,20 +2472,60 @@
           "📄 Final resume review",
           "💼 Submit 20+ applications",
           "🎤 Practice behavioral questions",
-          "🔍 LinkedIn optimization",
+          "🔗 LinkedIn optimization",
           "📅 Schedule mock interviews",
         ]
 
         elements.week8Grid.innerHTML = items
           .map(
-            (item) => `
-          <div class="week8-item" role="checkbox" aria-checked="false" tabindex="0">
-            <span class="week8-checkbox"></span>
+            (item, index) => `
+          <div class="week8-item" role="checkbox" aria-checked="${state.analytics.week8Items?.[index] || false}" tabindex="0" data-index="${index}">
+            <span class="week8-checkbox ${state.analytics.week8Items?.[index] ? "checked" : ""}"></span>
             <span>${item}</span>
           </div>
         `,
           )
           .join("")
+
+        // Add event listeners
+        elements.week8Grid.querySelectorAll(".week8-item").forEach((item) => {
+          item.addEventListener("click", toggleWeek8Item)
+          item.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault()
+              toggleWeek8Item.call(item)
+            }
+          })
+        })
+      }
+
+      // Toggle week8 item
+      function toggleWeek8Item() {
+        const index = parseInt(this.dataset.index)
+        if (!state.analytics.week8Items) {
+          state.analytics.week8Items = []
+        }
+        state.analytics.week8Items[index] = !state.analytics.week8Items[index]
+
+        // Update UI
+        this.setAttribute("aria-checked", state.analytics.week8Items[index])
+        const checkbox = this.querySelector(".week8-checkbox")
+        if (state.analytics.week8Items[index]) {
+          checkbox.classList.add("checked")
+          state.analytics.totalTasks++
+        } else {
+          checkbox.classList.remove("checked")
+          state.analytics.totalTasks--
+        }
+
+        // Save state
+        saveToStorage()
+        updateAnalyticsDisplay()
+        showToast(
+          state.analytics.week8Items[index]
+            ? "Task completed!"
+            : "Task uncompleted!",
+        )
       }
 
       // Render job tracker
