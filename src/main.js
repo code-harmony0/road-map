@@ -42,7 +42,6 @@ const store = createStore({
 const timer = createTimer({
   store,
   onSessionComplete: () => {
-    timer.completeSession()
     showToast("Session done! Take a 5 min break.", "success")
   },
   onTick: () => {
@@ -99,7 +98,10 @@ function toggleSoundEffects() {
     state.soundEffectsEnabled = state.soundEffectsEnabled !== false
   })
   const enabled = store.getState().soundEffectsEnabled !== false
-  showToast(enabled ? "Sound effects enabled" : "Sound effects disabled", "info")
+  showToast(
+    enabled ? "Sound effects enabled" : "Sound effects disabled",
+    "info",
+  )
 }
 
 function updateStartDate() {
@@ -145,7 +147,10 @@ function toggleWeekComplete(weekId, e) {
   store.setState((state) => {
     state.weeksDone[weekId] = !state.weeksDone[weekId]
   })
-  showToast(store.getState().weeksDone[weekId] ? "Week complete!" : "Week unmarked", store.getState().weeksDone[weekId] ? "success" : "info")
+  showToast(
+    store.getState().weeksDone[weekId] ? "Week complete!" : "Week unmarked",
+    store.getState().weeksDone[weekId] ? "success" : "info",
+  )
 }
 
 function addCustomTask(weekId, input) {
@@ -230,9 +235,15 @@ function onSaveNote() {
 }
 
 function bindUI() {
-  document.getElementById("soundBtn")?.addEventListener("click", toggleSoundEffects)
-  document.getElementById("timerBtn")?.addEventListener("click", timer.toggleTimerModal)
-  document.getElementById("backupBtn")?.addEventListener("click", openBackupModal)
+  document
+    .getElementById("soundBtn")
+    ?.addEventListener("click", toggleSoundEffects)
+  document
+    .getElementById("timerBtn")
+    ?.addEventListener("click", timer.toggleTimerModal)
+  document
+    .getElementById("backupBtn")
+    ?.addEventListener("click", openBackupModal)
   document.getElementById("resetBtn")?.addEventListener("click", confirmReset)
   document.getElementById("fabActionBtn")?.addEventListener("click", () => {
     timer.startStop()
@@ -241,14 +252,24 @@ function bindUI() {
   document
     .getElementById("fabTimerDisplay")
     ?.addEventListener("click", timer.toggleTimerModal)
-  document.getElementById("fabTaskTitle")?.addEventListener("click", timer.toggleTimerModal)
+  document
+    .getElementById("fabTaskTitle")
+    ?.addEventListener("click", timer.toggleTimerModal)
 
-  document.getElementById("timerCloseBtn")?.addEventListener("click", timer.closeTimerModal)
-  document.getElementById("tmStartBtn")?.addEventListener("click", timer.startStop)
+  document
+    .getElementById("timerCloseBtn")
+    ?.addEventListener("click", timer.closeTimerModal)
+  document
+    .getElementById("tmStartBtn")
+    ?.addEventListener("click", timer.startStop)
   document.getElementById("tmResetBtn")?.addEventListener("click", timer.reset)
 
-  document.getElementById("dashTimerStartBtn")?.addEventListener("click", timer.startStop)
-  document.getElementById("dashTimerResetBtn")?.addEventListener("click", timer.reset)
+  document
+    .getElementById("dashTimerStartBtn")
+    ?.addEventListener("click", timer.startStop)
+  document
+    .getElementById("dashTimerResetBtn")
+    ?.addEventListener("click", timer.reset)
 
   document.getElementById("noteCancelBtn")?.addEventListener("click", closeNote)
   document.getElementById("noteSaveBtn")?.addEventListener("click", onSaveNote)
@@ -256,9 +277,15 @@ function bindUI() {
     if (e.target === e.currentTarget) closeNote()
   })
 
-  document.getElementById("backupExportBtn")?.addEventListener("click", onExportData)
-  document.getElementById("backupCopyBtn")?.addEventListener("click", onCopyDataToClipboard)
-  document.getElementById("backupCloseBtn")?.addEventListener("click", closeBackupModal)
+  document
+    .getElementById("backupExportBtn")
+    ?.addEventListener("click", onExportData)
+  document
+    .getElementById("backupCopyBtn")
+    ?.addEventListener("click", onCopyDataToClipboard)
+  document
+    .getElementById("backupCloseBtn")
+    ?.addEventListener("click", closeBackupModal)
   document.getElementById("backupOverlay")?.addEventListener("click", (e) => {
     if (e.target === e.currentTarget) closeBackupModal()
   })
@@ -266,9 +293,15 @@ function bindUI() {
   document.getElementById("standupBtn")?.addEventListener("click", () => {
     openStandupModal(WEEKS, store.getState())
   })
-  document.getElementById("standupCloseBtn")?.addEventListener("click", closeStandupModal)
-  document.getElementById("standupCloseX")?.addEventListener("click", closeStandupModal)
-  document.getElementById("standupCopyBtn")?.addEventListener("click", copyStandupToClipboard)
+  document
+    .getElementById("standupCloseBtn")
+    ?.addEventListener("click", closeStandupModal)
+  document
+    .getElementById("standupCloseX")
+    ?.addEventListener("click", closeStandupModal)
+  document
+    .getElementById("standupCopyBtn")
+    ?.addEventListener("click", copyStandupToClipboard)
   document.getElementById("standupOverlay")?.addEventListener("click", (e) => {
     if (e.target === e.currentTarget) closeStandupModal()
   })
@@ -284,7 +317,9 @@ function bindUI() {
     closeBackupModal()
   })
 
-  document.getElementById("startDate")?.addEventListener("change", updateStartDate)
+  document
+    .getElementById("startDate")
+    ?.addEventListener("change", updateStartDate)
 
   const dailyNotes = document.getElementById("dailyNotes")
   if (dailyNotes && !dailyNotes.dataset.bound) {
@@ -308,8 +343,12 @@ function bindUI() {
     el.addEventListener("click", onWeeksGridClick)
     el.addEventListener("keydown", onWeeksGridKeydown)
   })
-  document.getElementById("todayTasks")?.addEventListener("click", onTodayTasksClick)
-  document.getElementById("todayTasks")?.addEventListener("keydown", onTodayTasksKeydown)
+  document
+    .getElementById("todayTasks")
+    ?.addEventListener("click", onTodayTasksClick)
+  document
+    .getElementById("todayTasks")
+    ?.addEventListener("keydown", onTodayTasksKeydown)
 }
 
 function runWeeksGridAction(el, e) {
@@ -345,7 +384,10 @@ function runWeeksGridAction(el, e) {
 
 function onWeeksGridKeydown(e) {
   const target = e.target
-  if (target instanceof HTMLInputElement && target.dataset.action === "addCustomTask") {
+  if (
+    target instanceof HTMLInputElement &&
+    target.dataset.action === "addCustomTask"
+  ) {
     if (e.key !== "Enter") return
     addCustomTask(target.dataset.weekId, target)
     return

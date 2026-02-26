@@ -43,6 +43,10 @@ export function createTimer({ store, onSessionComplete, onTick }) {
       timerRunning = false
       syncTimerButtons()
       updateTimerDisplay()
+      // Save timer state when stopping
+      store.setState((state) => {
+        state.timerSeconds = timerSeconds
+      })
       return
     }
 
@@ -56,7 +60,15 @@ export function createTimer({ store, onSessionComplete, onTick }) {
         timerRunning = false
         timerSeconds = WORK_SECONDS
         syncTimerButtons()
+        store.setState((state) => {
+          state.timerSeconds = timerSeconds
+        })
         onSessionComplete?.()
+      } else {
+        // Save timer state every tick
+        store.setState((state) => {
+          state.timerSeconds = timerSeconds
+        })
       }
       updateTimerDisplay()
       onTick?.()
@@ -69,6 +81,10 @@ export function createTimer({ store, onSessionComplete, onTick }) {
     timerSeconds = WORK_SECONDS
     syncTimerButtons()
     updateTimerDisplay()
+    // Save reset state to store
+    store.setState((state) => {
+      state.timerSeconds = timerSeconds
+    })
   }
 
   function syncTimerButtons() {
@@ -76,7 +92,8 @@ export function createTimer({ store, onSessionComplete, onTick }) {
     if (startBtn) startBtn.textContent = timerRunning ? "Pause" : "Start"
 
     const dashStartBtn = document.getElementById("dashTimerStartBtn")
-    if (dashStartBtn) dashStartBtn.textContent = timerRunning ? "Pause" : "Start"
+    if (dashStartBtn)
+      dashStartBtn.textContent = timerRunning ? "Pause" : "Start"
 
     const dashCard = document.getElementById("dashTimerCard")
     dashCard?.classList.toggle("running", timerRunning)
