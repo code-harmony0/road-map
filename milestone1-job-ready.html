@@ -1116,6 +1116,35 @@
           <h2 class="week-8-title">Job Application Blitz</h2>
           <p class="week-8-subtitle">Deploy your career to production</p>
         </div>
+        <div style="margin: 10px 0">
+          <button
+            onclick="debugWeek8()"
+            style="
+              background: #007bff;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              border-radius: 4px;
+              cursor: pointer;
+            "
+          >
+            Debug Week8
+          </button>
+          <button
+            onclick="toggleWeek8(0)"
+            style="
+              background: #28a745;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              border-radius: 4px;
+              cursor: pointer;
+              margin-left: 5px;
+            "
+          >
+            Toggle First Item
+          </button>
+        </div>
         <div class="week-8-grid" id="week8Grid">
           <!-- Populated by JS -->
         </div>
@@ -1753,12 +1782,28 @@
 
       // Toggle week 8 item
       function toggleWeek8(index) {
+        console.log("toggleWeek8 called with index:", index)
         const key = `week8-${index}`
         progress.tasks[key] = !progress.tasks[key]
         saveProgress()
         updateStats()
         updateStreak()
         renderWeek8()
+        console.log("After toggle, progress:", progress.tasks[key])
+      }
+
+      // Debug function
+      function debugWeek8() {
+        console.log("=== Week8 Debug Info ===")
+        console.log("WEEK8_ITEMS:", WEEK8_ITEMS)
+        console.log("Progress:", progress.tasks)
+        const week8Grid = document.getElementById("week8Grid")
+        console.log("week8Grid:", week8Grid)
+        const week8Items = week8Grid.querySelectorAll(".week-8-item")
+        console.log("week8Items count:", week8Items.length)
+        week8Items.forEach((item, index) => {
+          console.log(`Item ${index}:`, item.outerHTML)
+        })
       }
 
       // Toggle collapse
@@ -1871,17 +1916,29 @@
           </article>
         `
         }).join("")
+
+        // Add event listeners programmatically to ensure they work
+        const week8Items = container.querySelectorAll(".week-8-item")
+        week8Items.forEach((item, i) => {
+          item.addEventListener("click", function (e) {
+            const index = parseInt(this.dataset.index)
+            toggleWeek8(index)
+          })
+        })
+        console.log(`Number of week8 items rendered: ${week8Items.length}`)
       }
 
       // Render Week 8
       function renderWeek8() {
+        console.log("renderWeek8 called")
         const container = document.getElementById("week8Grid")
         container.innerHTML = WEEK8_ITEMS.map((item, index) => {
           const isCompleted = progress.tasks[`week8-${index}`]
+          console.log(`Item ${index} is completed:`, isCompleted)
           return `
-          <div class="week-8-item">
-            <div class="week-8-checkbox ${isCompleted ? "completed" : ""}" 
-                 onclick="toggleWeek8(${index})">
+          <div class="week-8-item" data-index="${index}" style="cursor: pointer;">
+            <div class="week-8-checkbox ${isCompleted ? "completed" : ""}">
+              ${isCompleted ? "✓" : ""}
             </div>
             <div class="week-8-content">
               <div class="week-8-text ${isCompleted ? "completed" : ""}">${item.text}</div>
@@ -1890,6 +1947,18 @@
           </div>
         `
         }).join("")
+
+        // Add event listeners programmatically to ensure they work
+        const week8Items = container.querySelectorAll(".week-8-item")
+        week8Items.forEach((item, i) => {
+          console.log(`Adding listener to item ${i}`)
+          item.addEventListener("click", function (e) {
+            console.log("Week8 item clicked:", e)
+            const index = parseInt(this.dataset.index)
+            console.log("Index:", index)
+            toggleWeek8(index)
+          })
+        })
       }
 
       // Render today's focus
