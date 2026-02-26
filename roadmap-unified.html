@@ -2476,7 +2476,11 @@
 
       // Render week 8
       function renderWeek8() {
-        if (!elements.week8Grid) return
+        console.log("renderWeek8 called")
+        if (!elements.week8Grid) {
+          console.log("week8Grid not found")
+          return
+        }
 
         const items = [
           "📄 Final resume review",
@@ -2496,6 +2500,8 @@
         `,
           )
           .join("")
+
+        console.log("week8 items rendered:", elements.week8Grid.innerHTML)
 
         // Add event listeners
         elements.week8Grid.querySelectorAll(".week8-item").forEach((item) => {
