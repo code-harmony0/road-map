@@ -2520,12 +2520,14 @@
         // Update UI
         this.setAttribute("aria-checked", state.analytics.week8Items[index])
         const checkbox = this.querySelector(".week8-checkbox")
-        if (state.analytics.week8Items[index]) {
-          checkbox.classList.add("checked")
-          state.analytics.totalTasks++
-        } else {
-          checkbox.classList.remove("checked")
-          state.analytics.totalTasks--
+        if (checkbox) {
+          if (state.analytics.week8Items[index]) {
+            checkbox.classList.add("checked")
+            state.analytics.totalTasks++
+          } else {
+            checkbox.classList.remove("checked")
+            state.analytics.totalTasks--
+          }
         }
 
         // Save state
