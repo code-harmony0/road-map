@@ -1470,8 +1470,9 @@
     </div>
 
     <script>
-      // State management
-      const STORAGE_KEY = "milestone2_progress"
+      // State management — uses shared rn_roadmap_v5 key for cross-page consistency
+      const STORAGE_KEY = "rn_roadmap_v5"
+      const MILESTONE2_KEY = "milestone2Progress"
       let progress = {
         tasks: {},
         currentSalary: 0,
@@ -1500,12 +1501,17 @@
         setupIncrementButtons()
       }
 
-      // Load/Save
+      // Load/Save — reads/writes milestone2 data as sub-key within shared state
       function loadProgress() {
-        const saved = localStorage.getItem(STORAGE_KEY)
-        if (saved) {
-          progress = { ...progress, ...JSON.parse(saved) }
-        }
+        try {
+          const sharedRaw = localStorage.getItem(STORAGE_KEY)
+          if (sharedRaw) {
+            const sharedState = JSON.parse(sharedRaw)
+            if (sharedState[MILESTONE2_KEY]) {
+              progress = { ...progress, ...sharedState[MILESTONE2_KEY] }
+            }
+          }
+        } catch (e) { console.warn("Failed to load milestone2 progress:", e) }
         // Restore task checkboxes
         Object.keys(progress.tasks).forEach((key) => {
           if (progress.tasks[key]) {
@@ -1523,8 +1529,14 @@
       }
 
       function saveProgress() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
+        try {
+          const sharedRaw = localStorage.getItem(STORAGE_KEY)
+          const sharedState = sharedRaw ? JSON.parse(sharedRaw) : {}
+          sharedState[MILESTONE2_KEY] = progress
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(sharedState))
+        } catch (e) { console.warn("Failed to save milestone2 progress:", e) }
       }
+
 
       // Toggle task
       function toggleTask(monthId, taskIndex) {

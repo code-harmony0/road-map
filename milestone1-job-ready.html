@@ -736,7 +736,43 @@
         color: var(--accent-green);
       }
 
+
+      /* Project Reference Badge */
+      .project-ref-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.35rem;
+        margin-top: 0.2rem;
+        flex-wrap: wrap;
+      }
+
+      .project-ref-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--accent-cyan);
+        background: rgba(6, 182, 212, 0.1);
+        border: 1px solid rgba(6, 182, 212, 0.3);
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+
+      .project-ref-metric {
+        font-size: 0.7rem;
+        font-weight: 600;
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--accent-green);
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+
       /* Week 8 Checklist - Full Width */
+
       .week-8-section {
         grid-column: 1 / -1;
         background: linear-gradient(
@@ -863,6 +899,152 @@
       .data-btn:hover {
         background: rgba(255, 255, 255, 0.1);
         border-color: var(--accent-blue);
+      }
+
+      /* Job Search Tracker */
+      .job-search-tracker {
+        position: fixed;
+        top: calc(var(--nav-height, 64px) + 1rem);
+        right: 1rem;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 1.25rem;
+        min-width: 280px;
+        max-width: 320px;
+        z-index: 900;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .jst-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .jst-icon {
+        font-size: 1.5rem;
+      }
+
+      .jst-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .jst-metrics {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .jst-metric {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .jst-metric label {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        min-width: 80px;
+      }
+
+      .jst-input {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        color: var(--text-primary);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.5rem;
+        text-align: center;
+        width: 80px;
+        transition: border-color 0.2s;
+      }
+
+      .jst-input:focus {
+        outline: none;
+        border-color: var(--accent-blue);
+      }
+
+      .jst-target {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .jst-salary {
+        display: flex;
+        align-items: center;
+      }
+
+      .jst-currency {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1rem;
+        color: var(--text-secondary);
+        margin-right: 0.25rem;
+      }
+
+      .jst-cta {
+        width: 100%;
+        padding: 0.875rem;
+        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .jst-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+      }
+
+      .jst-cta:active {
+        transform: translateY(0);
+      }
+
+      /* Responsive adjustments for job tracker */
+      @media (max-width: 1024px) {
+        .job-search-tracker {
+          top: auto;
+          bottom: 5rem;
+          right: 1rem;
+          min-width: 260px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .job-search-tracker {
+          position: fixed;
+          bottom: 1rem;
+          right: 1rem;
+          left: 1rem;
+          max-width: none;
+          min-width: auto;
+        }
+
+        .jst-metrics {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0.75rem;
+        }
+
+        .jst-metric {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .jst-metric label {
+          min-width: auto;
+        }
       }
 
       /* Footer */
@@ -1115,35 +1297,10 @@
           <span class="week-8-badge">WEEK 08</span>
           <h2 class="week-8-title">Job Application Blitz</h2>
           <p class="week-8-subtitle">Deploy your career to production</p>
-        </div>
-        <div style="margin: 10px 0">
-          <button
-            onclick="debugWeek8()"
-            style="
-              background: #007bff;
-              color: white;
-              border: none;
-              padding: 8px 12px;
-              border-radius: 4px;
-              cursor: pointer;
-            "
-          >
-            Debug Week8
-          </button>
-          <button
-            onclick="toggleWeek8(0)"
-            style="
-              background: #28a745;
-              color: white;
-              border: none;
-              padding: 8px 12px;
-              border-radius: 4px;
-              cursor: pointer;
-              margin-left: 5px;
-            "
-          >
-            Toggle First Item
-          </button>
+          <div class="progress-bar-container" style="margin-top: 1rem; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto;">
+            <div class="progress-bar" id="week8ProgressBar" style="width: 0%; background: linear-gradient(90deg, var(--accent-yellow), var(--accent-amber));"></div>
+          </div>
+          <p id="week8ProgressText" style="text-align: center; margin-top: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; font-weight: 600; color: var(--accent-yellow);">0% Complete</p>
         </div>
         <div class="week-8-grid" id="week8Grid">
           <!-- Populated by JS -->
@@ -1661,56 +1818,8 @@
         },
       ]
 
-      // Week 8 Data
-      const WEEK8_ITEMS = [
-        {
-          id: "w8-1",
-          text: "GitHub repo: finance-api-postgres",
-          desc: "PostgreSQL + NestJS + JWT with tests",
-        },
-        {
-          id: "w8-2",
-          text: "GitHub repo: ai-expense-tracker",
-          desc: "OpenAI integration + demo video on README",
-        },
-        {
-          id: "w8-3",
-          text: "AWS Cloud Practitioner certification",
-          desc: "Or AWS Developer Associate (preferred)",
-        },
-        {
-          id: "w8-4",
-          text: "3 Excalidraw architecture diagrams",
-          desc: "Posted to LinkedIn or blog",
-        },
-        {
-          id: "w8-5",
-          text: "5 STAR stories written and practiced",
-          desc: "Situation, Task, Action, Result",
-        },
-        {
-          id: "w8-6",
-          text: 'Resume updated with "PostgreSQL, AI Integration, AWS"',
-          desc: "Focus on outcomes, not duties",
-        },
-        {
-          id: "w8-7",
-          text: "LinkedIn headline updated",
-          desc: "React Native + AI + AWS specialist",
-        },
-        {
-          id: "w8-8",
-          text: "50 job applications sent",
-          desc: "With personalized cover letters",
-        },
-        {
-          id: "w8-9",
-          text: "3-5 interview calls scheduled",
-          desc: "Focus on remote-first companies",
-        },
-      ]
 
-      // State management
+      // State management legacy (temporarily kept for potential local scoping in future, but app.js will handle global state)
       const STORAGE_KEY = "milestone1_progress"
       let progress = {
         tasks: {},
@@ -1723,12 +1832,12 @@
       function init() {
         loadProgress()
         renderWeeks()
-        renderWeek8()
         renderTodaysFocus()
         updateStats()
         setupTimer()
         setupDataControls()
         setupMilestone2()
+        renderWeek8Checklist()  // Week 8 checklist (shared state)
       }
 
       // Load/Save progress
@@ -1780,31 +1889,6 @@
         renderTodaysFocus()
       }
 
-      // Toggle week 8 item
-      function toggleWeek8(index) {
-        console.log("toggleWeek8 called with index:", index)
-        const key = `week8-${index}`
-        progress.tasks[key] = !progress.tasks[key]
-        saveProgress()
-        updateStats()
-        updateStreak()
-        renderWeek8()
-        console.log("After toggle, progress:", progress.tasks[key])
-      }
-
-      // Debug function
-      function debugWeek8() {
-        console.log("=== Week8 Debug Info ===")
-        console.log("WEEK8_ITEMS:", WEEK8_ITEMS)
-        console.log("Progress:", progress.tasks)
-        const week8Grid = document.getElementById("week8Grid")
-        console.log("week8Grid:", week8Grid)
-        const week8Items = week8Grid.querySelectorAll(".week-8-item")
-        console.log("week8Items count:", week8Items.length)
-        week8Items.forEach((item, index) => {
-          console.log(`Item ${index}:`, item.outerHTML)
-        })
-      }
 
       // Toggle collapse
       function toggleCollapse(weekId) {
@@ -1917,49 +2001,8 @@
         `
         }).join("")
 
-        // Add event listeners programmatically to ensure they work
-        const week8Items = container.querySelectorAll(".week-8-item")
-        week8Items.forEach((item, i) => {
-          item.addEventListener("click", function (e) {
-            const index = parseInt(this.dataset.index)
-            toggleWeek8(index)
-          })
-        })
-        console.log(`Number of week8 items rendered: ${week8Items.length}`)
       }
 
-      // Render Week 8
-      function renderWeek8() {
-        console.log("renderWeek8 called")
-        const container = document.getElementById("week8Grid")
-        container.innerHTML = WEEK8_ITEMS.map((item, index) => {
-          const isCompleted = progress.tasks[`week8-${index}`]
-          console.log(`Item ${index} is completed:`, isCompleted)
-          return `
-          <div class="week-8-item" data-index="${index}" style="cursor: pointer;">
-            <div class="week-8-checkbox ${isCompleted ? "completed" : ""}">
-              ${isCompleted ? "✓" : ""}
-            </div>
-            <div class="week-8-content">
-              <div class="week-8-text ${isCompleted ? "completed" : ""}">${item.text}</div>
-              <div class="week-8-desc">${item.desc}</div>
-            </div>
-          </div>
-        `
-        }).join("")
-
-        // Add event listeners programmatically to ensure they work
-        const week8Items = container.querySelectorAll(".week-8-item")
-        week8Items.forEach((item, i) => {
-          console.log(`Adding listener to item ${i}`)
-          item.addEventListener("click", function (e) {
-            console.log("Week8 item clicked:", e)
-            const index = parseInt(this.dataset.index)
-            console.log("Index:", index)
-            toggleWeek8(index)
-          })
-        })
-      }
 
       // Render today's focus
       function renderTodaysFocus() {
@@ -2032,8 +2075,9 @@
 
       // Update stats
       function updateStats() {
+        // Now stats are mainly managed by app.js, this is a local fallback if used
         const totalTasks =
-          WEEKS.reduce((sum, w) => sum + w.tasks.length, 0) + WEEK8_ITEMS.length
+          WEEKS.reduce((sum, w) => sum + w.tasks.length, 0)
         const completedTasks = Object.values(progress.tasks).filter(
           (t) => t,
         ).length
@@ -2175,7 +2219,6 @@
               }
               saveProgress()
               renderWeeks()
-              renderWeek8()
               renderTodaysFocus()
               updateStats()
               alert("Progress imported successfully!")
@@ -2219,8 +2262,65 @@
         }
       }
 
-      // Initialize everything
-      init()
+      
+      // ── Week 8 Checklist (uses shared rn_roadmap_v5 key) ──────────────────
+      const SHARED_KEY = 'rn_roadmap_v5'
+      const WEEK8_ITEMS = [
+        { id: 'w8-1', text: 'GitHub repo: finance-api-postgres', desc: 'PostgreSQL + NestJS + JWT with tests' },
+        { id: 'w8-2', text: 'GitHub repo: ai-expense-tracker', desc: 'OpenAI integration + demo video on README' },
+        { id: 'w8-3', text: 'AWS Cloud Practitioner certification', desc: 'Or AWS Developer Associate (preferred)' },
+        { id: 'w8-4', text: '3 Excalidraw architecture diagrams', desc: 'Posted to LinkedIn or blog' },
+        { id: 'w8-5', text: '5 STAR stories written and practiced', desc: 'Situation, Task, Action, Result' },
+        { id: 'w8-6', text: 'Resume updated with "PostgreSQL, AI Integration, AWS"', desc: 'Focus on outcomes, not duties' },
+        { id: 'w8-7', text: 'LinkedIn headline updated', desc: 'React Native + AI + AWS specialist' },
+        { id: 'w8-8', text: '50 job applications sent', desc: 'With personalized cover letters' },
+        { id: 'w8-9', text: '3-5 interview calls scheduled', desc: 'Focus on remote-first companies' },
+      ]
+
+      function getSharedState() {
+        try { return JSON.parse(localStorage.getItem(SHARED_KEY) || '{}') } catch(e) { return {} }
+      }
+      function saveWeek8Checklist(checklist) {
+        try {
+          const s = getSharedState()
+          if (!s.week8Checklist) s.week8Checklist = {}
+          Object.assign(s.week8Checklist, checklist)
+          localStorage.setItem(SHARED_KEY, JSON.stringify(s))
+        } catch(e) {}
+      }
+
+      function toggleWeek8Item(id) {
+        const s = getSharedState()
+        const w8 = s.week8Checklist || {}
+        w8[id] = !w8[id]
+        saveWeek8Checklist(w8)
+        renderWeek8Checklist()
+      }
+
+      function renderWeek8Checklist() {
+        const grid = document.getElementById('week8Grid')
+        const bar = document.getElementById('week8ProgressBar')
+        const pctText = document.getElementById('week8ProgressText')
+        if (!grid) return
+        const w8 = getSharedState().week8Checklist || {}
+        const done = WEEK8_ITEMS.filter(item => w8[item.id]).length
+        const pct = Math.round((done / WEEK8_ITEMS.length) * 100)
+        if (bar) bar.style.width = pct + '%'
+        if (pctText) pctText.textContent = pct + '% Complete'
+        grid.innerHTML = WEEK8_ITEMS.map(item => {
+          const checked = !!w8[item.id]
+          return `
+            <div class="week-8-item ${checked ? 'completed' : ''}" onclick="toggleWeek8Item('${item.id}')">
+              <div class="week-8-checkbox ${checked ? 'completed' : ''}"></div>
+              <div class="week-8-content">
+                <div class="week-8-text ${checked ? 'completed' : ''}">${item.text}</div>
+                <div class="week-8-desc">${item.desc}</div>
+              </div>
+            </div>
+          `
+        }).join('')
+      }
+
     </script>
   </body>
 </html>

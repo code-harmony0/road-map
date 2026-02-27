@@ -16,13 +16,16 @@ export const WEEKS = [
       'Using an ORM before understanding raw SQL'
     ],
     tasks:[
+      {t:'Audit Zonesso MongoDB schema, migrate to PostgreSQL', time:'2 hours', why:'Real migration experience is more valuable than tutorials - prove it works', projectRef:{name:'Zonesso', metric:'50K downloads', context:'Chat app with 30% daily engagement'}, links:[
+        {url:'https://github.com/FerretDB/FerretDB',tag:'FerretDB (Mongo on PostgreSQL)',type:'repo'},
+        {url:'https://www.prisma.io/docs/guides/migrate-from-mongodb',tag:'Prisma MongoDB migration guide',type:'docs'},
+      ]},
+      {t:'Rewrite Zonesso resume entry with PostgreSQL migration metrics', time:'30 min', why:'Hiring managers read results - "migrated 50K user chat app from MongoDB to PostgreSQL"', projectRef:{name:'Zonesso', metric:'50K downloads', context:'Chat app with 30% daily engagement'}, links:[
+        {url:'https://www.levels.fyi/',tag:'levels.fyi - see what seniors write',type:'interactive'},
+      ]},
       {t:'Install PostgreSQL 15+ and pgAdmin (visual GUI, similar to MongoDB Compass)', time:'30 min', why:'You need local database for experimentation and learning', links:[
         {url:'https://github.com/dwyl/learn-postgresql',tag:'learn-postgresql',type:'repo'},
         {url:'https://www.postgresql.org/download/',tag:'official download',type:'docs'},
-      ]},
-      {t:'Understand tables, columns, data types versus MongoDB documents', time:'45 min', why:'Relational thinking is fundamentally different from document thinking', links:[
-        {url:'https://www.mongodb.com/compare/sql-vs-nosql',tag:'SQL vs NoSQL',type:'blog'},
-        {url:'https://github.com/FerretDB/FerretDB',tag:'FerretDB (Mongo on PostgreSQL)',type:'repo'},
       ]},
       {t:'Practice SELECT, INSERT, UPDATE, DELETE until you can write them without looking', time:'1 hour', why:'These are 80% of your daily queries - muscle memory matters', links:[
         {url:'https://sqlbolt.com/',tag:'SQLBolt (interactive)',type:'interactive'},
@@ -34,11 +37,9 @@ export const WEEKS = [
       ]},
       {t:'Learn normalization: 3NF and when to intentionally denormalize for performance', time:'45 min', why:'Normalization prevents data anomalies; denormalization speeds up reads', links:[
         {url:'https://www.guru99.com/database-normalization.html',tag:'Normalization guide',type:'blog'},
-        {url:'https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-data-types/',tag:'PostgreSQL data types',type:'docs'},
       ]},
       {t:'Window functions: ROW_NUMBER, RANK, LEAD, LAG - SQL power tools', time:'1 hour', why:'Window functions solve problems that are painful in application code', links:[
         {url:'https://www.postgresqltutorial.com/postgresql-window-function/',tag:'PostgreSQL window functions',type:'docs'},
-        {url:'https://sqlbolt.com/lesson/select_queries_with_expressions',tag:'SQLBolt practice',type:'interactive'},
       ]},
       {t:'Connect PostgreSQL to NestJS with Prisma - your first integration', time:'1 hour', why:'Prisma is the modern standard for TypeScript database access', links:[
         {url:'https://github.com/notiz-dev/nestjs-prisma-starter',tag:'NestJS+Prisma starter',type:'repo'},
@@ -63,6 +64,16 @@ export const WEEKS = [
       'Storing passwords in plain text (use bcrypt, always)'
     ],
     tasks:[
+      {t:'Optimize LinkedIn headline to "React Native Developer | PostgreSQL | AI Integration"', time:'45 min', why:'Recruiters search by keywords - your headline is your SEO', links:[
+        {url:'https://www.linkedin.com/in/',tag:'Your LinkedIn profile',type:'interactive'},
+        {url:'https://www.jobscan.co/linkedin-optimization',tag:'LinkedIn optimization guide',type:'blog'},
+      ]},
+      {t:'Add Zonesso and JIFFL to LinkedIn with metrics (50K downloads, 10K users)', time:'1 hour', why:'LinkedIn is your portfolio - employers check it before every interview', projectRef:{name:'Zonesso', metric:'50K downloads', context:'Chat app with 30% daily engagement'}, links:[
+        {url:'https://www.linkedin.com/in/',tag:'Your LinkedIn profile',type:'interactive'},
+      ]},
+      {t:'Update portfolio website with PostgreSQL and AI projects', time:'1.5 hours', why:'A live demo is worth more than 100 bullet points on a resume', links:[
+        {url:'https://github.com/',tag:'GitHub portfolio',type:'repo'},
+      ]},
       {t:'Solidify NestJS architecture: modules, services, controllers pattern', time:'1 hour', why:'This structure scales from startup to enterprise', links:[
         {url:'https://docs.nestjs.com/',tag:'NestJS docs',type:'docs'},
         {url:'https://github.com/nestjs/nest/tree/master/sample',tag:'official samples',type:'repo'},
@@ -112,6 +123,10 @@ export const WEEKS = [
       'Storing AI responses without caching (redundant costs)'
     ],
     tasks:[
+      {t:'Add AI job matching to JIFFL - use embeddings to match candidates to jobs', time:'3 hours', why:'This is your headline project: "added AI to 10K user job platform" - irresistible to recruiters', projectRef:{name:'JIFFL', metric:'10K users', context:'Job matching platform'}, links:[
+        {url:'https://github.com/pgvector/pgvector',tag:'pgvector for embeddings',type:'repo'},
+        {url:'https://platform.openai.com/docs/guides/embeddings',tag:'OpenAI embeddings',type:'docs'},
+      ]},
       {t:'Call OpenAI/Claude API from your NestJS backend', time:'1 hour', why:'Backend protects API keys and adds business logic', links:[
         {url:'https://github.com/openai/openai-node',tag:'OpenAI Node SDK',type:'repo'},
         {url:'https://github.com/openai/openai-cookbook',tag:'OpenAI Cookbook',type:'repo'},
@@ -196,6 +211,10 @@ export const WEEKS = [
       'Not setting up CloudWatch alarms (you will not know when things break)'
     ],
     tasks:[
+      {t:'Deploy Eco Crew to AWS EC2 + RDS PostgreSQL', time:'3 hours', why:'Real deployment experience - "deployed Eco Crew (5K downloads) to AWS production" is a resume game-changer', projectRef:{name:'Eco Crew', metric:'5K downloads', context:'Environmental tracking app'}, links:[
+        {url:'https://aws.amazon.com/ec2/getting-started/',tag:'EC2 quickstart',type:'docs'},
+        {url:'https://aws.amazon.com/rds/postgresql/getting-started/',tag:'RDS PostgreSQL setup',type:'docs'},
+      ]},
       {t:'Create AWS Free Tier account, explore the console', time:'30 min', why:'Familiarity with the console saves hours when troubleshooting', links:[
         {url:'https://aws.amazon.com/getting-started/',tag:'AWS getting started',type:'docs'},
       ]},
@@ -491,7 +510,56 @@ export const WEEKS = [
   },
 ];
 
+export const WEEK8_ITEMS = [
+  {
+    id: "w8-1",
+    text: "GitHub repo: finance-api-postgres",
+    desc: "PostgreSQL + NestJS + JWT with tests",
+  },
+  {
+    id: "w8-2",
+    text: "GitHub repo: ai-expense-tracker",
+    desc: "OpenAI integration + demo video on README",
+  },
+  {
+    id: "w8-3",
+    text: "AWS Cloud Practitioner certification",
+    desc: "Or AWS Developer Associate (preferred)",
+  },
+  {
+    id: "w8-4",
+    text: "3 Excalidraw architecture diagrams",
+    desc: "Posted to LinkedIn or blog",
+  },
+  {
+    id: "w8-5",
+    text: "5 STAR stories written and practiced",
+    desc: "Situation, Task, Action, Result",
+  },
+  {
+    id: "w8-6",
+    text: 'Resume updated with "PostgreSQL, AI Integration, AWS"',
+    desc: "Focus on outcomes, not duties",
+  },
+  {
+    id: "w8-7",
+    text: "LinkedIn headline updated",
+    desc: "React Native + AI + AWS specialist",
+  },
+  {
+    id: "w8-8",
+    text: "50 job applications sent",
+    desc: "With personalized cover letters",
+  },
+  {
+    id: "w8-9",
+    text: "3-5 interview calls scheduled",
+    desc: "Focus on remote-first companies",
+  },
+];
+
 // Backward compatibility for any non-module consumers.
 if (typeof window !== "undefined") {
   window.WEEKS = WEEKS
+  window.WEEK8_ITEMS = WEEK8_ITEMS
 }

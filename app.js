@@ -1,5 +1,5 @@
-const STORAGE_KEY = "rn_roadmap_v4"
-const BACKUP_KEY = "rn_roadmap_v4_backup"
+const STORAGE_KEY = "rn_roadmap_v5"
+const BACKUP_KEY = "rn_roadmap_v5_backup"
 
 // Load roadmap data from global variable in data.js
 let ROADMAP_DATA = { roadmap: window.WEEKS || [] }
@@ -40,9 +40,30 @@ function getDefaultState() {
     customTasks: {},
     taskDates: {},
     collapsedWeeks: {},
-    version: 4,
+    version: 5,
+    // NEW: Job search tracking
+    jobSearch: {
+      applications: 0,
+      interviews: 0,
+      offers: 0,
+      targetSalary: 130000,
+      lastUpdated: null
+    },
+    // NEW: Week 8 checklist
+    week8Checklist: {
+      "w8-1": false,
+      "w8-2": false,
+      "w8-3": false,
+      "w8-4": false,
+      "w8-5": false,
+      "w8-6": false,
+      "w8-7": false,
+      "w8-8": false,
+      "w8-9": false
+    }
   }
 }
+
 
 function getState() {
   try {
@@ -50,10 +71,19 @@ function getState() {
     if (raw) {
       const parsed = JSON.parse(raw)
       // Validate state structure
-      if (parsed && typeof parsed === "object" && parsed.version === 4) {
-        // Create automatic backup
-        createBackup(parsed)
-        return { ...getDefaultState(), ...parsed }
+      if (parsed && typeof parsed === "object") {
+        // Auto-upgrade from v4 to v5
+        if (parsed.version === 4) {
+          console.log("Upgrading state from v4 to v5...")
+          const upgraded = upgradeStateV4toV5(parsed)
+          saveState(upgraded)
+          return upgraded
+        }
+        if (parsed.version === 5) {
+          // Create automatic backup
+          createBackup(parsed)
+          return { ...getDefaultState(), ...parsed }
+        }
       }
     }
   } catch (e) {
@@ -75,14 +105,112 @@ function getState() {
   return getDefaultState()
 }
 
+// Upgrade state from v4 to v5
+function upgradeStateV4toV5(oldState) {
+  try {
+    const newState = {
+      ...oldState,
+      version: 5,
+      jobSearch: {
+        applications: 0,
+        interviews: 0,
+        offers: 0,
+        targetSalary: 130000,
+        lastUpdated: null
+      },
+      week8Checklist: {
+        "w8-1": false,
+        "w8-2": false,
+        "w8-3": false,
+        "w8-4": false,
+        "w8-5": false,
+        "w8-6": false,
+        "w8-7": false,
+        "w8-8": false,
+        "w8-9": false
+      }
+    }
+
+    
+    console.log("State upgraded successfully to v5")
+    return newState
+  } catch (error) {
+    console.error("State upgrade failed:", error)
+    // Return default v5 state, preserving what we can
+    return {
+      ...getDefaultState(),
+      // Preserve safe fields from old state
+      streak: oldState.streak || 0,
+      sessions: oldState.sessions || 0,
+      tasks: oldState.tasks || {},
+      notes: oldState.notes || {},
+      customTasks: oldState.customTasks || {}
+    }
+  }
+}
+
 function saveState(state) {
+  // Validate state before saving
+  const validation = validateState(state)
+  if (!validation.valid) {
+    console.error("Invalid state structure:", validation.errors)
+    showToast("Failed to save: Invalid data", "error")
+    return false
+  }
+  
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
     createBackup(state)
     showSaveIndicator()
+    return true
   } catch (error) {
     console.error("Failed to save state:", error)
     showToast("Failed to save progress", "error")
+    return false
+  }
+}
+
+// Validate state structure
+function validateState(state) {
+  const errors = []
+  
+  if (!state || typeof state !== "object") {
+    errors.push("State must be an object")
+    return { valid: false, errors }
+  }
+  
+  if (state.version !== 5) {
+    errors.push("Invalid state version (expected 5, got " + state.version + ")")
+  }
+  
+  if (!state.jobSearch || typeof state.jobSearch !== "object") {
+    errors.push("Missing jobSearch object")
+  } else {
+    if (typeof state.jobSearch.applications !== "number") {
+      errors.push("Invalid applications count")
+    }
+    if (typeof state.jobSearch.interviews !== "number") {
+      errors.push("Invalid interviews count")
+    }
+    if (typeof state.jobSearch.offers !== "number") {
+      errors.push("Invalid offers count")
+    }
+    if (typeof state.jobSearch.targetSalary !== "number") {
+      errors.push("Invalid target salary")
+    }
+  }
+  
+  if (!state.week8Checklist || typeof state.week8Checklist !== "object") {
+    errors.push("Missing week8Checklist object")
+  }
+  
+  if (typeof state.tasks !== "object") {
+    errors.push("Invalid tasks object")
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors
   }
 }
 
@@ -695,6 +823,7 @@ function renderWeekCards() {
                   <div class="task-check">${isDone ? "✓" : ""}</div>
                   <div class="task-content">
                     <div class="task-text">${task.t}</div>
+                    ${task.projectRef ? `<div class="project-ref-badge"><span class="project-ref-name">🔗 ${task.projectRef.name}</span><span class="project-ref-metric">${task.projectRef.metric}</span></div>` : ""}
                     ${task.why ? `<div class="task-why">${task.why}</div>` : ""}
                     ${
                       task.links?.length
@@ -771,6 +900,84 @@ function toggleTask(key, weekId) {
   if (state.tasks[key]) showToast("Task completed", "success")
 }
 
+// Week 8 Checklist Functions
+function toggleWeek8ChecklistItem(key) {
+  if (!state.week8Checklist) {
+    state.week8Checklist = {}
+  }
+  
+  const wasCompleted = state.week8Checklist[key]
+  state.week8Checklist[key] = !wasCompleted
+  
+  if (!wasCompleted) {
+    playSuccessSound()
+  }
+  
+  saveState(state)
+  renderWeek8Checklist()
+  
+  // Confetti on 100% completion
+  const progress = calculateWeek8Progress()
+  if (progress === 100 && !wasCompleted) {
+    triggerConfetti()
+    showToast("Week 8 Complete! You're ready!", "success")
+  }
+}
+
+function calculateWeek8Progress() {
+  if (!state.week8Checklist || typeof window.WEEK8_ITEMS === 'undefined') return 0
+  
+  const total = window.WEEK8_ITEMS.length
+  if (total === 0) return 0
+  
+  const completed = window.WEEK8_ITEMS.filter(item => state.week8Checklist[item.id]).length
+  return Math.round((completed / total) * 100)
+}
+
+function renderWeek8Checklist() {
+  const container = document.getElementById("week8Grid")
+  const progressBar = document.getElementById("week8ProgressBar")
+  const progressText = document.getElementById("week8ProgressText")
+  
+  // Need global data to be defined
+  if (!container || typeof window.WEEK8_ITEMS === 'undefined') return
+
+  // Render items
+  container.innerHTML = window.WEEK8_ITEMS.map((item) => {
+    const isCompleted = state.week8Checklist && state.week8Checklist[item.id]
+    return `
+      <div class="week-8-item" onclick="toggleWeek8ChecklistItem('${item.id}')" style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        <div class="week-8-checkbox ${isCompleted ? "completed" : ""}"></div>
+        <div class="week-8-content">
+          <div class="week-8-text ${isCompleted ? "completed" : ""}">${item.text}</div>
+          <div class="week-8-desc">${item.desc}</div>
+        </div>
+      </div>
+    `
+  }).join("")
+  
+  // Update progress bar
+  const progress = calculateWeek8Progress()
+  if (progressBar) progressBar.style.width = `${progress}%`
+  if (progressText) progressText.textContent = `${progress}% Complete`
+}
+
+function triggerConfetti() {
+  // Simple CSS-based confetti or a library if available. For now, a visual hint.
+  const overlay = document.createElement("div")
+  overlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;background:radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);opacity:0;transition:opacity 0.5s;"
+  document.body.appendChild(overlay)
+  
+  // Quick flash
+  requestAnimationFrame(() => {
+    overlay.style.opacity = "1"
+    setTimeout(() => {
+      overlay.style.opacity = "0"
+      setTimeout(() => overlay.remove(), 500)
+    }, 500)
+  })
+}
+
 function toggleWeekComplete(weekId, e) {
   e.stopPropagation()
   state.weeksDone[weekId] = !state.weeksDone[weekId]
@@ -822,13 +1029,19 @@ function updateStats() {
     (a, arr) => a + arr.length,
     0,
   )
-  const total = base + custom
+  // Include Week 8 checklist items in overall progress (Task 8)
+  const week8Total = typeof window.WEEK8_ITEMS !== 'undefined' ? window.WEEK8_ITEMS.length : 0
+  const week8Done = typeof window.WEEK8_ITEMS !== 'undefined'
+    ? window.WEEK8_ITEMS.filter(item => state.week8Checklist && state.week8Checklist[item.id]).length
+    : 0
+
+  const total = base + custom + week8Total
   const done =
     Object.values(state.tasks).filter(Boolean).length +
     Object.values(state.customTasks || {}).reduce(
       (a, arr) => a + arr.filter((t) => t.done).length,
       0,
-    )
+    ) + week8Done
   const pct = total > 0 ? Math.round((done / total) * 100) : 0
   document.getElementById("stat-done").textContent = done
   document.getElementById("stat-total").textContent = total
@@ -928,6 +1141,7 @@ function renderAll() {
   updateTimerDisplay()
   updateSessionDots()
   updateTodayFocus()
+  renderWeek8Checklist()
   renderTimeline()
   initializeStickyFab()
 }

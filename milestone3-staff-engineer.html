@@ -1515,12 +1515,26 @@
       ]
     };
 
-    // State
+    // State — shared via rn_roadmap_v5 for cross-page consistency
+    const SHARED_KEY = 'rn_roadmap_v5';
+    const M3_KEY = 'milestone3Progress';
+    function getSharedState() {
+      try { return JSON.parse(localStorage.getItem(SHARED_KEY) || '{}'); } catch(e) { return {}; }
+    }
+    function setSharedState(update) {
+      try {
+        const s = getSharedState();
+        s[M3_KEY] = { ...(s[M3_KEY] || {}), ...update };
+        localStorage.setItem(SHARED_KEY, JSON.stringify(s));
+      } catch(e) {}
+    }
+    function getM3() { return getSharedState()[M3_KEY] || {}; }
+
     let currentPath = 'staff';
-    let completedTasks = JSON.parse(localStorage.getItem('milestone3_tasks') || '{}');
-    let clients = JSON.parse(localStorage.getItem('milestone3_clients') || '[]');
-    let selectedDomain = localStorage.getItem('milestone3_domain')
-    let selectedNiche = localStorage.getItem('milestone3_niche');
+    let completedTasks = getM3().tasks || {};
+    let clients = getM3().clients || [];
+    let selectedDomain = getM3().domain || null;
+    let selectedNiche = getM3().niche || null;
 
     // Initialize
     function init() {
@@ -1548,7 +1562,7 @@
       renderTimeline();
       
       // Save preference
-      localStorage.setItem('milestone3_path', path);
+      setSharedState({ path });
     }
 
     // Render timeline
@@ -1588,7 +1602,7 @@
         completedTasks[path + '-' + checkbox.dataset.task] = true;
       }
       
-      localStorage.setItem('milestone3_tasks', JSON.stringify(completedTasks));
+      setSharedState({ tasks: completedTasks });
       updateProgress(path);
     }
 
@@ -1635,7 +1649,7 @@
       
       if (save) {
         selectedDomain = domain;
-        localStorage.setItem('milestone3_domain', domain);
+        setSharedState({ domain });
       }
     }
 
@@ -1650,7 +1664,7 @@
       
       if (save) {
         selectedNiche = niche;
-        localStorage.setItem('milestone3_niche', niche);
+        setSharedState({ niche });
       }
     }
 
@@ -1690,7 +1704,7 @@
         date: new Date().toISOString()
       };
       
-      localStorage.setItem('milestone3_cfp', JSON.stringify(cfp));
+      setSharedState({ cfp });
       alert('Talk draft saved! Review and submit at the conference CFP portal.');
     }
 
@@ -1710,7 +1724,7 @@
       };
       
       clients.push(client);
-      localStorage.setItem('milestone3_clients', JSON.stringify(clients));
+        setSharedState({ clients });
       renderClient(client);
       updatePipelineCounts();
     }
@@ -1737,7 +1751,7 @@
       if (currentIndex < stages.length - 1) {
         const newStage = stages[currentIndex + 1];
         client.stage = newStage;
-        localStorage.setItem('milestone3_clients', JSON.stringify(clients));
+          setSharedState({ clients });
         
         // Move card in DOM
         document.getElementById(`${newStage}-list`).appendChild(cardElement);
@@ -1745,7 +1759,7 @@
       } else {
         // Remove from pipeline
         clients = clients.filter(c => c.id !== id);
-        localStorage.setItem('milestone3_clients', JSON.stringify(clients));
+          setSharedState({ clients });
         cardElement.remove();
         updatePipelineCounts();
       }
@@ -1765,7 +1779,7 @@
     }
 
     // Load saved path preference
-    const savedPath = localStorage.getItem('milestone3_path');
+    const savedPath = getM3().path;
     if (savedPath && savedPath !== currentPath) {
       switchPath(savedPath);
     }

@@ -1,2149 +1,1649 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <meta name="theme-color" content="#13161a">
-  <meta name="description" content="React Native to Senior Engineer - 3 Milestone Roadmap with interactive progress tracking">
-  <title>RN Senior Roadmap - 3 Milestones</title>
-  <
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  
-  <style>
-    /* CSS Custom Properties for theming */
-    :root {
-      --bg-primary: #0c0e10;
-      --bg-surface: #13161a;
-      --bg-elevated: #1a1d22;
-      --bg-card: #1e2127;
-      --border-color: #2a2d35;
-      --border-light: #3a3d45;
-      --text-primary: #f0f1f5;
-      --text-secondary: #9ca3af;
-      --text-muted: #6b7280;
-      
-      --accent-blue: #3b82f6;
-      --accent-purple: #8b5cf6;
-      --accent-gold: #f59e0b;
-      --accent-green: #22c55e;
-      --accent-red: #ef4444;
-      --accent-amber: #fbbf24;
-      
-      --m1-color: #3b82f6;
-      --m2-color: #8b5cf6;
-      --m3-color: #f59e0b;
-      
-      --touch-target: 44px;
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --nav-height: 64px;
-      --bottom-nav-height: 72px;
-    }
-
-    /* Light mode support */
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg-primary: #ffffff;
-        --bg-surface: #f8f9fa;
-        --bg-elevated: #f1f3f4;
-        --bg-card: #ffffff;
-        --border-color: #dadce0;
-        --border-light: #e8eaed;
-        --text-primary: #202124;
-        --text-secondary: #5f6368;
-        --text-muted: #80868b;
-      }
-    }
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-
-    /* High contrast mode */
-    @media (prefers-contrast: high) {
-      :root {
-        --border-color: #000000;
-        --text-secondary: #000000;
-        --bg-elevated: #ffffff;
-      }
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-      min-height: 100vh;
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    /* Skip link for accessibility */
-    .skip-link {
-      position: absolute;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent-blue);
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 8px;
-      z-index: 9999;
-      transition: top 0.3s;
-    }
-
-    .skip-link:focus {
-      top: 1rem;
-    }
-
-    /* Announcements for screen readers */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    /* Loading state */
-    .loading-skeleton {
-      background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-card) 50%, var(--bg-elevated) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-    }
-
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    /* Top Navigation */
-    .nav-container {
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-color);
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      height: var(--nav-height);
-      padding: 0;
-    }
-
-    .nav-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      height: 100%;
-      padding: 0 0.75rem 0 1rem;
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-right: auto;
-      flex-shrink: 0;
-    }
-
-    .nav-logo {
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      will-change: transform;
-    }
-
-    .nav-title {
-      font-size: 1rem;
-      font-weight: 600;
-      background: linear-gradient(90deg, var(--text-primary), var(--accent-blue));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    @media (max-width: 380px) {
-      .nav-title {
-        display: none;
-      }
-    }
-
-    /* Tab Navigation - Swipeable */
-    .tabs-wrapper {
-      flex: 1;
-      overflow: hidden;
-      position: relative;
-      margin: 0 0.5rem;
-    }
-
-    .tabs-container {
-      display: flex;
-      gap: 0.375rem;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-behavior: smooth;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding: 0.5rem 0;
-    }
-
-    .tabs-container::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* Tab Styles */
-    .milestone-tab {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 0.875rem;
-      border-radius: 10px;
-      background: transparent;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      min-width: min-content;
-      text-decoration: none;
-      color: var(--text-secondary);
-      position: relative;
-      scroll-snap-align: start;
-      min-height: var(--touch-target);
-      will-change: transform, opacity;
-    }
-
-    .milestone-tab:hover,
-    .milestone-tab:focus-visible {
-      background: rgba(255, 255, 255, 0.03);
-      outline: 2px solid var(--accent-blue);
-      outline-offset: 2px;
-    }
-
-    .milestone-tab.active {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .milestone-tab.m1.active {
-      border-color: var(--m1-color);
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05));
-      color: var(--m1-color);
-    }
-
-    .milestone-tab.m2.active {
-      border-color: var(--m2-color);
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
-      color: var(--m2-color);
-    }
-
-    .milestone-tab.m3.active {
-      border-color: var(--m3-color);
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
-      color: var(--m3-color);
-    }
-
-    .tab-number {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.25rem;
-      font-weight: 700;
-      line-height: 1;
-      opacity: 0.7;
-      min-width: 28px;
-      text-align: center;
-    }
-
-    .milestone-tab.active .tab-number {
-      opacity: 1;
-    }
-
-    .tab-content {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      line-height: 1.2;
-    }
-
-    .tab-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      color: var(--text-secondary);
-    }
-
-    .milestone-tab.active .tab-title {
-      color: inherit;
-    }
-
-    .tab-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.65rem;
-    }
-
-    .tab-badge {
-      padding: 0.1rem 0.35rem;
-      border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      font-weight: 600;
-    }
-
-    .m1 .tab-badge { background: var(--m1-color); color: var(--bg-primary); }
-    .m2 .tab-badge { background: var(--m2-color); color: var(--bg-primary); }
-    .m3 .tab-badge { background: var(--m3-color); color: var(--bg-primary); }
-
-    .tab-salary {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 600;
-    }
-
-    .tab-progress {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--border-color);
-      border-radius: 0 0 10px 10px;
-      overflow: hidden;
-    }
-
-    .tab-progress-fill {
-      height: 100%;
-      transition: width 0.3s ease;
-      transform: translateZ(0);
-    }
-
-    .m1 .tab-progress-fill { background: var(--m1-color); }
-    .m2 .tab-progress-fill { background: var(--m2-color); }
-    .m3 .tab-progress-fill { background: var(--m3-color); }
-
-    /* Top Right Actions */
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-left: auto;
-    }
-
-    .action-btn {
-      width: var(--touch-target);
-      height: var(--touch-target);
-      border-radius: 10px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-color);
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      position: relative;
-      will-change: transform;
-    }
-
-    .action-btn:active {
-      transform: scale(0.92);
-    }
-
-    .action-btn:hover,
-    .action-btn:focus-visible {
-      border-color: var(--accent-gold);
-      color: var(--accent-gold);
-      outline: 2px solid var(--accent-blue);
-      outline-offset: 2px;
-    }
-
-    .action-btn .streak-badge {
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      background: var(--accent-red);
-      color: white;
-      font-size: 0.65rem;
-      padding: 0.1rem 0.4rem;
-      border-radius: 10px;
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 600;
-      min-width: 20px;
-      text-align: center;
-    }
-
-    .action-btn.timer-btn.running {
-      background: linear-gradient(135deg, var(--accent-red), var(--accent-amber));
-      border-color: var(--accent-red);
-      color: white;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
-      50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
-    }
-
-    /* Main Content */
-    .main-container {
-      flex: 1;
-      margin-top: var(--nav-height);
-      margin-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom));
-      padding: 0.75rem;
-      min-height: calc(100vh - var(--nav-height) - var(--bottom-nav-height));
-      position: relative;
-      overflow: hidden;
-    }
-
-    .milestone-iframe {
-      width: 100%;
-      height: 100%;
-      min-height: calc(100vh - var(--nav-height) - var(--bottom-nav-height) - 2rem);
-      border: none;
-      border-radius: 12px;
-      background: var(--bg-surface);
-      opacity: 1;
-      transition: opacity 0.2s ease;
-      will-change: opacity;
-    }
-
-    .milestone-iframe.loading {
-      opacity: 0;
-    }
-
-    /* Bottom Navigation Bar */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--bg-surface);
-      border-top: 1px solid var(--border-color);
-      padding: 0.5rem 1rem calc(0.5rem + var(--safe-bottom));
-      z-index: 1000;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .bottom-nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.375rem 0.75rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.65rem;
-      border-radius: 8px;
-      transition: all 0.15s ease;
-      min-width: 60px;
-      min-height: var(--touch-target);
-      justify-content: center;
-    }
-
-    .bottom-nav-item:hover,
-    .bottom-nav-item:focus-visible {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-secondary);
-      outline: 2px solid var(--accent-blue);
-      outline-offset: 2px;
-    }
-
-    .bottom-nav-item.active {
-      color: var(--accent-blue);
-    }
-
-    .bottom-nav-item svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    /* Quick Actions FAB */
-    .fab-container {
-      position: fixed;
-      bottom: calc(var(--bottom-nav-height) + 1rem + var(--safe-bottom));
-      right: 1rem;
-      z-index: 999;
-    }
-
-    .fab-main {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      will-change: transform;
-    }
-
-    .fab-main:hover,
-    .fab-main:focus-visible {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
-    }
-
-    .fab-main:active {
-      transform: scale(0.95);
-    }
-
-    .fab-menu {
-      position: absolute;
-      bottom: 70px;
-      right: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(20px);
-      transition: all 0.2s ease;
-    }
-
-    .fab-menu.open {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .fab-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 1rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      color: var(--text-primary);
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      white-space: nowrap;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      transition: all 0.15s ease;
-    }
-
-    .fab-item:hover,
-    .fab-item:focus-visible {
-      background: var(--bg-elevated);
-      border-color: var(--accent-blue);
-      outline: 2px solid var(--accent-blue);
-      outline-offset: 2px;
-    }
-
-    /* Streak Banner */
-    .streak-banner {
-      position: fixed;
-      top: var(--nav-height);
-      left: 0;
-      right: 0;
-      background: linear-gradient(90deg, var(--accent-red), var(--accent-amber));
-      color: white;
-      padding: 0.75rem;
-      text-align: center;
-      font-weight: 500;
-      font-size: 0.9rem;
-      z-index: 999;
-      transform: translateY(-100%);
-      transition: transform 0.3s ease;
-    }
-
-    .streak-banner.show {
-      transform: translateY(0);
-    }
-
-    /* Quote Banner */
-    .quote-banner {
-      position: fixed;
-      top: var(--nav-height);
-      left: 0;
-      right: 0;
-      background: var(--bg-elevated);
-      border-bottom: 1px solid var(--border-color);
-      padding: 0.75rem 1rem;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      text-align: center;
-      font-style: italic;
-      z-index: 998;
-    }
-
-    /* Progress Overlay */
-    .progress-overlay {
-      position: fixed;
-      bottom: calc(var(--bottom-nav-height) + var(--safe-bottom) + 1rem);
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 0.875rem 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      z-index: 900;
-      max-width: calc(100% - 2rem);
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .progress-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.125rem;
-      min-width: 60px;
-    }
-
-    .progress-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-
-    .progress-value.m1 { color: var(--m1-color); }
-    .progress-value.m2 { color: var(--m2-color); }
-    .progress-value.m3 { color: var(--m3-color); }
-
-    .progress-label {
-      font-size: 0.6rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    /* Modals */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 2000;
-      align-items: flex-end;
-      justify-content: center;
-      padding: 1rem;
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    @supports not ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px))) {
-      .modal-overlay {
-        background: rgba(0, 0, 0, 0.95);
-      }
-    }
-
-    .modal-content {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 1.5rem;
-      width: 100%;
-      max-width: 400px;
-      max-height: 85vh;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      animation: slideUp 0.3s ease;
-      will-change: transform;
-    }
-
-    @keyframes slideUp {
-      from {
-        transform: translateY(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.25rem;
-    }
-
-    .modal-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      font-size: 1.5rem;
-      cursor: pointer;
-      width: var(--touch-target);
-      height: var(--touch-target);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      transition: all 0.15s;
-    }
-
-    .modal-close:hover,
-    .modal-close:focus-visible {
-      background: var(--bg-elevated);
-      color: var(--text-primary);
-    }
-
-    /* Timer Display */
-    .timer-display {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 4rem;
-      font-weight: 700;
-      text-align: center;
-      margin: 1.5rem 0;
-      color: var(--text-primary);
-      line-height: 1;
-      will-change: transform;
-    }
-
-    .timer-display.rest {
-      color: var(--accent-amber);
-    }
-
-    /* Timer Controls */
-    .timer-controls {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .timer-btn {
-      padding: 1rem;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-family: inherit;
-      font-weight: 600;
-      font-size: 1rem;
-      min-height: var(--touch-target);
-      transition: all 0.15s ease;
-      will-change: transform;
-    }
-
-    .timer-btn:active {
-      transform: scale(0.95);
-    }
-
-    .timer-btn-start {
-      background: var(--accent-green);
-      color: var(--bg-primary);
-    }
-
-    .timer-btn-pause {
-      background: var(--accent-amber);
-      color: var(--bg-primary);
-    }
-
-    .timer-btn-reset {
-      background: var(--bg-elevated);
-      color: var(--text-primary);
-      border: 1px solid var(--border-color);
-    }
-
-    .timer-presets {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-    }
-
-    .preset-btn {
-      padding: 0.75rem;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      background: var(--bg-elevated);
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-size: 0.875rem;
-      min-height: var(--touch-target);
-      transition: all 0.15s ease;
-    }
-
-    .preset-btn:hover,
-    .preset-btn:focus-visible {
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
-      outline: 2px solid var(--accent-blue);
-      outline-offset: 2px;
-    }
-
-    /* Settings */
-    .settings-section {
-      margin-bottom: 1.25rem;
-    }
-
-    .settings-section-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.75rem;
-    }
-
-    .settings-btn {
-      width: 100%;
-      padding: 1rem;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      background: var(--bg-elevated);
-      color: var(--text-primary);
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.5rem;
-      min-height: var(--touch-target);
-      transition: all 0.15s ease;
-    }
-
-    .settings-btn:hover,
-    .settings-btn:focus-visible {
-      border-color: var(--accent-blue);
-      background: rgba(59, 130, 246, 0.1);
-    }
-
-    .settings-btn.danger:hover,
-    .settings-btn.danger:focus-visible {
-      border-color: var(--accent-red);
-      background: rgba(239, 68, 68, 0.1);
-      color: var(--accent-red);
-    }
-
-    /* Theme Toggle */
-    .theme-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
-    }
-
-    .theme-toggle-label {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .toggle-switch {
-      width: 48px;
-      height: 28px;
-      background: var(--border-color);
-      border-radius: 14px;
-      position: relative;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .toggle-switch.active {
-      background: var(--accent-blue);
-    }
-
-    .toggle-indicator {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 24px;
-      height: 24px;
-      background: white;
-      border-radius: 50%;
-      transition: transform 0.2s;
-    }
-
-    .toggle-switch.active .toggle-indicator {
-      transform: translateX(20px);
-    }
-
-    /* Reduced motion toggle */
-    .reduced-motion .fab-menu,
-    .reduced-motion .modal-content,
-    .reduced-motion .streak-banner,
-    .reduced-motion .timer-display,
-    .reduced-motion .milestone-iframe {
-      animation: none !important;
-      transition: none !important;
-    }
-
-    /* Confetti Canvas */
-    #confettiCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 3000;
-    }
-
-    /* Analytics Modal */
-    .analytics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-    }
-
-    .analytics-card {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .analytics-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent-blue);
-      display: block;
-      margin-bottom: 0.25rem;
-    }
-
-    .analytics-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    /* Toast Notifications */
-    .toast {
-      position: fixed;
-      bottom: calc(var(--bottom-nav-height) + var(--safe-bottom) + 5rem);
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1rem 1.5rem;
-      color: var(--text-primary);
-      font-weight: 500;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      z-index: 2500;
-      opacity: 0;
-      transition: all 0.3s ease;
-    }
-
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-
-    /* Responsive adjustments */
-    @media (min-width: 769px) {
-      .bottom-nav {
-        display: none;
-      }
-
-      .main-container {
-        margin-bottom: 1rem;
-        padding: 1.5rem;
-      }
-
-      .fab-container {
-        bottom: 1.5rem;
-      }
-
-      .progress-overlay {
-        bottom: 1.5rem;
-      }
-
-      .modal-overlay {
-        align-items: center;
-        padding: 2rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .timer-display {
-        font-size: 3rem;
-      }
-
-      .analytics-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Focus visible only for keyboard */
-    :focus:not(:focus-visible) {
-      outline: none;
-    }
-
-    :focus-visible {
-      outline: 2px solid var(--accent-blue);
-      outline-offset: 2px;
-    }
-
-    /* Print styles */
-    @media print {
-      .nav-container,
-      .bottom-nav,
-      .fab-container,
-      .modal-overlay,
-      #confettiCanvas,
-      .streak-banner,
-      .quote-banner {
-        display: none !important;
-      }
-
-      .main-container {
-        margin: 0;
-        padding: 1rem;
-      }
-
-      .milestone-iframe {
-        min-height: auto;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RN Roadmap — React Native to Senior Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c0e10;--bg-s:#13161a;--bg-e:#1a1e24;--bg-c:#1e2228;
+  --border:#252930;--border2:#2e333c;
+  --txt:#f0f1f5;--txt2:#9ca3af;--txt3:#6b7280;
+  --blue:#3b82f6;--purple:#8b5cf6;--gold:#f59e0b;--green:#10b981;
+  --red:#ef4444;--cyan:#06b6d4;--pink:#ec4899;--orange:#f97316;
+  --w1:#6366f1;--w2:#8b5cf6;--w3:#10b981;--w4:#059669;
+  --w5:#f97316;--w6:#ea580c;--w7:#eab308;--w8:#ca8a04;
+  --nav:56px;--sidebar:240px;--sidebar-col:60px;--right:300px;--right-col:76px;
+  --sb-left:var(--sidebar);--sb-right:var(--right);
+  --transition-sb:0.3s ease;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Bricolage Grotesque',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:inherit;}
+input{font-family:inherit;}
+
+/* ── TOPBAR ─────────────────────────────────── */
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--nav);background:var(--bg-s);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1rem;gap:1rem;z-index:200;}
+.topbar-logo{display:flex;align-items:center;gap:0.5rem;font-weight:700;font-size:1.1rem;white-space:nowrap;}
+.topbar-logo span{font-size:1.4rem;}
+.topbar-spacer{flex:1;}
+.topbar-actions{display:flex;align-items:center;gap:0.75rem;}
+.streak-badge{display:flex;align-items:center;gap:0.3rem;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:20px;padding:0.3rem 0.75rem;font-size:0.85rem;font-weight:600;color:var(--gold);}
+.icon-btn{width:36px;height:36px;background:var(--bg-e);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all 0.2s;}
+.icon-btn:hover{background:var(--border2);border-color:var(--blue);}
+
+/* ── LAYOUT ─────────────────────────────────── */
+.layout{display:grid;grid-template-columns:var(--sb-left) 1fr var(--sb-right);grid-template-rows:auto;padding-top:var(--nav);min-height:100vh;transition:grid-template-columns var(--transition-sb);}
+.layout.lc{--sb-left:var(--sidebar-col);}
+.layout.rc{--sb-right:var(--right-col);}
+
+/* ── LEFT SIDEBAR ───────────────────────────── */
+.sidebar{position:fixed;top:var(--nav);left:0;bottom:0;width:var(--sidebar);background:var(--bg-s);border-right:1px solid var(--border);overflow-y:auto;padding:0.75rem 0;z-index:100;transition:width var(--transition-sb);overflow-x:hidden;}
+.sidebar.collapsed{width:var(--sidebar-col);}
+.sidebar-toggle-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:0.6rem 1rem;background:none;border:none;border-bottom:1px solid var(--border);color:var(--txt3);font-size:0.75rem;cursor:pointer;margin-bottom:0.5rem;transition:color 0.2s;white-space:nowrap;}
+.sidebar-toggle-btn:hover{color:var(--txt);}
+.sidebar.collapsed .sidebar-toggle-btn{justify-content:center;padding:0.6rem;}
+.sidebar.collapsed .sb-toggle-label{display:none;}
+.sidebar-label{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--txt3);padding:0 1rem;margin-bottom:0.5rem;overflow:hidden;white-space:nowrap;}
+.sidebar.collapsed .sidebar-label{opacity:0;height:0;margin:0;padding:0;}
+.sidebar-item{display:flex;flex-direction:column;padding:0.75rem 1rem;cursor:pointer;border-left:3px solid transparent;transition:all 0.2s;margin-bottom:0.25rem;overflow:hidden;}
+.sidebar-item:hover{background:var(--bg-e);}
+.sidebar-item.active{background:rgba(59,130,246,0.08);border-left-color:var(--blue);}
+.sidebar-item.active.m2{border-left-color:var(--purple);background:rgba(139,92,246,0.08);}
+.sidebar-item.active.m3{border-left-color:var(--gold);background:rgba(245,158,11,0.08);}
+.sidebar-title{font-size:0.875rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;white-space:nowrap;}
+.sidebar.collapsed .sidebar-title .sb-text{display:none;}
+.sidebar.collapsed .sidebar-item{padding:0.75rem;align-items:center;border-left:none;border-radius:8px;margin:0.25rem 0.5rem;}
+.sidebar.collapsed .sidebar-sub,.sidebar.collapsed .sidebar-pct,.sidebar.collapsed .sidebar-bar,.sidebar.collapsed .sidebar-divider{display:none;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sidebar-icon-only{font-size:1.1rem;display:none;}
+.sidebar.collapsed .sidebar-icon-only{display:block;}
+.sidebar-sub{font-size:0.75rem;color:var(--txt3);margin-top:0.2rem;}
+.sidebar-pct{font-size:0.7rem;font-family:'JetBrains Mono',monospace;color:var(--txt2);margin-top:0.3rem;}
+.sidebar-bar{height:3px;background:var(--border);border-radius:2px;margin-top:0.4rem;overflow:hidden;}
+.sidebar-bar-fill{height:100%;border-radius:2px;transition:width 0.4s;}
+.sidebar-divider{height:1px;background:var(--border);margin:0.75rem 1rem;}
+
+/* ── MAIN ───────────────────────────────────── */
+.main{grid-column:2;padding:2rem 1.5rem;min-width:0;}
+
+/* ── RIGHT SIDEBAR ──────────────────────────── */
+.right-sidebar{position:fixed;top:var(--nav);right:0;bottom:0;width:var(--right);background:var(--bg-s);border-left:1px solid var(--border);overflow-y:auto;padding:1.25rem;z-index:100;transition:width var(--transition-sb);overflow-x:hidden;}
+.right-sidebar.collapsed{width:var(--right-col);padding:0.75rem 0.5rem;}
+.rside-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;border-bottom:1px solid var(--border);color:var(--txt3);font-size:0.75rem;cursor:pointer;padding:0.5rem 0.5rem 0.75rem;margin-bottom:0.75rem;white-space:nowrap;}
+.rside-toggle:hover{color:var(--txt);}
+.right-sidebar.collapsed .rside-toggle{justify-content:center;}
+.right-sidebar.collapsed .rside-toggle-label{display:none;}
+.right-sidebar.collapsed .jst-full{display:none;}
+.right-sidebar.collapsed .jst-mini{display:flex;}
+.jst-mini{display:none;flex-direction:column;gap:0.5rem;margin-top:0.25rem;}
+.jst-mini-row{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--txt2);text-align:center;}
+.jst-mini-val{font-size:0.95rem;font-weight:700;color:var(--blue);display:block;}
+.jst-mini-lbl{font-size:0.55rem;color:var(--txt3);text-transform:uppercase;margin-top:-2px;}
+
+/* ── STREAK BANNER & TIPS ───────────────────── */
+.streak-banner{display:none;align-items:center;gap:0.75rem;background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(239,68,68,0.1));border:1px solid rgba(245,158,11,0.4);border-radius:12px;padding:0.875rem 1.25rem;margin-bottom:1.5rem;animation:pulse-glow 2s ease infinite;}
+.streak-banner.show{display:flex;}
+.streak-banner-text{font-weight:600;font-size:0.95rem;}
+.streak-banner-sub{font-size:0.8rem;color:var(--txt2);}
+.daily-tip{display:flex;align-items:flex-start;gap:0.75rem;background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.2);border-radius:10px;padding:0.875rem 1rem;margin-bottom:1.5rem;font-size:0.85rem;color:var(--txt2);}
+.daily-tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:0.1rem;}
+.mini-timer-btn{display:flex;align-items:center;gap:0.4rem;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:0.3rem 0.75rem;font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:600;color:var(--blue);cursor:pointer;transition:all 0.2s;}
+.mini-timer-btn:hover{background:rgba(59,130,246,0.2);}
+.mini-timer-btn.running{animation:pulse-glow 1.5s ease infinite;border-color:var(--green);color:var(--green);background:rgba(16,185,129,0.1);}
+@keyframes pulse-glow{0%,100%{box-shadow:none;}50%{box-shadow:0 0 12px rgba(245,158,11,0.35);}}
+
+/* ── HERO ───────────────────────────────────── */
+.hero{margin-bottom:2rem;}
+.hero-title{font-size:clamp(1.75rem,3vw,2.5rem);font-weight:700;background:linear-gradient(135deg,#fff,var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.4rem;}
+.hero-sub{color:var(--txt2);font-size:1rem;margin-bottom:1.5rem;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.stat-box{background:var(--bg-e);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;transition:transform 0.2s;}
+.stat-box:hover{transform:translateY(-2px);}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;color:var(--blue);display:block;}
+.stat-lbl{font-size:0.75rem;color:var(--txt3);text-transform:uppercase;letter-spacing:0.05em;}
+
+/* ── TODAY'S FOCUS ──────────────────────────── */
+.focus-section{background:var(--bg-e);border:1px solid var(--border);border-radius:16px;padding:1.25rem;margin-bottom:2rem;}
+.focus-header{display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;}
+.focus-title{font-weight:600;font-size:1rem;}
+.focus-list{display:flex;flex-direction:column;gap:0.5rem;}
+.focus-item{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0.75rem;background:var(--bg-c);border-radius:8px;font-size:0.875rem;}
+.focus-check{width:18px;height:18px;border:2px solid var(--border2);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.focus-check.done{background:var(--green);border-color:var(--green);}
+.focus-empty{color:var(--txt3);font-size:0.875rem;text-align:center;padding:1rem 0;}
+
+/* ── MILESTONE SECTION ──────────────────────── */
+.milestone-section{margin-bottom:2.5rem;}
+.milestone-header{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;background:var(--bg-e);border:1px solid var(--border);border-radius:16px;cursor:pointer;margin-bottom:1rem;transition:all 0.2s;}
+.milestone-header:hover{border-color:var(--blue);}
+.milestone-icon{font-size:1.5rem;}
+.milestone-info{flex:1;}
+.milestone-name{font-weight:700;font-size:1.1rem;}
+.milestone-sub{font-size:0.8rem;color:var(--txt3);}
+.milestone-prog{display:flex;align-items:center;gap:0.75rem;}
+.milestone-pct-text{font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:600;color:var(--txt2);white-space:nowrap;}
+.milestone-bar{width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+.milestone-bar-fill{height:100%;border-radius:3px;transition:width 0.4s;}
+.milestone-toggle{font-size:1.2rem;color:var(--txt3);transition:transform 0.3s;}
+.milestone-toggle.open{transform:rotate(180deg);}
+.milestone-body{display:none;}
+.milestone-body.open{display:block;}
+
+/* ── MONTH DIVIDER ──────────────────────────── */
+.month-divider{display:flex;align-items:center;gap:1rem;margin:1.5rem 0 1rem;}
+.month-badge{font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:600;padding:0.3rem 0.75rem;background:var(--bg-e);border:1px solid var(--border);border-radius:4px;white-space:nowrap;color:var(--txt2);}
+.month-line{flex:1;height:1px;background:var(--border);}
+.month-title-text{font-size:0.85rem;color:var(--txt3);white-space:nowrap;}
+
+/* ── WEEK CARD ──────────────────────────────── */
+.week-card{background:var(--bg-e);border:1px solid var(--border);border-radius:16px;margin-bottom:1rem;overflow:hidden;transition:border-color 0.2s;}
+.week-card:hover{border-color:var(--border2);}
+.week-card-top{height:3px;width:100%;}
+.wc-header{padding:1rem 1.25rem;cursor:pointer;display:flex;align-items:flex-start;gap:1rem;}
+.wc-header:hover{background:rgba(255,255,255,0.02);}
+.wc-left{flex:1;min-width:0;}
+.wc-num{font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;margin-bottom:0.35rem;opacity:0.9;}
+.wc-title{font-weight:700;font-size:1rem;margin-bottom:0.2rem;}
+.wc-subtitle{font-size:0.8rem;color:var(--txt3);}
+.wc-right{display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;flex-shrink:0;}
+.wc-prog-row{display:flex;align-items:center;gap:0.5rem;}
+.wc-prog-bar{width:60px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.wc-prog-fill{height:100%;border-radius:2px;transition:width 0.3s;}
+.wc-pct{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--txt3);}
+.wc-arrow{font-size:0.9rem;color:var(--txt3);transition:transform 0.3s;}
+.wc-arrow.open{transform:rotate(180deg);}
+.wc-body{padding:0 1.25rem 1.25rem;border-top:1px solid var(--border);}
+.wc-body.hidden{display:none;}
+.wc-meta{display:flex;flex-direction:column;gap:0.75rem;padding:1rem 0;border-bottom:1px solid var(--border);margin-bottom:1rem;}
+.interview-box{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:8px;padding:12px 16px;}
+.interview-title{font-weight:600;margin-bottom:0.2rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--green);}
+.interview-text{font-size:0.875rem;color:var(--txt2);}
+.deliverable-box{background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:12px 16px;}
+.deliverable-title{font-weight:600;margin-bottom:0.2rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--blue);}
+.deliverable-text{font-size:0.875rem;color:var(--txt2);}
+.goal-box{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:8px;padding:12px 16px;}
+.goal-title{font-weight:600;margin-bottom:0.2rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--gold);}
+.goal-text{font-size:0.875rem;color:var(--txt2);}
+.mistakes-box{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:8px;padding:12px 16px;margin:12px 0;}
+.mistakes-title{font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--red);}
+.mistakes-box ul{margin:8px 0 0 0;padding-left:20px;}
+.mistakes-box li{color:var(--txt2);font-size:13px;margin-bottom:6px;}
+
+/* ── TASK ITEM ─────────────────────────────────── */
+.task-list{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem;}
+.task-item{
+  display:flex;align-items:flex-start;gap:0.875rem;
+  padding:0.75rem 1rem;
+  background:linear-gradient(135deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+  border:1px solid var(--border);
+  border-left:3px solid transparent;
+  border-radius:10px;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  position:relative;
+}
+.task-item:hover{
+  background:linear-gradient(135deg,rgba(59,130,246,0.06),rgba(59,130,246,0.02));
+  border-color:rgba(59,130,246,0.25);
+  border-left-color:var(--blue);
+  transform:translateX(2px);
+  box-shadow:0 2px 12px rgba(59,130,246,0.08);
+}
+.task-item.done{
+  background:rgba(16,185,129,0.04);
+  border-color:rgba(16,185,129,0.15);
+  border-left-color:rgba(16,185,129,0.4);
+  opacity:0.65;
+}
+.task-item.done:hover{transform:none;box-shadow:none;border-left-color:var(--green);}
+
+/* Checkbox */
+.task-cb{
+  width:22px;height:22px;
+  border:2px solid var(--border2);
+  border-radius:6px;
+  flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
+  background:rgba(255,255,255,0.03);
+}
+.task-item:hover .task-cb{border-color:var(--blue);background:rgba(59,130,246,0.08);}
+.task-cb.checked{
+  background:var(--green);
+  border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(16,185,129,0.2);
+}
+.task-cb.checked::after{content:'✓';color:#000;font-size:0.75rem;font-weight:800;}
+
+/* Content */
+.task-content{flex:1;min-width:0;}
+.task-text{
+  font-size:0.9rem;
+  font-weight:600;
+  color:var(--txt);
+  line-height:1.4;
+  margin-bottom:0.35rem;
+  letter-spacing:-0.01em;
+  display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;
+}
+.task-item.done .task-text{
+  text-decoration:line-through;
+  color:var(--txt3);
+  font-weight:400;
+}
+
+.task-meta{
+  display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;
+  margin-top:0.35rem;
+}
+.task-time {
+  background: var(--accent-dim, rgba(56,189,248,0.1));
+  color: var(--accent, #38bdf8);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.task-why {
+  cursor: help;
+  color: var(--amber, #fbbf24);
+  font-size: 14px;
+}
+.task-res {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  text-decoration: none;
+  margin-left: 4px;
+}
+.task-res:hover{filter:brightness(1.2);}
+.task-res.res-repo { background: rgba(167, 139, 250, 0.1); color: #a78bfa; }
+.task-res.res-docs { background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
+.task-res.res-blog { background: rgba(251, 146, 60, 0.1); color: #fb923c; }
+.task-res.res-interactive { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.task-res.res-video { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
+/* Note button */
+.task-note-btn{
+  background:none;border:1px solid transparent;
+  border-radius:4px;padding:2px 6px;
+  font-size:12px;color:var(--txt3);
+  cursor:pointer;transition:all 0.2s;
+}
+.task-note-btn:hover{border-color:var(--border);background:rgba(255,255,255,0.05);}
+.task-note-btn.has-note{
+  background:rgba(245,158,11,0.15);
+  border-color:rgba(245,158,11,0.4);
+  opacity:1;
+}
+
+/* Project reference */
+.proj-ref{display:inline-flex;gap:0.35rem;margin-bottom:0.3rem;flex-wrap:wrap;align-items:center;}
+.proj-name{
+  font-size:0.65rem;font-family:'JetBrains Mono',monospace;
+  color:var(--cyan);background:rgba(6,182,212,0.1);
+  border:1px solid rgba(6,182,212,0.25);padding:0.1rem 0.4rem;border-radius:20px;
+}
+.proj-metric{
+  font-size:0.65rem;font-family:'JetBrains Mono',monospace;
+  color:var(--green);background:rgba(16,185,129,0.1);
+  border:1px solid rgba(16,185,129,0.25);padding:0.1rem 0.4rem;border-radius:20px;
+}
+
+/* ── CONFETTI CANVAS ─────────────────────────── */
+#confettiCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;display:none;}
+
+/* ── ANIMATIONS ──────────────────────────────── */
+@keyframes check-pop{0%{transform:scale(0) rotate(-10deg);}60%{transform:scale(1.2) rotate(5deg);}100%{transform:scale(1) rotate(0);}}
+.task-cb.checked{animation:check-pop 0.3s ease;}
+@keyframes slide-in-top{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.streak-banner.show{animation:slide-in-top 0.4s ease,pulse-glow 2s ease 0.5s infinite;}
+
+/* ── WEEK CARD FOOTER ───────────────────────── */
+.wc-footer{display:flex;align-items:center;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);flex-wrap:wrap;}
+.wc-time{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--txt3);}
+.btn-done{padding:0.5rem 1.25rem;background:linear-gradient(135deg,var(--green),#059669);color:#000;font-weight:700;font-size:0.8rem;border:none;border-radius:8px;transition:all 0.2s;margin-left:auto;}
+.btn-done:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(16,185,129,0.3);}
+.btn-done.marked{background:var(--border);color:var(--txt3);}
+
+/* ── MISTAKES & CUSTOM TASKS ────────────────── */
+.mistakes-box{background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:0.75rem;margin-bottom:1rem;}
+.mistakes-title{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--red);margin-bottom:0.5rem;}
+.mistakes-list{list-style:none;display:flex;flex-direction:column;gap:0.3rem;}
+.mistakes-list li{font-size:0.78rem;color:rgba(239,68,68,0.9);padding-left:1rem;position:relative;}
+.mistakes-list li::before{content:'✗';position:absolute;left:0;font-size:0.7rem;}
+.custom-section{margin-top:1rem;}
+.custom-title{font-size:0.75rem;font-weight:600;color:var(--txt3);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;}
+.custom-task{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.75rem;background:var(--bg-c);border-radius:6px;font-size:0.8rem;margin-bottom:0.4rem;}
+.custom-cb{width:16px;height:16px;border:2px solid var(--border2);border-radius:3px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.custom-cb.checked{background:var(--blue);border-color:var(--blue);}
+.custom-cb.checked::after{content:'✓';color:#fff;font-size:0.55rem;font-weight:700;}
+.custom-del{background:none;border:none;color:var(--txt3);font-size:1rem;padding:0 0.25rem;margin-left:auto;}
+.custom-del:hover{color:var(--red);}
+.add-task-row{display:flex;gap:0.5rem;margin-top:0.5rem;}
+.add-task-input{flex:1;background:var(--bg-c);border:1px solid var(--border);border-radius:6px;padding:0.5rem 0.75rem;color:var(--txt);font-size:0.8rem;outline:none;}
+.add-task-input:focus{border-color:var(--blue);}
+.add-task-btn{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:0.5rem 1rem;font-size:0.8rem;font-weight:600;transition:opacity 0.2s;}
+.add-task-btn:hover{opacity:0.85;}
+
+/* ── NOTE MODAL ─────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--bg-s);border:1px solid var(--border);border-radius:16px;padding:1.5rem;width:90%;max-width:500px;}
+.modal-title{font-weight:600;margin-bottom:1rem;}
+.modal-textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0.75rem;color:var(--txt);font-size:0.875rem;resize:vertical;min-height:120px;outline:none;}
+.modal-textarea:focus{border-color:var(--blue);}
+.modal-actions{display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1rem;}
+.btn-primary{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:0.5rem 1.25rem;font-weight:600;}
+.btn-secondary{background:var(--bg-e);color:var(--txt);border:1px solid var(--border);border-radius:8px;padding:0.5rem 1.25rem;}
+
+/* ── TIMER MODAL ────────────────────────────── */
+.timer-display{text-align:center;padding:2rem 0;}
+.timer-time{font-family:'JetBrains Mono',monospace;font-size:3.5rem;font-weight:700;color:var(--blue);}
+.timer-controls{display:flex;gap:0.75rem;justify-content:center;margin-top:1.5rem;}
+.timer-btn{padding:0.75rem 1.5rem;border:none;border-radius:10px;font-weight:600;font-size:0.95rem;transition:all 0.2s;}
+.timer-start{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;}
+.timer-reset{background:var(--bg-e);color:var(--txt);border:1px solid var(--border);}
+
+/* ── JOB SEARCH TRACKER (right sidebar) ──────── */
+.jst-title{font-weight:700;font-size:1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.5rem;}
+.jst-metric{margin-bottom:0.875rem;}
+.jst-label{font-size:0.75rem;color:var(--txt3);margin-bottom:0.25rem;display:flex;justify-content:space-between;}
+.jst-target{font-family:'JetBrains Mono',monospace;font-size:0.7rem;}
+.jst-row{display:flex;align-items:center;gap:0.5rem;}
+.jst-input{width:80px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.5rem;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;text-align:center;outline:none;transition:border-color 0.2s;}
+.jst-input:focus{border-color:var(--blue);}
+.jst-of{font-size:0.8rem;color:var(--txt3);}
+.jst-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.jst-bar-fill{height:100%;border-radius:2px;background:var(--blue);transition:width 0.4s;}
+.jst-cta{width:100%;margin-top:1.25rem;padding:0.875rem;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;border-radius:10px;font-weight:700;font-size:0.9rem;transition:all 0.2s;}
+.jst-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(59,130,246,0.35);}
+.jst-section-title{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--txt3);margin:1rem 0 0.75rem;}
+.jst-divider{height:1px;background:var(--border);margin:1.25rem 0;}
+.data-controls{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.data-btn{flex:1;padding:0.5rem;background:var(--bg-e);border:1px solid var(--border);border-radius:8px;font-size:0.75rem;color:var(--txt2);transition:all 0.2s;}
+.data-btn:hover{border-color:var(--blue);color:var(--blue);}
+
+/* ── WEEK 8 CHECKLIST ───────────────────────── */
+.w8-checklist{background:linear-gradient(135deg,var(--bg-c),rgba(202,138,4,0.08));border:2px solid rgba(202,138,4,0.35);border-radius:16px;padding:1.5rem;margin-top:1.5rem;}
+.w8-title{font-weight:700;font-size:1.1rem;color:var(--gold);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
+.w8-prog-row{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;}
+.w8-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+.w8-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 0.4s;}
+.w8-pct{font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600;color:var(--gold);}
+.w8-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;}
+.w8-item{display:flex;align-items:flex-start;gap:0.6rem;padding:0.75rem;background:var(--bg-e);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;}
+.w8-item:hover{border-color:var(--gold);}
+.w8-item.done{opacity:0.55;}
+.w8-cb{width:20px;height:20px;border:2px solid rgba(202,138,4,0.5);border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.w8-item.done .w8-cb{background:var(--gold);border-color:var(--gold);}
+.w8-item.done .w8-cb::after{content:'✓';color:#000;font-size:0.7rem;font-weight:700;}
+.w8-text{font-size:0.8rem;font-weight:500;}
+.w8-item.done .w8-text{text-decoration:line-through;color:var(--txt3);}
+.w8-desc{font-size:0.7rem;color:var(--txt3);margin-top:0.15rem;}
+
+/* ── MILESTONE 2 MONTHS ─────────────────────── */
+.month-card{background:var(--bg-e);border:1px solid var(--border);border-radius:16px;margin-bottom:1rem;overflow:hidden;}
+.month-card-header{padding:1.25rem;cursor:pointer;display:flex;align-items:center;gap:1rem;}
+.month-card-header:hover{background:rgba(255,255,255,0.02);}
+.month-badge{font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;padding:0.3rem 0.6rem;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:4px;color:var(--purple);white-space:nowrap;}
+.month-info{flex:1;}
+.month-name{font-weight:700;font-size:1rem;}
+.month-sub{font-size:0.8rem;color:var(--txt3);}
+.month-body{padding:0 1.25rem 1.25rem;border-top:1px solid var(--border);}
+.month-body.hidden{display:none;}
+.at-work-badge{font-size:0.65rem;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);border-radius:4px;padding:0.1rem 0.4rem;color:var(--green);margin-left:0.5rem;}
+.m2-task{display:flex;align-items:flex-start;gap:0.75rem;padding:0.6rem;border-bottom:1px solid var(--border);font-size:0.85rem;cursor:pointer;}
+.m2-task:last-child{border-bottom:none;}
+.m2-task:hover{background:rgba(255,255,255,0.02);}
+.m2-task.done{opacity:0.5;}
+.m2-task.done .m2-task-text{text-decoration:line-through;}
+.m2-cb{width:18px;height:18px;border:2px solid rgba(139,92,246,0.4);border-radius:4px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;}
+.m2-cb.checked{background:var(--purple);border-color:var(--purple);}
+.m2-cb.checked::after{content:'✓';color:#fff;font-size:0.6rem;font-weight:700;}
+.month-prog-bar-wrap{margin:1rem 0 0.5rem;}
+.month-prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.month-prog-fill{height:100%;border-radius:2px;background:var(--purple);transition:width 0.4s;}
+.month-prog-label{font-size:0.7rem;color:var(--txt3);margin-top:0.3rem;font-family:'JetBrains Mono',monospace;}
+
+/* ── MILESTONE 3 ────────────────────────────── */
+.path-toggle{display:flex;gap:0.75rem;margin-bottom:1.5rem;}
+.path-btn{flex:1;padding:0.875rem;border:1px solid var(--border);border-radius:10px;background:var(--bg-e);font-weight:600;font-size:0.9rem;color:var(--txt2);transition:all 0.2s;}
+.path-btn.active.staff{background:rgba(245,158,11,0.12);border-color:var(--gold);color:var(--gold);}
+.path-btn.active.consultant{background:rgba(6,182,212,0.12);border-color:var(--cyan);color:var(--cyan);}
+.m3-phase{background:var(--bg-e);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1rem;}
+.m3-phase-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;}
+.m3-phase-badge{font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;padding:0.25rem 0.6rem;border-radius:4px;}
+.m3-phase-badge.staff{background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);color:var(--gold);}
+.m3-phase-badge.consultant{background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.3);color:var(--cyan);}
+.m3-phase-title{font-weight:600;}
+.m3-task{display:flex;align-items:flex-start;gap:0.75rem;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.85rem;cursor:pointer;}
+.m3-task:last-child{border-bottom:none;}
+.m3-task:hover{background:rgba(255,255,255,0.02);}
+.m3-task.done .m3-task-text{text-decoration:line-through;color:var(--txt3);}
+.m3-cb{width:18px;height:18px;border:2px solid rgba(245,158,11,0.4);border-radius:4px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;}
+.m3-cb.checked{background:var(--gold);border-color:var(--gold);}
+.m3-cb.checked::after{content:'✓';color:#000;font-size:0.6rem;font-weight:700;}
+.m3-output{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:0.75rem;margin-top:1rem;font-size:0.8rem;color:var(--gold);}
+
+/* ── TOAST ──────────────────────────────────── */
+.toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-s);border:1px solid var(--border);color:var(--txt);padding:0.75rem 1.5rem;border-radius:10px;font-size:0.875rem;font-weight:500;opacity:0;transition:all 0.3s;z-index:999;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.success{border-color:var(--green);color:var(--green);}
+.toast.warn{border-color:var(--gold);color:var(--gold);}
+
+/* ── FAB ────────────────────────────────────── */
+.fab{position:fixed;bottom:1.5rem;right:calc(var(--right) + 1.25rem);width:52px;height:52px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:50%;color:#fff;font-size:1.4rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(59,130,246,0.4);z-index:150;transition:all 0.2s;}
+.fab:hover{transform:scale(1.08);}
+
+/* ── MOBILE ─────────────────────────────────── */
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .right-sidebar{display:none;}
+  .main{padding:1rem;padding-bottom:5rem;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .w8-grid{grid-template-columns:1fr;}
+  .wc-meta{grid-template-columns:1fr;}
+  .fab{bottom:5rem;right:1rem;}
+  .mobile-bot-nav{display:flex;}
+  .mobile-jst{display:block;}
+}
+@media(min-width:769px){
+  .mobile-bot-nav{display:none;}
+  .mobile-jst{display:none;}
+}
+.mobile-bot-nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:var(--bg-s);border-top:1px solid var(--border);z-index:200;justify-content:space-around;align-items:center;}
+.mob-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.2rem;padding:0.5rem;font-size:0.65rem;color:var(--txt3);cursor:pointer;transition:color 0.2s;}
+.mob-tab.active{color:var(--blue);}
+.mob-tab-icon{font-size:1.1rem;}
+.mobile-jst{margin-bottom:1.5rem;background:var(--bg-e);border:1px solid var(--border);border-radius:16px;padding:1.25rem;}
+</style>
 </head>
 <body>
-  <!-- Skip to main content for accessibility -->
-  <a href="#mainContent" class="skip-link">Skip to main content</a>
 
-  <!-- Screen reader announcements -->
-  <div class="sr-only" aria-live="polite" aria-atomic="true" id="announcer"></div>
-
-  <!-- Streak Banner -->
-  <div class="streak-banner" id="streakBanner" role="banner" aria-label="Achievement notification">
-    🔥 You're on fire! <span id="streakDays">7</span> day streak!
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="topbar-logo"><span>🚀</span> RN Roadmap</div>
+  <div class="topbar-spacer"></div>
+  <div class="topbar-actions">
+    <div class="streak-badge">🔥 <span id="streakVal">0</span> days</div>
+    <button class="mini-timer-btn" id="miniTimerBtn" onclick="openTimer()" title="Focus Timer">⏱ <span id="miniTimerDisp">25:00</span></button>
+    <button class="icon-btn" onclick="openSettings()" title="Settings">⚙️</button>
   </div>
+</nav>
 
-  <!-- Quote Banner -->
-  <div class="quote-banner" id="quoteBanner" role="complementary" aria-label="Motivational quote">
-    💪 loading inspiration...
+<!-- LEFT SIDEBAR -->
+<aside class="sidebar" id="leftSidebar">
+  <button class="sidebar-toggle-btn" onclick="toggleLeftSidebar()">
+    <span class="sb-toggle-label">Navigation</span>
+    <span id="sbLeftIcon">◀◀</span>
+  </button>
+  <div class="sidebar-label">Milestones</div>
+  <div class="sidebar-item active" id="sideM1" onclick="scrollTo('m1')">
+    <div class="sidebar-title"><span class="sidebar-icon-only">📚</span><span class="sidebar-dot" style="background:var(--blue)"></span><span class="sb-text">Milestone 1</span></div>
+    <div class="sidebar-sub">Job Ready · 8 weeks</div>
+    <div class="sidebar-pct" id="sideM1Pct">0% complete</div>
+    <div class="sidebar-bar"><div class="sidebar-bar-fill" id="sideM1Bar" style="width:0%;background:var(--blue)"></div></div>
   </div>
+  <div class="sidebar-item" id="sideM2" onclick="scrollTo('m2')">
+    <div class="sidebar-title"><span class="sidebar-icon-only">🏆</span><span class="sidebar-dot" style="background:var(--purple)"></span><span class="sb-text">Milestone 2</span></div>
+    <div class="sidebar-sub">Senior Solid · 4 months</div>
+    <div class="sidebar-pct" id="sideM2Pct">0% complete</div>
+    <div class="sidebar-bar"><div class="sidebar-bar-fill" id="sideM2Bar" style="width:0%;background:var(--purple)"></div></div>
+  </div>
+  <div class="sidebar-item" id="sideM3" onclick="scrollTo('m3')">
+    <div class="sidebar-title"><span class="sidebar-icon-only">⭐</span><span class="sidebar-dot" style="background:var(--gold)"></span><span class="sb-text">Milestone 3</span></div>
+    <div class="sidebar-sub">Staff Track · 6 months</div>
+    <div class="sidebar-pct" id="sideM3Pct">0% complete</div>
+    <div class="sidebar-bar"><div class="sidebar-bar-fill" id="sideM3Bar" style="width:0%;background:var(--gold)"></div></div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-label">Tools</div>
+  <div class="sidebar-item" onclick="openTimer()"><div class="sidebar-title"><span class="sidebar-icon-only">⏱</span><span class="sb-text">⏱️ Focus Timer</span></div></div>
+  <div class="sidebar-item" onclick="exportData()"><div class="sidebar-title"><span class="sidebar-icon-only">📤</span><span class="sb-text">📤 Export</span></div></div>
+  <div class="sidebar-item" onclick="document.getElementById('importInput').click()"><div class="sidebar-title"><span class="sidebar-icon-only">📥</span><span class="sb-text">📥 Import</span></div></div>
+  <div class="sidebar-item" onclick="confirmReset()"><div class="sidebar-title" style="color:var(--red)"><span class="sidebar-icon-only">🗑</span><span class="sb-text">🗑 Reset All</span></div></div>
+  <input type="file" id="importInput" accept=".json" style="display:none" onchange="importData(this)">
+</aside>
 
-  <!-- Top Navigation -->
-  <nav class="nav-container" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <div class="nav-brand">
-        <div class="nav-logo" aria-hidden="true">🚀</div>
-        <span class="nav-title">RN Roadmap</span>
+<!-- LAYOUT WRAPPER -->
+<div class="layout">
+  <!-- Streak banner + daily tip + hero will go here -->
+    <!-- Confetti canvas -->
+  <main class="main" id="mainContent">
+
+    <!-- Mobile JST -->
+    <div class="mobile-jst" id="mobileJst">
+      <div class="jst-title">🎯 Job Search Progress</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="jst-metric"><div class="jst-label">Applications <span class="jst-target">/ 50</span></div><div class="jst-row"><input class="jst-input" type="number" min="0" id="jstAppM" value="0" oninput="updateJST('applications',this.value)"></div></div>
+        <div class="jst-metric"><div class="jst-label">Interviews <span class="jst-target">/ 5</span></div><div class="jst-row"><input class="jst-input" type="number" min="0" id="jstIntM" value="0" oninput="updateJST('interviews',this.value)"></div></div>
       </div>
+      <button class="jst-cta" onclick="applyThree()" style="margin-top:1rem;">Apply to 3 Jobs Today 🚀</button>
+    </div>
 
-      <div class="tabs-wrapper">
-        <div class="tabs-container" id="tabsContainer" role="tablist" aria-label="Milestone tabs">
-          <button class="milestone-tab m1" id="tab1" data-milestone="1" role="tab" aria-selected="false" aria-controls="mainContent" tabindex="0">
-            <span class="tab-number" aria-hidden="true">01</span>
-            <span class="sr-only">Milestone 1</span>
-            <div class="tab-content">
-              <span class="tab-title">JOB READY</span>
-              <span class="tab-meta">
-                <span class="tab-badge">8 WEEKS</span>
-                <span class="tab-salary">$120K</span>
-              </span>
-            </div>
-            <div class="tab-progress" aria-hidden="true">
-              <div class="tab-progress-fill" id="progress1" style="width: 0%"></div>
-            </div>
-          </button>
+    <!-- Streak Banner -->
+    <div class="streak-banner" id="streakBanner">
+      <span style="font-size:1.5rem">🔥</span>
+      <div><div class="streak-banner-text" id="streakBannerText">You're on fire!</div><div class="streak-banner-sub" id="streakBannerSub">7-day streak · Keep going!</div></div>
+    </div>
 
-          <button class="milestone-tab m2" id="tab2" data-milestone="2" role="tab" aria-selected="false" aria-controls="mainContent" tabindex="-1">
-            <span class="tab-number" aria-hidden="true">02</span>
-            <span class="sr-only">Milestone 2</span>
-            <div class="tab-content">
-              <span class="tab-title">SENIOR</span>
-              <span class="tab-meta">
-                <span class="tab-badge">4 MONTHS</span>
-                <span class="tab-salary">$180K</span>
-              </span>
-            </div>
-            <div class="tab-progress" aria-hidden="true">
-              <div class="tab-progress-fill" id="progress2" style="width: 0%"></div>
-            </div>
-          </button>
+    <!-- Daily Tip -->
+    <div class="daily-tip" id="dailyTip">
+      <div class="daily-tip-icon">💡</div>
+      <span id="dailyTipText">Apply to jobs before you feel ready — readiness is a myth engineers tell themselves.</span>
+    </div>
 
-          <button class="milestone-tab m3" id="tab3" data-milestone="3" role="tab" aria-selected="false" aria-controls="mainContent" tabindex="-1">
-            <span class="tab-number" aria-hidden="true">03</span>
-            <span class="sr-only">Milestone 3</span>
-            <div class="tab-content">
-              <span class="tab-title">STAFF</span>
-              <span class="tab-meta">
-                <span class="tab-badge">6 MONTHS</span>
-                <span class="tab-salary">$200K+</span>
-              </span>
-            </div>
-            <div class="tab-progress" aria-hidden="true">
-              <div class="tab-progress-fill" id="progress3" style="width: 0%"></div>
-            </div>
-          </button>
+    <!-- HERO -->
+    <div class="hero" id="heroSection">
+      <div class="hero-title">React Native → Senior Engineer</div>
+      <div class="hero-sub">12 months to $120K–$200K+ remote · Track every task, every application, every win</div>
+      <div class="stats-row">
+        <div class="stat-box"><span class="stat-val" id="totalDone">0</span><span class="stat-lbl">Tasks Done</span></div>
+        <div class="stat-box"><span class="stat-val" id="streakDisp">0</span><span class="stat-lbl">Day Streak 🔥</span></div>
+        <div class="stat-box"><span class="stat-val" id="sessDisp">0</span><span class="stat-lbl">Focus Sessions</span></div>
+        <div class="stat-box"><span class="stat-val" id="timeDisp">0h</span><span class="stat-lbl">Time Invested</span></div>
+      </div>
+    </div>
+
+    <!-- TODAY'S FOCUS -->
+    <div class="focus-section">
+      <div class="focus-header"><span>🎯</span><span class="focus-title">Today's Focus</span></div>
+      <div class="focus-list" id="todayFocus"></div>
+    </div>
+
+    <!-- MILESTONE 1 -->
+    <div class="milestone-section" id="m1">
+      <div class="milestone-header" onclick="toggleMilestone('m1')">
+        <div class="milestone-icon">📚</div>
+        <div class="milestone-info">
+          <div class="milestone-name">Milestone 1: Job Ready</div>
+          <div class="milestone-sub">8 weeks to your first $120K+ offer</div>
         </div>
-      </div>
-
-      <div class="nav-actions">
-        <button class="action-btn timer-btn" id="timerBtn" aria-label="Focus Timer" title="Focus Timer (Ctrl+T)">
-          ⏱️
-        </button>
-
-        <button class="action-btn" id="streakBtn" aria-label="View streak" title="Your streak">
-          🔥
-          <span class="streak-badge" id="globalStreak" aria-hidden="true">0</span>
-        </button>
-
-        <button class="action-btn" id="settingsBtn" aria-label="Open settings" title="Settings">
-          ⚙️
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Main Content -->
-  <main class="main-container" id="mainContent" tabindex="-1">
-    <iframe class="milestone-iframe" id="contentFrame" src="about:blank" title="Milestone content" aria-label="Current milestone tasks"></iframe>
-  </main>
-
-  <!-- Bottom Navigation Bar -->
-  <nav class="bottom-nav" role="navigation" aria-label="Mobile navigation">
-    <a href="#milestone-1" class="bottom-nav-item active" id="bottomNav1" aria-label="Milestone 1: Job Ready">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-      </svg>
-      Home
-    </a>
-    <a href="#progress" class="bottom-nav-item" id="bottomNavProgress" aria-label="View progress">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-      </svg>
-      Progress
-    </a>
-    <button class="bottom-nav-item" id="bottomNavTimer" aria-label="Open timer">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"></circle>
-        <polyline points="12 6 12 12 16 14"></polyline>
-      </svg>
-      Timer
-    </button>
-    <button class="bottom-nav-item" id="bottomNavSettings" aria-label="Open settings">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-      </svg>
-      Settings
-    </button>
-  </nav>
-
-  <!-- Quick Actions FAB -->
-  <div class="fab-container" id="fabContainer">
-    <div class="fab-menu" id="fabMenu" role="menu" aria-label="Quick actions">
-      <button class="fab-item" id="fabMarkDone" role="menuitem">
-        <span>✓</span>
-        Mark current done
-      </button>
-      <button class="fab-item" id="fabAddNote" role="menuitem">
-        <span>📝</span>
-        Add note
-      </button>
-      <button class="fab-item" id="fabViewAnalytics" role="menuitem">
-        <span>📊</span>
-        View analytics
-      </button>
-    </div>
-    <button class="fab-main" id="fabMain" aria-label="Open quick actions" aria-expanded="false" aria-controls="fabMenu">
-      +
-    </button>
-  </div>
-
-  <!-- Progress Overlay (Desktop) -->
-  <div class="progress-overlay" id="progressOverlay" role="status" aria-label="Overall progress">
-    <div class="progress-item">
-      <span class="progress-value m1" id="m1Progress">0%</span>
-      <span class="progress-label">M1</span>
-    </div>
-    <div class="progress-item">
-      <span class="progress-value m2" id="m2Progress">0%</span>
-      <span class="progress-label">M2</span>
-    </div>
-    <div class="progress-item">
-      <span class="progress-value m3" id="m3Progress">0%</span>
-      <span class="progress-label">M3</span>
-    </div>
-  </div>
-
-  <!-- Timer Modal -->
-  <div class="modal-overlay" id="timerModal" role="dialog" aria-modal="true" aria-label="Focus timer">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">⏱️ Focus Timer</h2>
-        <button class="modal-close" id="timerClose" aria-label="Close timer">&times;</button>
-      </div>
-      
-      <div class="timer-display" id="timerDisplay" role="timer" aria-live="off">25:00</div>
-      
-      <div class="timer-controls">
-        <button class="timer-btn timer-btn-start" id="timerStart">Start</button>
-        <button class="timer-btn timer-btn-pause" id="timerPause" style="display:none">Pause</button>
-        <button class="timer-btn timer-btn-reset" id="timerReset">Reset</button>
-      </div>
-
-      <div class="timer-presets">
-        <button class="preset-btn" data-minutes="25">25 min</button>
-        <button class="preset-btn" data-minutes="45">45 min</button>
-        <button class="preset-btn" data-minutes="60">60 min</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Settings Modal -->
-  <div class="modal-overlay" id="settingsModal" role="dialog" aria-modal="true" aria-label="Settings">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">⚙️ Settings</h2>
-        <button class="modal-close" id="settingsClose" aria-label="Close settings">&times;</button>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">Appearance</div>
-        
-        <div class="theme-toggle">
-          <span class="theme-toggle-label">🌙 Dark Mode</span>
-          <div class="toggle-switch" id="themeToggle" role="switch" aria-checked="true" tabindex="0">
-            <div class="toggle-indicator"></div>
-          </div>
+        <div class="milestone-prog">
+          <div class="milestone-bar"><div class="milestone-bar-fill" id="m1Bar" style="width:0%;background:var(--blue)"></div></div>
+          <div class="milestone-pct-text" id="m1Pct">0%</div>
         </div>
-        
-        <div class="theme-toggle">
-          <span class="theme-toggle-label">♿ Reduced Motion</span>
-          <div class="toggle-switch" id="reducedMotionToggle" role="switch" aria-checked="false" tabindex="0">
-            <div class="toggle-indicator"></div>
-          </div>
+        <div class="milestone-toggle open" id="m1Toggle">▼</div>
+      </div>
+      <div class="milestone-body open" id="m1Body">
+        <div class="month-divider"><div class="month-badge">MONTH 01</div><div class="month-line"></div><div class="month-title-text">Backend & Database Foundation</div></div>
+        <div id="wc-w1"></div>
+        <div id="wc-w2"></div>
+        <div id="wc-w3"></div>
+        <div id="wc-w4"></div>
+        <div class="month-divider"><div class="month-badge">MONTH 02</div><div class="month-line"></div><div class="month-title-text">Cloud, Systems & Job Blitz</div></div>
+        <div id="wc-w5"></div>
+        <div id="wc-w6"></div>
+        <div id="wc-w7"></div>
+        <div id="wc-w8"></div>
+      </div>
+    </div>
+
+    <!-- MILESTONE 2 -->
+    <div class="milestone-section" id="m2">
+      <div class="milestone-header" onclick="toggleMilestone('m2')">
+        <div class="milestone-icon">🏆</div>
+        <div class="milestone-info">
+          <div class="milestone-name">Milestone 2: Senior Solid</div>
+          <div class="milestone-sub">4 months · $150K–$180K</div>
         </div>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">Data Management</div>
-        
-        <button class="settings-btn" id="exportBtn">
-          <span>💾</span> Export Progress
-        </button>
-        
-        <button class="settings-btn" id="importBtn">
-          <span>📂</span> Import Progress
-        </button>
-
-        <button class="settings-btn" id="analyticsBtn">
-          <span>📊</span> View Analytics
-        </button>
-
-        <input type="file" id="importFile" accept=".json" style="display:none" aria-label="Import file">
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">Current Streak</div>
-        <div style="text-align: center; padding: 1.25rem; background: var(--bg-elevated); border-radius: 10px;">
-          <div style="font-size: 2rem; margin-bottom: 0.25rem;">🔥 <span id="streakDisplay">0</span></div>
-          <div style="font-size: 0.8rem; color: var(--text-secondary);">Days in a row</div>
-          <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.5rem;">Freeze available: <span id="freezeAvailable">1</span></div>
+        <div class="milestone-prog">
+          <div class="milestone-bar"><div class="milestone-bar-fill" id="m2Bar" style="width:0%;background:var(--purple)"></div></div>
+          <div class="milestone-pct-text" id="m2Pct">0%</div>
         </div>
+        <div class="milestone-toggle" id="m2Toggle">▼</div>
       </div>
+      <div class="milestone-body" id="m2Body">
+        <div id="m2Content"></div>
+      </div>
+    </div>
 
-      <div class="settings-section">
-        <div class="settings-section-title">Danger Zone</div>
-        
-        <button class="settings-btn danger" id="clearBtn">
-          <span>🗑️</span> Clear All Data
-        </button>
+    <!-- MILESTONE 3 -->
+    <div class="milestone-section" id="m3">
+      <div class="milestone-header" onclick="toggleMilestone('m3')">
+        <div class="milestone-icon">⭐</div>
+        <div class="milestone-info">
+          <div class="milestone-name">Milestone 3: Staff Track</div>
+          <div class="milestone-sub">6 months · $200K+ or $15–20K/mo consulting</div>
+        </div>
+        <div class="milestone-prog">
+          <div class="milestone-bar"><div class="milestone-bar-fill" id="m3Bar" style="width:0%;background:var(--gold)"></div></div>
+          <div class="milestone-pct-text" id="m3Pct">0%</div>
+        </div>
+        <div class="milestone-toggle" id="m3Toggle">▼</div>
       </div>
+      <div class="milestone-body" id="m3Body">
+        <div id="m3Content"></div>
+      </div>
+    </div>
+
+  </main><!-- /main -->
+</div><!-- /layout -->
+
+<!-- RIGHT SIDEBAR -->
+<aside class="right-sidebar" id="rightSidebar">
+  <button class="rside-toggle" onclick="toggleRightSidebar()">
+    <span class="rside-toggle-label">Job Search Progress</span>
+    <span id="rsideIcon">▶▶</span>
+  </button>
+  <!-- Mini (collapsed) view -->
+  <div class="jst-mini" id="jstMiniView">
+    <div class="jst-mini-row"><span class="jst-mini-val" id="jstMiniApp">0</span><span class="jst-mini-lbl">Apps</span></div>
+    <div class="jst-mini-row"><span class="jst-mini-val" id="jstMiniInt" style="color:var(--purple)">0</span><span class="jst-mini-lbl">Int</span></div>
+    <div class="jst-mini-row"><span class="jst-mini-val" id="jstMiniOff" style="color:var(--green)">0</span><span class="jst-mini-lbl">Offer</span></div>
+  </div>
+  <!-- Full view -->
+  <div class="jst-full">
+    <div class="jst-title">🎯 Job Search Progress</div>
+    <div class="jst-metric">
+      <div class="jst-label">Applications <span class="jst-target">/ 50</span></div>
+      <div class="jst-row">
+        <input class="jst-input" type="number" min="0" id="jstApp" value="0" oninput="updateJST('applications',this.value)">
+        <div class="jst-bar"><div class="jst-bar-fill" id="jstAppBar" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="jst-metric">
+      <div class="jst-label">Interviews <span class="jst-target">/ 5</span></div>
+      <div class="jst-row">
+        <input class="jst-input" type="number" min="0" id="jstInt" value="0" oninput="updateJST('interviews',this.value)">
+        <div class="jst-bar"><div class="jst-bar-fill" id="jstIntBar" style="width:0%;background:var(--purple)"></div></div>
+      </div>
+    </div>
+    <div class="jst-metric">
+      <div class="jst-label">Offers <span class="jst-target">/ 1</span></div>
+      <div class="jst-row">
+        <input class="jst-input" type="number" min="0" id="jstOff" value="0" oninput="updateJST('offers',this.value)">
+        <div class="jst-bar"><div class="jst-bar-fill" id="jstOffBar" style="width:0%;background:var(--green)"></div></div>
+      </div>
+    </div>
+    <div class="jst-metric">
+      <div class="jst-label">Target Salary</div>
+      <div class="jst-row" style="gap:0.25rem;">
+        <span style="font-family:'JetBrains Mono',monospace;color:var(--txt3);">$</span>
+        <input class="jst-input" type="number" min="0" id="jstSal" style="width:110px;" value="130000" oninput="updateJST('targetSalary',this.value)">
+      </div>
+    </div>
+    <button class="jst-cta" onclick="applyThree()">Apply to 3 Jobs Today 🚀</button>
+    <div class="jst-divider"></div>
+    <div class="jst-section-title">Data</div>
+    <div class="data-controls">
+      <button class="data-btn" onclick="exportData()">📤 Export</button>
+      <button class="data-btn" onclick="document.getElementById('importInput').click()">📥 Import</button>
+      <button class="data-btn" style="color:var(--red)" onclick="confirmReset()">🗑 Reset</button>
     </div>
   </div>
+</aside>
 
-  <!-- Analytics Modal -->
-  <div class="modal-overlay" id="analyticsModal" role="dialog" aria-modal="true" aria-label="Analytics">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">📊 Your Stats</h2>
-        <button class="modal-close" id="analyticsClose" aria-label="Close analytics">&times;</button>
-      </div>
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-bot-nav">
+  <div class="mob-tab active" onclick="scrollTo('m1');setMobActive(this)"><div class="mob-tab-icon">📚</div>M1</div>
+  <div class="mob-tab" onclick="scrollTo('m2');setMobActive(this)"><div class="mob-tab-icon">🏆</div>M2</div>
+  <div class="mob-tab" onclick="scrollTo('m3');setMobActive(this)"><div class="mob-tab-icon">⭐</div>M3</div>
+  <div class="mob-tab" onclick="openTimer()"><div class="mob-tab-icon">⏱️</div>Timer</div>
+</nav>
 
-      <div class="analytics-grid">
-        <div class="analytics-card">
-          <span class="analytics-value" id="statTotalTasks">0</span>
-          <span class="analytics-label">Tasks Completed</span>
-        </div>
-        <div class="analytics-card">
-          <span class="analytics-value" id="statTotalHours">0</span>
-          <span class="analytics-label">Hours Studied</span>
-        </div>
-        <div class="analytics-card">
-          <span class="analytics-value" id="statFocusSessions">0</span>
-          <span class="analytics-label">Focus Sessions</span>
-        </div>
-        <div class="analytics-card">
-          <span class="analytics-value" id="statWeeksCompleted">0</span>
-          <span class="analytics-label">Weeks Finished</span>
-        </div>
-        <div class="analytics-card">
-          <span class="analytics-value" id="statAvgDaily">0</span>
-          <span class="analytics-label">Avg Daily (min)</span>
-        </div>
-        <div class="analytics-card">
-          <span class="analytics-value" id="statCurrentStreak">0</span>
-          <span class="analytics-label">Day Streak</span>
-        </div>
-      </div>
+<!-- FAB -->
+<button class="fab" onclick="openTimer()" title="Focus Timer">⏱️</button>
 
-      <button class="settings-btn" id="exportAnalyticsBtn" style="margin-top: 1.5rem;">
-        <span>📤</span> Export Analytics JSON
-      </button>
+<!-- NOTE MODAL -->
+<div class="modal-overlay" id="noteModal">
+  <div class="modal">
+    <div class="modal-title" id="noteTaskTitle">Task Note</div>
+    <textarea class="modal-textarea" id="noteText" placeholder="Add your note here..."></textarea>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeNote()">Cancel</button>
+      <button class="btn-primary" onclick="saveNote()">Save Note</button>
     </div>
   </div>
+</div>
 
-  <!-- Confetti Canvas -->
-  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+<!-- TIMER MODAL -->
+<div class="modal-overlay" id="timerModal">
+  <div class="modal">
+    <div class="modal-title">🍅 Focus Timer</div>
+    <div class="timer-display"><div class="timer-time" id="timerDisplay">25:00</div></div>
+    <div class="timer-controls">
+      <button class="timer-btn timer-start" id="timerStartBtn" onclick="toggleTimer()">Start</button>
+      <button class="timer-btn timer-reset" onclick="resetTimer()">Reset</button>
+      <button class="timer-btn timer-reset" onclick="closeTimer()">Close</button>
+    </div>
+  </div>
+</div>
 
-  <!-- Toast Notifications -->
-  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-title">⚙️ Settings</div>
+    <div style="margin:1rem 0;font-size:0.875rem;color:var(--txt2);">Start Date: <input type="date" id="startDateInput" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.6rem;color:var(--txt);margin-left:0.5rem;" onchange="saveStartDate(this.value)"></div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="closeSettings()">Done</button>
+    </div>
+  </div>
+</div>
 
-  <script>
-    // Configuration
-    const CONFIG = {
-      milestones: {
-        1: { file: 'milestone1-job-ready.html', color: '#3b82f6', tasks: 50 },
-        2: { file: 'milestone2-placeholder.html', color: '#8b5cf6', tasks: 40 },
-        3: { file: 'milestone3-staff-engineer.html', color: '#f59e0b', tasks: 35 }
-      },
-      storageKeys: {
-        progress: 'milestone{}_tasks',
-        analytics: 'roadmap_analytics',
-        streak: 'roadmap_streak',
-        lastActive: 'roadmap_last_active',
-        lastMilestone: 'roadmap_last_milestone',
-        freezeUsed: 'roadmap_freeze_used',
-        theme: 'roadmap_theme',
-        reducedMotion: 'roadmap_reduced_motion'
-      },
-      quotes: [
-        "💪 The best time to start was yesterday. The second best time is now.",
-        "🎯 Consistency is the key to mastery.",
-        "🚀 Every expert was once a beginner.",
-        "🔥 Progress over perfection.",
-        "⚡ Small steps every day lead to massive results.",
-        "💎 You're closer than you think.",
-        "🌟 Your future self will thank you.",
-        "⚙️ Systems > Goals. Build the machine."
-      ]
-    };
+<div class="toast" id="toast"></div>
+<canvas id="confettiCanvas"></canvas>
+<script>
+// ═══════════════════════════════════════════════════
+//  DATA — MILESTONE 1 (Weeks 1-8)
+// ═══════════════════════════════════════════════════
+const M1_WEEKS = [
+  {
+    id:'w1',num:'WEEK 01',title:'PostgreSQL + Zonesso Migration',subtitle:'From MongoDB to relational thinking',color:'#6366f1',
+    interviewQ:'Design Uber\'s database schema for drivers, riders, trips, payments',
+    deliverable:'GitHub: zonesso-postgresql with Railway live URL + migration blog post',
+    goal:'Prove you can design relational databases',
+    timeEst:'6 hours',
+    mistakes:['Using ORM before writing raw SQL (you won\'t understand optimization)','Skipping EXPLAIN ANALYZE (you can\'t optimize what you can\'t measure)','Not indexing foreign keys (queries slow down at 10K+ rows)'],
+    tasks:[
+      {t:'Audit Zonesso MongoDB schema',time:'30m',why:'Documenting current state prevents migration disasters',links:[]},
+      {t:'Design PostgreSQL schema with relations',time:'1h',why:'Foreign keys enforce data integrity automatically',links:[]},
+      {t:'Write migration script Node.js',time:'2h',why:'Real migrations beat tutorials - shows production thinking',links:[]},
+      {t:'Build NestJS + Prisma API',time:'1.5h',why:'Prisma is 2026 standard for TypeScript backends',links:[{url:'https://docs.nestjs.com/recipes/prisma',tag:'Prisma',type:'docs'}]},
+      {t:'Add transactions for chat safety',time:'1h',why:'ACID prevents money-losing bugs in production',links:[]},
+      {t:'Write migration case study blog',time:'1h',why:'Public writing = interview talking points + recruiter visibility',links:[{url:'#',tag:'Blog',type:'blog'}]},
+      {t:'Deploy to Railway + update resume',time:'1h',why:'Live URL in resume gets 3x more callbacks',links:[{url:'https://railway.app/',tag:'Railway',type:'repo'}]},
+    ]
+  },
+  {
+    id:'w2',num:'WEEK 02',title:'Production API + Profile Optimization',subtitle:'JWT auth, rate limiting, LinkedIn presence',color:'#8b5cf6',
+    interviewQ:'Explain ACID properties and when you\'d sacrifice them for performance',
+    deliverable:'Optimized LinkedIn + resume with metrics + 10 job applications',
+    goal:'Become findable to recruiters',
+    timeEst:'7 hours',
+    mistakes:['Generic resume without metrics (looks like junior)','LinkedIn headline "React Native Developer" (too generic, no differentiation)','Waiting until "ready" to apply (you learn faster by interviewing)'],
+    tasks:[
+      {t:'Add indexing for Zonesso queries',time:'1h',why:'Slow queries kill user experience',links:[]},
+      {t:'Implement GraphQL API',time:'1.5h',why:'2026: REST is legacy, GraphQL/tRPC expected',links:[]},
+      {t:'Write Jest tests for critical paths',time:'1.5h',why:'No tests = no production code at senior level',links:[]},
+      {t:'Rewrite resume with STAR + metrics',time:'2h',why:'"Led chat for 10K users" beats "Built chat app"',links:[]},
+      {t:'Optimize LinkedIn headline',time:'1h',why:'Headline appears in search results - make it count',links:[]},
+      {t:'Create portfolio README',time:'1h',why:'Architecture diagrams in README impress hiring managers',links:[]},
+      {t:'Apply to 10 jobs',time:'1.5h',why:'Volume beats perfection - apply before you feel ready',links:[]},
+    ]
+  },
+  {
+    id:'w3',num:'WEEK 03',title:'AI Integration + JIFFL Enhancement',subtitle:'Ship AI features users actually use',color:'#10b981',
+    interviewQ:'How would you add AI to an existing app without breaking the bank?',
+    deliverable:'JIFFL with AI job matching + screen recording demo + 20 applications',
+    goal:'Ship AI feature that impresses in interviews',
+    timeEst:'7 hours',
+    mistakes:['Calling OpenAI from mobile (exposes API keys, $$$$)','No rate limiting (surprise $500 bill)','Caching nothing (repeated identical calls = wasted money)'],
+    tasks:[
+      {t:'OpenAI API with streaming SSE',time:'1.5h',why:'Streaming feels instant, users love it',links:[]},
+      {t:'Build AI job matching with embeddings',time:'1.5h',why:'Semantic search > keyword matching',links:[]},
+      {t:'Add rate limiting + cost alerts',time:'1h',why:'Production safety - set $50/day max',links:[]},
+      {t:'Screen record demo, post LinkedIn',time:'1h',why:'Social proof attracts recruiters',links:[]},
+      {t:'Apply to 10 more jobs',time:'1.5h',why:'Momentum matters - don\'t break rhythm',links:[]},
+      {t:'Follow up on Week 2 apps',time:'30m',why:'Follow-up emails get 20% response rate',links:[]},
+    ]
+  },
+  {
+    id:'w4',num:'WEEK 04',title:'AI at Scale + Application Blitz',subtitle:'Embeddings, semantic search, 30 apps',color:'#059669',
+    interviewQ:'Design a rate limiter for an AI API with cost controls',
+    deliverable:'Smart matching with RAG + pgvector + 30 total applications',
+    goal:'Architect AI systems that don\'t break under load',
+    timeEst:'7 hours',
+    mistakes:['Building microservices before you need them (start monolith)','No retry logic with exponential backoff (flaky failures)','Ignoring token costs until bill arrives (career-limiting move)'],
+    tasks:[
+      {t:'Add pgvector extension to PostgreSQL',time:'1.5h',why:'Vector search in existing DB = no new infrastructure',links:[]},
+      {t:'Implement semantic search for jobs',time:'1.5h',why:'Users find jobs they didn\'t know to search for',links:[]},
+      {t:'Build RAG: search docs before AI call',time:'1.5h',why:'Grounded answers reduce hallucinations 80%',links:[]},
+      {t:'Apply to 10 more jobs',time:'1.5h',why:'30 applications = statistical likelihood of interviews',links:[]},
+      {t:'2 phone screens from earlier apps',time:'1h',why:'Practice interviews are free learning',links:[]},
+      {t:'Document AI architecture decisions',time:'1h',why:'Architecture docs = senior engineer signal',links:[]},
+    ]
+  },
+  {
+    id:'w5',num:'WEEK 05',title:'AWS Foundations + Eco Crew Cloud',subtitle:'Deploy to production AWS infrastructure',color:'#f97316',
+    interviewQ:'Deploy a Node.js application to AWS with zero downtime',
+    deliverable:'Dockerized Eco Crew on EC2 + RDS + 40 applications',
+    goal:'Deploy to production with confidence',
+    timeEst:'8 hours',
+    mistakes:['Running database on EC2 instead of RDS (operational nightmare)','Using root AWS credentials (security incident waiting)','No CloudWatch alarms (you won\'t know when it breaks)'],
+    tasks:[
+      {t:'Dockerize Eco Crew backend',time:'1.5h',why:'Containers = works on my machine solved',links:[]},
+      {t:'AWS EC2 + RDS PostgreSQL',time:'1.5h',why:'RDS handles backups, patches, scaling',links:[]},
+      {t:'S3 for images + CloudFront CDN',time:'1.5h',why:'Global CDN = fast images worldwide',links:[]},
+      {t:'GitHub Actions CI/CD pipeline',time:'1.5h',why:'Automated deploys = no human error',links:[]},
+      {t:'Apply to 10 more jobs',time:'1.5h',why:'40 applications = 2-3 interview pipelines',links:[]},
+      {t:'1 technical interview scheduled',time:'1h',why:'Real interview > mock interview',links:[]},
+    ]
+  },
+  {
+    id:'w6',num:'WEEK 06',title:'AWS Mobile + Interview Mastery',subtitle:'Amplify, CI/CD, and mock interviews',color:'#ea580c',
+    interviewQ:'Set up CI/CD for a mobile team with backend API',
+    deliverable:'Full AWS pipeline + 3 mock interviews + 45 applications',
+    goal:'Master the interview process',
+    timeEst:'7 hours',
+    mistakes:['Manual deployments (error-prone, slow, scary)','No staging environment (production is not a playground)','Storing secrets in GitHub (rotate immediately)'],
+    tasks:[
+      {t:'SNS push notifications cross-platform',time:'1.5h',why:'One API for iOS + Android push',links:[]},
+      {t:'CloudWatch monitoring + alerts',time:'1h',why:'You can\'t fix what you can\'t see',links:[]},
+      {t:'Mock interview 1: System design',time:'1h',why:'Practice reduces anxiety 50%',links:[]},
+      {t:'Mock interview 2: React Native deep dive',time:'1h',why:'Know your 4 years experience cold',links:[]},
+      {t:'Apply to 5 more jobs',time:'1h',why:'45 total = strong pipeline',links:[]},
+      {t:'Prepare 4 STAR stories',time:'1h',why:'Behavioral questions = 50% of interview',links:[]},
+    ]
+  },
+  {
+    id:'w7',num:'WEEK 07',title:'System Design + RN Architecture',subtitle:'Design at scale, RN New Architecture deep dive',color:'#eab308',
+    interviewQ:'Design WhatsApp for 1 billion users',
+    deliverable:'Architecture diagrams + RN New Architecture + 50 applications',
+    goal:'Think like a staff engineer',
+    timeEst:'7 hours',
+    mistakes:['Designing for scale you don\'t have (premature optimization)','Ignoring offline-first (users hate loading spinners)','Not considering battery life (kills UX, gets app uninstalled)'],
+    tasks:[
+      {t:'Document Zonesso architecture (Excalidraw)',time:'1.5h',why:'Visual communication = senior skill',links:[]},
+      {t:'Design WhatsApp chat at scale',time:'1.5h',why:'Classic interview question - have answer ready',links:[]},
+      {t:'React Native New Architecture deep dive',time:'1.5h',why:'Fabric/JSI/TurboModules = 2026 must-know',links:[]},
+      {t:'Performance profiling with Flipper',time:'1.5h',why:'Optimize before they ask',links:[]},
+      {t:'Final 5 applications',time:'1h',why:'50 = target reached',links:[]},
+      {t:'Whiteboard 3 systems',time:'1h',why:'Muscle memory for interview day',links:[]},
+    ]
+  },
+  {
+    id:'w8',num:'WEEK 08',title:'Interview Blitz + Offer Negotiation',subtitle:'Deploy your career to production',color:'#ca8a04',
+    interviewQ:'Design a payment processing system and URL shortener',
+    deliverable:'$130K+ offer accepted',
+    goal:'Close the deal',
+    timeEst:'6 hours',
+    mistakes:['Accepting first offer (always negotiate)','Not having competing offers (leverage = $$$)','Ignoring total comp (base + equity + bonus)'],
+    tasks:[
+      {t:'Do 5 final mock interviews — record yourself, watch back',time:'2h',why:'Recording reveals filler words and hesitation you can\'t hear live',links:[]},
+      {t:'Research salary bands on levels.fyi for target companies',time:'1h',why:'Data wins negotiations — "I\'ve seen similar roles at $150K"',links:[]},
+      {t:'Negotiate every offer: ask for $15-20K above what you want',time:'1h',why:'Worst they say is no — but usually they meet in the middle',links:[]},
+      {t:'Choose the right offer: comp, culture, tech stack, growth',time:'30m',why:'The company you join shapes the next 3 years of your career',links:[]},
+      {t:'Post your win on LinkedIn — inspire others',time:'30m',why:'Your story will help the next person on this roadmap',links:[]},
+    ]
+  }
+];
 
-    // State management
-    const state = {
-      currentMilestone: 1,
-      timeLeft: 25 * 60,
-      isRunning: false,
-      timerInterval: null,
-      streak: 0,
-      lastActive: null,
-      freezeUsed: false,
-      analytics: {
-        totalTasks: 0,
-        totalHours: 0,
-        focusSessions: 0,
-        weeksCompleted: 0,
-        sessionHistory: [],
-        featureUsage: {},
-        startDate: new Date().toISOString()
-      },
-      debounceTimer: null
-    };
+const W8_CHECKLIST = [
+  {id:'w8c1',text:'50 job applications sent',desc:'Tracked in Job Search Progress'},
+  {id:'w8c2',text:'5+ interviews completed',desc:''},
+  {id:'w8c3',text:'2+ offers received',desc:''},
+  {id:'w8c4',text:'GitHub: zonesso-postgresql',desc:'live URL, README, blog post'},
+  {id:'w8c5',text:'GitHub: jiffl-ai-matching',desc:'demo video, AI feature'},
+  {id:'w8c6',text:'GitHub: ecocrew-aws',desc:'Docker, CI/CD, deployed'},
+  {id:'w8c7',text:'AWS Cloud Practitioner certification',desc:''},
+  {id:'w8c8',text:'3 Excalidraw architecture diagrams',desc:''},
+  {id:'w8c9',text:'4 STAR stories practiced',desc:'Conflict, failure, leadership, success'},
+  {id:'w8c10',text:'Resume with metrics',desc:'"50K+ users", "30% engagement", "30% size reduction"'},
+  {id:'w8c11',text:'LinkedIn optimized',desc:'With featured projects'},
+  {id:'w8c12',text:'Salary negotiated',desc:'$120K target → $130K+ accepted'},
+];
 
-    // DOM Elements cache
-    const elements = {};
+// MILESTONE 2
+const M2_MONTHS = [
+  {id:'m2m3',label:'MONTH 3',name:'Deepen Backend & Cloud',sub:'Kubernetes, Terraform, advanced PostgreSQL',output:'Lead backend migration at work',tasks:[
+    {t:'Kubernetes basics: pods, services, deployments, namespaces',time:'3h',atWork:true},
+    {t:'Set up local K8s cluster with Minikube or Kind',time:'2h',atWork:true},
+    {t:'Terraform basics: provision AWS VPC, EC2, RDS with code',time:'3h',atWork:true},
+    {t:'Advanced PostgreSQL: partitioning, replication, read replicas',time:'4h',atWork:true},
+    {t:'Deploy application to EKS with Terraform modules',time:'4h',atWork:true},
+  ]},
+  {id:'m2m4',label:'MONTH 4',name:'Advanced AI/ML',sub:'Vector DBs, fine-tuning, multi-modal AI',output:'Ship an AI feature at work',tasks:[
+    {t:'Set up Pinecone or Weaviate vector database for production',time:'2h',atWork:true},
+    {t:'Generate and store embeddings for your product\'s data',time:'2h',atWork:true},
+    {t:'Build semantic search API — replace keyword search',time:'3h',atWork:true},
+    {t:'Learn fine-tuning: when to fine-tune vs prompt engineer',time:'4h',atWork:true},
+    {t:'Explore multi-modal AI: vision + text in one pipeline',time:'3h',atWork:true},
+  ]},
+  {id:'m2m5',label:'MONTH 5',name:'System Design Mastery',sub:'DDIA, AWS SA cert, open source contributions',output:'Give a tech talk at your company or a meetup',tasks:[
+    {t:'Read DDIA Chapters 1-9 (schedule 1 chapter per 3 days)',time:'8h',atWork:false},
+    {t:'AWS Solutions Architect Associate course (study for exam)',time:'15h',atWork:true},
+    {t:'Take the AWS SAA-C03 exam',time:'3h',atWork:false},
+    {t:'Contribute a meaningful PR to NestJS, Prisma, or React Native',time:'6h',atWork:false},
+    {t:'Prepare and deliver a tech talk (30+ min)',time:'4h',atWork:true},
+  ]},
+  {id:'m2m6',label:'MONTH 6',name:'Leadership & Visibility',sub:'Mentor, blog, build technical reputation',output:'10 blog posts + 1000+ LinkedIn followers',tasks:[
+    {t:'Mentor 1-2 junior developers (weekly 1:1 sessions)',time:'8h',atWork:true},
+    {t:'Write 4 technical blog posts (1 per week)',time:'10h',atWork:false},
+    {t:'Build LinkedIn presence: 3 posts per week on RN/AI topics',time:'6h',atWork:false},
+    {t:'Lead sprint planning and conduct thorough code reviews',time:'4h',atWork:true},
+    {t:'Present architecture review to your team',time:'4h',atWork:true},
+  ]},
+];
 
-    // Initialize
-    function init() {
-      cacheElements();
-      loadState();
-      setupEventListeners();
-      updateActiveTab();
-      loadContent();
-      updateProgress();
-      checkStreak();
-      showRandomQuote();
-      setupKeyboardShortcuts();
-      applyTheme();
-      applyReducedMotion();
+// MILESTONE 3
+const M3_STAFF = [
+  {phase:'Phase 1: Month 7-8',sub:'Domain Expertise',badge:'staff',tasks:[
+    {t:'Pick one deep specialization: distributed systems, mobile at scale, or AI/ML engineering',time:'1h'},
+    {t:'Build a reference implementation in your domain (open source)',time:'20h'},
+    {t:'Write 4 deep technical posts on your specialization',time:'8h'},
+    {t:'Speak at a meetup or conference',time:'5h'},
+    {t:'Get AWS Solutions Architect Professional (if not already)',time:'20h'},
+  ],output:'Known as "the expert" in your domain at work and on social'},
+  {phase:'Phase 2: Month 9-10',sub:'Architecture Impact',badge:'staff',tasks:[
+    {t:'Lead company-wide architectural decision (ADR document)',time:'10h'},
+    {t:'Design cross-team technical roadmap for 6-12 months',time:'8h'},
+    {t:'Introduce engineering standards: code review rubric, ADR template',time:'5h'},
+    {t:'Mentor 3+ engineers — track their growth',time:'12h'},
+    {t:'Interview for Staff roles at FAANG-adjacent companies',time:'10h'},
+  ],output:'Staff Engineer or Principal Engineer at current or new company'},
+  {phase:'Phase 3: Month 11-12',sub:'$200K+ Negotiation',badge:'staff',tasks:[
+    {t:'Negotiate Staff offer using competing offers (levels.fyi data)',time:'2h'},
+    {t:'Evaluate total comp: equity, bonus, growth potential',time:'2h'},
+    {t:'Build advisory relationships with 3+ CTOs / VPs',time:'5h'},
+    {t:'Start speaking at major conferences (ReactConf, AWS re:Invent)',time:'10h'},
+    {t:'Define 3-year technical vision and share publicly',time:'3h'},
+  ],output:'$200K+ Staff Engineer offer signed'},
+];
+
+const M3_CONSULTANT = [
+  {phase:'Phase 1: Month 7-8',sub:'Find Your Niche',badge:'consultant',tasks:[
+    {t:'Pick a profitable niche: React Native + AI, or RN + fintech, or RN + healthcare',time:'2h'},
+    {t:'Create a services landing page (Framer or Webflow)',time:'4h'},
+    {t:'Write 3 detailed case studies from past projects',time:'6h'},
+    {t:'Set your rate: aim for $150-200/hr for React Native expertise',time:'1h'},
+    {t:'Get first 2 clients from your LinkedIn network',time:'8h'},
+  ],output:'First consulting contract signed — $150+/hr'},
+  {phase:'Phase 2: Month 9-10',sub:'Land $10K/mo',badge:'consultant',tasks:[
+    {t:'Raise rates to $175/hr after first 2 clients',time:'0.5h'},
+    {t:'Build a client pipeline: 5 prospects always in conversation',time:'4h/mo'},
+    {t:'Create a productized service: "React Native performance audit — $3K"',time:'5h'},
+    {t:'Get 2 retainer clients ($3-5K/mo each)',time:'8h'},
+    {t:'Hire a VA ($500/mo) to handle scheduling and invoicing',time:'2h'},
+  ],output:'$10K/mo revenue achieved'},
+  {phase:'Phase 3: Month 11-12',sub:'Scale to $15-20K/mo',badge:'consultant',tasks:[
+    {t:'Build an async service offering (code review, architecture review)',time:'5h'},
+    {t:'Create a group coaching program or course ($500-2K/person)',time:'20h'},
+    {t:'Hire 1-2 subcontractors to expand capacity',time:'5h'},
+    {t:'Speak at conferences to generate inbound leads',time:'10h'},
+    {t:'Automate client onboarding and reporting',time:'5h'},
+  ],output:'$15-20K/mo sustainable consulting business'},
+];
+
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+const SKEY = 'rn_roadmap_spa_v1';
+let S;
+
+function defaultState(){
+  return {
+    m1_tasks:{},m1_notes:{},m1_custom:{},m1_collapsed:{},m1_done:{},
+    w8_checklist:{},
+    m2_tasks:{},m2_collapsed:{},
+    m3_tasks:{},m3_path:'staff',
+    milestones_collapsed:{m2:true,m3:true},
+    jobSearch:{applications:0,interviews:0,offers:0,targetSalary:130000},
+    streak:0,lastStudy:null,sessions:0,timerSecs:1500,startDate:null,
+    best_streak:0,celebrations_seen:[],
+    sidebar_left_collapsed:false,sidebar_right_collapsed:false,
+    version:1
+  };
+}
+function loadState(){
+  try{
+    const raw=localStorage.getItem(SKEY);
+    if(raw){const p=JSON.parse(raw);S={...defaultState(),...p};return;}
+  }catch(e){}
+  S=defaultState();
+}
+function save(){
+  try{localStorage.setItem(SKEY,JSON.stringify(S));}catch(e){}
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER — WEEK CARDS (M1)
+// ═══════════════════════════════════════════════════
+function renderM1(){
+  M1_WEEKS.forEach(w=>renderWeekCard(w));
+}
+
+function renderWeekCard(w){
+  const el=document.getElementById('wc-'+w.id);
+  if(!el)return;
+  const tasks=w.tasks;
+  const done=tasks.filter((_,i)=>S.m1_tasks[w.id+'_'+i]).length;
+  const custom=S.m1_custom[w.id]||[];
+  const custDone=custom.filter(c=>c.done).length;
+  const total=tasks.length+custom.length;
+  const totalDone=done+custDone;
+  const pct=total>0?Math.round(totalDone/total*100):0;
+  const collapsed=S.m1_collapsed[w.id];
+
+  let linksHtml=(links)=>links?links.map(l=>`<a href="${l.url}" target="_blank" class="task-res res-${l.type}">${l.tag}</a>`).join(''):'';
+
+  let tasksHtml=tasks.map((t,i)=>{
+    const key=w.id+'_'+i;
+    const done=S.m1_tasks[key];
+    const hasNote=S.m1_notes[key] && S.m1_notes[key].trim() !== '';
+    const projHtml=t.proj?`<div class="proj-ref"><span class="proj-name">🔗 ${t.proj.name}</span><span class="proj-metric">${t.proj.metric}</span></div>`:'';
+    
+    // Exact requested structure
+    return `<div class="task-item${done?' done':''}" onclick="toggleTask('${key}','m1')">
+  <div class="task-check task-cb${done?' checked':''}"></div>
+  <div class="task-content">
+    ${projHtml}
+    <div class="task-text">${t.t}</div>
+    <div class="task-meta">
+      <span class="task-time">${t.time}</span>
+      ${t.why?`<span class="task-why" title="${t.why.replace(/"/g,'&quot;')}">ⓘ</span>`:''}
+      <button class="task-note-btn${hasNote?' has-note':''}" onclick="openNote('${key}','${t.t.replace(/'/g,"&#39;")}',event)">💬</button>
+      ${t.links?linksHtml(t.links):''}
+    </div>
+  </div>
+</div>`;
+  }).join('');
+
+  let customHtml=custom.map((c,i)=>`
+    <div class="custom-task">
+      <div class="custom-cb${c.done?' checked':''}" onclick="toggleCustom('${w.id}',${i},event)"></div>
+      <span style="flex:1;font-size:0.8rem;${c.done?'text-decoration:line-through;color:var(--txt3)':''}">${c.text}</span>
+      <button class="custom-del" onclick="delCustom('${w.id}',${i},event)">×</button>
+    </div>`).join('');
+
+  let mistakesHtml=w.mistakes.map(m=>`<li>${m}</li>`).join('');
+
+  el.innerHTML=`<div class="week-card">
+    <div class="week-card-top" style="background:${w.color}"></div>
+    <div class="wc-header" onclick="toggleWeek('${w.id}')">
+      <div class="wc-left">
+        <div class="wc-num" style="color:${w.color}">${w.num}</div>
+        <div class="wc-title">${w.title}</div>
+        <div class="wc-subtitle">${w.subtitle}</div>
+      </div>
+      <div class="wc-right">
+        <div class="wc-prog-row">
+          <div class="wc-prog-bar"><div class="wc-prog-fill" style="width:${pct}%;background:${w.color}"></div></div>
+          <span class="wc-pct">${pct}%</span>
+        </div>
+        <span class="wc-arrow${collapsed?'':' open'}">▲</span>
+      </div>
+    </div>
+    <div class="wc-body${collapsed?' hidden':''}">
+      <div class="wc-meta">
+        <div class="interview-box"><div class="interview-title">💬 Interview Question You'll Ace</div><div class="interview-text">${w.interviewQ}</div></div>
+        <div class="deliverable-box"><div class="deliverable-title">🎯 Specific Output</div><div class="deliverable-text">${w.deliverable}</div></div>
+        <div class="goal-box"><div class="goal-title">⭐ Week Goal</div><div class="goal-text">${w.goal}</div></div>
+      </div>
+      <div class="task-list">${tasksHtml}</div>
+      <div class="mistakes-box"><div class="mistakes-title">⚠️ Avoid These Mistakes</div><ul class="mistakes-list">${mistakesHtml}</ul></div>
+      <div class="custom-section">
+        <div class="custom-title">Custom Tasks</div>
+        ${customHtml}
+        <div class="add-task-row">
+          <input class="add-task-input" id="addInp-${w.id}" type="text" placeholder="Add custom task..." onkeydown="if(event.key==='Enter')addCustom('${w.id}')">
+          <button class="add-task-btn" onclick="addCustom('${w.id}')">Add</button>
+        </div>
+      </div>
+      ${w.id==='w8'?renderW8Checklist():''}
+      <div class="wc-footer">
+        <span class="wc-time">⏱ ${w.timeEst}</span>
+        <button class="btn-done${S.m1_done[w.id]?' marked':''}" onclick="markWeekDone('${w.id}',event)">${S.m1_done[w.id]?'✓ Done!':'Mark Done'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderW8Checklist(){
+  const done=W8_CHECKLIST.filter(c=>S.w8_checklist[c.id]).length;
+  const pct=Math.round(done/W8_CHECKLIST.length*100);
+  const items=W8_CHECKLIST.map(c=>{
+    const chk=S.w8_checklist[c.id];
+    return `<div class="w8-item${chk?' done':''}" onclick="toggleW8('${c.id}')">
+      <div class="w8-cb"></div>
+      <div><div class="w8-text">${c.text}</div><div class="w8-desc">${c.desc}</div></div>
+    </div>`;
+  }).join('');
+  return `<div class="w8-checklist">
+    <div class="w8-title">🏁 Job Readiness Checklist</div>
+    <div class="w8-prog-row"><div class="w8-bar"><div class="w8-bar-fill" style="width:${pct}%"></div></div><span class="w8-pct">${pct}%</span></div>
+    <div class="w8-grid">${items}</div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER — MILESTONE 2
+// ═══════════════════════════════════════════════════
+function renderM2(){
+  const el=document.getElementById('m2Content');
+  if(!el)return;
+  let html=M2_MONTHS.map(m=>{
+    const collapsed=S.m2_collapsed[m.id];
+    const done=m.tasks.filter((_,i)=>S.m2_tasks[m.id+'_'+i]).length;
+    const pct=Math.round(done/m.tasks.length*100);
+    const taskRows=m.tasks.map((t,i)=>{
+      const key=m.id+'_'+i;
+      const chk=S.m2_tasks[key];
+      return `<div class="m2-task${chk?' done':''}" onclick="toggleM2Task('${key}')">
+        <div class="m2-cb${chk?' checked':''}"></div>
+        <div class="m2-task-text" style="flex:1">${t.t}${t.atWork?'<span class="at-work-badge">Apply at Work</span>':''}</div>
+        <span class="task-time-badge">⏱ ${t.time}</span>
+      </div>`;
+    }).join('');
+    return `<div class="month-card">
+      <div class="month-card-header" onclick="toggleM2Month('${m.id}')">
+        <div class="month-badge">${m.label}</div>
+        <div class="month-info"><div class="month-name">${m.name}</div><div class="month-sub">${m.sub}</div></div>
+        <span style="color:var(--txt3)">${collapsed?'▼':'▲'}</span>
+      </div>
+      <div class="month-body${collapsed?' hidden':''}">
+        <div class="month-prog-bar-wrap">
+          <div class="month-prog-bar"><div class="month-prog-fill" style="width:${pct}%"></div></div>
+          <div class="month-prog-label">${done}/${m.tasks.length} tasks (${pct}%)</div>
+        </div>
+        ${taskRows}
+        <div style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:8px;padding:0.75rem;margin-top:1rem;font-size:0.8rem;color:var(--purple);">📦 Output: ${m.output}</div>
+      </div>
+    </div>`;
+  }).join('');
+  el.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER — MILESTONE 3
+// ═══════════════════════════════════════════════════
+function renderM3(){
+  const el=document.getElementById('m3Content');
+  if(!el)return;
+  const path=S.m3_path;
+  const phases=path==='staff'?M3_STAFF:M3_CONSULTANT;
+  const color=path==='staff'?'var(--gold)':'var(--cyan)';
+
+  let html=`<div class="path-toggle">
+    <button class="path-btn${path==='staff'?' active staff':''}" onclick="setM3Path('staff')">⭐ Staff Engineer</button>
+    <button class="path-btn${path==='consultant'?' active consultant':''}" onclick="setM3Path('consultant')">💼 Independent Consultant</button>
+  </div>`;
+
+  html+=phases.map((ph,pi)=>{
+    const taskRows=ph.tasks.map((t,ti)=>{
+      const key=`m3_${path}_${pi}_${ti}`;
+      const chk=S.m3_tasks[key];
+      return `<div class="m3-task${chk?' done':''}" onclick="toggleM3Task('${key}')">
+        <div class="m3-cb${chk?' checked':''}"></div>
+        <div class="m3-task-text" style="flex:1">${t.t}</div>
+        <span class="task-time-badge">⏱ ${t.time}</span>
+      </div>`;
+    }).join('');
+    return `<div class="m3-phase">
+      <div class="m3-phase-header">
+        <span class="m3-phase-badge ${ph.badge}">${ph.phase}</span>
+        <span style="color:var(--txt3);font-size:0.85rem;">${ph.sub}</span>
+      </div>
+      ${taskRows}
+      <div class="m3-output">📦 ${ph.output}</div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER — TODAY'S FOCUS
+// ═══════════════════════════════════════════════════
+function renderFocus(){
+  const el=document.getElementById('todayFocus');
+  if(!el)return;
+  let items=[];
+  M1_WEEKS.forEach(w=>{
+    w.tasks.forEach((t,i)=>{
+      const key=w.id+'_'+i;
+      items.push({key,text:t.t,done:!!S.m1_tasks[key],week:w.num});
+    });
+  });
+  const undone=items.filter(i=>!i.done).slice(0,5);
+  if(undone.length===0){
+    el.innerHTML='<div class="focus-empty">🎉 You\'re caught up! Start Milestone 2.</div>';
+  }else{
+    el.innerHTML=undone.map(i=>`<div class="focus-item">
+      <div class="focus-check${i.done?' done':''}"></div>
+      <span style="flex:1">${i.text}</span>
+      <span style="font-size:0.7rem;color:var(--txt3)">${i.week}</span>
+    </div>`).join('');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  STATS
+// ═══════════════════════════════════════════════════
+function updateStats(){
+  // M1
+  const m1Tasks=M1_WEEKS.reduce((s,w)=>s+w.tasks.length,0);
+  const m1Custom=Object.values(S.m1_custom).reduce((s,a)=>s+a.length,0);
+  const m1Done=Object.values(S.m1_tasks).filter(Boolean).length;
+  const m1CustDone=Object.values(S.m1_custom).reduce((s,a)=>s+a.filter(c=>c.done).length,0);
+  const w8Done=W8_CHECKLIST.filter(c=>S.w8_checklist[c.id]).length;
+  const m1Total=m1Tasks+m1Custom+W8_CHECKLIST.length;
+  const m1TotalDone=m1Done+m1CustDone+w8Done;
+  const m1Pct=m1Total>0?Math.round(m1TotalDone/m1Total*100):0;
+
+  // M2
+  const m2Total=M2_MONTHS.reduce((s,m)=>s+m.tasks.length,0);
+  const m2Done=Object.values(S.m2_tasks).filter(Boolean).length;
+  const m2Pct=m2Total>0?Math.round(m2Done/m2Total*100):0;
+
+  // M3
+  const phases=S.m3_path==='staff'?M3_STAFF:M3_CONSULTANT;
+  const m3Total=phases.reduce((s,p)=>s+p.tasks.length,0);
+  const m3Done=Object.keys(S.m3_tasks).filter(k=>k.startsWith('m3_'+S.m3_path)&&S.m3_tasks[k]).length;
+  const m3Pct=m3Total>0?Math.round(m3Done/m3Total*100):0;
+
+  // Global
+  const totalDone=m1TotalDone+m2Done+m3Done;
+
+  // Update DOM
+  qs('#totalDone').textContent=totalDone;
+  qs('#streakDisp').textContent=S.streak||0;
+  qs('#streakVal').textContent=S.streak||0;
+  qs('#sessDisp').textContent=S.sessions||0;
+  qs('#timeDisp').textContent=Math.round((S.sessions||0)*25/60)+'h';
+
+  // Progress bars
+  pct('m1Bar',m1Pct);pct('m1Pct',m1Pct+'%');
+  pct('m2Bar',m2Pct);pct('m2Pct',m2Pct+'%');
+  pct('m3Bar',m3Pct);pct('m3Pct',m3Pct+'%');
+  pct('sideM1Bar',m1Pct);qs('#sideM1Pct').textContent=m1Pct+'% complete';
+  pct('sideM2Bar',m2Pct);qs('#sideM2Pct').textContent=m2Pct+'% complete';
+  pct('sideM3Bar',m3Pct);qs('#sideM3Pct').textContent=m3Pct+'% complete';
+}
+
+function pct(id,val){
+  const el=document.getElementById(id);
+  if(!el)return;
+  if(el.tagName==='DIV')el.style.width=(typeof val==='number'?val:parseInt(val))+'%';
+  else el.textContent=val;
+}
+
+// ═══════════════════════════════════════════════════
+//  ACTIONS
+// ═══════════════════════════════════════════════════
+function toggleTask(key,ms){
+  if(ms==='m1'){S.m1_tasks[key]=!S.m1_tasks[key];}
+  updateStreak();save();renderAll();
+  if(S.m1_tasks[key]){
+    toast('Task complete ✓','success');
+    // Light confetti on task check (first time per week)
+    const wid=key.split('_')[0];
+    const celebKey='t_'+wid;
+    if(!S.celebrations_seen.includes(celebKey)){
+      S.celebrations_seen.push(celebKey);save();
+      setTimeout(()=>shootConfetti(false),200);
     }
+  }
+}
+function toggleW8(id){
+  S.w8_checklist[id]=!S.w8_checklist[id];
+  save();renderAll();
+}
+function toggleWeek(id){
+  S.m1_collapsed[id]=!S.m1_collapsed[id];
+  save();renderWeekCard(M1_WEEKS.find(w=>w.id===id));
+}
+function markWeekDone(id,e){
+  e.stopPropagation();
+  S.m1_done[id]=!S.m1_done[id];
+  save();renderWeekCard(M1_WEEKS.find(w=>w.id===id));
+  if(S.m1_done[id]){
+    toast('Week done! 🎉','success');
+    shootConfetti(true);
+  }
+}
+function toggleMilestone(id){
+  S.milestones_collapsed[id]=!S.milestones_collapsed[id];
+  const body=document.getElementById(id+'Body');
+  const toggle=document.getElementById(id+'Toggle');
+  if(body){body.classList.toggle('open',!S.milestones_collapsed[id]);}
+  if(toggle){toggle.classList.toggle('open',!S.milestones_collapsed[id]);}
+  if(!S.milestones_collapsed[id]){
+    if(id==='m2')renderM2();
+    if(id==='m3')renderM3();
+  }
+  save();
+}
+function toggleM2Month(id){
+  S.m2_collapsed[id]=!S.m2_collapsed[id];
+  save();renderM2();
+}
+function toggleM2Task(key){
+  S.m2_tasks[key]=!S.m2_tasks[key];
+  updateStreak();save();renderM2();updateStats();
+}
+function toggleM3Task(key){
+  S.m3_tasks[key]=!S.m3_tasks[key];
+  updateStreak();save();renderM3();updateStats();
+}
+function setM3Path(path){
+  S.m3_path=path;save();renderM3();updateStats();
+}
+function addCustom(wid){
+  const inp=document.getElementById('addInp-'+wid);
+  const txt=inp?inp.value.trim():'';
+  if(!txt)return;
+  if(!S.m1_custom[wid])S.m1_custom[wid]=[];
+  S.m1_custom[wid].push({text:txt,done:false});
+  save();renderWeekCard(M1_WEEKS.find(w=>w.id===wid));updateStats();
+}
+function toggleCustom(wid,idx,e){
+  e.stopPropagation();
+  if(!S.m1_custom[wid])return;
+  S.m1_custom[wid][idx].done=!S.m1_custom[wid][idx].done;
+  save();renderWeekCard(M1_WEEKS.find(w=>w.id===wid));updateStats();
+}
+function delCustom(wid,idx,e){
+  e.stopPropagation();
+  if(!S.m1_custom[wid])return;
+  S.m1_custom[wid].splice(idx,1);
+  save();renderWeekCard(M1_WEEKS.find(w=>w.id===wid));updateStats();
+}
+function updateJST(field,val){
+  const n=parseFloat(val)||0;
+  S.jobSearch[field]=Math.max(0,n);
+  save();syncJST();
+  // Celebrate first offer
+  if(field==='offers'&&n>=1&&!S.celebrations_seen.includes('first_offer')){
+    S.celebrations_seen.push('first_offer');save();
+    setTimeout(()=>{
+      shootConfetti(true);
+      toast('🎉 Offer received! You did it!','success');
+    },300);
+  }
+}
+function syncJST(){
+  const js=S.jobSearch;
+  setVal('jstApp',js.applications);setVal('jstInt',js.interviews);
+  setVal('jstOff',js.offers);setVal('jstSal',js.targetSalary);
+  setVal('jstAppM',js.applications);setVal('jstIntM',js.interviews);
+  const ab=document.getElementById('jstAppBar');if(ab)ab.style.width=Math.min(js.applications/50*100,100)+'%';
+  const ib=document.getElementById('jstIntBar');if(ib)ib.style.width=Math.min(js.interviews/5*100,100)+'%';
+  const ob=document.getElementById('jstOffBar');if(ob)ob.style.width=Math.min(js.offers*100,100)+'%';
+  // Mini sidebar values
+  const ma=document.getElementById('jstMiniApp');if(ma)ma.textContent=js.applications;
+  const mi=document.getElementById('jstMiniInt');if(mi)mi.textContent=js.interviews;
+  const mo=document.getElementById('jstMiniOff');if(mo)mo.textContent=js.offers;
+}
+function setVal(id,v){const e=document.getElementById(id);if(e&&document.activeElement!==e)e.value=v;}
+function applyThree(){
+  S.jobSearch.applications=(S.jobSearch.applications||0)+3;
+  save();syncJST();toast('+3 applications logged 🚀','success');
+}
+function updateStreak(){
+  const today=new Date().toISOString().slice(0,10);
+  if(S.lastStudy===today)return;
+  const yesterday=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  S.streak=S.lastStudy===yesterday?(S.streak||0)+1:1;
+  S.lastStudy=today;
+  S.sessions=(S.sessions||0)+1;
+  // Track best streak
+  if(S.streak>(S.best_streak||0))S.best_streak=S.streak;
+  checkStreakBanner();
+}
 
-    function cacheElements() {
-      const ids = [
-        'tabsContainer', 'contentFrame', 'mainContent', 'timerModal', 'settingsModal',
-        'analyticsModal', 'timerDisplay', 'timerStart', 'timerPause', 'timerReset',
-        'timerBtn', 'timerClose', 'globalStreak', 'streakDisplay', 'streakBanner',
-        'streakDays', 'quoteBanner', 'fabMain', 'fabMenu', 'confettiCanvas',
-        'toast', 'importFile', 'announce', 'progressOverlay', 'freezeAvailable',
-        'themeToggle', 'reducedMotionToggle', 'bottomNav1', 'bottomNavProgress',
-        'bottomNavTimer', 'bottomNavSettings'
-      ];
-      
-      ids.forEach(id => {
-        elements[id] = document.getElementById(id);
-      });
+// ═══════════════════════════════════════════════════
+//  TIMER
+// ═══════════════════════════════════════════════════
+let timerInt=null,timerRunning=false;
+function openTimer(){document.getElementById('timerModal').classList.add('open');renderTimer();}
+function closeTimer(){document.getElementById('timerModal').classList.remove('open');}
+// renderTimer defined below with mini-timer sync
+function fmt(s){return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
+function toggleTimer(){
+  if(timerRunning){clearInterval(timerInt);timerRunning=false;qs('#timerStartBtn').textContent='Resume';}
+  else{
+    timerRunning=true;qs('#timerStartBtn').textContent='Pause';
+    timerInt=setInterval(()=>{
+      S.timerSecs--;
+      if(S.timerSecs<=0){
+        clearInterval(timerInt);timerRunning=false;
+        S.sessions=(S.sessions||0)+1;S.timerSecs=1500;
+        save();updateStats();renderTimer();
+        qs('#timerStartBtn').textContent='Start';
+        toast('Focus session complete! 🍅','success');
+      }else{renderTimer();}
+    },1000);
+  }
+}
+function resetTimer(){clearInterval(timerInt);timerRunning=false;S.timerSecs=1500;save();renderTimer();qs('#timerStartBtn').textContent='Start';}
+function renderTimer(){
+  const txt=fmt(S.timerSecs);
+  qs('#timerDisplay').textContent=txt;
+  // Update mini timer in topbar
+  const mini=document.getElementById('miniTimerDisp');
+  if(mini)mini.textContent=txt;
+  const btn=document.getElementById('miniTimerBtn');
+  if(btn)btn.classList.toggle('running',timerRunning);
+}
 
-      // Progress elements
-      for (let i = 1; i <= 3; i++) {
-        elements[`tab${i}`] = document.getElementById(`tab${i}`);
-        elements[`progress${i}`] = document.getElementById(`progress${i}`);
-        elements[`m${i}Progress`] = document.getElementById(`m${i}Progress`);
-      }
-    }
+// ═══════════════════════════════════════════════════
+//  NOTES
+// ═══════════════════════════════════════════════════
+let _noteKey='';
+function openNote(key,title,e){
+  e.stopPropagation();_noteKey=key;
+  qs('#noteTaskTitle').textContent=decodeURIComponent(title);
+  qs('#noteText').value=S.m1_notes[key]||'';
+  qs('#noteModal').classList.add('open');
+}
+function closeNote(){qs('#noteModal').classList.remove('open');}
+function saveNote(){
+  const v=qs('#noteText').value.trim();
+  if(v)S.m1_notes[_noteKey]=v;else delete S.m1_notes[_noteKey];
+  save();closeNote();renderAll();
+  toast('Note saved','success');
+}
 
-    function loadState() {
-      // Load milestone preference
-      const savedMilestone = localStorage.getItem(CONFIG.storageKeys.lastMilestone);
-      const hash = window.location.hash;
-      
-      if (hash && hash.startsWith('#milestone-')) {
-        state.currentMilestone = parseInt(hash.split('-')[1]);
-      } else if (savedMilestone) {
-        state.currentMilestone = parseInt(savedMilestone);
-      }
+// ═══════════════════════════════════════════════════
+//  SIDEBAR TOGGLES
+// ═══════════════════════════════════════════════════
+function toggleLeftSidebar(){
+  S.sidebar_left_collapsed=!S.sidebar_left_collapsed;
+  save();applySidebarState();
+}
+function toggleRightSidebar(){
+  S.sidebar_right_collapsed=!S.sidebar_right_collapsed;
+  save();applySidebarState();
+}
+function applySidebarState(){
+  const lc=S.sidebar_left_collapsed;
+  const rc=S.sidebar_right_collapsed;
+  const ls=document.getElementById('leftSidebar');
+  const rs=document.getElementById('rightSidebar');
+  const layout=document.querySelector('.layout');
+  if(ls){ls.classList.toggle('collapsed',lc);}
+  if(rs){rs.classList.toggle('collapsed',rc);}
+  if(layout){layout.classList.toggle('lc',lc);layout.classList.toggle('rc',rc);}
+  const lIcon=document.getElementById('sbLeftIcon');
+  if(lIcon)lIcon.textContent=lc?'▶▶':'◀◀';
+  const rIcon=document.getElementById('rsideIcon');
+  if(rIcon)rIcon.textContent=rc?'◀◀':'▶▶';
+}
 
-      // Load streak data
-      state.streak = parseInt(localStorage.getItem(CONFIG.storageKeys.streak) || '0');
-      state.lastActive = localStorage.getItem(CONFIG.storageKeys.lastActive);
-      state.freezeUsed = localStorage.getItem(CONFIG.storageKeys.freezeUsed) === 'true';
+// ═══════════════════════════════════════════════════
+//  CONFETTI
+// ═══════════════════════════════════════════════════
+function shootConfetti(bigMode=false){
+  const canvas=document.getElementById('confettiCanvas');
+  if(!canvas)return;
+  canvas.style.display='block';
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const count=bigMode?200:80;
+  const colors=['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#06b6d4','#f97316'];
+  const particles=Array.from({length:count},()=>({
+    x:Math.random()*canvas.width,y:-20,
+    vx:(Math.random()-0.5)*6,vy:Math.random()*4+2,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    size:Math.random()*8+4,
+    rot:Math.random()*360,rspeed:(Math.random()-0.5)*8,
+    life:1
+  }));
+  let frame;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive=false;
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.vy+=0.15;p.rot+=p.rspeed;p.life-=0.008;
+      if(p.life>0&&p.y<canvas.height){alive=true;}
+      ctx.save();ctx.globalAlpha=Math.max(0,p.life);
+      ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle=p.color;
+      ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2);
+      ctx.restore();
+    });
+    if(alive){frame=requestAnimationFrame(draw);}
+    else{canvas.style.display='none';cancelAnimationFrame(frame);}
+  }
+  draw();
+  setTimeout(()=>{canvas.style.display='none';cancelAnimationFrame(frame);},4000);
+}
 
-      // Load analytics
-      const savedAnalytics = localStorage.getItem(CONFIG.storageKeys.analytics);
-      if (savedAnalytics) {
-        state.analytics = { ...state.analytics, ...JSON.parse(savedAnalytics) };
-      }
+// ═══════════════════════════════════════════════════
+//  DAILY TIPS
+// ═══════════════════════════════════════════════════
+const TIPS=[
+  'Apply to jobs before you feel ready — readiness is a myth engineers tell themselves.',
+  'The resume line "Led migration of 50K-download app to PostgreSQL" opens doors nothing else can.',
+  'Referrals get 9x more interviews than cold applications. Message 5 engineers this week.',
+  'A 7-day streak beats a 70-hour weekend. Consistency compounds.',
+  'Your AI project + portfolio API + AWS deploy is objectively senior-engineer-tier. Own it.',
+  'Mock interviews before the real ones. Record yourself. Watch it back. Pain = growth.',
+  'Negotiate every offer — worst they say is no. Most companies expect it and budget for it.',
+  'Ship to production. Localhost demos get rejected. Live demos get offers.',
+  'A blog post about your migration teaches others AND proves your depth to recruiters.',
+  'The best time to apply was 4 weeks ago. The second best time is today.',
+];
+function showDailyTip(){
+  const tip=TIPS[Math.floor(Math.random()*TIPS.length)];
+  const el=document.getElementById('dailyTipText');
+  if(el)el.textContent=tip;
+}
 
-      // Load preferences
-      const theme = localStorage.getItem(CONFIG.storageKeys.theme);
-      const reducedMotion = localStorage.getItem(CONFIG.storageKeys.reducedMotion);
-      
-      if (theme === 'light') {
-        document.documentElement.classList.add('light-mode');
-      }
-      if (reducedMotion === 'true') {
-        document.documentElement.classList.add('reduced-motion');
-      }
-    }
+// ═══════════════════════════════════════════════════
+//  STREAK BANNER
+// ═══════════════════════════════════════════════════
+function checkStreakBanner(){
+  const banner=document.getElementById('streakBanner');
+  if(!banner)return;
+  const s=S.streak||0;
+  if(s>=7){
+    banner.classList.add('show');
+    const textEl=document.getElementById('streakBannerText');
+    const subEl=document.getElementById('streakBannerSub');
+    if(textEl){textEl.textContent=s>=30?'Legendary! 🔥🔥🔥':s>=14?'Two weeks strong! 🌟':'You\'re on fire!';}
+    if(subEl){subEl.textContent=`${s}-day streak · Best: ${S.best_streak||s} days`;}
+  }else{banner.classList.remove('show');}
+}
 
-    // Debounced localStorage write
-    function saveToStorage(key, value) {
-      clearTimeout(state.debounceTimer);
-      state.debounceTimer = setTimeout(() => {
-        try {
-          localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
-        } catch (e) {
-          console.warn('Storage quota exceeded');
-          showToast('⚠️ Storage limit reached. Export your data!');
-        }
-      }, 300);
-    }
+// ═══════════════════════════════════════════════════
+//  SETTINGS
+// ═══════════════════════════════════════════════════
+function openSettings(){
+  if(S.startDate)document.getElementById('startDateInput').value=S.startDate;
+  qs('#settingsModal').classList.add('open');
+}
+function closeSettings(){qs('#settingsModal').classList.remove('open');}
+function saveStartDate(v){S.startDate=v;save();}
 
-    // Tab switching
-    function switchTab(milestoneNum) {
-      if (milestoneNum === state.currentMilestone) return;
-      
-      state.currentMilestone = milestoneNum;
-      saveToStorage(CONFIG.storageKeys.lastMilestone, milestoneNum);
-      window.location.hash = `#milestone-${milestoneNum}`;
-      
-      updateActiveTab();
-      loadContent();
-      updateProgress();
-      
-      // Track tab switch
-      trackFeature('tab_switch');
-      
-      // Show milestone-specific quote
-      const milestoneQuotes = {
-        1: "🚀 Foundation first. Build strong.",
-        2: "⚡ Level up. You're becoming senior.",
-        3: "👑 Staff level. Time to lead."
-      };
-      showToast(milestoneQuotes[milestoneNum]);
-    }
+// ═══════════════════════════════════════════════════
+//  EXPORT / IMPORT / RESET
+// ═══════════════════════════════════════════════════
+function exportData(){
+  const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`rn-roadmap-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);a.click();a.remove();
+  toast('Data exported!','success');
+}
+function importData(input){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{try{S={...defaultState(),...JSON.parse(e.target.result)};save();renderAll();toast('Data imported!','success');}catch{toast('Invalid file','warn');}};
+  r.readAsText(file);input.value='';
+}
+function confirmReset(){
+  if(confirm('Reset ALL progress? This cannot be undone.')){
+    S=defaultState();save();renderAll();toast('Progress reset','warn');
+  }
+}
 
-    function updateActiveTab() {
-      // Update top tabs
-      for (let i = 1; i <= 3; i++) {
-        const tab = elements[`tab${i}`];
-        if (tab) {
-          const isActive = i === state.currentMilestone;
-          tab.classList.toggle('active', isActive);
-          tab.setAttribute('aria-selected', isActive);
-          tab.setAttribute('tabindex', isActive ? '0' : '-1');
-        }
-      }
+// ═══════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════
+function qs(sel){return document.querySelector(sel);}
+let _toastT;
+function toast(msg,type=''){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast'+(type?' '+type:'');
+  clearTimeout(_toastT);
+  requestAnimationFrame(()=>{el.classList.add('show');});
+  _toastT=setTimeout(()=>el.classList.remove('show'),2800);
+}
+function scrollTo(id){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+  // Open milestone if collapsed
+  if((id==='m2'||id==='m3')&&S.milestones_collapsed[id])toggleMilestone(id);
+}
+function setMobActive(el){
+  document.querySelectorAll('.mob-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function updateSidebarActive(){
+  const sections=['m1','m2','m3'];
+  const centers=sections.map(id=>{
+    const el=document.getElementById(id);
+    if(!el)return 9999;
+    const r=el.getBoundingClientRect();
+    return Math.abs(r.top-150);
+  });
+  const idx=centers.indexOf(Math.min(...centers));
+  ['sideM1','sideM2','sideM3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.classList.toggle('active',i===idx);
+    el.className=el.className.replace(/\bm[23]\b/g,'').trim();
+    if(i===1&&i===idx)el.classList.add('m2');
+    if(i===2&&i===idx)el.classList.add('m3');
+  });
+}
 
-      // Update bottom nav
-      document.querySelectorAll('.bottom-nav-item').forEach(item => {
-        item.classList.remove('active');
-      });
-      if (elements.bottomNav1) {
-        elements.bottomNav1.classList.toggle('active', state.currentMilestone === 1);
-      }
-    }
+// ═══════════════════════════════════════════════════
+//  RENDER ALL
+// ═══════════════════════════════════════════════════
+function renderAll(){
+  renderM1();
+  if(!S.milestones_collapsed.m2)renderM2();
+  if(!S.milestones_collapsed.m3)renderM3();
+  renderFocus();
+  updateStats();
+  syncJST();
+  applySidebarState();
+  checkStreakBanner();
+  renderTimer();
+  // Apply milestone collapse state
+  ['m2','m3'].forEach(id=>{
+    const body=document.getElementById(id+'Body');
+    const toggle=document.getElementById(id+'Toggle');
+    const col=S.milestones_collapsed[id];
+    if(body)body.classList.toggle('open',!col);
+    if(toggle)toggle.classList.toggle('open',!col);
+  });
+}
 
-    function loadContent() {
-      const frame = elements.contentFrame;
-      if (!frame) return;
-
-      // Show loading state
-      frame.classList.add('loading');
-      
-      // Lazy load milestone
-      const milestone = CONFIG.milestones[state.currentMilestone];
-      if (milestone) {
-        frame.src = milestone.file;
-        
-        frame.onload = () => {
-          frame.classList.remove('loading');
-        };
-        
-        frame.onerror = () => {
-          frame.classList.remove('loading');
-          showToast('❌ Failed to load milestone. Please try again.');
-        };
-      }
-    }
-
-    // Progress updates
-    function updateProgress() {
-      let totalCompleted = 0;
-      let totalTasks = 0;
-
-      [1, 2, 3].forEach(m => {
-        const key = CONFIG.storageKeys.progress.replace('{}', m);
-        const data = JSON.parse(localStorage.getItem(key) || '{}');
-        const completed = Object.values(data).filter(v => v).length;
-        const tasks = CONFIG.milestones[m].tasks;
-        const percentage = tasks > 0 ? Math.round((completed / tasks) * 100) : 0;
-
-        // Update tab progress bar
-        const progressFill = elements[`progress${m}`];
-        if (progressFill) {
-          progressFill.style.width = `${percentage}%`;
-        }
-        
-        // Update overlay progress
-        const progressValue = elements[`m${m}Progress`];
-        if (progressValue) {
-          progressValue.textContent = `${percentage}%`;
-        }
-
-        totalCompleted += completed;
-        totalTasks += tasks;
-
-        // Update analytics
-        state.analytics.totalTasks = totalCompleted;
-        saveAnalytics();
-      });
-    }
-
-    // Streak management
-    function checkStreak() {
-      const today = new Date().toDateString();
-      const yesterday = new Date(Date.now() - 86400000).toDateString();
-
-      if (!state.lastActive) {
-        state.streak = 1;
-      } else if (state.lastActive === today) {
-        // Already active today - no change
-      } else if (state.lastActive === yesterday) {
-        // Consecutive day
-        state.streak++;
-      } else {
-        // Streak broken - check freeze
-        const daysMissed = Math.floor((new Date() - new Date(state.lastActive)) / 86400000);
-        
-        if (daysMissed === 2 && !state.freezeUsed) {
-          // Use freeze for 1 day grace period
-          state.freezeUsed = true;
-          state.streak++;
-          showToast('❄️ Streak freeze used! Keep going!');
-          saveToStorage(CONFIG.storageKeys.freezeUsed, 'true');
-        } else {
-          state.streak = 1;
-          state.freezeUsed = false;
-          localStorage.removeItem(CONFIG.storageKeys.freezeUsed);
-        }
-      }
-
-      state.lastActive = today;
-      saveToStorage(CONFIG.storageKeys.streak, state.streak);
-      saveToStorage(CONFIG.storageKeys.lastActive, today);
-      
-      updateStreakDisplay();
-
-      // Check for "on fire" message
-      if (state.streak >= 7 && state.streak % 7 === 0) {
-        showStreakBanner();
-      }
-    }
-
-    function updateStreakDisplay() {
-      if (elements.globalStreak) {
-        elements.globalStreak.textContent = state.streak;
-      }
-      if (elements.streakDisplay) {
-        elements.streakDisplay.textContent = state.streak;
-      }
-      if (elements.freezeAvailable) {
-        elements.freezeAvailable.textContent = state.freezeUsed ? '0' : '1';
-      }
-    }
-
-    function showStreakBanner() {
-      if (!elements.streakBanner || !elements.streakDays) return;
-      
-      elements.streakDays.textContent = state.streak;
-      elements.streakBanner.classList.add('show');
-      
-      // Trigger confetti
-      triggerConfetti();
-      
-      // Announce for screen readers
-      announce(`🔥 Congratulations! ${state.streak} day streak!`);
-      
-      setTimeout(() => {
-        elements.streakBanner.classList.remove('show');
-      }, 5000);
-    }
-
-    // Random quotes
-    function showRandomQuote() {
-      if (!elements.quoteBanner) return;
-      
-      const quote = CONFIG.quotes[Math.floor(Math.random() * CONFIG.quotes.length)];
-      elements.quoteBanner.textContent = quote;
-    }
-
-    // Timer functions
-    function toggleTimerModal() {
-      elements.timerModal?.classList.toggle('active');
-      trackFeature('timer_opened');
-    }
-
-    function setTimer(minutes) {
-      stopTimer();
-      state.timeLeft = minutes * 60;
-      updateTimerDisplay();
-      trackFeature('timer_preset', minutes);
-    }
-
-    function updateTimerDisplay() {
-      if (!elements.timerDisplay) return;
-      
-      const mins = Math.floor(state.timeLeft / 60);
-      const secs = state.timeLeft % 60;
-      elements.timerDisplay.textContent = 
-        `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-
-    function startTimer() {
-      if (state.isRunning) return;
-      
-      state.isRunning = true;
-      elements.timerStart.style.display = 'none';
-      elements.timerPause.style.display = 'block';
-      elements.timerBtn?.classList.add('running');
-      
-      state.timerInterval = setInterval(() => {
-        state.timeLeft--;
-        updateTimerDisplay();
-        
-        if (state.timeLeft <= 0) {
-          completeTimer();
-        }
-      }, 1000);
-      
-      trackFeature('timer_started');
-    }
-
-    function completeTimer() {
-      clearInterval(state.timerInterval);
-      state.isRunning = false;
-      
-      state.analytics.focusSessions++;
-      state.analytics.totalHours += 25 / 60; // Add 25 min
-      saveAnalytics();
-      
-      elements.timerDisplay.classList.add('rest');
-      state.timeLeft = 5 * 60;
-      updateTimerDisplay();
-      
-      elements.timerStart.style.display = 'block';
-      elements.timerPause.style.display = 'none';
-      elements.timerBtn?.classList.remove('running');
-      
-      playNotificationSound();
-      showToast('🎉 Focus session complete! Take a break.');
-      triggerConfetti();
-      
-      checkStreak();
-    }
-
-    function pauseTimer() {
-      if (!state.isRunning) return;
-      
-      clearInterval(state.timerInterval);
-      state.isRunning = false;
-      elements.timerStart.style.display = 'block';
-      elements.timerPause.style.display = 'none';
-      elements.timerBtn?.classList.remove('running');
-    }
-
-    function stopTimer() {
-      clearInterval(state.timerInterval);
-      state.isRunning = false;
-      elements.timerStart.style.display = 'block';
-      elements.timerPause.style.display = 'none';
-      elements.timerBtn?.classList.remove('running');
-      elements.timerDisplay?.classList.remove('rest');
-    }
-
-    function resetTimer() {
-      stopTimer();
-      state.timeLeft = 25 * 60;
-      updateTimerDisplay();
-    }
-
-    // Confetti animation (performance optimized)
-    function triggerConfetti() {
-      if (document.documentElement.classList.contains('reduced-motion')) return;
-      
-      const canvas = elements.confettiCanvas;
-      if (!canvas) return;
-      
-      const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      
-      const particles = [];
-      const colors = ['#3b82f6', '#8b5cf6', '#f59e0b', '#22c55e', '#ef4444'];
-      
-      for (let i = 0; i < 50; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: -10,
-          vx: (Math.random() - 0.5) * 4,
-          vy: Math.random() * 3 + 2,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          size: Math.random() * 6 + 4,
-          rotation: Math.random() * 360,
-          rotationSpeed: (Math.random() - 0.5) * 10
-        });
-      }
-      
-      let frame = 0;
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        particles.forEach((p, i) => {
-          p.x += p.vx;
-          p.y += p.vy;
-          p.rotation += p.rotationSpeed;
-          p.vy += 0.1; // gravity
-          
-          ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate((p.rotation * Math.PI) / 180);
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-          ctx.restore();
-          
-          if (p.y > canvas.height) {
-            particles.splice(i, 1);
-          }
-        });
-        
-        if (particles.length > 0 && frame < 120) {
-          frame++;
-          requestAnimationFrame(animate);
-        } else {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-      }
-      
-      animate();
-    }
-
-    // FAB Menu
-    function toggleFabMenu() {
-      elements.fabMenu?.classList.toggle('open');
-      const isOpen = elements.fabMenu?.classList.contains('open');
-      elements.fabMain?.setAttribute('aria-expanded', isOpen);
-      elements.fabMain.textContent = isOpen ? '×' : '+';
-    }
-
-    // Toast notifications
-    function showToast(message) {
-      const toast = elements.toast;
-      if (!toast) return;
-      
-      toast.textContent = message;
-      toast.classList.add('show');
-      
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
-
-    // Analytics
-    function trackFeature(feature, value = 1) {
-      state.analytics.featureUsage[feature] = (state.analytics.featureUsage[feature] || 0) + value;
-      saveAnalytics();
-    }
-
-    function saveAnalytics() {
-      saveToStorage(CONFIG.storageKeys.analytics, state.analytics);
-    }
-
-    function updateAnalyticsDisplay() {
-      const stats = {
-        statTotalTasks: state.analytics.totalTasks,
-        statTotalHours: Math.round(state.analytics.totalHours * 10) / 10,
-        statFocusSessions: state.analytics.focusSessions,
-        statWeeksCompleted: state.analytics.weeksCompleted,
-        statAvgDaily: Math.round((state.analytics.totalHours * 60) / Math.max(1, getDaysSinceStart())),
-        statCurrentStreak: state.streak
-      };
-      
-      Object.entries(stats).forEach(([id, value]) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = value;
-      });
-    }
-
-    function getDaysSinceStart() {
-      const start = new Date(state.analytics.startDate);
-      const now = new Date();
-      return Math.max(1, Math.floor((now - start) / 86400000));
-    }
-
-    // Export/Import
-    function exportData() {
-      const data = {
-        milestones: {},
-        analytics: state.analytics,
-        streak: state.streak,
-        lastActive: state.lastActive,
-        exportedAt: new Date().toISOString()
-      };
-      
-      [1, 2, 3].forEach(m => {
-        const key = CONFIG.storageKeys.progress.replace('{}', m);
-        data.milestones[m] = JSON.parse(localStorage.getItem(key) || '{}');
-      });
-      
-      downloadJSON(data, `roadmap-backup-${new Date().toISOString().split('T')[0]}.json`);
-      trackFeature('data_exported');
-      showToast('✅ Data exported successfully!');
-    }
-
-    function importData(file) {
-      if (!file) return;
-      
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const data = JSON.parse(e.target.result);
-          
-          // Import milestones
-          if (data.milestones) {
-            Object.entries(data.milestones).forEach(([m, tasks]) => {
-              const key = CONFIG.storageKeys.progress.replace('{}', m);
-              localStorage.setItem(key, JSON.stringify(tasks));
-            });
-          }
-          
-          // Import analytics
-          if (data.analytics) {
-            state.analytics = { ...state.analytics, ...data.analytics };
-            saveAnalytics();
-          }
-          
-          updateProgress();
-          loadContent();
-          trackFeature('data_imported');
-          showToast('✅ Data imported successfully!');
-        } catch (err) {
-          showToast('❌ Failed to import data');
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    function downloadJSON(data, filename) {
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    function clearAllData() {
-      if (!confirm('⚠️ WARNING: This will delete ALL your progress. This cannot be undone.\n\nAre you sure?')) {
-        return;
-      }
-      
-      Object.values(CONFIG.storageKeys).forEach(key => {
-        if (!key.includes('{}')) {
-          localStorage.removeItem(key);
-        }
-      });
-      
-      [1, 2, 3].forEach(m => {
-        localStorage.removeItem(CONFIG.storageKeys.progress.replace('{}', m));
-      });
-      
-      state.streak = 0;
-      state.analytics = { ...state.analytics, totalTasks: 0, totalHours: 0, focusSessions: 0 };
-      
-      updateStreakDisplay();
-      updateProgress();
-      loadContent();
-      
-      showToast('🗑️ All data cleared');
-      trackFeature('data_cleared');
-    }
-
-    // Theme management
-    function toggleTheme() {
-      const isLight = document.documentElement.classList.toggle('light-mode');
-      saveToStorage(CONFIG.storageKeys.theme, isLight ? 'light' : 'dark');
-      trackFeature('theme_changed');
-    }
-
-    function toggleReducedMotion() {
-      const isReduced = document.documentElement.classList.toggle('reduced-motion');
-      saveToStorage(CONFIG.storageKeys.reducedMotion, isReduced);
-      trackFeature('reduced_motion_toggled');
-    }
-
-    function applyTheme() {
-      if (localStorage.getItem(CONFIG.storageKeys.theme) === 'light') {
-        document.documentElement.classList.add('light-mode');
-      }
-    }
-
-    function applyReducedMotion() {
-      if (localStorage.getItem(CONFIG.storageKeys.reducedMotion) === 'true') {
-        document.documentElement.classList.add('reduced-motion');
-      }
-    }
-
-    // Keyboard shortcuts
-    function setupKeyboardShortcuts() {
-      document.addEventListener('keydown', (e) => {
-        // Ctrl/Cmd + T = Timer
-        if ((e.ctrlKey || e.metaKey) && e.key === 't') {
-          e.preventDefault();
-          toggleTimerModal();
-        }
-        
-        // Escape = Close modals
-        if (e.key === 'Escape') {
-          document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
-        }
-        
-        // Arrow keys for tabs (when focused)
-        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-          const focusedTab = document.activeElement?.closest('.milestone-tab');
-          if (focusedTab) {
-            e.preventDefault();
-            const currentM = parseInt(focusedTab.dataset.milestone);
-            const nextM = e.key === 'ArrowRight' 
-              ? Math.min(currentM + 1, 3) 
-              : Math.max(currentM - 1, 1);
-            switchTab(nextM);
-            elements[`tab${nextM}`]?.focus();
-          }
-        }
-      });
-    }
-
-    // Screen reader announcements
-    function announce(message) {
-      if (elements.announce) {
-        elements.announce.textContent = message;
-      }
-    }
-
-    // Sound notification (using Web Audio API, no external files)
-    function playNotificationSound() {
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        
-        oscillator.frequency.value = 800;
-        oscillator.type = 'sine';
-        
-        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-        
-        oscillator.start(audioCtx.currentTime);
-        oscillator.stop(audioCtx.currentTime + 0.5);
-      } catch (e) {
-        // Silent fail - not critical
-      }
-    }
-
-    // Event listeners
-    function setupEventListeners() {
-      // Tabs
-      document.querySelectorAll('.milestone-tab').forEach(tab => {
-        tab.addEventListener('click', () => switchTab(parseInt(tab.dataset.milestone)));
-      });
-
-      // Bottom nav
-      elements.bottomNav1?.addEventListener('click', () => switchTab(1));
-      elements.bottomNavTimer?.addEventListener('click', toggleTimerModal);
-      elements.bottomNavSettings?.addEventListener('click', toggleSettingsModal);
-
-      // Timer
-      elements.timerBtn?.addEventListener('click', toggleTimerModal);
-      elements.timerClose?.addEventListener('click', toggleTimerModal);
-      elements.timerStart?.addEventListener('click', startTimer);
-      elements.timerPause?.addEventListener('click', pauseTimer);
-      elements.timerReset?.addEventListener('click', resetTimer);
-      
-      document.querySelectorAll('.preset-btn').forEach(btn => {
-        btn.addEventListener('click', () => setTimer(parseInt(btn.dataset.minutes)));
-      });
-
-      // Settings
-      elements.settingsBtn?.addEventListener('click', toggleSettingsModal);
-      elements.settingsClose?.addEventListener('click', toggleSettingsModal);
-      elements.exportBtn?.addEventListener('click', exportData);
-      elements.importBtn?.addEventListener('click', () => elements.importFile?.click());
-      elements.importFile?.addEventListener('change', (e) => importData(e.target.files[0]));
-      elements.clearBtn?.addEventListener('click', clearAllData);
-      elements.analyticsBtn?.addEventListener('click', () => {
-        updateAnalyticsDisplay();
-        elements.analyticsModal?.classList.add('active');
-      });
-      elements.analyticsClose?.addEventListener('click', () => elements.analyticsModal?.classList.remove('active'));
-      document.getElementById('exportAnalyticsBtn')?.addEventListener('click', () => {
-        downloadJSON(state.analytics, `analytics-${new Date().toISOString().split('T')[0]}.json`);
-      });
-
-      // Toggles
-      elements.themeToggle?.addEventListener('click', toggleTheme);
-      elements.reducedMotionToggle?.addEventListener('click', toggleReducedMotion);
-
-      // FAB
-      elements.fabMain?.addEventListener('click', toggleFabMenu);
-      document.getElementById('fabMarkDone')?.addEventListener('click', () => {
-        toggleFabMenu();
-        showToast('✓ Task marked complete!');
-      });
-      document.getElementById('fabAddNote')?.addEventListener('click', () => {
-        toggleFabMenu();
-        showToast('📝 Note added!');
-      });
-      document.getElementById('fabViewAnalytics')?.addEventListener('click', () => {
-        toggleFabMenu();
-        updateAnalyticsDisplay();
-        elements.analyticsModal?.classList.add('active');
-      });
-
-      // Hash change
-      window.addEventListener('hashchange', () => {
-        const hash = window.location.hash;
-        if (hash.startsWith('#milestone-')) {
-          const num = parseInt(hash.split('-')[1]);
-          if (num !== state.currentMilestone) {
-            switchTab(num);
-          }
-        }
-      });
-
-      // Close modals on outside click
-      document.querySelectorAll('.modal-overlay').forEach(modal => {
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal) {
-            modal.classList.remove('active');
-          }
-        });
-      });
-
-      // Visibility change for analytics
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          saveAnalytics();
-        }
-      });
-    }
-
-    // Initialize on load
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-
-    // Service Worker registration (optional, for offline support)
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(() => {
-        // Silent fail - not critical
-      });
-    }
-  </script>
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded',()=>{
+  loadState();
+  showDailyTip();
+  renderAll();
+  window.addEventListener('scroll',updateSidebarActive,{passive:true});
+  // Close modals on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(o=>{
+    o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
+  });
+});
+</script>
 </body>
 </html>
