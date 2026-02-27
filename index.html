@@ -1,1649 +1,3279 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RN Roadmap — React Native to Senior Engineer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg:#0c0e10;--bg-s:#13161a;--bg-e:#1a1e24;--bg-c:#1e2228;
-  --border:#252930;--border2:#2e333c;
-  --txt:#f0f1f5;--txt2:#9ca3af;--txt3:#6b7280;
-  --blue:#3b82f6;--purple:#8b5cf6;--gold:#f59e0b;--green:#10b981;
-  --red:#ef4444;--cyan:#06b6d4;--pink:#ec4899;--orange:#f97316;
-  --w1:#6366f1;--w2:#8b5cf6;--w3:#10b981;--w4:#059669;
-  --w5:#f97316;--w6:#ea580c;--w7:#eab308;--w8:#ca8a04;
-  --nav:56px;--sidebar:240px;--sidebar-col:60px;--right:300px;--right-col:76px;
-  --sb-left:var(--sidebar);--sb-right:var(--right);
-  --transition-sb:0.3s ease;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'Bricolage Grotesque',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:hidden;}
-a{color:inherit;text-decoration:none;}
-button{cursor:pointer;font-family:inherit;}
-input{font-family:inherit;}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RN Roadmap — React Native to Senior Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+      :root {
+        /* 2026 Premium Dark Mode Palette */
+        --bg: #050505;
+        --glass-bg: rgba(20, 22, 28, 0.5);
+        --glass-hover: rgba(30, 34, 42, 0.6);
+        --glass-border: rgba(255, 255, 255, 0.06);
+        --glass-border-hover: rgba(255, 255, 255, 0.12);
 
-/* ── TOPBAR ─────────────────────────────────── */
-.topbar{position:fixed;top:0;left:0;right:0;height:var(--nav);background:var(--bg-s);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1rem;gap:1rem;z-index:200;}
-.topbar-logo{display:flex;align-items:center;gap:0.5rem;font-weight:700;font-size:1.1rem;white-space:nowrap;}
-.topbar-logo span{font-size:1.4rem;}
-.topbar-spacer{flex:1;}
-.topbar-actions{display:flex;align-items:center;gap:0.75rem;}
-.streak-badge{display:flex;align-items:center;gap:0.3rem;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:20px;padding:0.3rem 0.75rem;font-size:0.85rem;font-weight:600;color:var(--gold);}
-.icon-btn{width:36px;height:36px;background:var(--bg-e);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all 0.2s;}
-.icon-btn:hover{background:var(--border2);border-color:var(--blue);}
+        --txt: #f8fafc;
+        --txt2: #94a3b8;
+        --txt3: #64748b;
 
-/* ── LAYOUT ─────────────────────────────────── */
-.layout{display:grid;grid-template-columns:var(--sb-left) 1fr var(--sb-right);grid-template-rows:auto;padding-top:var(--nav);min-height:100vh;transition:grid-template-columns var(--transition-sb);}
-.layout.lc{--sb-left:var(--sidebar-col);}
-.layout.rc{--sb-right:var(--right-col);}
+        --blue: #3b82f6;
+        --blue-glow: rgba(59, 130, 246, 0.4);
+        --purple: #8b5cf6;
+        --purple-glow: rgba(139, 92, 246, 0.4);
+        --gold: #f59e0b;
+        --gold-glow: rgba(245, 158, 11, 0.4);
+        --green: #10b981;
+        --green-glow: rgba(16, 185, 129, 0.4);
+        --red: #ef4444;
+        --cyan: #06b6d4;
+        --orange: #f97316;
 
-/* ── LEFT SIDEBAR ───────────────────────────── */
-.sidebar{position:fixed;top:var(--nav);left:0;bottom:0;width:var(--sidebar);background:var(--bg-s);border-right:1px solid var(--border);overflow-y:auto;padding:0.75rem 0;z-index:100;transition:width var(--transition-sb);overflow-x:hidden;}
-.sidebar.collapsed{width:var(--sidebar-col);}
-.sidebar-toggle-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:0.6rem 1rem;background:none;border:none;border-bottom:1px solid var(--border);color:var(--txt3);font-size:0.75rem;cursor:pointer;margin-bottom:0.5rem;transition:color 0.2s;white-space:nowrap;}
-.sidebar-toggle-btn:hover{color:var(--txt);}
-.sidebar.collapsed .sidebar-toggle-btn{justify-content:center;padding:0.6rem;}
-.sidebar.collapsed .sb-toggle-label{display:none;}
-.sidebar-label{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--txt3);padding:0 1rem;margin-bottom:0.5rem;overflow:hidden;white-space:nowrap;}
-.sidebar.collapsed .sidebar-label{opacity:0;height:0;margin:0;padding:0;}
-.sidebar-item{display:flex;flex-direction:column;padding:0.75rem 1rem;cursor:pointer;border-left:3px solid transparent;transition:all 0.2s;margin-bottom:0.25rem;overflow:hidden;}
-.sidebar-item:hover{background:var(--bg-e);}
-.sidebar-item.active{background:rgba(59,130,246,0.08);border-left-color:var(--blue);}
-.sidebar-item.active.m2{border-left-color:var(--purple);background:rgba(139,92,246,0.08);}
-.sidebar-item.active.m3{border-left-color:var(--gold);background:rgba(245,158,11,0.08);}
-.sidebar-title{font-size:0.875rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;white-space:nowrap;}
-.sidebar.collapsed .sidebar-title .sb-text{display:none;}
-.sidebar.collapsed .sidebar-item{padding:0.75rem;align-items:center;border-left:none;border-radius:8px;margin:0.25rem 0.5rem;}
-.sidebar.collapsed .sidebar-sub,.sidebar.collapsed .sidebar-pct,.sidebar.collapsed .sidebar-bar,.sidebar.collapsed .sidebar-divider{display:none;}
-.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.sidebar-icon-only{font-size:1.1rem;display:none;}
-.sidebar.collapsed .sidebar-icon-only{display:block;}
-.sidebar-sub{font-size:0.75rem;color:var(--txt3);margin-top:0.2rem;}
-.sidebar-pct{font-size:0.7rem;font-family:'JetBrains Mono',monospace;color:var(--txt2);margin-top:0.3rem;}
-.sidebar-bar{height:3px;background:var(--border);border-radius:2px;margin-top:0.4rem;overflow:hidden;}
-.sidebar-bar-fill{height:100%;border-radius:2px;transition:width 0.4s;}
-.sidebar-divider{height:1px;background:var(--border);margin:0.75rem 1rem;}
+        --w1: #6366f1;
+        --w2: #8b5cf6;
+        --w3: #10b981;
+        --w4: #059669;
+        --w5: #f97316;
+        --w6: #ea580c;
+        --w7: #eab308;
+        --w8: #ca8a04;
 
-/* ── MAIN ───────────────────────────────────── */
-.main{grid-column:2;padding:2rem 1.5rem;min-width:0;}
+        --nav: 70px;
+        --sidebar: 260px;
+        --sidebar-col: 80px;
+        --right: 320px;
+        --right-col: 80px;
+        --sb-left: var(--sidebar);
+        --sb-right: var(--right);
 
-/* ── RIGHT SIDEBAR ──────────────────────────── */
-.right-sidebar{position:fixed;top:var(--nav);right:0;bottom:0;width:var(--right);background:var(--bg-s);border-left:1px solid var(--border);overflow-y:auto;padding:1.25rem;z-index:100;transition:width var(--transition-sb);overflow-x:hidden;}
-.right-sidebar.collapsed{width:var(--right-col);padding:0.75rem 0.5rem;}
-.rside-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;border-bottom:1px solid var(--border);color:var(--txt3);font-size:0.75rem;cursor:pointer;padding:0.5rem 0.5rem 0.75rem;margin-bottom:0.75rem;white-space:nowrap;}
-.rside-toggle:hover{color:var(--txt);}
-.right-sidebar.collapsed .rside-toggle{justify-content:center;}
-.right-sidebar.collapsed .rside-toggle-label{display:none;}
-.right-sidebar.collapsed .jst-full{display:none;}
-.right-sidebar.collapsed .jst-mini{display:flex;}
-.jst-mini{display:none;flex-direction:column;gap:0.5rem;margin-top:0.25rem;}
-.jst-mini-row{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--txt2);text-align:center;}
-.jst-mini-val{font-size:0.95rem;font-weight:700;color:var(--blue);display:block;}
-.jst-mini-lbl{font-size:0.55rem;color:var(--txt3);text-transform:uppercase;margin-top:-2px;}
+        --spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+        --transition-sb: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --radius-sm: 10px;
+      }
 
-/* ── STREAK BANNER & TIPS ───────────────────── */
-.streak-banner{display:none;align-items:center;gap:0.75rem;background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(239,68,68,0.1));border:1px solid rgba(245,158,11,0.4);border-radius:12px;padding:0.875rem 1.25rem;margin-bottom:1.5rem;animation:pulse-glow 2s ease infinite;}
-.streak-banner.show{display:flex;}
-.streak-banner-text{font-weight:600;font-size:0.95rem;}
-.streak-banner-sub{font-size:0.8rem;color:var(--txt2);}
-.daily-tip{display:flex;align-items:flex-start;gap:0.75rem;background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.2);border-radius:10px;padding:0.875rem 1rem;margin-bottom:1.5rem;font-size:0.85rem;color:var(--txt2);}
-.daily-tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:0.1rem;}
-.mini-timer-btn{display:flex;align-items:center;gap:0.4rem;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:0.3rem 0.75rem;font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:600;color:var(--blue);cursor:pointer;transition:all 0.2s;}
-.mini-timer-btn:hover{background:rgba(59,130,246,0.2);}
-.mini-timer-btn.running{animation:pulse-glow 1.5s ease infinite;border-color:var(--green);color:var(--green);background:rgba(16,185,129,0.1);}
-@keyframes pulse-glow{0%,100%{box-shadow:none;}50%{box-shadow:0 0 12px rgba(245,158,11,0.35);}}
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        background-color: var(--bg);
+        /* Ambient Mesh Gradient Background */
+        background-image:
+          radial-gradient(
+            circle at 10% 0%,
+            rgba(59, 130, 246, 0.15) 0px,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 90% 20%,
+            rgba(139, 92, 246, 0.1) 0px,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 50% 100%,
+            rgba(16, 185, 129, 0.05) 0px,
+            transparent 50%
+          );
+        background-attachment: fixed;
+        color: var(--txt);
+        line-height: 1.6;
+        overflow-x: hidden;
+        transition: background 0.5s ease;
+      }
 
-/* ── HERO ───────────────────────────────────── */
-.hero{margin-bottom:2rem;}
-.hero-title{font-size:clamp(1.75rem,3vw,2.5rem);font-weight:700;background:linear-gradient(135deg,#fff,var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.4rem;}
-.hero-sub{color:var(--txt2);font-size:1rem;margin-bottom:1.5rem;}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
-.stat-box{background:var(--bg-e);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;transition:transform 0.2s;}
-.stat-box:hover{transform:translateY(-2px);}
-.stat-val{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;color:var(--blue);display:block;}
-.stat-lbl{font-size:0.75rem;color:var(--txt3);text-transform:uppercase;letter-spacing:0.05em;}
+      body.focus-mode {
+        background-image: radial-gradient(
+          circle at 50% 50%,
+          rgba(59, 130, 246, 0.1) 0px,
+          transparent 60%
+        );
+      }
+      body.focus-mode .sidebar,
+      body.focus-mode .right-sidebar,
+      body.focus-mode .milestone-section,
+      body.focus-mode .hero {
+        opacity: 0.2;
+        filter: grayscale(100%) blur(4px);
+        pointer-events: none;
+      }
+      body.focus-mode .focus-section {
+        transform: scale(1.03);
+        box-shadow: 0 0 50px rgba(59, 130, 246, 0.15);
+        z-index: 1000;
+        position: relative;
+      }
 
-/* ── TODAY'S FOCUS ──────────────────────────── */
-.focus-section{background:var(--bg-e);border:1px solid var(--border);border-radius:16px;padding:1.25rem;margin-bottom:2rem;}
-.focus-header{display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;}
-.focus-title{font-weight:600;font-size:1rem;}
-.focus-list{display:flex;flex-direction:column;gap:0.5rem;}
-.focus-item{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0.75rem;background:var(--bg-c);border-radius:8px;font-size:0.875rem;}
-.focus-check{width:18px;height:18px;border:2px solid var(--border2);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.focus-check.done{background:var(--green);border-color:var(--green);}
-.focus-empty{color:var(--txt3);font-size:0.875rem;text-align:center;padding:1rem 0;}
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        cursor: pointer;
+        font-family: inherit;
+        transition:
+          transform 0.2s var(--spring),
+          filter 0.2s,
+          background 0.2s;
+      }
+      button:active {
+        transform: scale(0.92);
+      }
+      input {
+        font-family: inherit;
+      }
+      i.ph {
+        font-size: 1.2em;
+        vertical-align: middle;
+      }
 
-/* ── MILESTONE SECTION ──────────────────────── */
-.milestone-section{margin-bottom:2.5rem;}
-.milestone-header{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;background:var(--bg-e);border:1px solid var(--border);border-radius:16px;cursor:pointer;margin-bottom:1rem;transition:all 0.2s;}
-.milestone-header:hover{border-color:var(--blue);}
-.milestone-icon{font-size:1.5rem;}
-.milestone-info{flex:1;}
-.milestone-name{font-weight:700;font-size:1.1rem;}
-.milestone-sub{font-size:0.8rem;color:var(--txt3);}
-.milestone-prog{display:flex;align-items:center;gap:0.75rem;}
-.milestone-pct-text{font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:600;color:var(--txt2);white-space:nowrap;}
-.milestone-bar{width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
-.milestone-bar-fill{height:100%;border-radius:3px;transition:width 0.4s;}
-.milestone-toggle{font-size:1.2rem;color:var(--txt3);transition:transform 0.3s;}
-.milestone-toggle.open{transform:rotate(180deg);}
-.milestone-body{display:none;}
-.milestone-body.open{display:block;}
+      /* ── UI COMPONENTS: GLASSMORPHISM ── */
+      .glass-panel {
+        background: var(--glass-bg);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
 
-/* ── MONTH DIVIDER ──────────────────────────── */
-.month-divider{display:flex;align-items:center;gap:1rem;margin:1.5rem 0 1rem;}
-.month-badge{font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:600;padding:0.3rem 0.75rem;background:var(--bg-e);border:1px solid var(--border);border-radius:4px;white-space:nowrap;color:var(--txt2);}
-.month-line{flex:1;height:1px;background:var(--border);}
-.month-title-text{font-size:0.85rem;color:var(--txt3);white-space:nowrap;}
+      /* ── TOPBAR ── */
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--nav);
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        padding: 0 1.5rem;
+        gap: 1.5rem;
+        border-bottom: 1px solid var(--glass-border);
+        background: rgba(5, 5, 5, 0.7);
+        backdrop-filter: blur(20px);
+      }
+      .topbar-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: 800;
+        font-size: 1.2rem;
+        letter-spacing: -0.02em;
+      }
+      .topbar-logo i {
+        font-size: 1.4rem;
+        color: var(--blue);
+        filter: drop-shadow(0 0 8px var(--blue-glow));
+      }
+      .topbar-spacer {
+        flex: 1;
+      }
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .streak-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: linear-gradient(
+          145deg,
+          rgba(245, 158, 11, 0.15),
+          rgba(245, 158, 11, 0.05)
+        );
+        border: 1px solid rgba(245, 158, 11, 0.2);
+        border-radius: 20px;
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--gold);
+      }
+      .icon-btn {
+        width: 42px;
+        height: 42px;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--txt2);
+      }
+      .icon-btn:hover {
+        background: var(--glass-hover);
+        border-color: var(--txt);
+        color: var(--txt);
+      }
 
-/* ── WEEK CARD ──────────────────────────────── */
-.week-card{background:var(--bg-e);border:1px solid var(--border);border-radius:16px;margin-bottom:1rem;overflow:hidden;transition:border-color 0.2s;}
-.week-card:hover{border-color:var(--border2);}
-.week-card-top{height:3px;width:100%;}
-.wc-header{padding:1rem 1.25rem;cursor:pointer;display:flex;align-items:flex-start;gap:1rem;}
-.wc-header:hover{background:rgba(255,255,255,0.02);}
-.wc-left{flex:1;min-width:0;}
-.wc-num{font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;margin-bottom:0.35rem;opacity:0.9;}
-.wc-title{font-weight:700;font-size:1rem;margin-bottom:0.2rem;}
-.wc-subtitle{font-size:0.8rem;color:var(--txt3);}
-.wc-right{display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;flex-shrink:0;}
-.wc-prog-row{display:flex;align-items:center;gap:0.5rem;}
-.wc-prog-bar{width:60px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
-.wc-prog-fill{height:100%;border-radius:2px;transition:width 0.3s;}
-.wc-pct{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--txt3);}
-.wc-arrow{font-size:0.9rem;color:var(--txt3);transition:transform 0.3s;}
-.wc-arrow.open{transform:rotate(180deg);}
-.wc-body{padding:0 1.25rem 1.25rem;border-top:1px solid var(--border);}
-.wc-body.hidden{display:none;}
-.wc-meta{display:flex;flex-direction:column;gap:0.75rem;padding:1rem 0;border-bottom:1px solid var(--border);margin-bottom:1rem;}
-.interview-box{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:8px;padding:12px 16px;}
-.interview-title{font-weight:600;margin-bottom:0.2rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--green);}
-.interview-text{font-size:0.875rem;color:var(--txt2);}
-.deliverable-box{background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:12px 16px;}
-.deliverable-title{font-weight:600;margin-bottom:0.2rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--blue);}
-.deliverable-text{font-size:0.875rem;color:var(--txt2);}
-.goal-box{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:8px;padding:12px 16px;}
-.goal-title{font-weight:600;margin-bottom:0.2rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--gold);}
-.goal-text{font-size:0.875rem;color:var(--txt2);}
-.mistakes-box{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:8px;padding:12px 16px;margin:12px 0;}
-.mistakes-title{font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--red);}
-.mistakes-box ul{margin:8px 0 0 0;padding-left:20px;}
-.mistakes-box li{color:var(--txt2);font-size:13px;margin-bottom:6px;}
+      /* ── LAYOUT & MAIN (Fixes the gap) ── */
+      .layout {
+        display: flex; /* Flex is much more reliable for collapsing side panels than CSS Grid */
+        padding-top: var(--nav);
+        min-height: 100vh;
+      }
+      .main {
+        flex-grow: 1;
+        padding: 2.5rem 2rem;
+        max-width: 1050px;
+        margin: 0 auto;
+        transition: all var(--transition-sb);
+        width: 100%;
+      }
 
-/* ── TASK ITEM ─────────────────────────────────── */
-.task-list{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem;}
-.task-item{
-  display:flex;align-items:flex-start;gap:0.875rem;
-  padding:0.75rem 1rem;
-  background:linear-gradient(135deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
-  border:1px solid var(--border);
-  border-left:3px solid transparent;
-  border-radius:10px;
-  cursor:pointer;
-  transition:all 0.2s ease;
-  position:relative;
-}
-.task-item:hover{
-  background:linear-gradient(135deg,rgba(59,130,246,0.06),rgba(59,130,246,0.02));
-  border-color:rgba(59,130,246,0.25);
-  border-left-color:var(--blue);
-  transform:translateX(2px);
-  box-shadow:0 2px 12px rgba(59,130,246,0.08);
-}
-.task-item.done{
-  background:rgba(16,185,129,0.04);
-  border-color:rgba(16,185,129,0.15);
-  border-left-color:rgba(16,185,129,0.4);
-  opacity:0.65;
-}
-.task-item.done:hover{transform:none;box-shadow:none;border-left-color:var(--green);}
+      /* ── LEFT SIDEBAR (Fixes the overlapping glass) ── */
+      .sidebar {
+        position: sticky; /* Changed from fixed to sticky so it pushes content properly */
+        top: var(--nav);
+        height: calc(100vh - var(--nav));
+        width: var(--sidebar);
+        flex-shrink: 0;
+        border-right: 1px solid var(--glass-border);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 1.5rem 0;
+        z-index: 100;
+        transition: width var(--transition-sb);
+        background: rgba(10, 12, 16, 0.4);
+        backdrop-filter: blur(12px);
+      }
+      .sidebar.collapsed {
+        width: var(--sidebar-col); /* Shrinks perfectly to 80px */
+      }
+      .sidebar::-webkit-scrollbar {
+        display: none;
+      }
+      .sidebar-toggle-btn {
+        width: calc(100% - 2rem);
+        margin: 0 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-sm);
+        color: var(--txt2);
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+      .sidebar-toggle-btn:hover {
+        background: var(--glass-hover);
+        color: var(--txt);
+      }
+      .sidebar.collapsed .sidebar-toggle-btn {
+        width: 48px;
+        margin: 0 auto 1.5rem;
+        padding: 0.75rem 0;
+        justify-content: center;
+      }
+      .sidebar.collapsed .sb-toggle-label {
+        display: none;
+      }
+      .sidebar-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--txt3);
+        padding: 0 1.5rem;
+        margin-bottom: 0.75rem;
+        white-space: nowrap;
+        transition: opacity 0.2s;
+      }
+      .sidebar.collapsed .sidebar-label {
+        opacity: 0;
+      }
 
-/* Checkbox */
-.task-cb{
-  width:22px;height:22px;
-  border:2px solid var(--border2);
-  border-radius:6px;
-  flex-shrink:0;margin-top:1px;
-  display:flex;align-items:center;justify-content:center;
-  transition:all 0.2s;
-  background:rgba(255,255,255,0.03);
-}
-.task-item:hover .task-cb{border-color:var(--blue);background:rgba(59,130,246,0.08);}
-.task-cb.checked{
-  background:var(--green);
-  border-color:var(--green);
-  box-shadow:0 0 0 3px rgba(16,185,129,0.2);
-}
-.task-cb.checked::after{content:'✓';color:#000;font-size:0.75rem;font-weight:800;}
+      .sidebar-item {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 1.5rem;
+        cursor: pointer;
+        border-right: 3px solid transparent;
+        transition: all 0.3s var(--spring);
+        margin-bottom: 0.25rem;
+        white-space: nowrap;
+      }
+      .sidebar-item:hover {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.03)
+        );
+        padding-left: 1.75rem;
+        color: #fff;
+      }
+      .sidebar-item.active {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(59, 130, 246, 0.1)
+        );
+        border-right-color: var(--blue);
+      }
+      .sidebar-item.active.m2 {
+        border-right-color: var(--purple);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(139, 92, 246, 0.1)
+        );
+      }
+      .sidebar-item.active.m3 {
+        border-right-color: var(--gold);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(245, 158, 11, 0.1)
+        );
+      }
 
-/* Content */
-.task-content{flex:1;min-width:0;}
-.task-text{
-  font-size:0.9rem;
-  font-weight:600;
-  color:var(--txt);
-  line-height:1.4;
-  margin-bottom:0.35rem;
-  letter-spacing:-0.01em;
-  display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;
-}
-.task-item.done .task-text{
-  text-decoration:line-through;
-  color:var(--txt3);
-  font-weight:400;
-}
+      .sidebar-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .sidebar.collapsed .sidebar-title .sb-text {
+        display: none;
+      }
+      .sidebar.collapsed .sidebar-item {
+        padding: 1rem 0;
+        align-items: center;
+        border-right: none;
+        border-radius: var(--radius-sm);
+        margin: 0.5rem 1rem;
+      }
+      .sidebar.collapsed .sidebar-item.active {
+        background: rgba(59, 130, 246, 0.15);
+        box-shadow: 0 0 15px var(--blue-glow);
+        border-radius: var(--radius-md);
+      }
+      .sidebar.collapsed .sidebar-item.active.m2 {
+        background: rgba(139, 92, 246, 0.15);
+        box-shadow: 0 0 15px var(--purple-glow);
+        border-radius: var(--radius-md);
+      }
+      .sidebar.collapsed .sidebar-item.active.m3 {
+        background: rgba(245, 158, 11, 0.15);
+        box-shadow: 0 0 15px var(--gold-glow);
+        border-radius: var(--radius-md);
+      }
+      .sidebar.collapsed .sidebar-sub,
+      .sidebar.collapsed .sidebar-pct,
+      .sidebar.collapsed .sidebar-bar {
+        display: none;
+      }
+      .sidebar-icon-only {
+        font-size: 1.3rem;
+        color: var(--txt2);
+        transition: color 0.3s;
+      }
+      .sidebar-item.active .sidebar-icon-only {
+        color: var(--blue);
+      }
+      .sidebar-item.active.m2 .sidebar-icon-only {
+        color: var(--purple);
+      }
+      .sidebar-item.active.m3 .sidebar-icon-only {
+        color: var(--gold);
+      }
 
-.task-meta{
-  display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;
-  margin-top:0.35rem;
-}
-.task-time {
-  background: var(--accent-dim, rgba(56,189,248,0.1));
-  color: var(--accent, #38bdf8);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-}
-.task-why {
-  cursor: help;
-  color: var(--amber, #fbbf24);
-  font-size: 14px;
-}
-.task-res {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  text-decoration: none;
-  margin-left: 4px;
-}
-.task-res:hover{filter:brightness(1.2);}
-.task-res.res-repo { background: rgba(167, 139, 250, 0.1); color: #a78bfa; }
-.task-res.res-docs { background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
-.task-res.res-blog { background: rgba(251, 146, 60, 0.1); color: #fb923c; }
-.task-res.res-interactive { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-.task-res.res-video { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+      .sidebar-sub {
+        font-size: 0.8rem;
+        color: var(--txt3);
+        margin-top: 0.3rem;
+      }
+      .sidebar-pct {
+        font-size: 0.75rem;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--txt2);
+        margin-top: 0.5rem;
+        font-weight: 600;
+      }
+      .sidebar-bar {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 2px;
+        margin-top: 0.5rem;
+        overflow: hidden;
+      }
+      .sidebar-bar-fill {
+        height: 100%;
+        border-radius: 2px;
+        transition: width 0.6s var(--spring);
+      }
 
-/* Note button */
-.task-note-btn{
-  background:none;border:1px solid transparent;
-  border-radius:4px;padding:2px 6px;
-  font-size:12px;color:var(--txt3);
-  cursor:pointer;transition:all 0.2s;
-}
-.task-note-btn:hover{border-color:var(--border);background:rgba(255,255,255,0.05);}
-.task-note-btn.has-note{
-  background:rgba(245,158,11,0.15);
-  border-color:rgba(245,158,11,0.4);
-  opacity:1;
-}
+      /* ── RIGHT SIDEBAR ── */
+      .right-sidebar {
+        position: sticky;
+        top: var(--nav);
+        height: calc(100vh - var(--nav));
+        width: var(--right);
+        flex-shrink: 0;
+        border-left: 1px solid var(--glass-border);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 1.5rem;
+        z-index: 100;
+        transition: width var(--transition-sb);
+        background: rgba(10, 12, 16, 0.4);
+        backdrop-filter: blur(12px);
+      }
+      .right-sidebar.collapsed {
+        width: var(--right-col);
+        padding: 1.5rem 0.5rem;
+      }
+      .right-sidebar::-webkit-scrollbar {
+        display: none;
+      }
+      .right-sidebar.collapsed {
+        width: var(--right-col);
+        padding: 1.5rem 0.5rem;
+      }
+      .rside-toggle {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-sm);
+        color: var(--txt2);
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .rside-toggle:hover {
+        background: var(--glass-hover);
+        color: var(--txt);
+      }
+      .right-sidebar.collapsed .rside-toggle {
+        justify-content: center;
+        padding: 0.75rem 0;
+        width: 48px;
+        margin: 0 auto 1.5rem;
+      }
+      .right-sidebar.collapsed .rside-toggle-label {
+        display: none;
+      }
+      .right-sidebar.collapsed .jst-full {
+        display: none;
+      }
+      .right-sidebar.collapsed .jst-mini {
+        display: flex;
+      }
 
-/* Project reference */
-.proj-ref{display:inline-flex;gap:0.35rem;margin-bottom:0.3rem;flex-wrap:wrap;align-items:center;}
-.proj-name{
-  font-size:0.65rem;font-family:'JetBrains Mono',monospace;
-  color:var(--cyan);background:rgba(6,182,212,0.1);
-  border:1px solid rgba(6,182,212,0.25);padding:0.1rem 0.4rem;border-radius:20px;
-}
-.proj-metric{
-  font-size:0.65rem;font-family:'JetBrains Mono',monospace;
-  color:var(--green);background:rgba(16,185,129,0.1);
-  border:1px solid rgba(16,185,129,0.25);padding:0.1rem 0.4rem;border-radius:20px;
-}
+      .jst-mini {
+        display: none;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+      }
+      .jst-mini-row {
+        text-align: center;
+      }
+      .jst-mini-val {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1.1rem;
+        font-weight: 800;
+        display: block;
+        text-shadow: 0 0 10px currentColor;
+      }
+      .jst-mini-lbl {
+        font-size: 0.65rem;
+        color: var(--txt3);
+        text-transform: uppercase;
+        font-weight: 700;
+      }
 
-/* ── CONFETTI CANVAS ─────────────────────────── */
-#confettiCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;display:none;}
+      .jst-full {
+        padding: 1.5rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--glass-border);
+        background: linear-gradient(180deg, rgba(30, 34, 40, 0.4), transparent);
+      }
+      .jst-title {
+        font-weight: 800;
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        letter-spacing: -0.02em;
+      }
+      .jst-title i {
+        color: var(--blue);
+        font-size: 1.2rem;
+      }
+      .jst-metric {
+        margin-bottom: 1.2rem;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1rem;
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .jst-label {
+        font-size: 0.8rem;
+        color: var(--txt2);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+      }
+      .jst-target {
+        font-family: "JetBrains Mono", monospace;
+        color: var(--txt3);
+      }
+      .jst-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .jst-input {
+        width: 70px;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-sm);
+        padding: 0.4rem;
+        color: var(--txt);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-align: center;
+        outline: none;
+        transition: all 0.2s;
+      }
+      .jst-input:focus {
+        border-color: var(--blue);
+        box-shadow: 0 0 0 2px var(--blue-glow);
+      }
+      .jst-bar {
+        flex: 1;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .jst-bar-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.8s var(--spring);
+      }
+      .jst-cta {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 1rem;
+        background: linear-gradient(135deg, var(--blue), #2563eb);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius-md);
+        font-weight: 800;
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+        box-shadow: 0 4px 15px var(--blue-glow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      .jst-cta:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 8px 25px var(--blue-glow);
+      }
 
-/* ── ANIMATIONS ──────────────────────────────── */
-@keyframes check-pop{0%{transform:scale(0) rotate(-10deg);}60%{transform:scale(1.2) rotate(5deg);}100%{transform:scale(1) rotate(0);}}
-.task-cb.checked{animation:check-pop 0.3s ease;}
-@keyframes slide-in-top{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
-.streak-banner.show{animation:slide-in-top 0.4s ease,pulse-glow 2s ease 0.5s infinite;}
+      /* ── STREAK & TIPS ── */
+      .streak-banner {
+        display: none;
+        align-items: center;
+        gap: 1rem;
+        background: linear-gradient(
+          135deg,
+          rgba(245, 158, 11, 0.1),
+          rgba(239, 68, 68, 0.05)
+        );
+        border: 1px solid rgba(245, 158, 11, 0.2);
+        border-radius: var(--radius-md);
+        padding: 1rem 1.5rem;
+        margin-bottom: 2rem;
+        backdrop-filter: blur(10px);
+      }
+      .streak-banner.show {
+        display: flex;
+        animation: slide-in-top 0.5s var(--spring);
+      }
+      .mini-timer-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(59, 130, 246, 0.1);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 20px;
+        padding: 0.4rem 1.2rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--blue);
+        transition: all 0.2s;
+      }
+      .mini-timer-btn:hover {
+        background: rgba(59, 130, 246, 0.2);
+        border-color: var(--blue);
+      }
+      .mini-timer-btn.running {
+        background: rgba(16, 185, 129, 0.15);
+        border-color: var(--green);
+        color: var(--green);
+        box-shadow: 0 0 15px var(--green-glow);
+        animation: pulse-border 2s infinite;
+      }
 
-/* ── WEEK CARD FOOTER ───────────────────────── */
-.wc-footer{display:flex;align-items:center;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);flex-wrap:wrap;}
-.wc-time{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--txt3);}
-.btn-done{padding:0.5rem 1.25rem;background:linear-gradient(135deg,var(--green),#059669);color:#000;font-weight:700;font-size:0.8rem;border:none;border-radius:8px;transition:all 0.2s;margin-left:auto;}
-.btn-done:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(16,185,129,0.3);}
-.btn-done.marked{background:var(--border);color:var(--txt3);}
+      /* ── HERO ── */
+      .hero {
+        margin-bottom: 3rem;
+      }
+      .hero-title {
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 800;
+        background: linear-gradient(135deg, #fff 40%, var(--txt3));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        margin-bottom: 0.75rem;
+      }
+      .hero-sub {
+        color: var(--txt2);
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .hero-sub i {
+        color: var(--blue);
+      }
 
-/* ── MISTAKES & CUSTOM TASKS ────────────────── */
-.mistakes-box{background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:0.75rem;margin-bottom:1rem;}
-.mistakes-title{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--red);margin-bottom:0.5rem;}
-.mistakes-list{list-style:none;display:flex;flex-direction:column;gap:0.3rem;}
-.mistakes-list li{font-size:0.78rem;color:rgba(239,68,68,0.9);padding-left:1rem;position:relative;}
-.mistakes-list li::before{content:'✗';position:absolute;left:0;font-size:0.7rem;}
-.custom-section{margin-top:1rem;}
-.custom-title{font-size:0.75rem;font-weight:600;color:var(--txt3);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;}
-.custom-task{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.75rem;background:var(--bg-c);border-radius:6px;font-size:0.8rem;margin-bottom:0.4rem;}
-.custom-cb{width:16px;height:16px;border:2px solid var(--border2);border-radius:3px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.custom-cb.checked{background:var(--blue);border-color:var(--blue);}
-.custom-cb.checked::after{content:'✓';color:#fff;font-size:0.55rem;font-weight:700;}
-.custom-del{background:none;border:none;color:var(--txt3);font-size:1rem;padding:0 0.25rem;margin-left:auto;}
-.custom-del:hover{color:var(--red);}
-.add-task-row{display:flex;gap:0.5rem;margin-top:0.5rem;}
-.add-task-input{flex:1;background:var(--bg-c);border:1px solid var(--border);border-radius:6px;padding:0.5rem 0.75rem;color:var(--txt);font-size:0.8rem;outline:none;}
-.add-task-input:focus{border-color:var(--blue);}
-.add-task-btn{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:0.5rem 1rem;font-size:0.8rem;font-weight:600;transition:opacity 0.2s;}
-.add-task-btn:hover{opacity:0.85;}
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+      }
+      .stat-box {
+        padding: 1.25rem;
+        text-align: center;
+        transition: transform 0.2s var(--spring);
+      }
+      .stat-box:hover {
+        transform: translateY(-4px);
+        border-color: var(--glass-border-hover);
+      }
+      .stat-val {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--txt);
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+      .stat-lbl {
+        font-size: 0.75rem;
+        color: var(--txt3);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
 
-/* ── NOTE MODAL ─────────────────────────────── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;display:none;align-items:center;justify-content:center;}
-.modal-overlay.open{display:flex;}
-.modal{background:var(--bg-s);border:1px solid var(--border);border-radius:16px;padding:1.5rem;width:90%;max-width:500px;}
-.modal-title{font-weight:600;margin-bottom:1rem;}
-.modal-textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0.75rem;color:var(--txt);font-size:0.875rem;resize:vertical;min-height:120px;outline:none;}
-.modal-textarea:focus{border-color:var(--blue);}
-.modal-actions{display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1rem;}
-.btn-primary{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:0.5rem 1.25rem;font-weight:600;}
-.btn-secondary{background:var(--bg-e);color:var(--txt);border:1px solid var(--border);border-radius:8px;padding:0.5rem 1.25rem;}
+      /* ── TODAY'S FOCUS (Bento Setup) ── */
+      .focus-section {
+        padding: 1.75rem;
+        margin-bottom: 3rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .focus-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--blue);
+        box-shadow: 0 0 15px var(--blue);
+      }
+      .focus-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+      .focus-title {
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: #fff;
+        letter-spacing: -0.02em;
+      }
+      .focus-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .focus-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        border-radius: var(--radius-md);
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+      .focus-item:hover {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: var(--glass-border);
+      }
+      .focus-empty {
+        color: var(--green);
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+        padding: 1.5rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+      }
 
-/* ── TIMER MODAL ────────────────────────────── */
-.timer-display{text-align:center;padding:2rem 0;}
-.timer-time{font-family:'JetBrains Mono',monospace;font-size:3.5rem;font-weight:700;color:var(--blue);}
-.timer-controls{display:flex;gap:0.75rem;justify-content:center;margin-top:1.5rem;}
-.timer-btn{padding:0.75rem 1.5rem;border:none;border-radius:10px;font-weight:600;font-size:0.95rem;transition:all 0.2s;}
-.timer-start{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;}
-.timer-reset{background:var(--bg-e);color:var(--txt);border:1px solid var(--border);}
+      /* ── MILESTONES ── */
+      .milestone-section {
+        margin-bottom: 3rem;
+      }
+      .milestone-header {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        padding: 1.5rem;
+        cursor: pointer;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s var(--spring);
+      }
+      .milestone-header:hover {
+        transform: scale(1.01);
+        background: var(--glass-hover);
+        border-color: var(--glass-border-hover);
+      }
+      .milestone-icon {
+        font-size: 2rem;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .m1-header .milestone-icon {
+        color: var(--blue);
+        box-shadow: 0 0 20px var(--blue-glow);
+      }
+      .m2-header .milestone-icon {
+        color: var(--purple);
+        box-shadow: 0 0 20px var(--purple-glow);
+      }
+      .m3-header .milestone-icon {
+        color: var(--gold);
+        box-shadow: 0 0 20px var(--gold-glow);
+      }
 
-/* ── JOB SEARCH TRACKER (right sidebar) ──────── */
-.jst-title{font-weight:700;font-size:1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.5rem;}
-.jst-metric{margin-bottom:0.875rem;}
-.jst-label{font-size:0.75rem;color:var(--txt3);margin-bottom:0.25rem;display:flex;justify-content:space-between;}
-.jst-target{font-family:'JetBrains Mono',monospace;font-size:0.7rem;}
-.jst-row{display:flex;align-items:center;gap:0.5rem;}
-.jst-input{width:80px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.5rem;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;text-align:center;outline:none;transition:border-color 0.2s;}
-.jst-input:focus{border-color:var(--blue);}
-.jst-of{font-size:0.8rem;color:var(--txt3);}
-.jst-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
-.jst-bar-fill{height:100%;border-radius:2px;background:var(--blue);transition:width 0.4s;}
-.jst-cta{width:100%;margin-top:1.25rem;padding:0.875rem;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;border-radius:10px;font-weight:700;font-size:0.9rem;transition:all 0.2s;}
-.jst-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(59,130,246,0.35);}
-.jst-section-title{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--txt3);margin:1rem 0 0.75rem;}
-.jst-divider{height:1px;background:var(--border);margin:1.25rem 0;}
-.data-controls{display:flex;gap:0.5rem;flex-wrap:wrap;}
-.data-btn{flex:1;padding:0.5rem;background:var(--bg-e);border:1px solid var(--border);border-radius:8px;font-size:0.75rem;color:var(--txt2);transition:all 0.2s;}
-.data-btn:hover{border-color:var(--blue);color:var(--blue);}
+      .milestone-info {
+        flex: 1;
+      }
+      .milestone-name {
+        font-weight: 800;
+        font-size: 1.3rem;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.2rem;
+      }
+      .milestone-sub {
+        font-size: 0.9rem;
+        color: var(--txt3);
+        font-weight: 500;
+      }
+      .milestone-prog {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .milestone-pct-text {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1rem;
+        font-weight: 800;
+        color: var(--txt);
+      }
+      .milestone-bar {
+        width: 120px;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .milestone-bar-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.8s var(--spring);
+      }
+      .milestone-toggle {
+        font-size: 1.2rem;
+        color: var(--txt3);
+        transition: transform 0.4s var(--spring);
+      }
+      .milestone-toggle.open {
+        transform: rotate(180deg);
+        color: var(--txt);
+      }
+      .milestone-body {
+        display: none;
+        animation: fadeIn 0.4s ease;
+      }
+      .milestone-body.open {
+        display: block;
+      }
 
-/* ── WEEK 8 CHECKLIST ───────────────────────── */
-.w8-checklist{background:linear-gradient(135deg,var(--bg-c),rgba(202,138,4,0.08));border:2px solid rgba(202,138,4,0.35);border-radius:16px;padding:1.5rem;margin-top:1.5rem;}
-.w8-title{font-weight:700;font-size:1.1rem;color:var(--gold);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
-.w8-prog-row{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;}
-.w8-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
-.w8-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 0.4s;}
-.w8-pct{font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600;color:var(--gold);}
-.w8-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;}
-.w8-item{display:flex;align-items:flex-start;gap:0.6rem;padding:0.75rem;background:var(--bg-e);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;}
-.w8-item:hover{border-color:var(--gold);}
-.w8-item.done{opacity:0.55;}
-.w8-cb{width:20px;height:20px;border:2px solid rgba(202,138,4,0.5);border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
-.w8-item.done .w8-cb{background:var(--gold);border-color:var(--gold);}
-.w8-item.done .w8-cb::after{content:'✓';color:#000;font-size:0.7rem;font-weight:700;}
-.w8-text{font-size:0.8rem;font-weight:500;}
-.w8-item.done .w8-text{text-decoration:line-through;color:var(--txt3);}
-.w8-desc{font-size:0.7rem;color:var(--txt3);margin-top:0.15rem;}
+      /* ── WEEK CARD (Bento Style) ── */
+      .week-card {
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        transition: all 0.3s var(--spring);
+        position: relative;
+      }
+      .week-card:hover {
+        border-color: var(--glass-border-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+      .week-card-top {
+        height: 4px;
+        width: 100%;
+      }
+      .wc-header {
+        padding: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+      }
+      .wc-left {
+        flex: 1;
+        min-width: 0;
+      }
+      .wc-num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .wc-title {
+        font-weight: 800;
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+        letter-spacing: -0.01em;
+      }
+      .wc-subtitle {
+        font-size: 0.9rem;
+        color: var(--txt3);
+        font-weight: 500;
+      }
+      .wc-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.75rem;
+        flex-shrink: 0;
+      }
+      .wc-prog-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .wc-prog-bar {
+        width: 80px;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .wc-prog-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.5s var(--spring);
+      }
+      .wc-pct {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--txt2);
+      }
+      .wc-arrow {
+        color: var(--txt3);
+        transition: transform 0.4s var(--spring);
+        font-size: 1.2rem;
+      }
+      .wc-arrow.open {
+        transform: rotate(180deg);
+        color: var(--txt);
+      }
 
-/* ── MILESTONE 2 MONTHS ─────────────────────── */
-.month-card{background:var(--bg-e);border:1px solid var(--border);border-radius:16px;margin-bottom:1rem;overflow:hidden;}
-.month-card-header{padding:1.25rem;cursor:pointer;display:flex;align-items:center;gap:1rem;}
-.month-card-header:hover{background:rgba(255,255,255,0.02);}
-.month-badge{font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;padding:0.3rem 0.6rem;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:4px;color:var(--purple);white-space:nowrap;}
-.month-info{flex:1;}
-.month-name{font-weight:700;font-size:1rem;}
-.month-sub{font-size:0.8rem;color:var(--txt3);}
-.month-body{padding:0 1.25rem 1.25rem;border-top:1px solid var(--border);}
-.month-body.hidden{display:none;}
-.at-work-badge{font-size:0.65rem;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);border-radius:4px;padding:0.1rem 0.4rem;color:var(--green);margin-left:0.5rem;}
-.m2-task{display:flex;align-items:flex-start;gap:0.75rem;padding:0.6rem;border-bottom:1px solid var(--border);font-size:0.85rem;cursor:pointer;}
-.m2-task:last-child{border-bottom:none;}
-.m2-task:hover{background:rgba(255,255,255,0.02);}
-.m2-task.done{opacity:0.5;}
-.m2-task.done .m2-task-text{text-decoration:line-through;}
-.m2-cb{width:18px;height:18px;border:2px solid rgba(139,92,246,0.4);border-radius:4px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;}
-.m2-cb.checked{background:var(--purple);border-color:var(--purple);}
-.m2-cb.checked::after{content:'✓';color:#fff;font-size:0.6rem;font-weight:700;}
-.month-prog-bar-wrap{margin:1rem 0 0.5rem;}
-.month-prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
-.month-prog-fill{height:100%;border-radius:2px;background:var(--purple);transition:width 0.4s;}
-.month-prog-label{font-size:0.7rem;color:var(--txt3);margin-top:0.3rem;font-family:'JetBrains Mono',monospace;}
+      .wc-body {
+        padding: 0 1.5rem 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        display: grid;
+        grid-template-rows: 1fr;
+        transition: grid-template-rows 0.4s var(--spring);
+      }
+      .wc-body.hidden {
+        grid-template-rows: 0fr;
+        padding: 0 1.5rem;
+        border-top: none;
+        opacity: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .wc-body-inner {
+        min-height: 0;
+      }
 
-/* ── MILESTONE 3 ────────────────────────────── */
-.path-toggle{display:flex;gap:0.75rem;margin-bottom:1.5rem;}
-.path-btn{flex:1;padding:0.875rem;border:1px solid var(--border);border-radius:10px;background:var(--bg-e);font-weight:600;font-size:0.9rem;color:var(--txt2);transition:all 0.2s;}
-.path-btn.active.staff{background:rgba(245,158,11,0.12);border-color:var(--gold);color:var(--gold);}
-.path-btn.active.consultant{background:rgba(6,182,212,0.12);border-color:var(--cyan);color:var(--cyan);}
-.m3-phase{background:var(--bg-e);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1rem;}
-.m3-phase-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;}
-.m3-phase-badge{font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;padding:0.25rem 0.6rem;border-radius:4px;}
-.m3-phase-badge.staff{background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);color:var(--gold);}
-.m3-phase-badge.consultant{background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.3);color:var(--cyan);}
-.m3-phase-title{font-weight:600;}
-.m3-task{display:flex;align-items:flex-start;gap:0.75rem;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.85rem;cursor:pointer;}
-.m3-task:last-child{border-bottom:none;}
-.m3-task:hover{background:rgba(255,255,255,0.02);}
-.m3-task.done .m3-task-text{text-decoration:line-through;color:var(--txt3);}
-.m3-cb{width:18px;height:18px;border:2px solid rgba(245,158,11,0.4);border-radius:4px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;}
-.m3-cb.checked{background:var(--gold);border-color:var(--gold);}
-.m3-cb.checked::after{content:'✓';color:#000;font-size:0.6rem;font-weight:700;}
-.m3-output{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:0.75rem;margin-top:1rem;font-size:0.8rem;color:var(--gold);}
+      .wc-bento-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
+      .info-box {
+        border-radius: var(--radius-md);
+        padding: 1.25rem;
+        font-size: 0.9rem;
+        border: 1px solid transparent;
+        background: rgba(0, 0, 0, 0.3);
+      }
+      .info-box.interview {
+        border-color: rgba(16, 185, 129, 0.2);
+        box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.05);
+      }
+      .info-box.deliverable {
+        border-color: rgba(59, 130, 246, 0.2);
+        box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.05);
+      }
+      .info-box.mistakes {
+        border-color: rgba(239, 68, 68, 0.2);
+        grid-column: 1 / -1;
+        box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.05);
+      }
+      .box-title {
+        font-weight: 800;
+        margin-bottom: 0.6rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .interview .box-title {
+        color: var(--green);
+      }
+      .deliverable .box-title {
+        color: var(--blue);
+      }
+      .mistakes .box-title {
+        color: var(--red);
+      }
+      .box-text {
+        color: var(--txt2);
+        font-weight: 500;
+      }
+      .mistakes ul {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 0.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+      .mistakes li {
+        color: var(--txt2);
+        font-size: 0.85rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .mistakes li i {
+        color: var(--red);
+        margin-top: 0.2rem;
+      }
 
-/* ── TOAST ──────────────────────────────────── */
-.toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-s);border:1px solid var(--border);color:var(--txt);padding:0.75rem 1.5rem;border-radius:10px;font-size:0.875rem;font-weight:500;opacity:0;transition:all 0.3s;z-index:999;pointer-events:none;white-space:nowrap;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-.toast.success{border-color:var(--green);color:var(--green);}
-.toast.warn{border-color:var(--gold);color:var(--gold);}
+      /* ── TASK ITEM (Interactive & Squishy) ── */
+      .task-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .task-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: all 0.2s var(--spring);
+        position: relative;
+      }
+      .task-item:hover {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(255, 255, 255, 0.1);
+        transform: scale(1.01);
+      }
+      .task-item:active {
+        transform: scale(0.98);
+      }
+      .task-item.done {
+        background: rgba(16, 185, 129, 0.05);
+        border-color: rgba(16, 185, 129, 0.2);
+        opacity: 0.8;
+      }
+      .task-item.done:hover {
+        transform: scale(1.01);
+      }
 
-/* ── FAB ────────────────────────────────────── */
-.fab{position:fixed;bottom:1.5rem;right:calc(var(--right) + 1.25rem);width:52px;height:52px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:50%;color:#fff;font-size:1.4rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(59,130,246,0.4);z-index:150;transition:all 0.2s;}
-.fab:hover{transform:scale(1.08);}
+      .task-cb {
+        width: 24px;
+        height: 24px;
+        border: 2px solid var(--border2);
+        border-radius: 8px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s var(--spring);
+        background: rgba(0, 0, 0, 0.3);
+        color: transparent;
+      }
+      .task-item:hover .task-cb {
+        border-color: var(--txt3);
+      }
+      .task-cb.checked {
+        background: var(--green);
+        border-color: var(--green);
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        color: #000;
+      }
 
-/* ── MOBILE ─────────────────────────────────── */
-@media(max-width:768px){
-  .layout{grid-template-columns:1fr;}
-  .sidebar{display:none;}
-  .right-sidebar{display:none;}
-  .main{padding:1rem;padding-bottom:5rem;}
-  .stats-row{grid-template-columns:1fr 1fr;}
-  .w8-grid{grid-template-columns:1fr;}
-  .wc-meta{grid-template-columns:1fr;}
-  .fab{bottom:5rem;right:1rem;}
-  .mobile-bot-nav{display:flex;}
-  .mobile-jst{display:block;}
-}
-@media(min-width:769px){
-  .mobile-bot-nav{display:none;}
-  .mobile-jst{display:none;}
-}
-.mobile-bot-nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:var(--bg-s);border-top:1px solid var(--border);z-index:200;justify-content:space-around;align-items:center;}
-.mob-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.2rem;padding:0.5rem;font-size:0.65rem;color:var(--txt3);cursor:pointer;transition:color 0.2s;}
-.mob-tab.active{color:var(--blue);}
-.mob-tab-icon{font-size:1.1rem;}
-.mobile-jst{margin-bottom:1.5rem;background:var(--bg-e);border:1px solid var(--border);border-radius:16px;padding:1.25rem;}
-</style>
-</head>
-<body>
+      .task-content {
+        flex: 1;
+        min-width: 0;
+      }
+      .task-text {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--txt);
+        line-height: 1.4;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .task-item.done .task-text {
+        text-decoration: line-through;
+        color: var(--txt3);
+        font-weight: 500;
+      }
 
-<!-- TOPBAR -->
-<nav class="topbar">
-  <div class="topbar-logo"><span>🚀</span> RN Roadmap</div>
-  <div class="topbar-spacer"></div>
-  <div class="topbar-actions">
-    <div class="streak-badge">🔥 <span id="streakVal">0</span> days</div>
-    <button class="mini-timer-btn" id="miniTimerBtn" onclick="openTimer()" title="Focus Timer">⏱ <span id="miniTimerDisp">25:00</span></button>
-    <button class="icon-btn" onclick="openSettings()" title="Settings">⚙️</button>
-  </div>
-</nav>
+      .task-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .task-time {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--txt2);
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+      .task-why {
+        font-size: 0.85rem;
+        color: var(--txt3);
+        font-weight: 500;
+        font-style: italic;
+      }
+      .task-res {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+      }
+      .task-res.res-docs {
+        background: rgba(56, 189, 248, 0.1);
+        color: #38bdf8;
+        border-color: rgba(56, 189, 248, 0.2);
+      }
 
-<!-- LEFT SIDEBAR -->
-<aside class="sidebar" id="leftSidebar">
-  <button class="sidebar-toggle-btn" onclick="toggleLeftSidebar()">
-    <span class="sb-toggle-label">Navigation</span>
-    <span id="sbLeftIcon">◀◀</span>
-  </button>
-  <div class="sidebar-label">Milestones</div>
-  <div class="sidebar-item active" id="sideM1" onclick="scrollTo('m1')">
-    <div class="sidebar-title"><span class="sidebar-icon-only">📚</span><span class="sidebar-dot" style="background:var(--blue)"></span><span class="sb-text">Milestone 1</span></div>
-    <div class="sidebar-sub">Job Ready · 8 weeks</div>
-    <div class="sidebar-pct" id="sideM1Pct">0% complete</div>
-    <div class="sidebar-bar"><div class="sidebar-bar-fill" id="sideM1Bar" style="width:0%;background:var(--blue)"></div></div>
-  </div>
-  <div class="sidebar-item" id="sideM2" onclick="scrollTo('m2')">
-    <div class="sidebar-title"><span class="sidebar-icon-only">🏆</span><span class="sidebar-dot" style="background:var(--purple)"></span><span class="sb-text">Milestone 2</span></div>
-    <div class="sidebar-sub">Senior Solid · 4 months</div>
-    <div class="sidebar-pct" id="sideM2Pct">0% complete</div>
-    <div class="sidebar-bar"><div class="sidebar-bar-fill" id="sideM2Bar" style="width:0%;background:var(--purple)"></div></div>
-  </div>
-  <div class="sidebar-item" id="sideM3" onclick="scrollTo('m3')">
-    <div class="sidebar-title"><span class="sidebar-icon-only">⭐</span><span class="sidebar-dot" style="background:var(--gold)"></span><span class="sb-text">Milestone 3</span></div>
-    <div class="sidebar-sub">Staff Track · 6 months</div>
-    <div class="sidebar-pct" id="sideM3Pct">0% complete</div>
-    <div class="sidebar-bar"><div class="sidebar-bar-fill" id="sideM3Bar" style="width:0%;background:var(--gold)"></div></div>
-  </div>
-  <div class="sidebar-divider"></div>
-  <div class="sidebar-label">Tools</div>
-  <div class="sidebar-item" onclick="openTimer()"><div class="sidebar-title"><span class="sidebar-icon-only">⏱</span><span class="sb-text">⏱️ Focus Timer</span></div></div>
-  <div class="sidebar-item" onclick="exportData()"><div class="sidebar-title"><span class="sidebar-icon-only">📤</span><span class="sb-text">📤 Export</span></div></div>
-  <div class="sidebar-item" onclick="document.getElementById('importInput').click()"><div class="sidebar-title"><span class="sidebar-icon-only">📥</span><span class="sb-text">📥 Import</span></div></div>
-  <div class="sidebar-item" onclick="confirmReset()"><div class="sidebar-title" style="color:var(--red)"><span class="sidebar-icon-only">🗑</span><span class="sb-text">🗑 Reset All</span></div></div>
-  <input type="file" id="importInput" accept=".json" style="display:none" onchange="importData(this)">
-</aside>
+      .task-note-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: none;
+        border-radius: 6px;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        color: var(--txt3);
+        margin-left: auto;
+      }
+      .task-note-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--txt);
+      }
+      .task-note-btn.has-note {
+        background: rgba(245, 158, 11, 0.15);
+        color: var(--gold);
+      }
 
-<!-- LAYOUT WRAPPER -->
-<div class="layout">
-  <!-- Streak banner + daily tip + hero will go here -->
-    <!-- Confetti canvas -->
-  <main class="main" id="mainContent">
+      /* ── ANIMATIONS ── */
+      @keyframes check-pop {
+        0% {
+          transform: scale(0) rotate(-15deg);
+        }
+        50% {
+          transform: scale(1.3) rotate(10deg);
+        }
+        100% {
+          transform: scale(1) rotate(0);
+        }
+      }
+      .task-cb.checked i {
+        animation: check-pop 0.4s var(--spring);
+      }
+      @keyframes slide-in-top {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes pulse-border {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+        }
+      }
 
-    <!-- Mobile JST -->
-    <div class="mobile-jst" id="mobileJst">
-      <div class="jst-title">🎯 Job Search Progress</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-        <div class="jst-metric"><div class="jst-label">Applications <span class="jst-target">/ 50</span></div><div class="jst-row"><input class="jst-input" type="number" min="0" id="jstAppM" value="0" oninput="updateJST('applications',this.value)"></div></div>
-        <div class="jst-metric"><div class="jst-label">Interviews <span class="jst-target">/ 5</span></div><div class="jst-row"><input class="jst-input" type="number" min="0" id="jstIntM" value="0" oninput="updateJST('interviews',this.value)"></div></div>
+      /* ── MODALS & TOAST ── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 500;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-overlay.open {
+        display: flex;
+        animation: fadeIn 0.2s ease;
+      }
+      .modal {
+        background: var(--bg-s);
+        backdrop-filter: blur(24px);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        transform: scale(0.95);
+        transition: transform 0.3s var(--spring);
+      }
+      .modal-overlay.open .modal {
+        transform: scale(1);
+      }
+      .modal-title {
+        font-weight: 800;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .modal-textarea {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border2);
+        border-radius: var(--radius-sm);
+        padding: 1rem;
+        color: var(--txt);
+        font-size: 0.95rem;
+        resize: vertical;
+        min-height: 150px;
+        outline: none;
+        font-family: inherit;
+      }
+      .modal-textarea:focus {
+        border-color: var(--blue);
+        box-shadow: inset 0 0 0 1px var(--blue);
+      }
+      .modal-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
+      }
+      .btn-primary {
+        background: var(--blue);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius-sm);
+        padding: 0.75rem 1.5rem;
+        font-weight: 700;
+      }
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--txt);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-sm);
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+      }
+
+      /* Timer Specifics */
+      .timer-display {
+        text-align: center;
+        padding: 2rem 0;
+      }
+      .timer-time {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 5rem;
+        font-weight: 800;
+        color: var(--txt);
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        letter-spacing: -0.05em;
+      }
+      .timer-controls {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--bg-s);
+        backdrop-filter: blur(16px);
+        border: 1px solid var(--glass-border);
+        color: var(--txt);
+        padding: 1rem 2rem;
+        border-radius: 100px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        opacity: 0;
+        transition: all 0.4s var(--spring);
+        z-index: 999;
+        pointer-events: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .toast.success {
+        border-color: var(--green);
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+        color: var(--green);
+      }
+
+      /* ── CONFETTI ── */
+      #confettiCanvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        display: none;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 1100px) {
+        .mistakes ul {
+          grid-template-columns: 1fr;
+        }
+        .wc-bento-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 768px) {
+        .layout {
+          display: block;
+          padding-bottom: 100px;
+        } /* Leave room for floating nav */
+        .sidebar,
+        .right-sidebar {
+          display: none;
+        }
+        .main {
+          padding: 1.5rem 1rem;
+        }
+        .stats-row {
+          grid-template-columns: 1fr 1fr;
+        }
+        .mobile-bot-nav {
+          display: flex;
+        }
+        .hero-title {
+          font-size: 2.2rem;
+        }
+      }
+      @media (min-width: 769px) {
+        .mobile-bot-nav {
+          display: none;
+        }
+      }
+      .mobile-bot-nav {
+        position: fixed;
+        bottom: max(
+          24px,
+          env(safe-area-inset-bottom)
+        ); /* Floats above the bottom */
+        left: 50%;
+        transform: translateX(-50%);
+        height: 64px;
+        background: rgba(15, 17, 21, 0.85); /* Slightly darker glass */
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 100px; /* Perfect pill shape */
+        z-index: 200;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 0.5rem;
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(0, 0, 0, 0.8) inset;
+        gap: 0.25rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s var(--spring);
+      }
+      .mobile-bot-nav.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      .mob-tab {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        border-radius: 100px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--txt3);
+        transition: all 0.3s var(--spring);
+        cursor: pointer;
+      }
+
+      /* THE UX TRICK: Hide text unless it's active tab */
+      .mob-tab span {
+        display: none;
+        white-space: nowrap;
+      }
+      .mob-tab.active span {
+        display: block;
+        animation: fadeIn 0.3s ease forwards;
+      }
+
+      .mob-tab.active {
+        color: var(--txt);
+        background: rgba(255, 255, 255, 0.08); /* Highlight pill */
+        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+      }
+
+      .mob-tab i {
+        font-size: 1.5rem;
+        transition: all 0.2s;
+      }
+      .mob-tab.active i {
+        color: var(--blue);
+        filter: drop-shadow(0 0 8px var(--blue-glow));
+      }
+
+      /* ── COMMAND PALETTE (Cmd+K) ── */
+      .cmd-palette-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        z-index: 9999;
+        display: none;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 15vh;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+      .cmd-palette-overlay.open {
+        display: flex;
+        opacity: 1;
+      }
+      .cmd-modal {
+        width: 90%;
+        max-width: 600px;
+        background: rgba(20, 22, 28, 0.85);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        box-shadow:
+          0 30px 60px rgba(0, 0, 0, 0.5),
+          0 0 0 1px inset rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+        transform: scale(0.95) translateY(-20px);
+        transition: transform 0.3s var(--spring);
+      }
+      .cmd-palette-overlay.open .cmd-modal {
+        transform: scale(1) translateY(0);
+      }
+      .cmd-input-wrap {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .cmd-input-wrap i {
+        font-size: 1.5rem;
+        color: var(--blue);
+      }
+      .cmd-input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        color: var(--txt);
+        font-size: 1.2rem;
+        outline: none;
+        font-family: inherit;
+        font-weight: 500;
+      }
+      .cmd-input::placeholder {
+        color: var(--txt3);
+      }
+      .cmd-list {
+        max-height: 350px;
+        overflow-y: auto;
+        padding: 0.5rem;
+      }
+      .cmd-item {
+        padding: 0.8rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        border-radius: var(--radius-sm);
+        color: var(--txt2);
+        transition: all 0.1s;
+        font-weight: 500;
+      }
+      .cmd-item i {
+        font-size: 1.2rem;
+      }
+      .cmd-item.selected,
+      .cmd-item:hover {
+        background: rgba(59, 130, 246, 0.15);
+        color: var(--txt);
+      }
+      .cmd-item.selected i {
+        color: var(--blue);
+      }
+      .cmd-shortcut {
+        margin-left: auto;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-family: "JetBrains Mono", monospace;
+        border: 1px solid var(--glass-border);
+        color: var(--txt3);
+      }
+
+      /* ── QUICK CAPTURE FAB ── */
+      .quick-fab-container {
+        position: fixed;
+        bottom: max(100px, env(safe-area-inset-bottom) + 80px);
+        right: 1.5rem;
+        z-index: 150;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.5rem;
+      }
+      .quick-fab-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(20px) scale(0.9);
+        transition: all 0.3s var(--spring);
+        transform-origin: bottom right;
+      }
+      .quick-fab-container.open .quick-fab-menu {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateY(0) scale(1);
+      }
+      .fab-action {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: rgba(10, 12, 16, 0.95);
+        border: 1px solid var(--glass-border);
+        padding: 0.75rem 1rem;
+        border-radius: 100px;
+        color: var(--txt);
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        transition: all 0.2s;
+      }
+      .fab-action:hover {
+        background: var(--glass-hover);
+        border-color: var(--blue);
+        color: var(--blue);
+      }
+      .fab-main {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, var(--blue), var(--purple));
+        border: none;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        cursor: pointer;
+        transition: transform 0.3s var(--spring);
+      }
+      .quick-fab-container.open .fab-main {
+        transform: rotate(45deg);
+        background: var(--bg);
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      /* ── PACE TRACKER NUDGE ── */
+      .pace-nudge {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius-sm);
+        margin-bottom: 1rem;
+        color: var(--gold);
+        font-size: 0.85rem;
+        font-weight: 600;
+        animation: fadeIn 0.4s ease;
+      }
+      .pace-nudge.good {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: rgba(16, 185, 129, 0.3);
+        color: var(--green);
+      }
+
+      /* Checklist specialized */
+      .w8-checklist {
+        background: linear-gradient(
+          145deg,
+          rgba(245, 158, 11, 0.05),
+          transparent
+        );
+        border: 1px solid rgba(245, 158, 11, 0.2);
+        padding: 1.5rem;
+        border-radius: var(--radius-md);
+        margin-bottom: 1.5rem;
+      }
+      .w8-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="topbar">
+      <div class="topbar-logo">
+        <i class="ph-fill ph-rocket-launch"></i> RN Roadmap
       </div>
-      <button class="jst-cta" onclick="applyThree()" style="margin-top:1rem;">Apply to 3 Jobs Today 🚀</button>
-    </div>
-
-    <!-- Streak Banner -->
-    <div class="streak-banner" id="streakBanner">
-      <span style="font-size:1.5rem">🔥</span>
-      <div><div class="streak-banner-text" id="streakBannerText">You're on fire!</div><div class="streak-banner-sub" id="streakBannerSub">7-day streak · Keep going!</div></div>
-    </div>
-
-    <!-- Daily Tip -->
-    <div class="daily-tip" id="dailyTip">
-      <div class="daily-tip-icon">💡</div>
-      <span id="dailyTipText">Apply to jobs before you feel ready — readiness is a myth engineers tell themselves.</span>
-    </div>
-
-    <!-- HERO -->
-    <div class="hero" id="heroSection">
-      <div class="hero-title">React Native → Senior Engineer</div>
-      <div class="hero-sub">12 months to $120K–$200K+ remote · Track every task, every application, every win</div>
-      <div class="stats-row">
-        <div class="stat-box"><span class="stat-val" id="totalDone">0</span><span class="stat-lbl">Tasks Done</span></div>
-        <div class="stat-box"><span class="stat-val" id="streakDisp">0</span><span class="stat-lbl">Day Streak 🔥</span></div>
-        <div class="stat-box"><span class="stat-val" id="sessDisp">0</span><span class="stat-lbl">Focus Sessions</span></div>
-        <div class="stat-box"><span class="stat-val" id="timeDisp">0h</span><span class="stat-lbl">Time Invested</span></div>
-      </div>
-    </div>
-
-    <!-- TODAY'S FOCUS -->
-    <div class="focus-section">
-      <div class="focus-header"><span>🎯</span><span class="focus-title">Today's Focus</span></div>
-      <div class="focus-list" id="todayFocus"></div>
-    </div>
-
-    <!-- MILESTONE 1 -->
-    <div class="milestone-section" id="m1">
-      <div class="milestone-header" onclick="toggleMilestone('m1')">
-        <div class="milestone-icon">📚</div>
-        <div class="milestone-info">
-          <div class="milestone-name">Milestone 1: Job Ready</div>
-          <div class="milestone-sub">8 weeks to your first $120K+ offer</div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <div class="streak-badge">
+          <i class="ph-fill ph-fire"></i> <span id="streakVal">0</span> days
         </div>
-        <div class="milestone-prog">
-          <div class="milestone-bar"><div class="milestone-bar-fill" id="m1Bar" style="width:0%;background:var(--blue)"></div></div>
-          <div class="milestone-pct-text" id="m1Pct">0%</div>
+        <button
+          class="mini-timer-btn icon-btn"
+          id="miniTimerBtn"
+          onclick="openTimer()"
+          style="width: auto; padding: 0 1rem; border-radius: 20px"
+        >
+          <i class="ph-bold ph-timer"></i>
+          <span id="miniTimerDisp" style="margin-left: 0.5rem">25:00</span>
+        </button>
+        <button class="icon-btn" onclick="openSettings()">
+          <i class="ph-bold ph-gear"></i>
+        </button>
+      </div>
+    </nav>
+
+    <div class="layout">
+      <aside class="sidebar" id="leftSidebar">
+        <button class="sidebar-toggle-btn" onclick="toggleLeftSidebar()">
+          <span class="sb-toggle-label">Collapse Menu</span>
+          <i class="ph-bold ph-caret-double-left" id="sbLeftIcon"></i>
+        </button>
+        <div class="sidebar-label">Milestones</div>
+        <div class="sidebar-item active" id="sideM1" onclick="scrollToId('m1')">
+          <div class="sidebar-title">
+            <i class="ph-fill ph-books sidebar-icon-only"></i
+            ><span class="sb-text">Job Ready</span>
+          </div>
+          <div class="sidebar-sub">8 weeks</div>
+          <div class="sidebar-pct" id="sideM1Pct">0%</div>
+          <div class="sidebar-bar">
+            <div
+              class="sidebar-bar-fill"
+              id="sideM1Bar"
+              style="width: 0%; background: var(--blue)"
+            ></div>
+          </div>
         </div>
-        <div class="milestone-toggle open" id="m1Toggle">▼</div>
-      </div>
-      <div class="milestone-body open" id="m1Body">
-        <div class="month-divider"><div class="month-badge">MONTH 01</div><div class="month-line"></div><div class="month-title-text">Backend & Database Foundation</div></div>
-        <div id="wc-w1"></div>
-        <div id="wc-w2"></div>
-        <div id="wc-w3"></div>
-        <div id="wc-w4"></div>
-        <div class="month-divider"><div class="month-badge">MONTH 02</div><div class="month-line"></div><div class="month-title-text">Cloud, Systems & Job Blitz</div></div>
-        <div id="wc-w5"></div>
-        <div id="wc-w6"></div>
-        <div id="wc-w7"></div>
-        <div id="wc-w8"></div>
-      </div>
-    </div>
-
-    <!-- MILESTONE 2 -->
-    <div class="milestone-section" id="m2">
-      <div class="milestone-header" onclick="toggleMilestone('m2')">
-        <div class="milestone-icon">🏆</div>
-        <div class="milestone-info">
-          <div class="milestone-name">Milestone 2: Senior Solid</div>
-          <div class="milestone-sub">4 months · $150K–$180K</div>
+        <div class="sidebar-item m2" id="sideM2" onclick="scrollToId('m2')">
+          <div class="sidebar-title">
+            <i class="ph-fill ph-trophy sidebar-icon-only"></i
+            ><span class="sb-text">Senior Solid</span>
+          </div>
+          <div class="sidebar-sub">4 months</div>
+          <div class="sidebar-pct" id="sideM2Pct">0%</div>
+          <div class="sidebar-bar">
+            <div
+              class="sidebar-bar-fill"
+              id="sideM2Bar"
+              style="width: 0%; background: var(--purple)"
+            ></div>
+          </div>
         </div>
-        <div class="milestone-prog">
-          <div class="milestone-bar"><div class="milestone-bar-fill" id="m2Bar" style="width:0%;background:var(--purple)"></div></div>
-          <div class="milestone-pct-text" id="m2Pct">0%</div>
+        <div class="sidebar-item m3" id="sideM3" onclick="scrollToId('m3')">
+          <div class="sidebar-title">
+            <i class="ph-fill ph-star sidebar-icon-only"></i
+            ><span class="sb-text">Staff Track</span>
+          </div>
+          <div class="sidebar-sub">6 months</div>
+          <div class="sidebar-pct" id="sideM3Pct">0%</div>
+          <div class="sidebar-bar">
+            <div
+              class="sidebar-bar-fill"
+              id="sideM3Bar"
+              style="width: 0%; background: var(--gold)"
+            ></div>
+          </div>
         </div>
-        <div class="milestone-toggle" id="m2Toggle">▼</div>
-      </div>
-      <div class="milestone-body" id="m2Body">
-        <div id="m2Content"></div>
-      </div>
-    </div>
+      </aside>
 
-    <!-- MILESTONE 3 -->
-    <div class="milestone-section" id="m3">
-      <div class="milestone-header" onclick="toggleMilestone('m3')">
-        <div class="milestone-icon">⭐</div>
-        <div class="milestone-info">
-          <div class="milestone-name">Milestone 3: Staff Track</div>
-          <div class="milestone-sub">6 months · $200K+ or $15–20K/mo consulting</div>
+      <main class="main" id="mainContent">
+        <div class="hero">
+          <h1 class="hero-title">React Native → Senior Engineer</h1>
+          <p class="hero-sub">
+            <i class="ph-bold ph-target"></i> 8 weeks to your first $120K+
+            remote offer. Build proof, not just projects.
+          </p>
+
+          <div class="stats-row">
+            <div class="stat-box glass-panel">
+              <span class="stat-val" id="totalDone">0</span>
+              <span class="stat-lbl">Tasks Done</span>
+            </div>
+            <div class="stat-box glass-panel">
+              <span class="stat-val" id="streakDisp" style="color: var(--gold)"
+                >0</span
+              >
+              <span class="stat-lbl">Day Streak</span>
+            </div>
+            <div class="stat-box glass-panel">
+              <span class="stat-val" id="sessDisp" style="color: var(--green)"
+                >0</span
+              >
+              <span class="stat-lbl">Focus Sessions</span>
+            </div>
+            <div class="stat-box glass-panel">
+              <span class="stat-val" id="timeDisp" style="color: var(--purple)"
+                >0h</span
+              >
+              <span class="stat-lbl">Time Invested</span>
+            </div>
+          </div>
         </div>
-        <div class="milestone-prog">
-          <div class="milestone-bar"><div class="milestone-bar-fill" id="m3Bar" style="width:0%;background:var(--gold)"></div></div>
-          <div class="milestone-pct-text" id="m3Pct">0%</div>
+
+        <div class="focus-section glass-panel">
+          <div class="focus-header">
+            <i
+              class="ph-fill ph-crosshair"
+              style="font-size: 1.8rem; color: var(--blue)"
+            ></i>
+            <span class="focus-title">Daily Standup (Today's Focus)</span>
+          </div>
+          <div class="focus-list" id="todayFocus"></div>
         </div>
-        <div class="milestone-toggle" id="m3Toggle">▼</div>
-      </div>
-      <div class="milestone-body" id="m3Body">
-        <div id="m3Content"></div>
-      </div>
-    </div>
 
-  </main><!-- /main -->
-</div><!-- /layout -->
-
-<!-- RIGHT SIDEBAR -->
-<aside class="right-sidebar" id="rightSidebar">
-  <button class="rside-toggle" onclick="toggleRightSidebar()">
-    <span class="rside-toggle-label">Job Search Progress</span>
-    <span id="rsideIcon">▶▶</span>
-  </button>
-  <!-- Mini (collapsed) view -->
-  <div class="jst-mini" id="jstMiniView">
-    <div class="jst-mini-row"><span class="jst-mini-val" id="jstMiniApp">0</span><span class="jst-mini-lbl">Apps</span></div>
-    <div class="jst-mini-row"><span class="jst-mini-val" id="jstMiniInt" style="color:var(--purple)">0</span><span class="jst-mini-lbl">Int</span></div>
-    <div class="jst-mini-row"><span class="jst-mini-val" id="jstMiniOff" style="color:var(--green)">0</span><span class="jst-mini-lbl">Offer</span></div>
-  </div>
-  <!-- Full view -->
-  <div class="jst-full">
-    <div class="jst-title">🎯 Job Search Progress</div>
-    <div class="jst-metric">
-      <div class="jst-label">Applications <span class="jst-target">/ 50</span></div>
-      <div class="jst-row">
-        <input class="jst-input" type="number" min="0" id="jstApp" value="0" oninput="updateJST('applications',this.value)">
-        <div class="jst-bar"><div class="jst-bar-fill" id="jstAppBar" style="width:0%"></div></div>
-      </div>
-    </div>
-    <div class="jst-metric">
-      <div class="jst-label">Interviews <span class="jst-target">/ 5</span></div>
-      <div class="jst-row">
-        <input class="jst-input" type="number" min="0" id="jstInt" value="0" oninput="updateJST('interviews',this.value)">
-        <div class="jst-bar"><div class="jst-bar-fill" id="jstIntBar" style="width:0%;background:var(--purple)"></div></div>
-      </div>
-    </div>
-    <div class="jst-metric">
-      <div class="jst-label">Offers <span class="jst-target">/ 1</span></div>
-      <div class="jst-row">
-        <input class="jst-input" type="number" min="0" id="jstOff" value="0" oninput="updateJST('offers',this.value)">
-        <div class="jst-bar"><div class="jst-bar-fill" id="jstOffBar" style="width:0%;background:var(--green)"></div></div>
-      </div>
-    </div>
-    <div class="jst-metric">
-      <div class="jst-label">Target Salary</div>
-      <div class="jst-row" style="gap:0.25rem;">
-        <span style="font-family:'JetBrains Mono',monospace;color:var(--txt3);">$</span>
-        <input class="jst-input" type="number" min="0" id="jstSal" style="width:110px;" value="130000" oninput="updateJST('targetSalary',this.value)">
-      </div>
-    </div>
-    <button class="jst-cta" onclick="applyThree()">Apply to 3 Jobs Today 🚀</button>
-    <div class="jst-divider"></div>
-    <div class="jst-section-title">Data</div>
-    <div class="data-controls">
-      <button class="data-btn" onclick="exportData()">📤 Export</button>
-      <button class="data-btn" onclick="document.getElementById('importInput').click()">📥 Import</button>
-      <button class="data-btn" style="color:var(--red)" onclick="confirmReset()">🗑 Reset</button>
-    </div>
-  </div>
-</aside>
-
-<!-- MOBILE BOTTOM NAV -->
-<nav class="mobile-bot-nav">
-  <div class="mob-tab active" onclick="scrollTo('m1');setMobActive(this)"><div class="mob-tab-icon">📚</div>M1</div>
-  <div class="mob-tab" onclick="scrollTo('m2');setMobActive(this)"><div class="mob-tab-icon">🏆</div>M2</div>
-  <div class="mob-tab" onclick="scrollTo('m3');setMobActive(this)"><div class="mob-tab-icon">⭐</div>M3</div>
-  <div class="mob-tab" onclick="openTimer()"><div class="mob-tab-icon">⏱️</div>Timer</div>
-</nav>
-
-<!-- FAB -->
-<button class="fab" onclick="openTimer()" title="Focus Timer">⏱️</button>
-
-<!-- NOTE MODAL -->
-<div class="modal-overlay" id="noteModal">
-  <div class="modal">
-    <div class="modal-title" id="noteTaskTitle">Task Note</div>
-    <textarea class="modal-textarea" id="noteText" placeholder="Add your note here..."></textarea>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeNote()">Cancel</button>
-      <button class="btn-primary" onclick="saveNote()">Save Note</button>
-    </div>
-  </div>
-</div>
-
-<!-- TIMER MODAL -->
-<div class="modal-overlay" id="timerModal">
-  <div class="modal">
-    <div class="modal-title">🍅 Focus Timer</div>
-    <div class="timer-display"><div class="timer-time" id="timerDisplay">25:00</div></div>
-    <div class="timer-controls">
-      <button class="timer-btn timer-start" id="timerStartBtn" onclick="toggleTimer()">Start</button>
-      <button class="timer-btn timer-reset" onclick="resetTimer()">Reset</button>
-      <button class="timer-btn timer-reset" onclick="closeTimer()">Close</button>
-    </div>
-  </div>
-</div>
-
-<!-- SETTINGS MODAL -->
-<div class="modal-overlay" id="settingsModal">
-  <div class="modal">
-    <div class="modal-title">⚙️ Settings</div>
-    <div style="margin:1rem 0;font-size:0.875rem;color:var(--txt2);">Start Date: <input type="date" id="startDateInput" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.6rem;color:var(--txt);margin-left:0.5rem;" onchange="saveStartDate(this.value)"></div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="closeSettings()">Done</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-<canvas id="confettiCanvas"></canvas>
-<script>
-// ═══════════════════════════════════════════════════
-//  DATA — MILESTONE 1 (Weeks 1-8)
-// ═══════════════════════════════════════════════════
-const M1_WEEKS = [
-  {
-    id:'w1',num:'WEEK 01',title:'PostgreSQL + Zonesso Migration',subtitle:'From MongoDB to relational thinking',color:'#6366f1',
-    interviewQ:'Design Uber\'s database schema for drivers, riders, trips, payments',
-    deliverable:'GitHub: zonesso-postgresql with Railway live URL + migration blog post',
-    goal:'Prove you can design relational databases',
-    timeEst:'6 hours',
-    mistakes:['Using ORM before writing raw SQL (you won\'t understand optimization)','Skipping EXPLAIN ANALYZE (you can\'t optimize what you can\'t measure)','Not indexing foreign keys (queries slow down at 10K+ rows)'],
-    tasks:[
-      {t:'Audit Zonesso MongoDB schema',time:'30m',why:'Documenting current state prevents migration disasters',links:[]},
-      {t:'Design PostgreSQL schema with relations',time:'1h',why:'Foreign keys enforce data integrity automatically',links:[]},
-      {t:'Write migration script Node.js',time:'2h',why:'Real migrations beat tutorials - shows production thinking',links:[]},
-      {t:'Build NestJS + Prisma API',time:'1.5h',why:'Prisma is 2026 standard for TypeScript backends',links:[{url:'https://docs.nestjs.com/recipes/prisma',tag:'Prisma',type:'docs'}]},
-      {t:'Add transactions for chat safety',time:'1h',why:'ACID prevents money-losing bugs in production',links:[]},
-      {t:'Write migration case study blog',time:'1h',why:'Public writing = interview talking points + recruiter visibility',links:[{url:'#',tag:'Blog',type:'blog'}]},
-      {t:'Deploy to Railway + update resume',time:'1h',why:'Live URL in resume gets 3x more callbacks',links:[{url:'https://railway.app/',tag:'Railway',type:'repo'}]},
-    ]
-  },
-  {
-    id:'w2',num:'WEEK 02',title:'Production API + Profile Optimization',subtitle:'JWT auth, rate limiting, LinkedIn presence',color:'#8b5cf6',
-    interviewQ:'Explain ACID properties and when you\'d sacrifice them for performance',
-    deliverable:'Optimized LinkedIn + resume with metrics + 10 job applications',
-    goal:'Become findable to recruiters',
-    timeEst:'7 hours',
-    mistakes:['Generic resume without metrics (looks like junior)','LinkedIn headline "React Native Developer" (too generic, no differentiation)','Waiting until "ready" to apply (you learn faster by interviewing)'],
-    tasks:[
-      {t:'Add indexing for Zonesso queries',time:'1h',why:'Slow queries kill user experience',links:[]},
-      {t:'Implement GraphQL API',time:'1.5h',why:'2026: REST is legacy, GraphQL/tRPC expected',links:[]},
-      {t:'Write Jest tests for critical paths',time:'1.5h',why:'No tests = no production code at senior level',links:[]},
-      {t:'Rewrite resume with STAR + metrics',time:'2h',why:'"Led chat for 10K users" beats "Built chat app"',links:[]},
-      {t:'Optimize LinkedIn headline',time:'1h',why:'Headline appears in search results - make it count',links:[]},
-      {t:'Create portfolio README',time:'1h',why:'Architecture diagrams in README impress hiring managers',links:[]},
-      {t:'Apply to 10 jobs',time:'1.5h',why:'Volume beats perfection - apply before you feel ready',links:[]},
-    ]
-  },
-  {
-    id:'w3',num:'WEEK 03',title:'AI Integration + JIFFL Enhancement',subtitle:'Ship AI features users actually use',color:'#10b981',
-    interviewQ:'How would you add AI to an existing app without breaking the bank?',
-    deliverable:'JIFFL with AI job matching + screen recording demo + 20 applications',
-    goal:'Ship AI feature that impresses in interviews',
-    timeEst:'7 hours',
-    mistakes:['Calling OpenAI from mobile (exposes API keys, $$$$)','No rate limiting (surprise $500 bill)','Caching nothing (repeated identical calls = wasted money)'],
-    tasks:[
-      {t:'OpenAI API with streaming SSE',time:'1.5h',why:'Streaming feels instant, users love it',links:[]},
-      {t:'Build AI job matching with embeddings',time:'1.5h',why:'Semantic search > keyword matching',links:[]},
-      {t:'Add rate limiting + cost alerts',time:'1h',why:'Production safety - set $50/day max',links:[]},
-      {t:'Screen record demo, post LinkedIn',time:'1h',why:'Social proof attracts recruiters',links:[]},
-      {t:'Apply to 10 more jobs',time:'1.5h',why:'Momentum matters - don\'t break rhythm',links:[]},
-      {t:'Follow up on Week 2 apps',time:'30m',why:'Follow-up emails get 20% response rate',links:[]},
-    ]
-  },
-  {
-    id:'w4',num:'WEEK 04',title:'AI at Scale + Application Blitz',subtitle:'Embeddings, semantic search, 30 apps',color:'#059669',
-    interviewQ:'Design a rate limiter for an AI API with cost controls',
-    deliverable:'Smart matching with RAG + pgvector + 30 total applications',
-    goal:'Architect AI systems that don\'t break under load',
-    timeEst:'7 hours',
-    mistakes:['Building microservices before you need them (start monolith)','No retry logic with exponential backoff (flaky failures)','Ignoring token costs until bill arrives (career-limiting move)'],
-    tasks:[
-      {t:'Add pgvector extension to PostgreSQL',time:'1.5h',why:'Vector search in existing DB = no new infrastructure',links:[]},
-      {t:'Implement semantic search for jobs',time:'1.5h',why:'Users find jobs they didn\'t know to search for',links:[]},
-      {t:'Build RAG: search docs before AI call',time:'1.5h',why:'Grounded answers reduce hallucinations 80%',links:[]},
-      {t:'Apply to 10 more jobs',time:'1.5h',why:'30 applications = statistical likelihood of interviews',links:[]},
-      {t:'2 phone screens from earlier apps',time:'1h',why:'Practice interviews are free learning',links:[]},
-      {t:'Document AI architecture decisions',time:'1h',why:'Architecture docs = senior engineer signal',links:[]},
-    ]
-  },
-  {
-    id:'w5',num:'WEEK 05',title:'AWS Foundations + Eco Crew Cloud',subtitle:'Deploy to production AWS infrastructure',color:'#f97316',
-    interviewQ:'Deploy a Node.js application to AWS with zero downtime',
-    deliverable:'Dockerized Eco Crew on EC2 + RDS + 40 applications',
-    goal:'Deploy to production with confidence',
-    timeEst:'8 hours',
-    mistakes:['Running database on EC2 instead of RDS (operational nightmare)','Using root AWS credentials (security incident waiting)','No CloudWatch alarms (you won\'t know when it breaks)'],
-    tasks:[
-      {t:'Dockerize Eco Crew backend',time:'1.5h',why:'Containers = works on my machine solved',links:[]},
-      {t:'AWS EC2 + RDS PostgreSQL',time:'1.5h',why:'RDS handles backups, patches, scaling',links:[]},
-      {t:'S3 for images + CloudFront CDN',time:'1.5h',why:'Global CDN = fast images worldwide',links:[]},
-      {t:'GitHub Actions CI/CD pipeline',time:'1.5h',why:'Automated deploys = no human error',links:[]},
-      {t:'Apply to 10 more jobs',time:'1.5h',why:'40 applications = 2-3 interview pipelines',links:[]},
-      {t:'1 technical interview scheduled',time:'1h',why:'Real interview > mock interview',links:[]},
-    ]
-  },
-  {
-    id:'w6',num:'WEEK 06',title:'AWS Mobile + Interview Mastery',subtitle:'Amplify, CI/CD, and mock interviews',color:'#ea580c',
-    interviewQ:'Set up CI/CD for a mobile team with backend API',
-    deliverable:'Full AWS pipeline + 3 mock interviews + 45 applications',
-    goal:'Master the interview process',
-    timeEst:'7 hours',
-    mistakes:['Manual deployments (error-prone, slow, scary)','No staging environment (production is not a playground)','Storing secrets in GitHub (rotate immediately)'],
-    tasks:[
-      {t:'SNS push notifications cross-platform',time:'1.5h',why:'One API for iOS + Android push',links:[]},
-      {t:'CloudWatch monitoring + alerts',time:'1h',why:'You can\'t fix what you can\'t see',links:[]},
-      {t:'Mock interview 1: System design',time:'1h',why:'Practice reduces anxiety 50%',links:[]},
-      {t:'Mock interview 2: React Native deep dive',time:'1h',why:'Know your 4 years experience cold',links:[]},
-      {t:'Apply to 5 more jobs',time:'1h',why:'45 total = strong pipeline',links:[]},
-      {t:'Prepare 4 STAR stories',time:'1h',why:'Behavioral questions = 50% of interview',links:[]},
-    ]
-  },
-  {
-    id:'w7',num:'WEEK 07',title:'System Design + RN Architecture',subtitle:'Design at scale, RN New Architecture deep dive',color:'#eab308',
-    interviewQ:'Design WhatsApp for 1 billion users',
-    deliverable:'Architecture diagrams + RN New Architecture + 50 applications',
-    goal:'Think like a staff engineer',
-    timeEst:'7 hours',
-    mistakes:['Designing for scale you don\'t have (premature optimization)','Ignoring offline-first (users hate loading spinners)','Not considering battery life (kills UX, gets app uninstalled)'],
-    tasks:[
-      {t:'Document Zonesso architecture (Excalidraw)',time:'1.5h',why:'Visual communication = senior skill',links:[]},
-      {t:'Design WhatsApp chat at scale',time:'1.5h',why:'Classic interview question - have answer ready',links:[]},
-      {t:'React Native New Architecture deep dive',time:'1.5h',why:'Fabric/JSI/TurboModules = 2026 must-know',links:[]},
-      {t:'Performance profiling with Flipper',time:'1.5h',why:'Optimize before they ask',links:[]},
-      {t:'Final 5 applications',time:'1h',why:'50 = target reached',links:[]},
-      {t:'Whiteboard 3 systems',time:'1h',why:'Muscle memory for interview day',links:[]},
-    ]
-  },
-  {
-    id:'w8',num:'WEEK 08',title:'Interview Blitz + Offer Negotiation',subtitle:'Deploy your career to production',color:'#ca8a04',
-    interviewQ:'Design a payment processing system and URL shortener',
-    deliverable:'$130K+ offer accepted',
-    goal:'Close the deal',
-    timeEst:'6 hours',
-    mistakes:['Accepting first offer (always negotiate)','Not having competing offers (leverage = $$$)','Ignoring total comp (base + equity + bonus)'],
-    tasks:[
-      {t:'Do 5 final mock interviews — record yourself, watch back',time:'2h',why:'Recording reveals filler words and hesitation you can\'t hear live',links:[]},
-      {t:'Research salary bands on levels.fyi for target companies',time:'1h',why:'Data wins negotiations — "I\'ve seen similar roles at $150K"',links:[]},
-      {t:'Negotiate every offer: ask for $15-20K above what you want',time:'1h',why:'Worst they say is no — but usually they meet in the middle',links:[]},
-      {t:'Choose the right offer: comp, culture, tech stack, growth',time:'30m',why:'The company you join shapes the next 3 years of your career',links:[]},
-      {t:'Post your win on LinkedIn — inspire others',time:'30m',why:'Your story will help the next person on this roadmap',links:[]},
-    ]
-  }
-];
-
-const W8_CHECKLIST = [
-  {id:'w8c1',text:'50 job applications sent',desc:'Tracked in Job Search Progress'},
-  {id:'w8c2',text:'5+ interviews completed',desc:''},
-  {id:'w8c3',text:'2+ offers received',desc:''},
-  {id:'w8c4',text:'GitHub: zonesso-postgresql',desc:'live URL, README, blog post'},
-  {id:'w8c5',text:'GitHub: jiffl-ai-matching',desc:'demo video, AI feature'},
-  {id:'w8c6',text:'GitHub: ecocrew-aws',desc:'Docker, CI/CD, deployed'},
-  {id:'w8c7',text:'AWS Cloud Practitioner certification',desc:''},
-  {id:'w8c8',text:'3 Excalidraw architecture diagrams',desc:''},
-  {id:'w8c9',text:'4 STAR stories practiced',desc:'Conflict, failure, leadership, success'},
-  {id:'w8c10',text:'Resume with metrics',desc:'"50K+ users", "30% engagement", "30% size reduction"'},
-  {id:'w8c11',text:'LinkedIn optimized',desc:'With featured projects'},
-  {id:'w8c12',text:'Salary negotiated',desc:'$120K target → $130K+ accepted'},
-];
-
-// MILESTONE 2
-const M2_MONTHS = [
-  {id:'m2m3',label:'MONTH 3',name:'Deepen Backend & Cloud',sub:'Kubernetes, Terraform, advanced PostgreSQL',output:'Lead backend migration at work',tasks:[
-    {t:'Kubernetes basics: pods, services, deployments, namespaces',time:'3h',atWork:true},
-    {t:'Set up local K8s cluster with Minikube or Kind',time:'2h',atWork:true},
-    {t:'Terraform basics: provision AWS VPC, EC2, RDS with code',time:'3h',atWork:true},
-    {t:'Advanced PostgreSQL: partitioning, replication, read replicas',time:'4h',atWork:true},
-    {t:'Deploy application to EKS with Terraform modules',time:'4h',atWork:true},
-  ]},
-  {id:'m2m4',label:'MONTH 4',name:'Advanced AI/ML',sub:'Vector DBs, fine-tuning, multi-modal AI',output:'Ship an AI feature at work',tasks:[
-    {t:'Set up Pinecone or Weaviate vector database for production',time:'2h',atWork:true},
-    {t:'Generate and store embeddings for your product\'s data',time:'2h',atWork:true},
-    {t:'Build semantic search API — replace keyword search',time:'3h',atWork:true},
-    {t:'Learn fine-tuning: when to fine-tune vs prompt engineer',time:'4h',atWork:true},
-    {t:'Explore multi-modal AI: vision + text in one pipeline',time:'3h',atWork:true},
-  ]},
-  {id:'m2m5',label:'MONTH 5',name:'System Design Mastery',sub:'DDIA, AWS SA cert, open source contributions',output:'Give a tech talk at your company or a meetup',tasks:[
-    {t:'Read DDIA Chapters 1-9 (schedule 1 chapter per 3 days)',time:'8h',atWork:false},
-    {t:'AWS Solutions Architect Associate course (study for exam)',time:'15h',atWork:true},
-    {t:'Take the AWS SAA-C03 exam',time:'3h',atWork:false},
-    {t:'Contribute a meaningful PR to NestJS, Prisma, or React Native',time:'6h',atWork:false},
-    {t:'Prepare and deliver a tech talk (30+ min)',time:'4h',atWork:true},
-  ]},
-  {id:'m2m6',label:'MONTH 6',name:'Leadership & Visibility',sub:'Mentor, blog, build technical reputation',output:'10 blog posts + 1000+ LinkedIn followers',tasks:[
-    {t:'Mentor 1-2 junior developers (weekly 1:1 sessions)',time:'8h',atWork:true},
-    {t:'Write 4 technical blog posts (1 per week)',time:'10h',atWork:false},
-    {t:'Build LinkedIn presence: 3 posts per week on RN/AI topics',time:'6h',atWork:false},
-    {t:'Lead sprint planning and conduct thorough code reviews',time:'4h',atWork:true},
-    {t:'Present architecture review to your team',time:'4h',atWork:true},
-  ]},
-];
-
-// MILESTONE 3
-const M3_STAFF = [
-  {phase:'Phase 1: Month 7-8',sub:'Domain Expertise',badge:'staff',tasks:[
-    {t:'Pick one deep specialization: distributed systems, mobile at scale, or AI/ML engineering',time:'1h'},
-    {t:'Build a reference implementation in your domain (open source)',time:'20h'},
-    {t:'Write 4 deep technical posts on your specialization',time:'8h'},
-    {t:'Speak at a meetup or conference',time:'5h'},
-    {t:'Get AWS Solutions Architect Professional (if not already)',time:'20h'},
-  ],output:'Known as "the expert" in your domain at work and on social'},
-  {phase:'Phase 2: Month 9-10',sub:'Architecture Impact',badge:'staff',tasks:[
-    {t:'Lead company-wide architectural decision (ADR document)',time:'10h'},
-    {t:'Design cross-team technical roadmap for 6-12 months',time:'8h'},
-    {t:'Introduce engineering standards: code review rubric, ADR template',time:'5h'},
-    {t:'Mentor 3+ engineers — track their growth',time:'12h'},
-    {t:'Interview for Staff roles at FAANG-adjacent companies',time:'10h'},
-  ],output:'Staff Engineer or Principal Engineer at current or new company'},
-  {phase:'Phase 3: Month 11-12',sub:'$200K+ Negotiation',badge:'staff',tasks:[
-    {t:'Negotiate Staff offer using competing offers (levels.fyi data)',time:'2h'},
-    {t:'Evaluate total comp: equity, bonus, growth potential',time:'2h'},
-    {t:'Build advisory relationships with 3+ CTOs / VPs',time:'5h'},
-    {t:'Start speaking at major conferences (ReactConf, AWS re:Invent)',time:'10h'},
-    {t:'Define 3-year technical vision and share publicly',time:'3h'},
-  ],output:'$200K+ Staff Engineer offer signed'},
-];
-
-const M3_CONSULTANT = [
-  {phase:'Phase 1: Month 7-8',sub:'Find Your Niche',badge:'consultant',tasks:[
-    {t:'Pick a profitable niche: React Native + AI, or RN + fintech, or RN + healthcare',time:'2h'},
-    {t:'Create a services landing page (Framer or Webflow)',time:'4h'},
-    {t:'Write 3 detailed case studies from past projects',time:'6h'},
-    {t:'Set your rate: aim for $150-200/hr for React Native expertise',time:'1h'},
-    {t:'Get first 2 clients from your LinkedIn network',time:'8h'},
-  ],output:'First consulting contract signed — $150+/hr'},
-  {phase:'Phase 2: Month 9-10',sub:'Land $10K/mo',badge:'consultant',tasks:[
-    {t:'Raise rates to $175/hr after first 2 clients',time:'0.5h'},
-    {t:'Build a client pipeline: 5 prospects always in conversation',time:'4h/mo'},
-    {t:'Create a productized service: "React Native performance audit — $3K"',time:'5h'},
-    {t:'Get 2 retainer clients ($3-5K/mo each)',time:'8h'},
-    {t:'Hire a VA ($500/mo) to handle scheduling and invoicing',time:'2h'},
-  ],output:'$10K/mo revenue achieved'},
-  {phase:'Phase 3: Month 11-12',sub:'Scale to $15-20K/mo',badge:'consultant',tasks:[
-    {t:'Build an async service offering (code review, architecture review)',time:'5h'},
-    {t:'Create a group coaching program or course ($500-2K/person)',time:'20h'},
-    {t:'Hire 1-2 subcontractors to expand capacity',time:'5h'},
-    {t:'Speak at conferences to generate inbound leads',time:'10h'},
-    {t:'Automate client onboarding and reporting',time:'5h'},
-  ],output:'$15-20K/mo sustainable consulting business'},
-];
-
-// ═══════════════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════════════
-const SKEY = 'rn_roadmap_spa_v1';
-let S;
-
-function defaultState(){
-  return {
-    m1_tasks:{},m1_notes:{},m1_custom:{},m1_collapsed:{},m1_done:{},
-    w8_checklist:{},
-    m2_tasks:{},m2_collapsed:{},
-    m3_tasks:{},m3_path:'staff',
-    milestones_collapsed:{m2:true,m3:true},
-    jobSearch:{applications:0,interviews:0,offers:0,targetSalary:130000},
-    streak:0,lastStudy:null,sessions:0,timerSecs:1500,startDate:null,
-    best_streak:0,celebrations_seen:[],
-    sidebar_left_collapsed:false,sidebar_right_collapsed:false,
-    version:1
-  };
-}
-function loadState(){
-  try{
-    const raw=localStorage.getItem(SKEY);
-    if(raw){const p=JSON.parse(raw);S={...defaultState(),...p};return;}
-  }catch(e){}
-  S=defaultState();
-}
-function save(){
-  try{localStorage.setItem(SKEY,JSON.stringify(S));}catch(e){}
-}
-
-// ═══════════════════════════════════════════════════
-//  RENDER — WEEK CARDS (M1)
-// ═══════════════════════════════════════════════════
-function renderM1(){
-  M1_WEEKS.forEach(w=>renderWeekCard(w));
-}
-
-function renderWeekCard(w){
-  const el=document.getElementById('wc-'+w.id);
-  if(!el)return;
-  const tasks=w.tasks;
-  const done=tasks.filter((_,i)=>S.m1_tasks[w.id+'_'+i]).length;
-  const custom=S.m1_custom[w.id]||[];
-  const custDone=custom.filter(c=>c.done).length;
-  const total=tasks.length+custom.length;
-  const totalDone=done+custDone;
-  const pct=total>0?Math.round(totalDone/total*100):0;
-  const collapsed=S.m1_collapsed[w.id];
-
-  let linksHtml=(links)=>links?links.map(l=>`<a href="${l.url}" target="_blank" class="task-res res-${l.type}">${l.tag}</a>`).join(''):'';
-
-  let tasksHtml=tasks.map((t,i)=>{
-    const key=w.id+'_'+i;
-    const done=S.m1_tasks[key];
-    const hasNote=S.m1_notes[key] && S.m1_notes[key].trim() !== '';
-    const projHtml=t.proj?`<div class="proj-ref"><span class="proj-name">🔗 ${t.proj.name}</span><span class="proj-metric">${t.proj.metric}</span></div>`:'';
-    
-    // Exact requested structure
-    return `<div class="task-item${done?' done':''}" onclick="toggleTask('${key}','m1')">
-  <div class="task-check task-cb${done?' checked':''}"></div>
-  <div class="task-content">
-    ${projHtml}
-    <div class="task-text">${t.t}</div>
-    <div class="task-meta">
-      <span class="task-time">${t.time}</span>
-      ${t.why?`<span class="task-why" title="${t.why.replace(/"/g,'&quot;')}">ⓘ</span>`:''}
-      <button class="task-note-btn${hasNote?' has-note':''}" onclick="openNote('${key}','${t.t.replace(/'/g,"&#39;")}',event)">💬</button>
-      ${t.links?linksHtml(t.links):''}
-    </div>
-  </div>
-</div>`;
-  }).join('');
-
-  let customHtml=custom.map((c,i)=>`
-    <div class="custom-task">
-      <div class="custom-cb${c.done?' checked':''}" onclick="toggleCustom('${w.id}',${i},event)"></div>
-      <span style="flex:1;font-size:0.8rem;${c.done?'text-decoration:line-through;color:var(--txt3)':''}">${c.text}</span>
-      <button class="custom-del" onclick="delCustom('${w.id}',${i},event)">×</button>
-    </div>`).join('');
-
-  let mistakesHtml=w.mistakes.map(m=>`<li>${m}</li>`).join('');
-
-  el.innerHTML=`<div class="week-card">
-    <div class="week-card-top" style="background:${w.color}"></div>
-    <div class="wc-header" onclick="toggleWeek('${w.id}')">
-      <div class="wc-left">
-        <div class="wc-num" style="color:${w.color}">${w.num}</div>
-        <div class="wc-title">${w.title}</div>
-        <div class="wc-subtitle">${w.subtitle}</div>
-      </div>
-      <div class="wc-right">
-        <div class="wc-prog-row">
-          <div class="wc-prog-bar"><div class="wc-prog-fill" style="width:${pct}%;background:${w.color}"></div></div>
-          <span class="wc-pct">${pct}%</span>
+        <div class="milestone-section" id="m1">
+          <div
+            class="milestone-header glass-panel m1-header"
+            onclick="toggleMilestone('m1')"
+          >
+            <div class="milestone-icon"><i class="ph-fill ph-books"></i></div>
+            <div class="milestone-info">
+              <div class="milestone-name">Milestone 1: Job Ready</div>
+              <div class="milestone-sub">Weeks 1-8 · Target: $120K+ Offer</div>
+            </div>
+            <div class="milestone-prog">
+              <div class="milestone-pct-text" id="m1Pct">0%</div>
+              <div class="milestone-bar">
+                <div
+                  class="milestone-bar-fill"
+                  id="m1Bar"
+                  style="
+                    width: 0%;
+                    background: var(--blue);
+                    box-shadow: 0 0 10px var(--blue-glow);
+                  "
+                ></div>
+              </div>
+            </div>
+            <i
+              class="ph-bold ph-caret-down milestone-toggle open"
+              id="m1Toggle"
+            ></i>
+          </div>
+          <div class="milestone-body open" id="m1Body">
+            <div id="wc-w1"></div>
+            <div id="wc-w2"></div>
+            <div id="wc-w3"></div>
+            <div id="wc-w4"></div>
+            <div id="wc-w5"></div>
+            <div id="wc-w6"></div>
+            <div id="wc-w7"></div>
+            <div id="wc-w8"></div>
+          </div>
         </div>
-        <span class="wc-arrow${collapsed?'':' open'}">▲</span>
-      </div>
+
+        <div class="milestone-section" id="m2">
+          <div
+            class="milestone-header glass-panel m2-header"
+            onclick="toggleMilestone('m2')"
+          >
+            <div class="milestone-icon"><i class="ph-fill ph-trophy"></i></div>
+            <div class="milestone-info">
+              <div class="milestone-name">Milestone 2: Senior Solid</div>
+              <div class="milestone-sub">Months 3-6 · Post-hire growth</div>
+            </div>
+            <div class="milestone-prog">
+              <div class="milestone-pct-text" id="m2Pct">0%</div>
+              <div class="milestone-bar">
+                <div
+                  class="milestone-bar-fill"
+                  id="m2Bar"
+                  style="
+                    width: 0%;
+                    background: var(--purple);
+                    box-shadow: 0 0 10px var(--purple-glow);
+                  "
+                ></div>
+              </div>
+            </div>
+            <i class="ph-bold ph-caret-down milestone-toggle" id="m2Toggle"></i>
+          </div>
+          <div class="milestone-body" id="m2Body">
+            <div
+              id="m2Content"
+              style="padding: 2rem; text-align: center; color: var(--txt3)"
+            >
+              Content loads here...
+            </div>
+          </div>
+        </div>
+
+        <div class="milestone-section" id="m3">
+          <div
+            class="milestone-header glass-panel m3-header"
+            onclick="toggleMilestone('m3')"
+          >
+            <div class="milestone-icon"><i class="ph-fill ph-star"></i></div>
+            <div class="milestone-info">
+              <div class="milestone-name">Milestone 3: Staff Track</div>
+              <div class="milestone-sub">Months 7-12 · Scale to $200K+</div>
+            </div>
+            <div class="milestone-prog">
+              <div class="milestone-pct-text" id="m3Pct">0%</div>
+              <div class="milestone-bar">
+                <div
+                  class="milestone-bar-fill"
+                  id="m3Bar"
+                  style="
+                    width: 0%;
+                    background: var(--gold);
+                    box-shadow: 0 0 10px var(--gold-glow);
+                  "
+                ></div>
+              </div>
+            </div>
+            <i class="ph-bold ph-caret-down milestone-toggle" id="m3Toggle"></i>
+          </div>
+          <div class="milestone-body" id="m3Body">
+            <div
+              id="m3Content"
+              style="padding: 2rem; text-align: center; color: var(--txt3)"
+            >
+              Content loads here...
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <aside class="right-sidebar" id="rightSidebar">
+        <button class="rside-toggle" onclick="toggleRightSidebar()">
+          <span class="rside-toggle-label">Job Radar</span>
+          <i class="ph-bold ph-caret-double-right" id="rsideIcon"></i>
+        </button>
+
+        <div class="jst-mini" id="jstMiniView">
+          <div class="jst-mini-row">
+            <span class="jst-mini-val" id="jstMiniApp">0</span
+            ><span class="jst-mini-lbl">Apps</span>
+          </div>
+          <div class="jst-mini-row">
+            <span
+              class="jst-mini-val"
+              style="color: var(--purple)"
+              id="jstMiniInt"
+              >0</span
+            ><span class="jst-mini-lbl">Int</span>
+          </div>
+          <div class="jst-mini-row">
+            <span
+              class="jst-mini-val"
+              style="color: var(--green)"
+              id="jstMiniOff"
+              >0</span
+            ><span class="jst-mini-lbl">Off</span>
+          </div>
+        </div>
+
+        <div
+          class="jst-full glass-panel"
+          style="
+            border-radius: var(--radius-lg);
+            background: rgba(20, 22, 28, 0.4);
+          "
+        >
+          <div class="jst-title">
+            <i class="ph-fill ph-radar"></i> Offer Radar
+          </div>
+
+          <div class="jst-metric">
+            <div class="jst-label">
+              Applications <span class="jst-target">Goal: 50</span>
+            </div>
+            <div class="jst-row">
+              <input
+                class="jst-input"
+                type="number"
+                min="0"
+                id="jstApp"
+                value="0"
+                oninput="updateJST('applications', this.value)"
+              />
+              <div class="jst-bar">
+                <div
+                  class="jst-bar-fill"
+                  id="jstAppBar"
+                  style="width: 0%; box-shadow: 0 0 8px var(--blue-glow)"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="jst-metric">
+            <div class="jst-label">
+              Interviews <span class="jst-target">Goal: 5</span>
+            </div>
+            <div class="jst-row">
+              <input
+                class="jst-input"
+                type="number"
+                min="0"
+                id="jstInt"
+                value="0"
+                oninput="updateJST('interviews', this.value)"
+              />
+              <div class="jst-bar">
+                <div
+                  class="jst-bar-fill"
+                  style="
+                    background: var(--purple);
+                    box-shadow: 0 0 8px var(--purple-glow);
+                  "
+                  id="jstIntBar"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="jst-metric">
+            <div class="jst-label">
+              Offers <span class="jst-target">Goal: 1</span>
+            </div>
+            <div class="jst-row">
+              <input
+                class="jst-input"
+                type="number"
+                min="0"
+                id="jstOff"
+                value="0"
+                oninput="updateJST('offers', this.value)"
+              />
+              <div class="jst-bar">
+                <div
+                  class="jst-bar-fill"
+                  style="
+                    background: var(--green);
+                    box-shadow: 0 0 8px var(--green-glow);
+                  "
+                  id="jstOffBar"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <button class="jst-cta" onclick="applyThree()">
+            <i class="ph-bold ph-paper-plane-tilt"></i> Log 3 Applications
+          </button>
+        </div>
+      </aside>
     </div>
-    <div class="wc-body${collapsed?' hidden':''}">
-      <div class="wc-meta">
-        <div class="interview-box"><div class="interview-title">💬 Interview Question You'll Ace</div><div class="interview-text">${w.interviewQ}</div></div>
-        <div class="deliverable-box"><div class="deliverable-title">🎯 Specific Output</div><div class="deliverable-text">${w.deliverable}</div></div>
-        <div class="goal-box"><div class="goal-title">⭐ Week Goal</div><div class="goal-text">${w.goal}</div></div>
+
+    <nav class="mobile-bot-nav">
+      <div
+        class="mob-tab active"
+        onclick="
+          scrollToId('m1')
+          setMobActive(this)
+        "
+      >
+        <i class="ph-fill ph-books"></i><span>Job Ready</span>
       </div>
-      <div class="task-list">${tasksHtml}</div>
-      <div class="mistakes-box"><div class="mistakes-title">⚠️ Avoid These Mistakes</div><ul class="mistakes-list">${mistakesHtml}</ul></div>
-      <div class="custom-section">
-        <div class="custom-title">Custom Tasks</div>
-        ${customHtml}
-        <div class="add-task-row">
-          <input class="add-task-input" id="addInp-${w.id}" type="text" placeholder="Add custom task..." onkeydown="if(event.key==='Enter')addCustom('${w.id}')">
-          <button class="add-task-btn" onclick="addCustom('${w.id}')">Add</button>
+      <div
+        class="mob-tab"
+        onclick="
+          scrollToId('m2')
+          setMobActive(this)
+        "
+      >
+        <i class="ph-fill ph-trophy"></i><span>Senior</span>
+      </div>
+      <div
+        class="mob-tab"
+        onclick="
+          scrollToId('m3')
+          setMobActive(this)
+        "
+      >
+        <i class="ph-fill ph-star"></i><span>Staff</span>
+      </div>
+    </nav>
+
+    <div class="modal-overlay" id="timerModal">
+      <div class="modal" style="text-align: center">
+        <div class="modal-title" style="justify-content: center">
+          <i class="ph-fill ph-hourglass-high" style="color: var(--blue)"></i>
+          Deep Work Timer
+        </div>
+        <div class="timer-display">
+          <div class="timer-time" id="timerDisplayLg">25:00</div>
+        </div>
+        <div class="timer-controls">
+          <button
+            class="btn-primary"
+            id="timerStartBtn"
+            onclick="toggleTimer()"
+          >
+            Start Focus
+          </button>
+          <button class="btn-secondary" onclick="resetTimer()">
+            <i class="ph-bold ph-arrow-counter-clockwise"></i>
+          </button>
+          <button class="btn-secondary" onclick="closeTimer()">
+            <i class="ph-bold ph-x"></i>
+          </button>
         </div>
       </div>
-      ${w.id==='w8'?renderW8Checklist():''}
-      <div class="wc-footer">
-        <span class="wc-time">⏱ ${w.timeEst}</span>
-        <button class="btn-done${S.m1_done[w.id]?' marked':''}" onclick="markWeekDone('${w.id}',event)">${S.m1_done[w.id]?'✓ Done!':'Mark Done'}</button>
+    </div>
+
+    <div class="modal-overlay" id="noteModal">
+      <div class="modal">
+        <div class="modal-title" id="noteTaskTitle">
+          <i class="ph-fill ph-note-pencil"></i> Notes
+        </div>
+        <textarea
+          class="modal-textarea"
+          id="noteText"
+          placeholder="Jot down key takeaways, bugs faced, or commands to remember..."
+        ></textarea>
+        <div class="modal-actions">
+          <button class="btn-secondary" onclick="closeNote()">Cancel</button>
+          <button class="btn-primary" onclick="saveNote()">Save Note</button>
+        </div>
       </div>
     </div>
-  </div>`;
-}
 
-function renderW8Checklist(){
-  const done=W8_CHECKLIST.filter(c=>S.w8_checklist[c.id]).length;
-  const pct=Math.round(done/W8_CHECKLIST.length*100);
-  const items=W8_CHECKLIST.map(c=>{
-    const chk=S.w8_checklist[c.id];
-    return `<div class="w8-item${chk?' done':''}" onclick="toggleW8('${c.id}')">
-      <div class="w8-cb"></div>
-      <div><div class="w8-text">${c.text}</div><div class="w8-desc">${c.desc}</div></div>
-    </div>`;
-  }).join('');
-  return `<div class="w8-checklist">
-    <div class="w8-title">🏁 Job Readiness Checklist</div>
-    <div class="w8-prog-row"><div class="w8-bar"><div class="w8-bar-fill" style="width:${pct}%"></div></div><span class="w8-pct">${pct}%</span></div>
-    <div class="w8-grid">${items}</div>
-  </div>`;
-}
-
-// ═══════════════════════════════════════════════════
-//  RENDER — MILESTONE 2
-// ═══════════════════════════════════════════════════
-function renderM2(){
-  const el=document.getElementById('m2Content');
-  if(!el)return;
-  let html=M2_MONTHS.map(m=>{
-    const collapsed=S.m2_collapsed[m.id];
-    const done=m.tasks.filter((_,i)=>S.m2_tasks[m.id+'_'+i]).length;
-    const pct=Math.round(done/m.tasks.length*100);
-    const taskRows=m.tasks.map((t,i)=>{
-      const key=m.id+'_'+i;
-      const chk=S.m2_tasks[key];
-      return `<div class="m2-task${chk?' done':''}" onclick="toggleM2Task('${key}')">
-        <div class="m2-cb${chk?' checked':''}"></div>
-        <div class="m2-task-text" style="flex:1">${t.t}${t.atWork?'<span class="at-work-badge">Apply at Work</span>':''}</div>
-        <span class="task-time-badge">⏱ ${t.time}</span>
-      </div>`;
-    }).join('');
-    return `<div class="month-card">
-      <div class="month-card-header" onclick="toggleM2Month('${m.id}')">
-        <div class="month-badge">${m.label}</div>
-        <div class="month-info"><div class="month-name">${m.name}</div><div class="month-sub">${m.sub}</div></div>
-        <span style="color:var(--txt3)">${collapsed?'▼':'▲'}</span>
-      </div>
-      <div class="month-body${collapsed?' hidden':''}">
-        <div class="month-prog-bar-wrap">
-          <div class="month-prog-bar"><div class="month-prog-fill" style="width:${pct}%"></div></div>
-          <div class="month-prog-label">${done}/${m.tasks.length} tasks (${pct}%)</div>
+    <div class="modal-overlay" id="settingsModal">
+      <div class="modal">
+        <div class="modal-title">
+          <i class="ph-fill ph-gear"></i> Data & Settings
         </div>
-        ${taskRows}
-        <div style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:8px;padding:0.75rem;margin-top:1rem;font-size:0.8rem;color:var(--purple);">📦 Output: ${m.output}</div>
+        <div style="display: flex; flex-direction: column; gap: 1rem">
+          <button class="btn-secondary" onclick="exportData()">
+            <i class="ph-bold ph-download-simple"></i> Export Backup (JSON)
+          </button>
+          <button
+            class="btn-secondary"
+            onclick="document.getElementById('importInput').click()"
+          >
+            <i class="ph-bold ph-upload-simple"></i> Import Backup
+          </button>
+          <button
+            class="btn-secondary"
+            style="color: var(--red); border-color: var(--red)"
+            onclick="confirmReset()"
+          >
+            <i class="ph-bold ph-trash"></i> Reset All Progress
+          </button>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-primary" onclick="closeSettings()">Close</button>
+        </div>
       </div>
-    </div>`;
-  }).join('');
-  el.innerHTML=html;
-}
+    </div>
 
-// ═══════════════════════════════════════════════════
-//  RENDER — MILESTONE 3
-// ═══════════════════════════════════════════════════
-function renderM3(){
-  const el=document.getElementById('m3Content');
-  if(!el)return;
-  const path=S.m3_path;
-  const phases=path==='staff'?M3_STAFF:M3_CONSULTANT;
-  const color=path==='staff'?'var(--gold)':'var(--cyan)';
-
-  let html=`<div class="path-toggle">
-    <button class="path-btn${path==='staff'?' active staff':''}" onclick="setM3Path('staff')">⭐ Staff Engineer</button>
-    <button class="path-btn${path==='consultant'?' active consultant':''}" onclick="setM3Path('consultant')">💼 Independent Consultant</button>
-  </div>`;
-
-  html+=phases.map((ph,pi)=>{
-    const taskRows=ph.tasks.map((t,ti)=>{
-      const key=`m3_${path}_${pi}_${ti}`;
-      const chk=S.m3_tasks[key];
-      return `<div class="m3-task${chk?' done':''}" onclick="toggleM3Task('${key}')">
-        <div class="m3-cb${chk?' checked':''}"></div>
-        <div class="m3-task-text" style="flex:1">${t.t}</div>
-        <span class="task-time-badge">⏱ ${t.time}</span>
-      </div>`;
-    }).join('');
-    return `<div class="m3-phase">
-      <div class="m3-phase-header">
-        <span class="m3-phase-badge ${ph.badge}">${ph.phase}</span>
-        <span style="color:var(--txt3);font-size:0.85rem;">${ph.sub}</span>
+    <div
+      class="cmd-palette-overlay"
+      id="cmdPalette"
+      onclick="if (event.target === this) closeCmd()"
+    >
+      <div class="cmd-modal">
+        <div class="cmd-input-wrap">
+          <i class="ph-bold ph-magnifying-glass"></i>
+          <input
+            type="text"
+            class="cmd-input"
+            id="cmdInput"
+            placeholder="Type a command or search..."
+            autocomplete="off"
+          />
+        </div>
+        <div class="cmd-list" id="cmdList"></div>
       </div>
-      ${taskRows}
-      <div class="m3-output">📦 ${ph.output}</div>
-    </div>`;
-  }).join('');
+    </div>
 
-  el.innerHTML=html;
-}
+    <div class="quick-fab-container" id="quickFab">
+      <div class="quick-fab-menu">
+        <button
+          class="fab-action"
+          onclick="
+            applyThree()
+            toggleFab()
+          "
+        >
+          <i class="ph-bold ph-paper-plane-tilt"></i> Log 3 Job Apps
+        </button>
+        <button
+          class="fab-action"
+          onclick="
+            openTimer()
+            toggleFab()
+          "
+        >
+          <i class="ph-bold ph-timer"></i> Start Deep Work
+        </button>
+        <button
+          class="fab-action"
+          onclick="
+            openSettings()
+            toggleFab()
+          "
+        >
+          <i class="ph-bold ph-calendar-plus"></i> Set Start Date
+        </button>
+      </div>
+      <button class="fab-main" onclick="toggleFab()">
+        <i class="ph-bold ph-plus"></i>
+      </button>
+    </div>
 
-// ═══════════════════════════════════════════════════
-//  RENDER — TODAY'S FOCUS
-// ═══════════════════════════════════════════════════
-function renderFocus(){
-  const el=document.getElementById('todayFocus');
-  if(!el)return;
-  let items=[];
-  M1_WEEKS.forEach(w=>{
-    w.tasks.forEach((t,i)=>{
-      const key=w.id+'_'+i;
-      items.push({key,text:t.t,done:!!S.m1_tasks[key],week:w.num});
-    });
-  });
-  const undone=items.filter(i=>!i.done).slice(0,5);
-  if(undone.length===0){
-    el.innerHTML='<div class="focus-empty">🎉 You\'re caught up! Start Milestone 2.</div>';
-  }else{
-    el.innerHTML=undone.map(i=>`<div class="focus-item">
-      <div class="focus-check${i.done?' done':''}"></div>
-      <span style="flex:1">${i.text}</span>
-      <span style="font-size:0.7rem;color:var(--txt3)">${i.week}</span>
-    </div>`).join('');
-  }
-}
+    <div class="toast" id="toast">
+      <i class="ph-bold ph-check-circle"></i> <span id="toastMsg">Success</span>
+    </div>
+    <canvas id="confettiCanvas"></canvas>
 
-// ═══════════════════════════════════════════════════
-//  STATS
-// ═══════════════════════════════════════════════════
-function updateStats(){
-  // M1
-  const m1Tasks=M1_WEEKS.reduce((s,w)=>s+w.tasks.length,0);
-  const m1Custom=Object.values(S.m1_custom).reduce((s,a)=>s+a.length,0);
-  const m1Done=Object.values(S.m1_tasks).filter(Boolean).length;
-  const m1CustDone=Object.values(S.m1_custom).reduce((s,a)=>s+a.filter(c=>c.done).length,0);
-  const w8Done=W8_CHECKLIST.filter(c=>S.w8_checklist[c.id]).length;
-  const m1Total=m1Tasks+m1Custom+W8_CHECKLIST.length;
-  const m1TotalDone=m1Done+m1CustDone+w8Done;
-  const m1Pct=m1Total>0?Math.round(m1TotalDone/m1Total*100):0;
+    <script>
+      // --- DATA: MILESTONE 1 (Job Ready) ---
+      const M1_WEEKS = [
+        {
+          id: "w1",
+          num: "WEEK 01",
+          title: "PostgreSQL + Zonesso Migration",
+          subtitle: "From MongoDB to relational thinking",
+          color: "var(--w1)",
+          interviewQ:
+            "Design Uber's database schema for drivers, riders, trips, payments",
+          deliverable: "GitHub: zonesso-postgresql with Railway live URL",
+          mistakes: [
+            "Using ORM before writing raw SQL",
+            "Skipping EXPLAIN ANALYZE",
+            "Not indexing foreign keys",
+          ],
+          tasks: [
+            {
+              t: "Audit Zonesso MongoDB schema",
+              time: "30m",
+              why: "Documenting current state prevents migration disasters",
+            },
+            {
+              t: "Design PostgreSQL schema with relations",
+              time: "1h",
+              why: "Foreign keys enforce data integrity",
+            },
+            {
+              t: "Write migration script Node.js",
+              time: "2h",
+              why: "Real migrations show production thinking",
+            },
+            {
+              t: "Build NestJS + Prisma API",
+              time: "1.5h",
+              why: "Prisma is the 2026 standard for TS backends",
+              links: [{ url: "#", tag: "Docs", type: "docs" }],
+            },
+            {
+              t: "Add transactions for chat safety",
+              time: "1h",
+              why: "ACID prevents bugs in production",
+            },
+            {
+              t: "Write migration case study blog",
+              time: "1h",
+              why: "Public writing = recruiter visibility",
+            },
+            {
+              t: "Deploy to Railway + update resume",
+              time: "1h",
+              why: "Live URLs get 3x more callbacks",
+            },
+          ],
+        },
+        {
+          id: "w2",
+          num: "WEEK 02",
+          title: "Production API + Profile Opt.",
+          subtitle: "JWT auth, testing, LinkedIn",
+          color: "var(--w2)",
+          interviewQ: "Explain ACID properties and performance tradeoffs",
+          deliverable: "Optimized LinkedIn + resume with metrics",
+          mistakes: [
+            "Generic resume without metrics",
+            'Headline "React Native Developer"',
+            "Waiting to apply",
+          ],
+          tasks: [
+            {
+              t: "Add indexing for Zonesso queries",
+              time: "1h",
+              why: "Slow queries kill user experience",
+            },
+            {
+              t: "Implement GraphQL/tRPC API",
+              time: "1.5h",
+              why: "Modern API expectations for 2026",
+            },
+            {
+              t: "Write Jest tests for critical paths",
+              time: "1.5h",
+              why: "No tests = no production code",
+            },
+            {
+              t: "Rewrite resume with STAR + metrics",
+              time: "2h",
+              why: "Metrics prove impact (e.g., 50K users)",
+            },
+            {
+              t: "Optimize LinkedIn headline",
+              time: "1h",
+              why: "SEO for recruiters",
+            },
+            {
+              t: "Apply to 10 jobs",
+              time: "1.5h",
+              why: "Volume beats perfection",
+            },
+          ],
+        },
+        {
+          id: "w3",
+          num: "WEEK 03",
+          title: "AI Integration + JIFFL",
+          subtitle: "Ship AI features users actually use",
+          color: "var(--w3)",
+          interviewQ: "Add AI to existing app without breaking the bank",
+          deliverable: "JIFFL with AI matching + screen recording",
+          mistakes: [
+            "Calling OpenAI from mobile client directly",
+            "No rate limiting",
+            "Not caching responses",
+          ],
+          tasks: [
+            {
+              t: "OpenAI API with streaming SSE",
+              time: "1.5h",
+              why: "Streaming feels instant",
+            },
+            {
+              t: "Build AI job matching with embeddings",
+              time: "1.5h",
+              why: "Semantic search > keyword matching",
+            },
+            {
+              t: "Add rate limiting + cost alerts",
+              time: "1h",
+              why: "Set a $50 hard limit",
+            },
+            {
+              t: "Screen record demo, post LinkedIn",
+              time: "1h",
+              why: "Visual proof attracts leads",
+            },
+            {
+              t: "Apply to 10 more jobs",
+              time: "1.5h",
+              why: "Keep momentum going",
+            },
+            {
+              t: "Follow up on Week 2 apps",
+              time: "30m",
+              why: "20% higher response rate",
+            },
+          ],
+        },
+        {
+          id: "w4",
+          num: "WEEK 04",
+          title: "AI at Scale + App Blitz",
+          subtitle: "Embeddings, semantic search, 30 apps",
+          color: "var(--w4)",
+          interviewQ: "Design a rate limiter for an AI API",
+          deliverable: "Smart matching with RAG + pgvector",
+          mistakes: [
+            "Microservices too early",
+            "No retry logic",
+            "Ignoring token costs",
+          ],
+          tasks: [
+            {
+              t: "Add pgvector extension to PostgreSQL",
+              time: "1.5h",
+              why: "Native vector search",
+            },
+            {
+              t: "Implement semantic search for jobs",
+              time: "1.5h",
+              why: "Find jobs by intent",
+            },
+            {
+              t: "Build RAG: search docs before AI call",
+              time: "1.5h",
+              why: "Reduce hallucinations",
+            },
+            {
+              t: "Apply to 10 more jobs",
+              time: "1.5h",
+              why: "Reach 30 total applications",
+            },
+            {
+              t: "Do 1 mock technical screen",
+              time: "1h",
+              why: "Practice makes perfect",
+            },
+          ],
+        },
+        {
+          id: "w5",
+          num: "WEEK 05",
+          title: "AWS Foundations + Eco Crew",
+          subtitle: "Deploy to production AWS",
+          color: "var(--w5)",
+          interviewQ: "Deploy a Node.js app with zero downtime",
+          deliverable: "Dockerized Eco Crew on EC2 + RDS",
+          mistakes: [
+            "DB on EC2 instead of RDS",
+            "Root AWS credentials",
+            "No alarms",
+          ],
+          tasks: [
+            {
+              t: "Dockerize Eco Crew backend",
+              time: "1.5h",
+              why: "Standardize environments",
+            },
+            {
+              t: "AWS EC2 + RDS PostgreSQL setup",
+              time: "1.5h",
+              why: "Managed scaling",
+            },
+            {
+              t: "S3 for images + CloudFront CDN",
+              time: "1.5h",
+              why: "Fast global delivery",
+            },
+            {
+              t: "GitHub Actions CI/CD pipeline",
+              time: "1.5h",
+              why: "Automated deploys",
+            },
+            {
+              t: "Apply to 10 more jobs",
+              time: "1.5h",
+              why: "Reach 40 total applications",
+            },
+          ],
+        },
+        {
+          id: "w6",
+          num: "WEEK 06",
+          title: "AWS Mobile + Interview Prep",
+          subtitle: "Amplify, CI/CD, and mocks",
+          color: "var(--w6)",
+          interviewQ: "Set up CI/CD for a mobile team",
+          deliverable: "Full pipeline + 3 mock interviews",
+          mistakes: [
+            "Manual deployments",
+            "No staging environment",
+            "Secrets in code",
+          ],
+          tasks: [
+            {
+              t: "SNS push notifications cross-platform",
+              time: "1.5h",
+              why: "Unified push API",
+            },
+            {
+              t: "CloudWatch monitoring + alerts",
+              time: "1h",
+              why: "Fix what you can see",
+            },
+            {
+              t: "Mock interview: System design",
+              time: "1h",
+              why: "Practice reduces anxiety",
+            },
+            {
+              t: "Mock interview: React Native deep dive",
+              time: "1h",
+              why: "Know your stack cold",
+            },
+            { t: "Apply to 5 more jobs", time: "1h", why: "Reach 45 total" },
+          ],
+        },
+        {
+          id: "w7",
+          num: "WEEK 07",
+          title: "System Design + RN Arch",
+          subtitle: "Design at scale, New Architecture",
+          color: "var(--w7)",
+          interviewQ: "Design WhatsApp for 1 billion users",
+          deliverable: "Excalidraw diagrams + RN New Arch",
+          mistakes: [
+            "Premature optimization",
+            "Ignoring offline mode",
+            "Battery drain issues",
+          ],
+          tasks: [
+            {
+              t: "Document Zonesso architecture (Excalidraw)",
+              time: "1.5h",
+              why: "Visual communication skill",
+            },
+            {
+              t: "Design WhatsApp chat at scale",
+              time: "1.5h",
+              why: "Classic interview question",
+            },
+            {
+              t: "React Native New Architecture deep dive",
+              time: "1.5h",
+              why: "Fabric/JSI required for 2026",
+            },
+            {
+              t: "Performance profiling with Flipper",
+              time: "1.5h",
+              why: "Proactive optimization",
+            },
+            { t: "Final 5 applications", time: "1h", why: "Hit the 50 target" },
+          ],
+        },
+        {
+          id: "w8",
+          num: "WEEK 08",
+          title: "Offer Negotiation",
+          subtitle: "Deploy your career to production",
+          color: "var(--w8)",
+          interviewQ: "Design a payment processing system",
+          deliverable: "$130K+ offer accepted",
+          mistakes: [
+            "Accepting first offer",
+            "No competing offers",
+            "Ignoring total comp",
+          ],
+          tasks: [
+            {
+              t: "Final mock interviews (record & watch)",
+              time: "2h",
+              why: "Fix filler words",
+            },
+            {
+              t: "Research salary bands on levels.fyi",
+              time: "1h",
+              why: "Data wins negotiations",
+            },
+            {
+              t: "Draft negotiation script (ask +15K)",
+              time: "1h",
+              why: "Always counter-offer",
+            },
+            {
+              t: "Evaluate and accept best offer",
+              time: "30m",
+              why: "Consider tech stack & culture",
+            },
+          ],
+        },
+      ]
 
-  // M2
-  const m2Total=M2_MONTHS.reduce((s,m)=>s+m.tasks.length,0);
-  const m2Done=Object.values(S.m2_tasks).filter(Boolean).length;
-  const m2Pct=m2Total>0?Math.round(m2Done/m2Total*100):0;
+      const W8_CHECKLIST = [
+        { id: "w8c1", text: "50 job applications sent" },
+        { id: "w8c2", text: "GitHub: zonesso-postgresql live" },
+        { id: "w8c3", text: "GitHub: jiffl-ai-matching live" },
+        { id: "w8c4", text: "AWS Cloud Practitioner cert" },
+        { id: "w8c5", text: "Resume updated with metrics" },
+        { id: "w8c6", text: "Offer negotiated to target" },
+      ]
 
-  // M3
-  const phases=S.m3_path==='staff'?M3_STAFF:M3_CONSULTANT;
-  const m3Total=phases.reduce((s,p)=>s+p.tasks.length,0);
-  const m3Done=Object.keys(S.m3_tasks).filter(k=>k.startsWith('m3_'+S.m3_path)&&S.m3_tasks[k]).length;
-  const m3Pct=m3Total>0?Math.round(m3Done/m3Total*100):0;
+      // --- STATE MANAGEMENT ---
+      const SKEY = "rn_roadmap_v2026"
+      let S
 
-  // Global
-  const totalDone=m1TotalDone+m2Done+m3Done;
+      function defaultState() {
+        return {
+          tasks: {},
+          notes: {},
+          weeksCollapsed: {},
+          jobSearch: { applications: 0, interviews: 0, offers: 0 },
+          timerSecs: 1500,
+          streak: 0,
+          lastDate: null,
+          sessions: 0,
+        }
+      }
 
-  // Update DOM
-  qs('#totalDone').textContent=totalDone;
-  qs('#streakDisp').textContent=S.streak||0;
-  qs('#streakVal').textContent=S.streak||0;
-  qs('#sessDisp').textContent=S.sessions||0;
-  qs('#timeDisp').textContent=Math.round((S.sessions||0)*25/60)+'h';
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(SKEY)
+          if (raw) {
+            S = { ...defaultState(), ...JSON.parse(raw) }
+            return
+          }
+        } catch (e) {}
+        S = defaultState()
+      }
+      function save() {
+        localStorage.setItem(SKEY, JSON.stringify(S))
+      }
 
-  // Progress bars
-  pct('m1Bar',m1Pct);pct('m1Pct',m1Pct+'%');
-  pct('m2Bar',m2Pct);pct('m2Pct',m2Pct+'%');
-  pct('m3Bar',m3Pct);pct('m3Pct',m3Pct+'%');
-  pct('sideM1Bar',m1Pct);qs('#sideM1Pct').textContent=m1Pct+'% complete';
-  pct('sideM2Bar',m2Pct);qs('#sideM2Pct').textContent=m2Pct+'% complete';
-  pct('sideM3Bar',m3Pct);qs('#sideM3Pct').textContent=m3Pct+'% complete';
-}
+      // --- RENDER LOGIC ---
+      function renderM1() {
+        M1_WEEKS.forEach((w) => {
+          const el = document.getElementById("wc-" + w.id)
+          if (!el) return
 
-function pct(id,val){
-  const el=document.getElementById(id);
-  if(!el)return;
-  if(el.tagName==='DIV')el.style.width=(typeof val==='number'?val:parseInt(val))+'%';
-  else el.textContent=val;
-}
+          const tasksHtml = w.tasks
+            .map((t, i) => {
+              const key = w.id + "_" + i
+              const done = S.tasks[key]
+              const hasNote = S.notes[key] && S.notes[key].trim() !== ""
+              return `
+        <div class="task-item ${done ? "done" : ""}" onclick="toggleTask('${key}', this)">
+          <div class="task-cb ${done ? "checked" : ""}"><i class="ph-bold ph-check"></i></div>
+          <div class="task-content">
+            <div class="task-text">${t.t}</div>
+            <div class="task-meta">
+              <span class="task-time"><i class="ph-bold ph-clock"></i> ${t.time}</span>
+              <span class="task-why" title="${t.why}">Why?</span>
+              <button class="task-note-btn ${hasNote ? "has-note" : ""}" onclick="openNote('${key}', '${t.t.replace(/'/g, "\\'")}', event)"><i class="ph-bold ph-chat-text"></i></button>
+            </div>
+          </div>
+        </div>
+      `
+            })
+            .join("")
 
-// ═══════════════════════════════════════════════════
-//  ACTIONS
-// ═══════════════════════════════════════════════════
-function toggleTask(key,ms){
-  if(ms==='m1'){S.m1_tasks[key]=!S.m1_tasks[key];}
-  updateStreak();save();renderAll();
-  if(S.m1_tasks[key]){
-    toast('Task complete ✓','success');
-    // Light confetti on task check (first time per week)
-    const wid=key.split('_')[0];
-    const celebKey='t_'+wid;
-    if(!S.celebrations_seen.includes(celebKey)){
-      S.celebrations_seen.push(celebKey);save();
-      setTimeout(()=>shootConfetti(false),200);
-    }
-  }
-}
-function toggleW8(id){
-  S.w8_checklist[id]=!S.w8_checklist[id];
-  save();renderAll();
-}
-function toggleWeek(id){
-  S.m1_collapsed[id]=!S.m1_collapsed[id];
-  save();renderWeekCard(M1_WEEKS.find(w=>w.id===id));
-}
-function markWeekDone(id,e){
-  e.stopPropagation();
-  S.m1_done[id]=!S.m1_done[id];
-  save();renderWeekCard(M1_WEEKS.find(w=>w.id===id));
-  if(S.m1_done[id]){
-    toast('Week done! 🎉','success');
-    shootConfetti(true);
-  }
-}
-function toggleMilestone(id){
-  S.milestones_collapsed[id]=!S.milestones_collapsed[id];
-  const body=document.getElementById(id+'Body');
-  const toggle=document.getElementById(id+'Toggle');
-  if(body){body.classList.toggle('open',!S.milestones_collapsed[id]);}
-  if(toggle){toggle.classList.toggle('open',!S.milestones_collapsed[id]);}
-  if(!S.milestones_collapsed[id]){
-    if(id==='m2')renderM2();
-    if(id==='m3')renderM3();
-  }
-  save();
-}
-function toggleM2Month(id){
-  S.m2_collapsed[id]=!S.m2_collapsed[id];
-  save();renderM2();
-}
-function toggleM2Task(key){
-  S.m2_tasks[key]=!S.m2_tasks[key];
-  updateStreak();save();renderM2();updateStats();
-}
-function toggleM3Task(key){
-  S.m3_tasks[key]=!S.m3_tasks[key];
-  updateStreak();save();renderM3();updateStats();
-}
-function setM3Path(path){
-  S.m3_path=path;save();renderM3();updateStats();
-}
-function addCustom(wid){
-  const inp=document.getElementById('addInp-'+wid);
-  const txt=inp?inp.value.trim():'';
-  if(!txt)return;
-  if(!S.m1_custom[wid])S.m1_custom[wid]=[];
-  S.m1_custom[wid].push({text:txt,done:false});
-  save();renderWeekCard(M1_WEEKS.find(w=>w.id===wid));updateStats();
-}
-function toggleCustom(wid,idx,e){
-  e.stopPropagation();
-  if(!S.m1_custom[wid])return;
-  S.m1_custom[wid][idx].done=!S.m1_custom[wid][idx].done;
-  save();renderWeekCard(M1_WEEKS.find(w=>w.id===wid));updateStats();
-}
-function delCustom(wid,idx,e){
-  e.stopPropagation();
-  if(!S.m1_custom[wid])return;
-  S.m1_custom[wid].splice(idx,1);
-  save();renderWeekCard(M1_WEEKS.find(w=>w.id===wid));updateStats();
-}
-function updateJST(field,val){
-  const n=parseFloat(val)||0;
-  S.jobSearch[field]=Math.max(0,n);
-  save();syncJST();
-  // Celebrate first offer
-  if(field==='offers'&&n>=1&&!S.celebrations_seen.includes('first_offer')){
-    S.celebrations_seen.push('first_offer');save();
-    setTimeout(()=>{
-      shootConfetti(true);
-      toast('🎉 Offer received! You did it!','success');
-    },300);
-  }
-}
-function syncJST(){
-  const js=S.jobSearch;
-  setVal('jstApp',js.applications);setVal('jstInt',js.interviews);
-  setVal('jstOff',js.offers);setVal('jstSal',js.targetSalary);
-  setVal('jstAppM',js.applications);setVal('jstIntM',js.interviews);
-  const ab=document.getElementById('jstAppBar');if(ab)ab.style.width=Math.min(js.applications/50*100,100)+'%';
-  const ib=document.getElementById('jstIntBar');if(ib)ib.style.width=Math.min(js.interviews/5*100,100)+'%';
-  const ob=document.getElementById('jstOffBar');if(ob)ob.style.width=Math.min(js.offers*100,100)+'%';
-  // Mini sidebar values
-  const ma=document.getElementById('jstMiniApp');if(ma)ma.textContent=js.applications;
-  const mi=document.getElementById('jstMiniInt');if(mi)mi.textContent=js.interviews;
-  const mo=document.getElementById('jstMiniOff');if(mo)mo.textContent=js.offers;
-}
-function setVal(id,v){const e=document.getElementById(id);if(e&&document.activeElement!==e)e.value=v;}
-function applyThree(){
-  S.jobSearch.applications=(S.jobSearch.applications||0)+3;
-  save();syncJST();toast('+3 applications logged 🚀','success');
-}
-function updateStreak(){
-  const today=new Date().toISOString().slice(0,10);
-  if(S.lastStudy===today)return;
-  const yesterday=new Date(Date.now()-864e5).toISOString().slice(0,10);
-  S.streak=S.lastStudy===yesterday?(S.streak||0)+1:1;
-  S.lastStudy=today;
-  S.sessions=(S.sessions||0)+1;
-  // Track best streak
-  if(S.streak>(S.best_streak||0))S.best_streak=S.streak;
-  checkStreakBanner();
-}
+          const mistakesHtml = w.mistakes
+            .map(
+              (m) => `<li><i class="ph-bold ph-x"></i> <span>${m}</span></li>`,
+            )
+            .join("")
 
-// ═══════════════════════════════════════════════════
-//  TIMER
-// ═══════════════════════════════════════════════════
-let timerInt=null,timerRunning=false;
-function openTimer(){document.getElementById('timerModal').classList.add('open');renderTimer();}
-function closeTimer(){document.getElementById('timerModal').classList.remove('open');}
-// renderTimer defined below with mini-timer sync
-function fmt(s){return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
-function toggleTimer(){
-  if(timerRunning){clearInterval(timerInt);timerRunning=false;qs('#timerStartBtn').textContent='Resume';}
-  else{
-    timerRunning=true;qs('#timerStartBtn').textContent='Pause';
-    timerInt=setInterval(()=>{
-      S.timerSecs--;
-      if(S.timerSecs<=0){
-        clearInterval(timerInt);timerRunning=false;
-        S.sessions=(S.sessions||0)+1;S.timerSecs=1500;
-        save();updateStats();renderTimer();
-        qs('#timerStartBtn').textContent='Start';
-        toast('Focus session complete! 🍅','success');
-      }else{renderTimer();}
-    },1000);
-  }
-}
-function resetTimer(){clearInterval(timerInt);timerRunning=false;S.timerSecs=1500;save();renderTimer();qs('#timerStartBtn').textContent='Start';}
-function renderTimer(){
-  const txt=fmt(S.timerSecs);
-  qs('#timerDisplay').textContent=txt;
-  // Update mini timer in topbar
-  const mini=document.getElementById('miniTimerDisp');
-  if(mini)mini.textContent=txt;
-  const btn=document.getElementById('miniTimerBtn');
-  if(btn)btn.classList.toggle('running',timerRunning);
-}
+          // Calculate progress
+          const doneCount = w.tasks.filter(
+            (_, i) => S.tasks[w.id + "_" + i],
+          ).length
+          const pct = Math.round((doneCount / w.tasks.length) * 100)
+          const collapsed = S.weeksCollapsed[w.id]
 
-// ═══════════════════════════════════════════════════
-//  NOTES
-// ═══════════════════════════════════════════════════
-let _noteKey='';
-function openNote(key,title,e){
-  e.stopPropagation();_noteKey=key;
-  qs('#noteTaskTitle').textContent=decodeURIComponent(title);
-  qs('#noteText').value=S.m1_notes[key]||'';
-  qs('#noteModal').classList.add('open');
-}
-function closeNote(){qs('#noteModal').classList.remove('open');}
-function saveNote(){
-  const v=qs('#noteText').value.trim();
-  if(v)S.m1_notes[_noteKey]=v;else delete S.m1_notes[_noteKey];
-  save();closeNote();renderAll();
-  toast('Note saved','success');
-}
+          el.innerHTML = `
+      <div class="week-card glass-panel">
+        <div class="week-card-top" style="background:${w.color}; box-shadow: 0 0 15px ${w.color}; opacity: 0.8;"></div>
+        <div class="wc-header" onclick="toggleWeek('${w.id}')">
+          <div class="wc-left">
+            <div class="wc-num" style="color:${w.color}"><i class="ph-bold ph-calendar-blank"></i> ${w.num}</div>
+            <div class="wc-title">${w.title}</div>
+            <div class="wc-subtitle">${w.subtitle}</div>
+          </div>
+          <div class="wc-right">
+            <div class="wc-prog-row">
+              <div class="wc-prog-bar"><div class="wc-prog-fill" style="width:${pct}%;background:${w.color}"></div></div>
+              <span class="wc-pct">${pct}%</span>
+            </div>
+            <i class="ph-bold ph-caret-down wc-arrow ${collapsed ? "" : "open"}"></i>
+          </div>
+        </div>
+        <div class="wc-body ${collapsed ? "hidden" : ""}">
+          <div class="wc-body-inner">
+            <div class="wc-bento-grid">
+              <div class="info-box interview">
+                <div class="box-title"><i class="ph-fill ph-chat-circle-text"></i> Interview Question</div>
+                <div class="box-text">${w.interviewQ}</div>
+              </div>
+              <div class="info-box deliverable">
+                <div class="box-title"><i class="ph-fill ph-target"></i> Deliverable</div>
+                <div class="box-text">${w.deliverable}</div>
+              </div>
+              <div class="info-box mistakes">
+                <div class="box-title"><i class="ph-fill ph-warning-circle"></i> Common Mistakes</div>
+                <ul>${mistakesHtml}</ul>
+              </div>
+            </div>
+            <div class="task-list">${tasksHtml}</div>
+            ${w.id === "w8" ? renderChecklist() : ""}
+          </div>
+        </div>
+      </div>
+    `
+        })
+      }
 
-// ═══════════════════════════════════════════════════
-//  SIDEBAR TOGGLES
-// ═══════════════════════════════════════════════════
-function toggleLeftSidebar(){
-  S.sidebar_left_collapsed=!S.sidebar_left_collapsed;
-  save();applySidebarState();
-}
-function toggleRightSidebar(){
-  S.sidebar_right_collapsed=!S.sidebar_right_collapsed;
-  save();applySidebarState();
-}
-function applySidebarState(){
-  const lc=S.sidebar_left_collapsed;
-  const rc=S.sidebar_right_collapsed;
-  const ls=document.getElementById('leftSidebar');
-  const rs=document.getElementById('rightSidebar');
-  const layout=document.querySelector('.layout');
-  if(ls){ls.classList.toggle('collapsed',lc);}
-  if(rs){rs.classList.toggle('collapsed',rc);}
-  if(layout){layout.classList.toggle('lc',lc);layout.classList.toggle('rc',rc);}
-  const lIcon=document.getElementById('sbLeftIcon');
-  if(lIcon)lIcon.textContent=lc?'▶▶':'◀◀';
-  const rIcon=document.getElementById('rsideIcon');
-  if(rIcon)rIcon.textContent=rc?'◀◀':'▶▶';
-}
+      function renderChecklist() {
+        const items = W8_CHECKLIST.map((c) => {
+          const done = S.tasks[c.id]
+          return `
+      <div class="task-item ${done ? "done" : ""}" style="padding: 0.75rem 1rem;" onclick="toggleTask('${c.id}', this)">
+        <div class="task-cb ${done ? "checked" : ""}"><i class="ph-bold ph-check"></i></div>
+        <span class="task-text" style="margin:0; font-size:0.85rem;">${c.text}</span>
+      </div>
+    `
+        }).join("")
+        return `<div class="w8-checklist"><div class="box-title" style="color:var(--gold); margin-bottom:1rem;"><i class="ph-fill ph-flag-checkered"></i> Final Checklist</div><div class="w8-grid">${items}</div></div>`
+      }
 
-// ═══════════════════════════════════════════════════
-//  CONFETTI
-// ═══════════════════════════════════════════════════
-function shootConfetti(bigMode=false){
-  const canvas=document.getElementById('confettiCanvas');
-  if(!canvas)return;
-  canvas.style.display='block';
-  const ctx=canvas.getContext('2d');
-  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
-  const count=bigMode?200:80;
-  const colors=['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#06b6d4','#f97316'];
-  const particles=Array.from({length:count},()=>({
-    x:Math.random()*canvas.width,y:-20,
-    vx:(Math.random()-0.5)*6,vy:Math.random()*4+2,
-    color:colors[Math.floor(Math.random()*colors.length)],
-    size:Math.random()*8+4,
-    rot:Math.random()*360,rspeed:(Math.random()-0.5)*8,
-    life:1
-  }));
-  let frame;
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    let alive=false;
-    particles.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;p.vy+=0.15;p.rot+=p.rspeed;p.life-=0.008;
-      if(p.life>0&&p.y<canvas.height){alive=true;}
-      ctx.save();ctx.globalAlpha=Math.max(0,p.life);
-      ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
-      ctx.fillStyle=p.color;
-      ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2);
-      ctx.restore();
-    });
-    if(alive){frame=requestAnimationFrame(draw);}
-    else{canvas.style.display='none';cancelAnimationFrame(frame);}
-  }
-  draw();
-  setTimeout(()=>{canvas.style.display='none';cancelAnimationFrame(frame);},4000);
-}
+      function renderFocus() {
+        const el = document.getElementById("todayFocus")
+        let items = []
 
-// ═══════════════════════════════════════════════════
-//  DAILY TIPS
-// ═══════════════════════════════════════════════════
-const TIPS=[
-  'Apply to jobs before you feel ready — readiness is a myth engineers tell themselves.',
-  'The resume line "Led migration of 50K-download app to PostgreSQL" opens doors nothing else can.',
-  'Referrals get 9x more interviews than cold applications. Message 5 engineers this week.',
-  'A 7-day streak beats a 70-hour weekend. Consistency compounds.',
-  'Your AI project + portfolio API + AWS deploy is objectively senior-engineer-tier. Own it.',
-  'Mock interviews before the real ones. Record yourself. Watch it back. Pain = growth.',
-  'Negotiate every offer — worst they say is no. Most companies expect it and budget for it.',
-  'Ship to production. Localhost demos get rejected. Live demos get offers.',
-  'A blog post about your migration teaches others AND proves your depth to recruiters.',
-  'The best time to apply was 4 weeks ago. The second best time is today.',
-];
-function showDailyTip(){
-  const tip=TIPS[Math.floor(Math.random()*TIPS.length)];
-  const el=document.getElementById('dailyTipText');
-  if(el)el.textContent=tip;
-}
+        // ---> ADD THIS LINE <---
+        const paceNudgeHtml = getPaceNudge()
 
-// ═══════════════════════════════════════════════════
-//  STREAK BANNER
-// ═══════════════════════════════════════════════════
-function checkStreakBanner(){
-  const banner=document.getElementById('streakBanner');
-  if(!banner)return;
-  const s=S.streak||0;
-  if(s>=7){
-    banner.classList.add('show');
-    const textEl=document.getElementById('streakBannerText');
-    const subEl=document.getElementById('streakBannerSub');
-    if(textEl){textEl.textContent=s>=30?'Legendary! 🔥🔥🔥':s>=14?'Two weeks strong! 🌟':'You\'re on fire!';}
-    if(subEl){subEl.textContent=`${s}-day streak · Best: ${S.best_streak||s} days`;}
-  }else{banner.classList.remove('show');}
-}
+        M1_WEEKS.forEach((w) => {
+          w.tasks.forEach((t, i) => {
+            const key = w.id + "_" + i
+            if (!S.tasks[key]) items.push({ key: key, text: t.t, num: w.num })
+          })
+        })
 
-// ═══════════════════════════════════════════════════
-//  SETTINGS
-// ═══════════════════════════════════════════════════
-function openSettings(){
-  if(S.startDate)document.getElementById('startDateInput').value=S.startDate;
-  qs('#settingsModal').classList.add('open');
-}
-function closeSettings(){qs('#settingsModal').classList.remove('open');}
-function saveStartDate(v){S.startDate=v;save();}
+        if (items.length === 0) {
+          el.innerHTML =
+            paceNudgeHtml +
+            '<div class="focus-empty"><i class="ph-fill ph-party" style="font-size: 2.5rem; margin-bottom: 0.5rem;"></i><span>All caught up! Excellent work.</span></div>'
+        } else {
+          const listHtml = items
+            .slice(0, 4)
+            .map(
+              (i, index) => `
+            <div class="focus-item" style="cursor: pointer; ${index === 0 ? "border-left: 3px solid var(--blue); background: rgba(59,130,246,0.1);" : ""}" onclick="toggleTask('${i.key}', this)">
+              <div class="task-cb" style="width:20px; height:20px; border-radius:6px; pointer-events:none;"></div>
+              <span style="flex:1; font-weight: ${index === 0 ? "700" : "500"};">${i.text}</span>
+              <span style="color:var(--blue); font-size:0.75rem; font-family:'JetBrains Mono'; background: rgba(59,130,246,0.1); padding: 2px 6px; border-radius: 4px;">${i.num}</span>
+            </div>
+          `,
+            )
+            .join("")
 
-// ═══════════════════════════════════════════════════
-//  EXPORT / IMPORT / RESET
-// ═══════════════════════════════════════════════════
-function exportData(){
-  const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download=`rn-roadmap-${new Date().toISOString().slice(0,10)}.json`;
-  document.body.appendChild(a);a.click();a.remove();
-  toast('Data exported!','success');
-}
-function importData(input){
-  const file=input.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=e=>{try{S={...defaultState(),...JSON.parse(e.target.result)};save();renderAll();toast('Data imported!','success');}catch{toast('Invalid file','warn');}};
-  r.readAsText(file);input.value='';
-}
-function confirmReset(){
-  if(confirm('Reset ALL progress? This cannot be undone.')){
-    S=defaultState();save();renderAll();toast('Progress reset','warn');
-  }
-}
+          // ---> UPDATE THIS LINE to include paceNudgeHtml <---
+          el.innerHTML = paceNudgeHtml + listHtml
+        }
+      }
 
-// ═══════════════════════════════════════════════════
-//  UTILS
-// ═══════════════════════════════════════════════════
-function qs(sel){return document.querySelector(sel);}
-let _toastT;
-function toast(msg,type=''){
-  const el=document.getElementById('toast');
-  el.textContent=msg;el.className='toast'+(type?' '+type:'');
-  clearTimeout(_toastT);
-  requestAnimationFrame(()=>{el.classList.add('show');});
-  _toastT=setTimeout(()=>el.classList.remove('show'),2800);
-}
-function scrollTo(id){
-  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
-  // Open milestone if collapsed
-  if((id==='m2'||id==='m3')&&S.milestones_collapsed[id])toggleMilestone(id);
-}
-function setMobActive(el){
-  document.querySelectorAll('.mob-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-}
-function updateSidebarActive(){
-  const sections=['m1','m2','m3'];
-  const centers=sections.map(id=>{
-    const el=document.getElementById(id);
-    if(!el)return 9999;
-    const r=el.getBoundingClientRect();
-    return Math.abs(r.top-150);
-  });
-  const idx=centers.indexOf(Math.min(...centers));
-  ['sideM1','sideM2','sideM3'].forEach((id,i)=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    el.classList.toggle('active',i===idx);
-    el.className=el.className.replace(/\bm[23]\b/g,'').trim();
-    if(i===1&&i===idx)el.classList.add('m2');
-    if(i===2&&i===idx)el.classList.add('m3');
-  });
-}
+      // --- INTERACTIVITY ---
+      function toggleTask(key, el) {
+        S.tasks[key] = !S.tasks[key]
+        save()
+        updateStats()
+        renderM1()
+        renderFocus()
 
-// ═══════════════════════════════════════════════════
-//  RENDER ALL
-// ═══════════════════════════════════════════════════
-function renderAll(){
-  renderM1();
-  if(!S.milestones_collapsed.m2)renderM2();
-  if(!S.milestones_collapsed.m3)renderM3();
-  renderFocus();
-  updateStats();
-  syncJST();
-  applySidebarState();
-  checkStreakBanner();
-  renderTimer();
-  // Apply milestone collapse state
-  ['m2','m3'].forEach(id=>{
-    const body=document.getElementById(id+'Body');
-    const toggle=document.getElementById(id+'Toggle');
-    const col=S.milestones_collapsed[id];
-    if(body)body.classList.toggle('open',!col);
-    if(toggle)toggle.classList.toggle('open',!col);
-  });
-}
+        if (S.tasks[key]) {
+          shootConfetti()
+          toast("Task Complete!")
+          // Haptic simulation
+          if (navigator.vibrate) navigator.vibrate(40)
+        }
+      }
 
-// ═══════════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════════
-window.addEventListener('DOMContentLoaded',()=>{
-  loadState();
-  showDailyTip();
-  renderAll();
-  window.addEventListener('scroll',updateSidebarActive,{passive:true});
-  // Close modals on overlay click
-  document.querySelectorAll('.modal-overlay').forEach(o=>{
-    o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
-  });
-});
-</script>
-</body>
+      function toggleWeek(id) {
+        S.weeksCollapsed[id] = !S.weeksCollapsed[id]
+        save()
+        renderM1()
+      }
+
+      function toggleMilestone(id) {
+        const body = document.getElementById(id + "Body")
+        const toggle = document.getElementById(id + "Toggle")
+        const isOpen = body.classList.contains("open")
+
+        if (isOpen) {
+          body.classList.remove("open")
+          toggle.classList.remove("open")
+        } else {
+          body.classList.add("open")
+          toggle.classList.add("open")
+        }
+      }
+
+      // Add this variable at the top of your scripts
+      let isAutoScrolling = false
+      let lastScrollY = 0
+      let ticking = false
+
+      function scrollToId(id) {
+        isAutoScrolling = true // Tell the app we are clicking, not user-scrolling
+
+        document
+          .getElementById(id)
+          .scrollIntoView({ behavior: "smooth", block: "start" })
+
+        // Set the clicked tab to active immediately
+        document
+          .querySelectorAll(".mob-tab")
+          .forEach((t) => t.classList.remove("active"))
+        document
+          .querySelectorAll(".sidebar-item")
+          .forEach((t) => t.classList.remove("active"))
+
+        // Highlight the correct ones
+        if (id === "m1") {
+          document.getElementById("sideM1").classList.add("active")
+          document.querySelectorAll(".mob-tab")[0].classList.add("active")
+        } else if (id === "m2") {
+          document.getElementById("sideM2").classList.add("active")
+          document.querySelectorAll(".mob-tab")[1].classList.add("active")
+        } else if (id === "m3") {
+          document.getElementById("sideM3").classList.add("active")
+          document.querySelectorAll(".mob-tab")[2].classList.add("active")
+        }
+
+        // Open milestone if collapsed
+        if ((id === "m2" || id === "m3") && S.milestones_collapsed[id])
+          toggleMilestone(id)
+
+        // Turn scroll listener back on after animation finishes (800ms)
+        setTimeout(() => {
+          isAutoScrolling = false
+        }, 800)
+      }
+
+      function updateSidebarActive() {
+        // If the user clicked a tab, ignore standard scroll tracking until it finishes
+        if (isAutoScrolling) return
+
+        const sections = ["m1", "m2", "m3"]
+        const centers = sections.map((id) => {
+          const el = document.getElementById(id)
+          if (!el) return 9999
+          const r = el.getBoundingClientRect()
+          return Math.abs(r.top - 150) // Check what is closest to top of screen
+        })
+
+        const idx = centers.indexOf(Math.min(...centers))
+
+        // Update desktop sidebar
+        ;["sideM1", "sideM2", "sideM3"].forEach((id, i) => {
+          const el = document.getElementById(id)
+          if (!el) return
+          el.classList.toggle("active", i === idx)
+        })
+
+        // Update mobile bottom nav
+        const mobTabs = document.querySelectorAll(".mob-tab:not(:last-child)") // Exclude timer
+        mobTabs.forEach((tab, i) => {
+          tab.classList.toggle("active", i === idx)
+        })
+      }
+
+      function setMobActive(element) {
+        document
+          .querySelectorAll(".mob-tab")
+          .forEach((tab) => tab.classList.remove("active"))
+        element.classList.add("active")
+      }
+
+      function handleScroll() {
+        lastScrollY = window.scrollY
+
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const mobileNav = document.querySelector(".mobile-bot-nav")
+            if (mobileNav) {
+              // Show nav when scrolling down, hide when at top
+              if (lastScrollY > 100) {
+                mobileNav.classList.add("visible")
+              } else {
+                mobileNav.classList.remove("visible")
+              }
+            }
+            ticking = false
+          })
+
+          ticking = true
+        }
+      }
+
+      function updateJST(field, val) {
+        S.jobSearch[field] = parseInt(val) || 0
+        save()
+        syncJST()
+      }
+
+      function applyThree() {
+        S.jobSearch.applications += 3
+        save()
+        syncJST()
+        toast("+3 Applications Logged!")
+        shootConfetti()
+      }
+
+      function syncJST() {
+        const js = S.jobSearch
+        // Full
+        const eApp = document.getElementById("jstApp")
+        if (eApp && document.activeElement !== eApp)
+          eApp.value = js.applications
+        const eInt = document.getElementById("jstInt")
+        if (eInt && document.activeElement !== eInt) eInt.value = js.interviews
+        const eOff = document.getElementById("jstOff")
+        if (eOff && document.activeElement !== eOff) eOff.value = js.offers
+
+        document.getElementById("jstAppBar").style.width =
+          Math.min((js.applications / 50) * 100, 100) + "%"
+        document.getElementById("jstIntBar").style.width =
+          Math.min((js.interviews / 5) * 100, 100) + "%"
+        document.getElementById("jstOffBar").style.width =
+          Math.min((js.offers / 1) * 100, 100) + "%"
+
+        // Mini
+        document.getElementById("jstMiniApp").textContent = js.applications
+        document.getElementById("jstMiniInt").textContent = js.interviews
+        document.getElementById("jstMiniOff").textContent = js.offers
+      }
+
+      function updateStats() {
+        const done = Object.values(S.tasks).filter(Boolean).length
+        document.getElementById("totalDone").textContent = done
+
+        const m1Total = M1_WEEKS.reduce((a, w) => a + w.tasks.length, 0)
+        const m1Done = M1_WEEKS.reduce(
+          (a, w) =>
+            a + w.tasks.filter((_, i) => S.tasks[w.id + "_" + i]).length,
+          0,
+        )
+        const pct = Math.round((m1Done / m1Total) * 100)
+
+        document.getElementById("m1Pct").textContent = pct + "%"
+        document.getElementById("m1Bar").style.width = pct + "%"
+        document.getElementById("sideM1Pct").textContent = pct + "%"
+        document.getElementById("sideM1Bar").style.width = pct + "%"
+      }
+
+      // --- SIDEBAR TOGGLES ---
+      let leftCollapsed = false
+      let rightCollapsed = false
+
+      function toggleLeftSidebar() {
+        leftCollapsed = !leftCollapsed
+        document
+          .getElementById("leftSidebar")
+          .classList.toggle("collapsed", leftCollapsed)
+        document.querySelector(".layout").classList.toggle("lc", leftCollapsed)
+        document.getElementById("sbLeftIcon").className = leftCollapsed
+          ? "ph-bold ph-caret-double-right"
+          : "ph-bold ph-caret-double-left"
+      }
+
+      function toggleRightSidebar() {
+        rightCollapsed = !rightCollapsed
+        document
+          .getElementById("rightSidebar")
+          .classList.toggle("collapsed", rightCollapsed)
+        document.querySelector(".layout").classList.toggle("rc", rightCollapsed)
+        document.getElementById("rsideIcon").className = rightCollapsed
+          ? "ph-bold ph-caret-double-left"
+          : "ph-bold ph-caret-double-right"
+      }
+
+      // --- MODALS & TIMER ---
+      let timerInt
+      let isRunning = false
+
+      function openTimer() {
+        document.getElementById("timerModal").classList.add("open")
+      }
+      function closeTimer() {
+        document.getElementById("timerModal").classList.remove("open")
+      }
+      function openSettings() {
+        document.getElementById("settingsModal").classList.add("open")
+      }
+      function closeSettings() {
+        document.getElementById("settingsModal").classList.remove("open")
+      }
+
+      function fmtTimer(s) {
+        return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`
+      }
+
+      function renderTimerUI() {
+        const t = fmtTimer(S.timerSecs)
+        document.getElementById("timerDisplayLg").textContent = t
+        document.getElementById("miniTimerDisp").textContent = t
+        document
+          .getElementById("miniTimerBtn")
+          .classList.toggle("running", isRunning)
+      }
+
+      function toggleTimer() {
+        if (isRunning) {
+          clearInterval(timerInt)
+          isRunning = false
+          document.getElementById("timerStartBtn").innerHTML =
+            '<i class="ph-bold ph-play"></i> Resume Focus'
+          document.body.classList.remove("focus-mode")
+        } else {
+          isRunning = true
+          document.getElementById("timerStartBtn").innerHTML =
+            '<i class="ph-bold ph-pause"></i> Pause'
+          document.body.classList.add("focus-mode")
+          timerInt = setInterval(() => {
+            S.timerSecs--
+            if (S.timerSecs <= 0) {
+              clearInterval(timerInt)
+              isRunning = false
+              S.timerSecs = 1500
+              S.sessions++
+              document.getElementById("sessDisp").textContent = S.sessions
+              document.getElementById("timeDisp").textContent =
+                Math.round((S.sessions * 25) / 60) + "h"
+              document.body.classList.remove("focus-mode")
+              toast("Session Complete!", "success")
+              shootConfetti()
+              save()
+            }
+            renderTimerUI()
+          }, 1000)
+        }
+        renderTimerUI()
+      }
+
+      function resetTimer() {
+        clearInterval(timerInt)
+        isRunning = false
+        S.timerSecs = 1500
+        document.body.classList.remove("focus-mode")
+        document.getElementById("timerStartBtn").innerHTML = "Start Focus"
+        renderTimerUI()
+      }
+
+      // --- NOTES ---
+      let activeNote = null
+      function openNote(key, title, e) {
+        e.stopPropagation()
+        activeNote = key
+        document.getElementById("noteTaskTitle").innerHTML =
+          `<i class="ph-fill ph-note-pencil"></i> Notes: ${title}`
+        document.getElementById("noteText").value = S.notes[key] || ""
+        document.getElementById("noteModal").classList.add("open")
+      }
+      function closeNote() {
+        document.getElementById("noteModal").classList.remove("open")
+      }
+      function saveNote() {
+        const val = document.getElementById("noteText").value.trim()
+        if (val) S.notes[activeNote] = val
+        else delete S.notes[activeNote]
+        save()
+        closeNote()
+        renderM1()
+        toast("Note saved")
+      }
+
+      // --- UTILS ---
+      function toast(msg, type = "success") {
+        const el = document.getElementById("toast")
+        document.getElementById("toastMsg").textContent = msg
+        el.className = "toast show " + type
+        setTimeout(() => el.classList.remove("show"), 3000)
+      }
+
+      function shootConfetti() {
+        const canvas = document.getElementById("confettiCanvas")
+        canvas.style.display = "block"
+        const ctx = canvas.getContext("2d")
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        const particles = Array.from({ length: 80 }, () => ({
+          x: Math.random() * canvas.width,
+          y: -20,
+          vx: (Math.random() - 0.5) * 8,
+          vy: Math.random() * 5 + 2,
+          color: ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"][
+            Math.floor(Math.random() * 4)
+          ],
+          size: Math.random() * 8 + 4,
+          life: 1,
+          rot: Math.random() * 360,
+        }))
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+          let alive = false
+          particles.forEach((p) => {
+            p.x += p.vx
+            p.y += p.vy
+            p.vy += 0.2
+            p.life -= 0.01
+            p.rot += 5
+            if (p.life > 0 && p.y < canvas.height) alive = true
+            ctx.save()
+            ctx.globalAlpha = Math.max(0, p.life)
+            ctx.translate(p.x, p.y)
+            ctx.rotate((p.rot * Math.PI) / 180)
+            ctx.fillStyle = p.color
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size)
+            ctx.restore()
+          })
+          if (alive) requestAnimationFrame(draw)
+          else canvas.style.display = "none"
+        }
+        draw()
+      }
+
+      function exportData() {
+        const blob = new Blob([JSON.stringify(S)], { type: "application/json" })
+        const a = document.createElement("a")
+        a.href = URL.createObjectURL(blob)
+        a.download = "rn-roadmap-backup.json"
+        a.click()
+      }
+
+      function confirmReset() {
+        if (confirm("Erase all progress? This action cannot be undone.")) {
+          S = defaultState()
+          save()
+          location.reload()
+        }
+      }
+
+      // ═════════════════════════════════════════════════
+      //  QUICK CAPTURE FAB
+      // ═════════════════════════════════════════════════
+      function toggleFab() {
+        document.getElementById("quickFab").classList.toggle("open")
+      }
+
+      // ═════════════════════════════════════════════════
+      //  COMMAND PALETTE (Cmd+K)
+      // ═════════════════════════════════════════════════
+      const COMMANDS = [
+        {
+          icon: "ph-timer",
+          text: "Start Focus Timer",
+          action: () => {
+            openTimer()
+            toggleTimer()
+          },
+        },
+        {
+          icon: "ph-paper-plane-tilt",
+          text: "Log 3 Job Applications",
+          action: () => applyThree(),
+        },
+        {
+          icon: "ph-books",
+          text: "Go to Milestone 1 (Job Ready)",
+          action: () => scrollToId("m1"),
+        },
+        {
+          icon: "ph-trophy",
+          text: "Go to Milestone 2 (Senior Solid)",
+          action: () => scrollToId("m2"),
+        },
+        {
+          icon: "ph-download-simple",
+          text: "Export Backup Data",
+          action: () => exportData(),
+        },
+        {
+          icon: "ph-gear",
+          text: "Open Settings / Start Date",
+          action: () => openSettings(),
+        },
+      ]
+
+      let cmdSelectedIndex = 0
+
+      function openCmd() {
+        document.getElementById("cmdPalette").classList.add("open")
+        document.getElementById("cmdInput").value = ""
+        renderCmdList("")
+        setTimeout(() => document.getElementById("cmdInput").focus(), 100)
+      }
+
+      function closeCmd() {
+        document.getElementById("cmdPalette").classList.remove("open")
+      }
+
+      function renderCmdList(query) {
+        const list = document.getElementById("cmdList")
+        const filtered = COMMANDS.filter((c) =>
+          c.text.toLowerCase().includes(query.toLowerCase()),
+        )
+
+        if (filtered.length === 0) {
+          list.innerHTML = `<div style="padding: 2rem; text-align: center; color: var(--txt3);">No commands found</div>`
+          return
+        }
+
+        // Ensure selection doesn't go out of bounds
+        cmdSelectedIndex = Math.min(cmdSelectedIndex, filtered.length - 1)
+
+        list.innerHTML = filtered
+          .map(
+            (c, i) => `
+    <div class="cmd-item ${i === cmdSelectedIndex ? "selected" : ""}" onclick="executeCmd(${i})">
+      <i class="ph-bold ${c.icon}"></i>
+      <span>${c.text}</span>
+      ${i === 0 && !query ? '<span class="cmd-shortcut">Enter</span>' : ""}
+    </div>
+  `,
+          )
+          .join("")
+
+        // Store currently filtered commands for keyboard execution
+        window.currentFilteredCmds = filtered
+      }
+
+      function executeCmd(index) {
+        if (window.currentFilteredCmds && window.currentFilteredCmds[index]) {
+          closeCmd()
+          window.currentFilteredCmds[index].action()
+        }
+      }
+
+      document.getElementById("cmdInput")?.addEventListener("input", (e) => {
+        cmdSelectedIndex = 0
+        renderCmdList(e.target.value)
+      })
+
+      // Keyboard Listeners
+      document.addEventListener("keydown", (e) => {
+        // Cmd+K or Ctrl+K to open
+        if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+          e.preventDefault()
+          openCmd()
+        }
+
+        const isCmdOpen = document
+          .getElementById("cmdPalette")
+          .classList.contains("open")
+        if (!isCmdOpen) return
+
+        if (e.key === "Escape") closeCmd()
+        if (e.key === "ArrowDown") {
+          e.preventDefault()
+          cmdSelectedIndex = Math.min(
+            cmdSelectedIndex + 1,
+            window.currentFilteredCmds.length - 1,
+          )
+          renderCmdList(document.getElementById("cmdInput").value)
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault()
+          cmdSelectedIndex = Math.max(cmdSelectedIndex - 1, 0)
+          renderCmdList(document.getElementById("cmdInput").value)
+        }
+        if (e.key === "Enter") {
+          e.preventDefault()
+          executeCmd(cmdSelectedIndex)
+        }
+      })
+
+      // ═════════════════════════════════════════════════
+      //  INTELLIGENT PACE TRACKER
+      // ═════════════════════════════════════════════════
+      // Call this function inside your renderFocus() function at the top!
+      function getPaceNudge() {
+        if (!S.startDate)
+          return `<div class="pace-nudge"><i class="ph-fill ph-warning"></i> Set a Start Date in Settings to track your 8-week pace!</div>`
+
+        const start = new Date(S.startDate)
+        const now = new Date()
+        const daysPassed = Math.floor((now - start) / (1000 * 60 * 60 * 24))
+
+        if (daysPassed < 0) return "" // Hasn't started yet
+
+        const expectedWeek = Math.floor(daysPassed / 7) + 1
+
+        // Calculate actually completed weeks
+        let completedWeeks = 0
+        M1_WEEKS.forEach((w) => {
+          const isWeekDone = w.tasks.every((_, i) => S.tasks[w.id + "_" + i])
+          if (isWeekDone) completedWeeks++
+        })
+
+        if (completedWeeks >= expectedWeek) {
+          return `<div class="pace-nudge good"><i class="ph-fill ph-rocket-launch"></i> You are ahead of schedule! Expected Week: ${expectedWeek} | Completed: ${completedWeeks}</div>`
+        } else {
+          return `<div class="pace-nudge"><i class="ph-fill ph-warning-circle"></i> Catch-up Mode: You are in Week ${expectedWeek} but have only finished ${completedWeeks} weeks. Focus up!</div>`
+        }
+      }
+
+      // --- INIT ---
+      window.onscroll = function () {
+        updateSidebarActive()
+        handleScroll()
+      }
+      window.onload = () => {
+        loadState()
+        renderM1()
+        renderFocus()
+        syncJST()
+        updateStats()
+        renderTimerUI()
+
+        document.getElementById("sessDisp").textContent = S.sessions || 0
+        document.getElementById("timeDisp").textContent =
+          Math.round(((S.sessions || 0) * 25) / 60) + "h"
+      }
+    </script>
+  </body>
 </html>
