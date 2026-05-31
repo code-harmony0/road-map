@@ -151,7 +151,7 @@ class StateManager {
    * @returns {boolean} True if all tasks complete
    */
   isMilestoneComplete(milestone) {
-    return milestone.tasks.every((_, i) => this.state.tasks[`${milestone.id}_${i}`]);
+    return milestone.tasks.every((task, i) => this.state.tasks[task.id || `${milestone.id}_${i}`]);
   }
 }
 

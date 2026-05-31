@@ -1,45 +1,41 @@
 /**
- * Phase 2: Career Acceleration (Months 3-6)
- * Single Responsibility: Phase 2 roadmap content
+ * Phase 2: Career Acceleration (Months 4-6)
+ * Modularized structure following SOLID principles.
  */
 
-export const PHASE_2_MONTHS = [
-  {
-    id: 'm3',
-    num: 'MONTH 03',
-    title: 'AI-Native Architecture',
-    theme: 'MLOps, Edge AI, Security',
-    color: '#8b5cf6',
-    boss: {
-      name: 'The AI Architect',
-      challenge: 'Conceptual 1M User Arch, measurable AI cost optimization',
-      reward: 3000,
-      resume: 'Led 1M user design, measurable AI cost optimization via caching & batching'
-    },
-    tasks: [
-      { day: 'Week 9', time: '5h', depth: 'Medium', xp: 500, text: 'Observability + Cost Tracking + Feature Flags', reason: 'Production reliability & rollouts' },
-      { day: 'Week 10', time: '5h', depth: 'Deep', xp: 500, text: 'Edge AI: TF Lite, on-device inference', reason: 'On device compute' },
-      { day: 'Week 11', time: '5h', depth: 'Deep', xp: 500, text: 'Cost optimization (FinOps)', reason: 'Measurable optimization via caching/prompt tuning' },
-      { day: 'Week 12', time: '5h', depth: 'Deep', xp: 500, text: 'Technical leadership', reason: '3 ADRs, mentor 1 engineer with growth plan' }
-    ]
-  },
-  {
-    id: 'm4',
-    num: 'MONTH 04',
-    title: 'Platform Engineering',
-    theme: 'Design Systems, Perf Eng',
-    color: '#8b5cf6',
-    boss: {
-      name: 'The Platform Owner',
-      challenge: 'Reduce bug rate 25%',
-      reward: 3000,
-      resume: 'Led platform team, improved velocity 40%'
-    },
-    tasks: [
-      { day: 'Week 13', time: '5h', depth: 'Deep', xp: 500, text: 'Design System Leadership', reason: 'Consistency' },
-      { day: 'Week 14', time: '5h', depth: 'Deep', xp: 500, text: 'Performance: Bundle analysis, profiling', reason: 'Speed' },
-      { day: 'Week 15', time: '5h', depth: 'Medium', xp: 500, text: 'DevEx: CI/CD, debugging guides', reason: 'DX multiplier' },
-      { day: 'Week 16', time: '5h', depth: 'Deep', xp: 500, text: 'Technical Roadmapping (6-month OKRs)', reason: 'Vision' }
-    ]
+import { WEEKS as W14_15, DETAILS as D14_15 } from './phase2/weeks14-15.js';
+import { WEEKS as W16, DETAILS as D16 } from './phase2/week16.js';
+import { WEEKS as W17, DETAILS as D17 } from './phase2/week17.js';
+import { WEEKS as W18, DETAILS as D18 } from './phase2/week18.js';
+import { WEEKS as W19_20, DETAILS as D19_20 } from './phase2/weeks19-20.js';
+import { WEEKS as W21_24, DETAILS as D21_24 } from './phase2/weeks21-24.js';
+
+export const SCHEMA = {
+  "version": "2.0",
+  "structure": "normalized",
+  "note": "Phase 2: Career Acceleration (Months 4-6 checkpoint). Salary target: $130K–$160K. Staff promotion is a 12-18 month journey, not a 4-month sprint. Phase 1 now covers Months 1-3.",
+  "extension_note": "If Staff promotion is not achievable by Month 6, EXTEND Phase 2 by 6 months (Months 7-12). Continue executing Staff track actions. Do not rush. A premature Staff promotion without Staff-level impact leads to imposter syndrome and failure. Better to be a strong Senior for 18 months than a weak Staff for 2 years.",
+  "layers": {
+    "roadmap": "core week objects (id, num, title, theme, tasks)",
+    "details": "taskDetails map keyed by task.id",
+    "boss": "boss battle object per week"
   }
+};
+
+export const PHASE_2_MONTHS = [
+  ...W14_15,
+  ...W16,
+  ...W17,
+  ...W18,
+  ...W19_20,
+  ...W21_24
 ];
+
+export const TASK_DETAILS = {
+  ...D14_15,
+  ...D16,
+  ...D17,
+  ...D18,
+  ...D19_20,
+  ...D21_24
+};

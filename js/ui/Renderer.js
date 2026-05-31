@@ -64,10 +64,10 @@ function renderSection(containerId, data) {
               </div>
               <div class="boss-text"><strong>Challenge:</strong> ${milestone.boss.challenge}</div>
               <div class="boss-text" style="color: var(--txt3); font-size: 0.8rem;">
-                <strong>Resume:</strong> ${milestone.boss.resume}
+                <strong>Resume:</strong> ${milestone.boss.resume || milestone.boss.resumeLine}
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
-                <span class="boss-reward">+${milestone.boss.reward} XP Bonus</span>
+                <span class="boss-reward">+${milestone.boss.reward || milestone.boss.rewardXP} XP Bonus</span>
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@ function renderSection(containerId, data) {
 function renderTasks(milestone, tasksState) {
   return milestone.tasks
     .map((task, i) => {
-      const key = `${milestone.id}_${i}`
+      const key = task.id || `${milestone.id}_${i}`
       const isDone = tasksState[key]
 
       return `
@@ -119,7 +119,7 @@ function renderTasks(milestone, tasksState) {
  * @returns {boolean} True if all tasks complete
  */
 function isMilestoneComplete(milestone, tasks) {
-  return milestone.tasks.every((_, i) => tasks[`${milestone.id}_${i}`])
+  return milestone.tasks.every((task, i) => tasks[task.id || `${milestone.id}_${i}`])
 }
 
 /**
