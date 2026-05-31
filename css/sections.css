@@ -1,0 +1,466 @@
+/* ── Hero ── */
+.hero {
+  margin-bottom: 2.5rem;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 40%, var(--txt3));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.hero-sub {
+  color: var(--txt2);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+/* Pace Nudge */
+.pace-nudge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.5rem;
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.pace-nudge.good {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--green);
+}
+
+/* ── Today's Focus ── */
+.focus-section {
+  padding: 1.75rem;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.focus-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--blue);
+  box-shadow: 0 0 15px var(--blue);
+}
+
+.focus-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.focus-title {
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.focus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.focus-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s var(--spring);
+  cursor: pointer;
+}
+
+.focus-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--glass-border);
+  transform: scale(1.01);
+}
+
+.focus-empty {
+  color: var(--green);
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* ── Milestone Sections ── */
+.milestone-section {
+  margin-bottom: 3rem;
+}
+
+.milestone-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s var(--spring);
+}
+
+.milestone-header:hover {
+  transform: scale(1.01);
+  background: var(--glass-hover);
+  border-color: var(--glass-border-hover);
+}
+
+.milestone-icon {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.m1-header .milestone-icon {
+  color: var(--blue);
+  box-shadow: 0 0 20px var(--blue-glow);
+}
+
+.m2-header .milestone-icon {
+  color: var(--purple);
+  box-shadow: 0 0 20px var(--purple-glow);
+}
+
+.m3-header .milestone-icon {
+  color: var(--gold);
+  box-shadow: 0 0 20px var(--gold-glow);
+}
+
+.milestone-info {
+  flex: 1;
+}
+
+.milestone-name {
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2rem;
+}
+
+.milestone-sub {
+  font-size: 0.9rem;
+  color: var(--txt3);
+  font-weight: 500;
+}
+
+.milestone-toggle {
+  font-size: 1.2rem;
+  color: var(--txt3);
+  transition: transform 0.4s var(--spring);
+}
+
+.milestone-toggle.open {
+  transform: rotate(180deg);
+  color: var(--txt);
+}
+
+.milestone-body {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.milestone-body.open {
+  display: block;
+}
+
+/* ── Week Cards ── */
+.week-card {
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: all 0.3s var(--spring);
+  position: relative;
+}
+
+.week-card:hover {
+  border-color: var(--glass-border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.week-card-top {
+  height: 4px;
+  width: 100%;
+}
+
+.wc-header {
+  padding: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.wc-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.wc-num {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.wc-title {
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.01em;
+}
+
+.wc-theme {
+  font-size: 0.85rem;
+  color: var(--txt3);
+  font-weight: 600;
+  font-style: italic;
+}
+
+.wc-arrow {
+  color: var(--txt3);
+  transition: transform 0.4s var(--spring);
+  font-size: 1.2rem;
+  margin-left: auto;
+}
+
+.wc-arrow.open {
+  transform: rotate(180deg);
+  color: var(--txt);
+}
+
+.wc-body {
+  padding: 0 1.5rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows 0.4s var(--spring),
+    padding 0.4s var(--spring),
+    border-color 0.4s;
+  overflow: hidden;
+}
+
+.wc-body.hidden {
+  grid-template-rows: 0fr;
+  padding-bottom: 0;
+  border-top-color: transparent;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wc-body-inner {
+  min-height: 0;
+  transition: opacity 0.3s;
+}
+
+.wc-body.hidden .wc-body-inner {
+  opacity: 0;
+}
+
+/* ── Boss Battle Box ── */
+.boss-battle-box {
+  background: linear-gradient(
+    145deg,
+    rgba(139, 92, 246, 0.08),
+    rgba(0, 0, 0, 0.4)
+  );
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.boss-title {
+  font-weight: 800;
+  color: var(--purple);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.boss-text {
+  font-size: 0.9rem;
+  color: var(--txt2);
+}
+
+.boss-reward {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--gold);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* ── Task Items ── */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s var(--spring);
+}
+
+.task-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.01);
+}
+
+.task-item:active {
+  transform: scale(0.98);
+}
+
+.task-item.done {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: rgba(16, 185, 129, 0.2);
+  opacity: 0.8;
+}
+
+.task-cb {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s var(--spring);
+  background: rgba(0, 0, 0, 0.3);
+  color: transparent;
+}
+
+.task-item:hover .task-cb {
+  border-color: var(--txt3);
+}
+
+.task-cb.checked {
+  background: var(--green);
+  border-color: var(--green);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+  color: #000;
+}
+
+.task-cb.checked i {
+  animation: check-pop 0.4s var(--spring);
+}
+
+.task-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--txt);
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+.task-item.done .task-text {
+  text-decoration: line-through;
+  color: var(--txt3);
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.task-badge {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--txt2);
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.badge-xp {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--gold);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.badge-day {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--blue);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.badge-depth {
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--purple);
+  border-color: rgba(139, 92, 246, 0.2);
+}

@@ -1,0 +1,45 @@
+:root {
+  /* Background Colors */
+  --bg: #050505;
+  --glass-bg: rgba(20, 22, 28, 0.6);
+  --glass-hover: rgba(30, 34, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.15);
+  
+  /* Text Colors */
+  --txt: #f8fafc;
+  --txt2: #94a3b8;
+  --txt3: #64748b;
+  
+  /* Accent Colors */
+  --blue: #3b82f6;
+  --blue-glow: rgba(59, 130, 246, 0.4);
+  
+  --purple: #8b5cf6;
+  --purple-glow: rgba(139, 92, 246, 0.4);
+  
+  --gold: #f59e0b;
+  --gold-glow: rgba(245, 158, 11, 0.4);
+  
+  --green: #10b981;
+  --green-glow: rgba(16, 185, 129, 0.4);
+  
+  --red: #ef4444;
+  --cyan: #06b6d4;
+  
+  /* Layout Dimensions */
+  --nav: 70px;
+  --sidebar: 260px;
+  --sidebar-col: 80px;
+  --right: 320px;
+  --right-col: 80px;
+  
+  /* Animation Curves */
+  --spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  --transition-sb: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  
+  /* Border Radius */
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+}

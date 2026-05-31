@@ -1,0 +1,320 @@
+/* ── Glass Panel Base ── */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Topbar ── */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(5, 5, 5, 0.8);
+  backdrop-filter: blur(20px);
+}
+
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.topbar-logo i {
+  font-size: 1.4rem;
+  color: var(--blue);
+  filter: drop-shadow(0 0 8px var(--blue-glow));
+}
+
+.topbar-spacer {
+  flex: 1;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Gamification Topbar UI */
+.level-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(145deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05));
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+}
+
+.level-text {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--txt);
+}
+
+.xp-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--purple);
+}
+
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(145deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+/* Icon Button */
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--txt2);
+}
+
+.icon-btn:hover {
+  background: var(--glass-hover);
+  border-color: var(--txt);
+  color: var(--txt);
+}
+
+/* Mini Timer Button */
+.mini-timer-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 20px;
+  padding: 0 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--blue);
+  width: auto;
+  height: 42px;
+}
+
+.mini-timer-btn.running {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow: 0 0 15px var(--green-glow);
+  animation: pulse-border 2s infinite;
+}
+
+/* ── Layout ── */
+.layout {
+  display: flex;
+  padding-top: var(--nav);
+  min-height: 100vh;
+}
+
+.main {
+  flex-grow: 1;
+  padding: 2.5rem 2rem;
+  max-width: 1050px;
+  margin: 0 auto;
+  transition: all var(--transition-sb);
+  width: 100%;
+}
+
+/* ── Sidebars ── */
+.sidebar,
+.right-sidebar {
+  position: sticky;
+  top: var(--nav);
+  height: calc(100vh - var(--nav));
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.5rem 0;
+  z-index: 100;
+  transition: width var(--transition-sb);
+  background: rgba(10, 12, 16, 0.4);
+  backdrop-filter: blur(12px);
+}
+
+.sidebar::-webkit-scrollbar,
+.right-sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar {
+  width: var(--sidebar);
+  border-right: 1px solid var(--glass-border);
+}
+
+.sidebar.collapsed {
+  width: var(--sidebar-col);
+}
+
+.right-sidebar {
+  width: var(--right);
+  border-left: 1px solid var(--glass-border);
+  padding: 1.5rem;
+}
+
+.right-sidebar.collapsed {
+  width: var(--right-col);
+  padding: 1.5rem 0.5rem;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle-btn,
+.rside-toggle {
+  width: calc(100% - 2rem);
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--txt2);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.sidebar-toggle-btn:hover,
+.rside-toggle:hover {
+  background: var(--glass-hover);
+  color: var(--txt);
+}
+
+.sidebar.collapsed .sidebar-toggle-btn,
+.right-sidebar.collapsed .rside-toggle {
+  width: 48px;
+  justify-content: center;
+  padding: 0.75rem 0;
+}
+
+.sidebar.collapsed .sb-toggle-label,
+.right-sidebar.collapsed .rside-toggle-label {
+  display: none;
+}
+
+.sidebar-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--txt3);
+  padding: 0 1.5rem;
+  margin-bottom: 0.75rem;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.sidebar.collapsed .sidebar-label {
+  opacity: 0;
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .layout {
+    display: block;
+    padding-bottom: 100px;
+  }
+  .sidebar,
+  .right-sidebar {
+    display: none;
+  }
+  .main {
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-bot-nav {
+    display: none;
+  }
+}
+
+.mobile-bot-nav {
+  position: fixed;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  height: 64px;
+  background: rgba(15, 17, 21, 0.85);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.8) inset;
+  gap: 0.25rem;
+}
+
+.mob-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--txt3);
+  transition: all 0.3s var(--spring);
+  cursor: pointer;
+}
+
+.mob-tab span {
+  display: none;
+  white-space: nowrap;
+}
+
+.mob-tab.active span {
+  display: block;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.mob-tab.active {
+  color: var(--txt);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.mob-tab i {
+  font-size: 1.4rem;
+  transition: all 0.2s;
+}
+
+.mob-tab.active i {
+  color: var(--blue);
+  filter: drop-shadow(0 0 8px var(--blue-glow));
+}

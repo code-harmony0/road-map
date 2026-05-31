@@ -23,26 +23,77 @@ This roadmap provides a structured path focusing on backend architecture, AI int
 
 ## For Personal Use & Open Source
 
-I built this roadmap for my personal jump from mid-level to Senior/Staff engineer. I've designed it to be completely self-contained—meaning **no backend database, no complicated build steps, and no accounts required**. 
+I built this roadmap for my personal jump from mid-level to Senior/Staff engineer. I've designed it to be completely self-contained—meaning **no backend database, no complicated build steps, and no accounts required**.
 
 If you like this structure or want to use it for your own career acceleration, **please feel free to fork, customize, and build upon it!** All data is stored locally in your browser, so you can host your own version on GitHub pages in seconds.
 
 ### How to Customize for Yourself
 
 1. **Fork the repo** and clone it.
-2. Open `index.html`.
-3. Locate the data arrays (`M1_WEEKS`, `M2_MONTHS`, `M3_STAFF`).
-4. Replace the "Boss Battles", tasks, or weeks with the skills **you** need to learn (e.g., iOS internals, Android Compose, Flutter).
-5. Deploy to GitHub Pages!
+2. Open `js/content/` folder - this is your **single source of truth** organized by responsibility:
+   - `app.js` - App name and tagline
+   - `levels.js` - XP thresholds and titles
+   - `phases/phase1.js` - Weeks 1-8 roadmap
+   - `phases/phase2.js` - Months 3-6 roadmap
+   - `phases/phase3.js` - Years 2-3 roadmap
+   - `navigation.js` - Sidebar and milestone headers
+   - `ui-text.js` - Job tracker, focus, timer, settings text
+   - `commands.js` - Command palette items
+   - `messages.js` - Toast notifications
+3. Edit the relevant file for what you want to change
+4. Deploy to GitHub Pages!
 
 ## File Structure
 
 ```
-├── index.html      # Main HTML structure, styling, gamification logic, and data
-└── README.md       # This document
+├── index.html              # Main HTML structure
+├── css/                    # Stylesheets
+│   ├── variables.css       # CSS custom properties
+│   ├── base.css           # Reset, typography, animations
+│   ├── layout.css         # Topbar, sidebars, mobile nav
+│   ├── components.css     # UI components
+│   ├── sections.css       # Milestones, tasks, focus
+│   └── modals.css         # Modals, command palette, toast
+├── js/
+│   ├── content/           # SINGLE SOURCE OF TRUTH (SOLID organized)
+│   │   ├── index.js       # Barrel exports
+│   │   ├── app.js         # App identity
+│   │   ├── levels.js      # Gamification levels
+│   │   ├── phases/        # Roadmap data by phase
+│   │   │   ├── phase1.js  # Weeks 1-8
+│   │   │   ├── phase2.js  # Months 3-6
+│   │   │   └── phase3.js  # Years 2-3
+│   │   ├── navigation.js  # Sidebar & headers
+│   │   ├── ui-text.js     # All UI text
+│   │   ├── commands.js    # Command palette
+│   │   ├── messages.js    # Toast messages
+│   │   └── helpers.js     # Content utilities
+│   ├── main.js            # Entry point
+│   ├── config/            # Re-exports from content/
+│   │   ├── levels.js
+│   │   ├── milestones.js
+│   │   └── commands.js
+│   ├── core/              # Core modules
+│   │   ├── State.js       # State management
+│   │   ├── Storage.js     # localStorage
+│   │   └── EventBus.js    # Pub/sub events
+│   ├── features/          # Feature modules
+│   │   ├── Gamification.js
+│   │   ├── TaskManager.js
+│   │   ├── JobTracker.js
+│   │   ├── Timer.js
+│   │   ├── FocusSection.js
+│   │   └── Confetti.js
+│   └── ui/                # UI modules
+│       ├── Renderer.js
+│       ├── Sidebar.js
+│       ├── CommandPalette.js
+│       ├── Modal.js
+│       └── Toast.js
+└── README.md              # This document
 ```
 
-*(Note: Data and logic have been consolidated directly into `index.html` for pure portability).*
+**To update content:** Edit the specific file in `js/content/` (e.g., edit `phases/phase1.js` to change week tasks).
 
 ## Quick Start
 
@@ -69,17 +120,19 @@ python3 -m http.server 3000
 
 ## Data Storage
 
-All progress is stored locally in your browser's `localStorage` under the key `rn_escape_velocity_v3`. 
+All progress is stored locally in your browser's `localStorage` under the key `rn_escape_velocity_v3`.
 
 **Useful Shortcuts:**
+
 - `Cmd/Ctrl + K` - Open Command Palette
 - Use the **Settings** gear to export your backup as JSON, or reset all progress.
 
 ## Tech Stack
 
-- **Frontend:** Vanilla HTML5, CSS3, JavaScript (ES6+)
+- **Frontend:** Vanilla HTML5, CSS3, JavaScript (ES6+ Modules)
+- **Architecture:** Modular ES modules with single source of truth (`content.js`)
 - **Design System:** Custom CSS properties, Phosphor Icons, Bricolage Grotesque & JetBrains Mono fonts
-- **No Build Step** - Works instantly in any modern browser.
+- **No Build Step** - Works instantly in any modern browser with native ES module support.
 
 ## License
 

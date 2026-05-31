@@ -1,947 +1,386 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Escape Velocity | Mobile Systems Engineer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
-<style>
-:root {
-  /* Premium Dark Mode */
-  --bg: #050505;
-  --glass-bg: rgba(20, 22, 28, 0.6);
-  --glass-hover: rgba(30, 34, 42, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-hover: rgba(255, 255, 255, 0.15);
-  
-  --txt: #f8fafc;
-  --txt2: #94a3b8;
-  --txt3: #64748b;
-  
-  --blue: #3b82f6; --blue-glow: rgba(59, 130, 246, 0.4);
-  --purple: #8b5cf6; --purple-glow: rgba(139, 92, 246, 0.4);
-  --gold: #f59e0b; --gold-glow: rgba(245, 158, 11, 0.4);
-  --green: #10b981; --green-glow: rgba(16, 185, 129, 0.4);
-  --red: #ef4444;
-  --cyan: #06b6d4;
-  
-  --nav: 70px;
-  --sidebar: 260px; --sidebar-col: 80px;
-  --right: 320px; --right-col: 80px;
-  
-  --spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  --transition-sb: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  --radius-lg: 24px; --radius-md: 16px; --radius-sm: 10px;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Escape Velocity | Mobile Systems Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body { 
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif; 
-  background-color: var(--bg); 
-  background-image: 
-    radial-gradient(circle at 10% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 40%),
-    radial-gradient(circle at 90% 20%, rgba(139, 92, 246, 0.1) 0px, transparent 40%),
-    radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
-  background-attachment: fixed;
-  color: var(--txt); 
-  line-height: 1.6; 
-  overflow-x: hidden; 
-}
-body.focus-mode { background-image: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0px, transparent 60%); }
-body.focus-mode .sidebar, body.focus-mode .right-sidebar, body.focus-mode .milestone-section, body.focus-mode .hero { opacity: 0.2; filter: grayscale(100%) blur(4px); pointer-events: none; }
-body.focus-mode .focus-section { transform: scale(1.02); box-shadow: 0 0 50px rgba(59, 130, 246, 0.15); z-index: 1000; position: relative; }
-
-a { color: inherit; text-decoration: none; }
-button { cursor: pointer; font-family: inherit; transition: transform 0.2s var(--spring), filter 0.2s, background 0.2s; }
-button:active { transform: scale(0.92); }
-input { font-family: inherit; }
-i.ph, i.ph-fill, i.ph-bold { font-size: 1.2em; vertical-align: middle; }
-
-/* ── UI COMPONENTS ── */
-.glass-panel { background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
-
-/* ── TOPBAR ── */
-.topbar { position:fixed; top:0; left:0; right:0; height:var(--nav); z-index:200; display:flex; align-items:center; padding:0 1.5rem; gap:1.5rem; border-bottom: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(20px); }
-.topbar-logo { display:flex; align-items:center; gap:0.6rem; font-weight:800; font-size:1.2rem; letter-spacing: -0.02em; }
-.topbar-logo i { font-size:1.4rem; color: var(--blue); filter: drop-shadow(0 0 8px var(--blue-glow)); }
-
-/* Gamification Topbar UI */
-.level-badge { display:flex; align-items:center; gap:0.5rem; background: linear-gradient(145deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 20px; padding: 0.4rem 1rem; box-shadow: 0 0 15px rgba(139, 92, 246, 0.2); }
-.level-text { font-weight: 800; font-size: 0.85rem; color: var(--txt); }
-.xp-text { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700; color: var(--purple); }
-
-.topbar-spacer { flex:1; }
-.topbar-actions { display:flex; align-items:center; gap:1rem; }
-.streak-badge { display:flex; align-items:center; gap:0.4rem; background: linear-gradient(145deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05)); border: 1px solid rgba(245,158,11,0.2); border-radius: 20px; padding: 0.4rem 1rem; font-size: 0.9rem; font-weight: 700; color: var(--gold); }
-.icon-btn { width:42px; height:42px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); display:flex; align-items:center; justify-content:center; color: var(--txt2); }
-.icon-btn:hover { background: var(--glass-hover); border-color: var(--txt); color: var(--txt); }
-.mini-timer-btn { display:flex; align-items:center; gap:0.5rem; background: rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); border-radius: 20px; padding:0 1rem; font-family:'JetBrains Mono',monospace; font-size:0.95rem; font-weight:700; color:var(--blue); width: auto; height: 42px;}
-.mini-timer-btn.running { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); box-shadow: 0 0 15px var(--green-glow); animation: pulse-border 2s infinite; }
-
-/* ── LAYOUT ── */
-.layout { display:flex; padding-top:var(--nav); min-height:100vh; }
-.main { flex-grow:1; padding:2.5rem 2rem; max-width:1050px; margin:0 auto; transition:all var(--transition-sb); width:100%; }
-
-/* ── SIDEBARS ── */
-.sidebar, .right-sidebar { position:sticky; top:var(--nav); height:calc(100vh - var(--nav)); flex-shrink:0; overflow-y:auto; overflow-x:hidden; padding:1.5rem 0; z-index:100; transition:width var(--transition-sb); background: rgba(10, 12, 16, 0.4); backdrop-filter: blur(12px); }
-.sidebar::-webkit-scrollbar, .right-sidebar::-webkit-scrollbar { display: none; }
-.sidebar { width:var(--sidebar); border-right:1px solid var(--glass-border); }
-.sidebar.collapsed { width:var(--sidebar-col); }
-.right-sidebar { width:var(--right); border-left:1px solid var(--glass-border); padding: 1.5rem; }
-.right-sidebar.collapsed { width:var(--right-col); padding: 1.5rem 0.5rem; }
-
-.sidebar-toggle-btn, .rside-toggle { width:calc(100% - 2rem); margin:0 auto 1.5rem; display:flex; align-items:center; justify-content:space-between; padding:0.75rem 1rem; background: var(--glass-bg); border:1px solid var(--glass-border); border-radius: var(--radius-sm); color:var(--txt2); font-size:0.85rem; font-weight:600; }
-.sidebar-toggle-btn:hover, .rside-toggle:hover { background: var(--glass-hover); color: var(--txt); }
-.sidebar.collapsed .sidebar-toggle-btn, .right-sidebar.collapsed .rside-toggle { width:48px; justify-content:center; padding: 0.75rem 0; }
-.sidebar.collapsed .sb-toggle-label, .right-sidebar.collapsed .rside-toggle-label { display:none; }
-
-.sidebar-label { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--txt3); padding:0 1.5rem; margin-bottom:0.75rem; white-space:nowrap; transition: opacity 0.2s; }
-.sidebar.collapsed .sidebar-label { opacity:0; }
-
-.sidebar-item { display:flex; flex-direction:column; padding:1rem 1.5rem; cursor:pointer; border-right: 3px solid transparent; transition: all 0.3s var(--spring); margin-bottom:0.25rem; white-space:nowrap; }
-.sidebar-item:hover { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03)); padding-left: 1.75rem; color: #fff;}
-.sidebar-item.active { background: linear-gradient(90deg, transparent, rgba(59,130,246,0.1)); border-right-color: var(--blue); }
-.sidebar-item.active.m2 { border-right-color: var(--purple); background: linear-gradient(90deg, transparent, rgba(139,92,246,0.1)); }
-.sidebar-item.active.m3 { border-right-color: var(--gold); background: linear-gradient(90deg, transparent, rgba(245,158,11,0.1)); }
-
-.sidebar-title { font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:0.75rem; }
-.sidebar.collapsed .sidebar-title .sb-text { display:none; }
-.sidebar.collapsed .sidebar-item { padding:1rem 0; align-items:center; border-right:none; border-radius: var(--radius-sm); margin: 0.5rem 1rem; }
-.sidebar.collapsed .sidebar-item.active { background: rgba(59,130,246,0.15); box-shadow: 0 0 15px var(--blue-glow); }
-.sidebar.collapsed .sidebar-item.active.m2 { background: rgba(139,92,246,0.15); box-shadow: 0 0 15px var(--purple-glow); }
-.sidebar.collapsed .sidebar-item.active.m3 { background: rgba(245,158,11,0.15); box-shadow: 0 0 15px var(--gold-glow); }
-.sidebar.collapsed .sidebar-sub { display:none; }
-.sidebar-icon-only { font-size:1.3rem; color: var(--txt2); transition: color 0.3s;}
-.sidebar-item.active .sidebar-icon-only { color: var(--blue); }
-.sidebar-item.active.m2 .sidebar-icon-only { color: var(--purple); }
-.sidebar-item.active.m3 .sidebar-icon-only { color: var(--gold); }
-.sidebar-sub { font-size:0.8rem; color:var(--txt3); margin-top:0.3rem; }
-
-/* ── RIGHT SIDEBAR (Job Radar) ── */
-.right-sidebar.collapsed .jst-full { display:none; }
-.right-sidebar.collapsed .jst-mini { display:flex; }
-.jst-mini { display:none; flex-direction:column; gap:1.5rem; align-items: center; }
-.jst-mini-row { text-align:center; }
-.jst-mini-val { font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:800; display:block; text-shadow: 0 0 10px currentColor; }
-.jst-mini-lbl { font-size:0.65rem; color:var(--txt3); text-transform:uppercase; font-weight: 700; }
-
-.jst-full { padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); background: linear-gradient(180deg, rgba(30,34,40,0.4), transparent); }
-.jst-title { font-weight:800; font-size:1.1rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem; }
-.jst-title i { color: var(--blue); font-size: 1.2rem;}
-.jst-metric { margin-bottom:1.2rem; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.03); }
-.jst-label { font-size:0.8rem; color:var(--txt2); font-weight: 600; margin-bottom:0.5rem; display:flex; justify-content:space-between; }
-.jst-target { font-family:'JetBrains Mono',monospace; color: var(--txt3); }
-.jst-row { display:flex; align-items:center; gap:1rem; }
-.jst-input { width:70px; background:rgba(0,0,0,0.5); border:1px solid var(--glass-border); border-radius:var(--radius-sm); padding:0.4rem; color:var(--txt); font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:700; text-align:center; outline:none; transition: all 0.2s; }
-.jst-input:focus { border-color:var(--blue); box-shadow: 0 0 0 2px var(--blue-glow); }
-.jst-bar { flex:1; height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden; }
-.jst-bar-fill { height:100%; border-radius:3px; transition:width 0.8s var(--spring); }
-.jst-cta { width:100%; margin-top:1rem; padding:1rem; background: linear-gradient(135deg, var(--blue), #2563eb); color:#fff; border:none; border-radius:var(--radius-md); font-weight:800; font-size:0.95rem; box-shadow: 0 4px 15px var(--blue-glow); display:flex; align-items:center; justify-content:center; gap:0.5rem;}
-.jst-cta:hover { transform:translateY(-2px) scale(1.02); box-shadow: 0 8px 25px var(--blue-glow); }
-
-/* ── HERO & PACE TRACKER ── */
-.hero { margin-bottom:2.5rem; }
-.hero-title { font-size:clamp(2rem, 4vw, 3.5rem); font-weight:800; background: linear-gradient(135deg, #fff 40%, var(--txt3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:-0.03em; line-height: 1.1; margin-bottom:0.5rem; }
-.hero-sub { color:var(--txt2); font-size:1.1rem; font-weight: 500; margin-bottom:2rem; }
-
-.pace-nudge { display:flex; align-items:center; gap:0.75rem; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; color: var(--gold); font-size: 0.85rem; font-weight: 600; }
-.pace-nudge.good { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--green); }
-
-/* ── TODAY'S FOCUS ── */
-.focus-section { padding:1.75rem; margin-bottom:3rem; position: relative; overflow: hidden; transition: all 0.3s ease; }
-.focus-section::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; background: var(--blue); box-shadow: 0 0 15px var(--blue); }
-.focus-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; }
-.focus-title { font-weight:800; font-size:1.2rem; color: #fff; letter-spacing: -0.02em; }
-.focus-list { display:flex; flex-direction:column; gap:0.75rem; }
-.focus-item { display:flex; align-items:center; gap:1rem; padding:1rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.03); border-radius: var(--radius-md); font-size:0.95rem; font-weight: 500; transition: all 0.2s var(--spring); cursor: pointer;}
-.focus-item:hover { background: rgba(255,255,255,0.05); border-color: var(--glass-border); transform: scale(1.01); }
-.focus-empty { color:var(--green); font-size:1rem; font-weight:600; text-align:center; padding:1.5rem 0; display:flex; flex-direction: column; gap: 0.5rem; align-items:center;}
-
-/* ── MILESTONE HEADERS ── */
-.milestone-section { margin-bottom:3rem; }
-.milestone-header { display:flex; align-items:center; gap:1.25rem; padding:1.5rem; cursor:pointer; margin-bottom:1.5rem; transition:all 0.3s var(--spring); }
-.milestone-header:hover { transform: scale(1.01); background: var(--glass-hover); border-color: var(--glass-border-hover);}
-.milestone-icon { font-size:2rem; width: 48px; height: 48px; display:flex; align-items:center; justify-content:center; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);}
-.m1-header .milestone-icon { color: var(--blue); box-shadow: 0 0 20px var(--blue-glow);}
-.m2-header .milestone-icon { color: var(--purple); box-shadow: 0 0 20px var(--purple-glow);}
-.m3-header .milestone-icon { color: var(--gold); box-shadow: 0 0 20px var(--gold-glow);}
-
-.milestone-info { flex:1; }
-.milestone-name { font-weight:800; font-size:1.3rem; letter-spacing: -0.02em; margin-bottom:0.2rem;}
-.milestone-sub { font-size:0.9rem; color:var(--txt3); font-weight: 500; }
-.milestone-toggle { font-size:1.2rem; color:var(--txt3); transition:transform 0.4s var(--spring); }
-.milestone-toggle.open { transform:rotate(180deg); color: var(--txt); }
-.milestone-body { display:none; animation: fadeIn 0.4s ease; }
-.milestone-body.open { display:block; }
-
-/* ── CARDS (Bento & Tasks) ── */
-.week-card { margin-bottom:1.5rem; overflow:hidden; transition: all 0.3s var(--spring); position: relative; }
-.week-card:hover { border-color: var(--glass-border-hover); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-.week-card-top { height:4px; width:100%; }
-.wc-header { padding:1.5rem; cursor:pointer; display:flex; align-items:flex-start; gap:1.5rem; }
-.wc-left { flex:1; min-width:0; }
-.wc-num { font-family:'JetBrains Mono',monospace; font-size:0.75rem; font-weight:800; margin-bottom:0.5rem; text-transform: uppercase; letter-spacing: 0.1em; display:flex; align-items:center; gap:0.4rem;}
-.wc-title { font-weight:800; font-size:1.2rem; margin-bottom:0.3rem; letter-spacing: -0.01em; }
-.wc-theme { font-size:0.85rem; color:var(--txt3); font-weight: 600; font-style: italic;}
-.wc-arrow { color:var(--txt3); transition:transform 0.4s var(--spring); font-size: 1.2rem; margin-left: auto;}
-.wc-arrow.open { transform:rotate(180deg); color: var(--txt); }
-
-.wc-body { padding:0 1.5rem 1.5rem; border-top:1px solid rgba(255,255,255,0.05); display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.4s var(--spring), padding 0.4s var(--spring), border-color 0.4s; overflow: hidden; }
-.wc-body.hidden { grid-template-rows: 0fr; padding-bottom: 0; border-top-color: transparent; opacity: 0; pointer-events: none; }
-.wc-body-inner { min-height: 0; transition: opacity 0.3s; } 
-.wc-body.hidden .wc-body-inner { opacity: 0; }
-
-/* Boss Battle Box */
-.boss-battle-box { background: linear-gradient(145deg, rgba(139, 92, 246, 0.08), rgba(0,0,0,0.4)); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.15); display: flex; flex-direction: column; gap: 0.5rem;}
-.boss-title { font-weight: 800; color: var(--purple); font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;}
-.boss-text { font-size: 0.9rem; color: var(--txt2); }
-.boss-reward { display: inline-block; background: rgba(245, 158, 11, 0.15); color: var(--gold); padding: 0.2rem 0.6rem; border-radius: 4px; font-family: 'JetBrains Mono'; font-weight: 700; font-size: 0.8rem; border: 1px solid rgba(245, 158, 11, 0.3);}
-
-/* Task Item */
-.task-list { display:flex; flex-direction:column; gap:0.5rem; }
-.task-item { display:flex; align-items:flex-start; gap:1rem; padding:1rem 1.25rem; background: rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); border-radius:var(--radius-md); cursor:pointer; transition:all 0.2s var(--spring); }
-.task-item:hover { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1); transform: scale(1.01); }
-.task-item:active { transform: scale(0.98); }
-.task-item.done { background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.2); opacity:0.8; }
-
-.task-cb { width:24px; height:24px; border:2px solid var(--border2); border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.3s var(--spring); background: rgba(0,0,0,0.3); color: transparent;}
-.task-item:hover .task-cb { border-color: var(--txt3); }
-.task-cb.checked { background:var(--green); border-color:var(--green); box-shadow: 0 0 15px rgba(16,185,129,0.3); color: #000; }
-@keyframes check-pop { 0%{transform:scale(0) rotate(-15deg);} 50%{transform:scale(1.3) rotate(10deg);} 100%{transform:scale(1) rotate(0);} }
-.task-cb.checked i { animation: check-pop 0.4s var(--spring); }
-
-.task-content { flex:1; min-width:0; }
-.task-text { font-size:0.95rem; font-weight:600; color:var(--txt); line-height:1.4; margin-bottom:0.5rem; }
-.task-item.done .task-text { text-decoration:line-through; color:var(--txt3); }
-.task-meta { display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; }
-
-.task-badge { background: rgba(255,255,255,0.05); color: var(--txt2); padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; border: 1px solid rgba(255,255,255,0.05); display:flex; align-items:center; gap:0.2rem;}
-.badge-xp { background: rgba(245, 158, 11, 0.1); color: var(--gold); border-color: rgba(245, 158, 11, 0.2); }
-.badge-day { background: rgba(59, 130, 246, 0.1); color: var(--blue); border-color: rgba(59, 130, 246, 0.2); }
-.badge-depth { background: rgba(139, 92, 246, 0.1); color: var(--purple); border-color: rgba(139, 92, 246, 0.2); }
-
-/* ── MOBILE NAV & FAB & CMD+K ── */
-@media(max-width: 768px) {
-  .layout { display: block; padding-bottom: 100px; }
-  .sidebar, .right-sidebar { display: none; }
-  .main { padding: 1.5rem 1rem; }
-}
-@media(min-width: 769px) { .mobile-bot-nav { display: none; } }
-
-.mobile-bot-nav { position: fixed; bottom: max(20px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); height: 64px; background: rgba(15, 17, 21, 0.85); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; z-index: 200; display: flex; justify-content: center; align-items: center; padding: 0 0.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.8) inset; gap: 0.25rem; }
-.mob-tab { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; border-radius: 100px; font-size: 0.85rem; font-weight: 700; color: var(--txt3); transition: all 0.3s var(--spring); cursor: pointer; }
-.mob-tab span { display: none; white-space: nowrap; }
-.mob-tab.active span { display: block; animation: fadeIn 0.3s ease forwards; }
-.mob-tab.active { color: var(--txt); background: rgba(255, 255, 255, 0.08); box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1); }
-.mob-tab i { font-size: 1.4rem; transition: all 0.2s; }
-.mob-tab.active i { color: var(--blue); filter: drop-shadow(0 0 8px var(--blue-glow)); }
-
-/* Quick Capture FAB */
-.quick-fab-container { position: fixed; bottom: 2.5rem; right: 2.5rem; z-index: 150; display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
-@media (max-width: 768px) { .quick-fab-container { bottom: max(100px, env(safe-area-inset-bottom) + 80px); right: 1.5rem; } }
-.quick-fab-menu { display: flex; flex-direction: column; gap: 0.5rem; opacity: 0; pointer-events: none; transform: translateY(20px) scale(0.9); transition: all 0.3s var(--spring); transform-origin: bottom right; }
-.quick-fab-container.open .quick-fab-menu { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
-.fab-action { display: flex; align-items: center; gap: 0.75rem; background: rgba(20,22,28,0.9); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); padding: 0.75rem 1rem; border-radius: 100px; color: var(--txt); font-weight: 600; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.2s; }
-.fab-action:hover { background: var(--glass-hover); border-color: var(--blue); color: var(--blue); }
-.fab-main { width: 56px; height: 56px; background: rgba(59, 130, 246, 0.15); backdrop-filter: blur(12px); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 50%; color: var(--blue); font-size: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(59,130,246,0.2), inset 0 0 15px rgba(59,130,246,0.1); cursor: pointer; transition: all 0.3s var(--spring); }
-.fab-main:hover { background: rgba(59, 130, 246, 0.25); border-color: rgba(59, 130, 246, 0.6); box-shadow: 0 8px 30px rgba(59,130,246,0.4), inset 0 0 20px rgba(59,130,246,0.2); transform: scale(1.05); }
-.quick-fab-container.open .fab-main { transform: rotate(45deg); background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: var(--red); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2); }
-.quick-fab-container.open .fab-main:hover { background: rgba(239, 68, 68, 0.25); border-color: rgba(239, 68, 68, 0.6); box-shadow: 0 4px 25px rgba(239, 68, 68, 0.4); }
-
-/* Command Palette */
-.cmd-palette-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); z-index: 9999; display: none; align-items: flex-start; justify-content: center; padding-top: 15vh; opacity: 0; transition: opacity 0.2s ease; }
-.cmd-palette-overlay.open { display: flex; opacity: 1; }
-.cmd-modal { width: 90%; max-width: 600px; background: rgba(20, 22, 28, 0.85); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px inset rgba(255,255,255,0.05); overflow: hidden; transform: scale(0.95) translateY(-20px); transition: transform 0.3s var(--spring); }
-.cmd-palette-overlay.open .cmd-modal { transform: scale(1) translateY(0); }
-.cmd-input-wrap { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border2); display: flex; align-items: center; gap: 1rem; }
-.cmd-input-wrap i { font-size: 1.5rem; color: var(--blue); }
-.cmd-input { width: 100%; background: transparent; border: none; color: var(--txt); font-size: 1.2rem; outline: none; font-family: inherit; font-weight: 500; }
-.cmd-list { max-height: 350px; overflow-y: auto; padding: 0.5rem; }
-.cmd-item { padding: 0.8rem 1rem; display: flex; align-items: center; gap: 1rem; cursor: pointer; border-radius: var(--radius-sm); color: var(--txt2); font-weight: 500; }
-.cmd-item.selected, .cmd-item:hover { background: rgba(59,130,246,0.15); color: var(--txt); }
-.cmd-item.selected i { color: var(--blue); }
-
-/* Modals & Utils */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter: blur(8px);z-index:500;display:none;align-items:center;justify-content:center;}
-.modal-overlay.open{display:flex;}
-.modal{background:var(--bg-s); backdrop-filter: blur(24px); border:1px solid var(--glass-border); border-radius:var(--radius-lg); padding:2rem; width:90%; max-width:500px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: scale(0.95); transition: transform 0.3s var(--spring);}
-.modal-overlay.open .modal { transform: scale(1); }
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-s);backdrop-filter: blur(16px);border:1px solid var(--glass-border);color:var(--txt);padding:1rem 2rem;border-radius:100px;font-weight:600;opacity:0;transition:all 0.4s var(--spring);z-index:999;pointer-events:none; display:flex; align-items:center; gap:0.5rem;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-#confettiCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;}
-@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-@keyframes pulse-border { 0%,100%{box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);} 50%{box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);} }
-</style>
-</head>
-<body>
-
-<nav class="topbar">
-  <div class="topbar-logo"><i class="ph-fill ph-rocket-launch"></i> Escape Velocity</div>
-  <div class="level-badge">
-    <i class="ph-fill ph-medal" style="color: var(--purple);"></i>
-    <span class="level-text" id="levelDisp">Lvl 1: Junior</span>
-    <span class="xp-text" id="xpDisp">0 XP</span>
-  </div>
-  <div class="topbar-spacer"></div>
-  <div class="topbar-actions">
-    <button class="mini-timer-btn icon-btn" id="miniTimerBtn" onclick="openTimer()">
-      <i class="ph-bold ph-timer"></i> <span id="miniTimerDisp">25:00</span>
-    </button>
-    <button class="icon-btn" onclick="openSettings()"><i class="ph-bold ph-gear"></i></button>
-  </div>
-</nav>
-
-<div class="layout">
-  <aside class="sidebar" id="leftSidebar">
-    <button class="sidebar-toggle-btn" onclick="toggleLeftSidebar()">
-      <span class="sb-toggle-label">Collapse</span>
-      <i class="ph-bold ph-caret-double-left" id="sbLeftIcon"></i>
-    </button>
-    <div class="sidebar-item active" id="sideM1" onclick="scrollToId('m1')">
-      <div class="sidebar-title"><i class="ph-fill ph-sword sidebar-icon-only"></i><span class="sb-text">Escape Velocity</span></div>
-      <div class="sidebar-sub">Weeks 1-8</div>
-    </div>
-    <div class="sidebar-item m2" id="sideM2" onclick="scrollToId('m2')">
-      <div class="sidebar-title"><i class="ph-fill ph-rocket sidebar-icon-only"></i><span class="sb-text">Career Accel</span></div>
-      <div class="sidebar-sub">Months 3-6</div>
-    </div>
-    <div class="sidebar-item m3" id="sideM3" onclick="scrollToId('m3')">
-      <div class="sidebar-title"><i class="ph-fill ph-crown sidebar-icon-only"></i><span class="sb-text">Industry Leader</span></div>
-      <div class="sidebar-sub">Years 2-3</div>
-    </div>
-  </aside>
-
-  <main class="main" id="mainContent">
-    
-    <div class="focus-section glass-panel" id="focusContainer">
-      <div class="focus-header">
-        <i class="ph-fill ph-crosshair" style="font-size: 1.8rem; color: var(--blue)"></i>
-        <span class="focus-title" style="font-weight: 800; font-size: 1.2rem; color: #fff;">Daily Standup (Focus)</span>
+    <!-- CSS Modules -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/sections.css" />
+    <link rel="stylesheet" href="css/modals.css" />
+  </head>
+  <body>
+    <nav class="topbar">
+      <div class="topbar-logo">
+        <i class="ph-fill ph-rocket-launch"></i> Escape Velocity
       </div>
-      <div class="focus-list" id="todayFocus"></div>
-    </div>
-
-    <div class="milestone-section" id="m1">
-      <div class="milestone-header glass-panel m1-header" onclick="toggleMilestone('m1')">
-        <div class="milestone-icon"><i class="ph-fill ph-sword"></i></div>
-        <div class="milestone-info">
-          <div class="milestone-name">Phase 1: Escape Velocity</div>
-          <div class="milestone-sub">Weeks 1-8 · Target: $160K-$200K Offer</div>
-        </div>
-        <i class="ph-bold ph-caret-down milestone-toggle open" id="m1Toggle"></i>
+      <div class="level-badge">
+        <i class="ph-fill ph-medal" style="color: var(--purple)"></i>
+        <span class="level-text" id="levelDisp">Lvl 1: Junior</span>
+        <span class="xp-text" id="xpDisp">0 XP</span>
       </div>
-      <div class="milestone-body open" id="m1Body"></div>
-    </div>
-
-    <div class="milestone-section" id="m2">
-      <div class="milestone-header glass-panel m2-header" onclick="toggleMilestone('m2')">
-        <div class="milestone-icon"><i class="ph-fill ph-rocket"></i></div>
-        <div class="milestone-info">
-          <div class="milestone-name">Phase 2: Career Acceleration</div>
-          <div class="milestone-sub">Months 3-6 · Target: $200K-$280K</div>
-        </div>
-        <i class="ph-bold ph-caret-down milestone-toggle" id="m2Toggle"></i>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button
+          class="mini-timer-btn icon-btn"
+          id="miniTimerBtn"
+          onclick="openTimer()"
+        >
+          <i class="ph-bold ph-timer"></i> <span id="miniTimerDisp">25:00</span>
+        </button>
+        <button class="icon-btn" onclick="openSettings()">
+          <i class="ph-bold ph-gear"></i>
+        </button>
       </div>
-      <div class="milestone-body" id="m2Body"></div>
-    </div>
+    </nav>
 
-    <div class="milestone-section" id="m3">
-      <div class="milestone-header glass-panel m3-header" onclick="toggleMilestone('m3')">
-        <div class="milestone-icon"><i class="ph-fill ph-crown"></i></div>
-        <div class="milestone-info">
-          <div class="milestone-name">Phase 3: Industry Leadership</div>
-          <div class="milestone-sub">Years 2-3 · Target: $250K-$350K</div>
-        </div>
-        <i class="ph-bold ph-caret-down milestone-toggle" id="m3Toggle"></i>
-      </div>
-      <div class="milestone-body" id="m3Body"></div>
-    </div>
-
-  </main>
-
-  <aside class="right-sidebar" id="rightSidebar">
-    <button class="rside-toggle" onclick="toggleRightSidebar()">
-      <span class="rside-toggle-label">Job Radar</span>
-      <i class="ph-bold ph-caret-double-right" id="rsideIcon"></i>
-    </button>
-    
-    <div class="jst-mini" id="jstMiniView">
-      <div class="jst-mini-row"><span class="jst-mini-val" id="jstMiniApp">0</span><span class="jst-mini-lbl">Apps</span></div>
-      <div class="jst-mini-row"><span class="jst-mini-val" style="color:var(--purple)" id="jstMiniInt">0</span><span class="jst-mini-lbl">Int</span></div>
-    </div>
-
-    <div class="jst-full glass-panel">
-      <div class="jst-title"><i class="ph-fill ph-radar"></i> Offer Radar</div>
-      
-      <div class="jst-metric">
-        <div class="jst-label">Applications <span class="jst-target">Goal: 50</span></div>
-        <div class="jst-row">
-          <input class="jst-input" type="number" min="0" id="jstApp" oninput="updateJST('applications',this.value)">
-          <div class="jst-bar"><div class="jst-bar-fill" id="jstAppBar" style="width:0%; background:var(--blue); box-shadow: 0 0 8px var(--blue-glow);"></div></div>
-        </div>
-      </div>
-      
-      <div class="jst-metric">
-        <div class="jst-label">Interviews <span class="jst-target">Goal: 10</span></div>
-        <div class="jst-row">
-          <input class="jst-input" type="number" min="0" id="jstInt" oninput="updateJST('interviews',this.value)">
-          <div class="jst-bar"><div class="jst-bar-fill" style="background:var(--purple); box-shadow: 0 0 8px var(--purple-glow);" id="jstIntBar" style="width:0%"></div></div>
-        </div>
-      </div>
-      
-      <div class="jst-metric">
-        <div class="jst-label">Offers <span class="jst-target">Goal: 2</span></div>
-        <div class="jst-row">
-          <input class="jst-input" type="number" min="0" id="jstOff" oninput="updateJST('offers',this.value)">
-          <div class="jst-bar"><div class="jst-bar-fill" style="background:var(--green); box-shadow: 0 0 8px var(--green-glow);" id="jstOffBar" style="width:0%"></div></div>
-        </div>
-      </div>
-
-      <button class="jst-cta" onclick="applyThree()"><i class="ph-bold ph-paper-plane-tilt"></i> Log 3 Apps</button>
-    </div>
-  </aside>
-</div>
-
-<nav class="mobile-bot-nav">
-  <div class="mob-tab active" onclick="scrollToId('m1')"><i class="ph-fill ph-sword"></i><span>Escape</span></div>
-  <div class="mob-tab" onclick="scrollToId('m2')"><i class="ph-fill ph-rocket"></i><span>Accel</span></div>
-  <div class="mob-tab" onclick="scrollToId('m3')"><i class="ph-fill ph-crown"></i><span>Lead</span></div>
-  <div class="mob-tab" onclick="openTimer()"><i class="ph-bold ph-timer"></i><span>Focus</span></div>
-</nav>
-
-<div class="cmd-palette-overlay" id="cmdPalette" onclick="if (event.target === this) closeCmd()">
-  <div class="cmd-modal">
-    <div class="cmd-input-wrap">
-      <i class="ph-bold ph-magnifying-glass"></i>
-      <input type="text" class="cmd-input" id="cmdInput" placeholder="Type a command (e.g. 'timer', 'log apps')..." autocomplete="off" />
-    </div>
-    <div class="cmd-list" id="cmdList"></div>
-  </div>
-</div>
-
-<div class="quick-fab-container" id="quickFab">
-  <div class="quick-fab-menu">
-    <button class="fab-action" onclick="applyThree(); toggleFab()"><i class="ph-bold ph-paper-plane-tilt"></i> Log 3 Job Apps</button>
-    <button class="fab-action" onclick="openTimer(); toggleFab()"><i class="ph-bold ph-timer"></i> Start Deep Work</button>
-    <button class="fab-action" onclick="openSettings(); toggleFab()"><i class="ph-bold ph-calendar-plus"></i> Set Start Date</button>
-  </div>
-  <button class="fab-main" onclick="toggleFab()"><i class="ph-bold ph-plus"></i></button>
-</div>
-
-<div class="modal-overlay" id="timerModal">
-  <div class="modal" style="text-align: center">
-    <div class="modal-title" style="justify-content: center"><i class="ph-fill ph-hourglass-high" style="color: var(--blue)"></i> Deep Work Timer</div>
-    <div style="font-family: 'JetBrains Mono', monospace; font-size: 5rem; font-weight: 800; text-shadow: 0 0 30px rgba(255,255,255,0.1); padding: 2rem 0;" id="timerDisplayLg">25:00</div>
-    <div style="display:flex; gap:1rem; justify-content:center;">
-      <button class="btn-primary" id="timerStartBtn" onclick="toggleTimer()" style="background:var(--blue); color:#fff; border:none; border-radius:10px; padding:0.75rem 1.5rem; font-weight:700;"><i class="ph-bold ph-play"></i> Start Focus</button>
-      <button class="btn-secondary" onclick="resetTimer()" style="background:rgba(255,255,255,0.05); color:var(--txt); border:1px solid var(--glass-border); border-radius:10px; padding:0.75rem 1.5rem;"><i class="ph-bold ph-arrow-counter-clockwise"></i></button>
-      <button class="btn-secondary" onclick="closeTimer()" style="background:rgba(255,255,255,0.05); color:var(--txt); border:1px solid var(--glass-border); border-radius:10px; padding:0.75rem 1.5rem;"><i class="ph-bold ph-x"></i></button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="settingsModal">
-  <div class="modal">
-    <div class="modal-title"><i class="ph-fill ph-gear"></i> Settings</div>
-    <div style="margin-bottom: 1.5rem;">
-      <label style="color:var(--txt2); font-size:0.9rem;">Start Date (For Pace Tracker)</label><br>
-      <input type="date" id="startDateInput" onchange="saveStartDate(this.value)" style="margin-top:0.5rem; background:rgba(0,0,0,0.5); border:1px solid var(--glass-border); border-radius:8px; padding:0.5rem; color:var(--txt); width:100%; outline:none;">
-    </div>
-    <div style="display: flex; flex-direction: column; gap: 1rem">
-      <button onclick="exportData()" style="background:rgba(255,255,255,0.05); color:var(--txt); border:1px solid var(--glass-border); border-radius:10px; padding:0.75rem; text-align:left; cursor:pointer;"><i class="ph-bold ph-download-simple"></i> Export Backup (JSON)</button>
-      <button style="background:rgba(239, 68, 68, 0.1); color:var(--red); border:1px solid rgba(239, 68, 68, 0.3); border-radius:10px; padding:0.75rem; text-align:left; cursor:pointer;" onclick="confirmReset()"><i class="ph-bold ph-trash"></i> Reset All Progress</button>
-    </div>
-    <button onclick="closeSettings()" style="width:100%; margin-top:1.5rem; background:var(--blue); color:#fff; border:none; border-radius:10px; padding:0.75rem; font-weight:700; cursor:pointer;">Close</button>
-  </div>
-</div>
-
-<div class="toast" id="toast"><i class="ph-bold ph-check-circle"></i> <span id="toastMsg">Success</span></div>
-<canvas id="confettiCanvas"></canvas>
-
-<script>
-// ═══════════════════════════════════════════════════
-//  GAMIFICATION & DATA
-// ═══════════════════════════════════════════════════
-const LEVELS = [
-  { level: 1, title: 'Junior', xp: 0 },
-  { level: 2, title: 'Mid-Level', xp: 1000 },
-  { level: 3, title: 'Senior Dev', xp: 3000 },
-  { level: 4, title: 'Staff Ready', xp: 6000 },
-  { level: 5, title: 'Principal', xp: 10000 },
-  { level: 6, title: 'Industry Expert', xp: 15000 }
-];
-
-const M1_WEEKS = [
-  {
-    id:'w1', num:'WEEK 01', title:'Foundation + AI POC', theme:'"AI-Native" Identity Shift', color:'var(--w1)',
-    boss: { name:'The AI Integrator', challenge:'Feature works + cost tracked + 5 apps sent', reward:450, resume:'Shipped multi-modal AI (chat/voice/image) with $0.08/session cost control and streaming (<500ms first token)' },
-    tasks:[
-      { day:'Day 1', time:'1h', depth:'Deep', xp:50, t:'Audit Zonesso for AI integration points', why: 'Document before migration' },
-      { day:'Day 2', time:'2h', depth:'Deep', xp:100, t:'Set up OpenAI API, test basic integration', why: 'Core tool evaluation' },
-      { day:'Day 3', time:'3h', depth:'Deep', xp:150, t:'Implement simple AI feature (smart search)', why: 'Proves capability' },
-      { day:'Day 4', time:'1h', depth:'Medium', xp:75, t:'Add cost tracking + rate limiting', why: 'Production safety' },
-      { day:'Day 5', time:'1h', depth:'Medium', xp:100, t:'Document AI Architecture in README', why: 'Visible proof' },
-      { day:'Day 6', time:'30m', depth:'Action', xp:50, t:'Post LinkedIn: Lessons learned', why: 'Social authority' },
-      { day:'Day 7', time:'1.5h', depth:'Action', xp:25, t:'Apply to 5 target Series B/AI jobs', why: 'Pipeline start' }
-    ]
-  },
-  {
-    id:'w2', num:'WEEK 02', title:'New Architecture Migration', theme:'2026-Ready Technical Skills', color:'var(--w2)',
-    boss: { name:'The Architect', challenge:'CI test gates, 60 FPS, 40% bundle reduction', reward:500, resume:'Reduced bundle 40%, achieved 60 FPS on 10K lists, implemented CI test gates for critical modules' },
-    tasks:[
-      { day:'Day 1', time:'2h', depth:'Deep', xp:100, t:'Enable Fabric in Zonesso, document breaks', why:'Migration foundation' },
-      { day:'Day 2', time:'3h', depth:'Deep', xp:150, t:'Fix Fabric compatibility issues', why:'Actual engineering' },
-      { day:'Day 3', time:'2h', depth:'Deep', xp:125, t:'Migrate 1 native module to TurboModule', why:'Modern native skills' },
-      { day:'Day 4', time:'1h', depth:'Medium', xp:75, t:'Benchmark: Startup time, memory, FPS', why:'Data to brag about' },
-      { day:'Day 5', time:'1h', depth:'Medium', xp:75, t:'Deploy to TestFlight, gather feedback', why:'App Store readiness' },
-      { day:'Day 6', time:'1h', depth:'Action', xp:100, t:'Write blog: Migrating to RN New Arch', why:'Market leadership' },
-      { day:'Day 7', time:'2h', depth:'Action', xp:50, t:'Apply to 5 jobs + follow-ups', why:'Keep momentum' },
-      { day:'Recurring', time:'1h', depth:'Medium', xp:50, t:'Behavioral Story Library', why:'Document 1 leadership/failure/conflict/perf story' }
-    ]
-  },
-  {
-    id:'w3', num:'WEEK 03', title:'System Design + Interview Prep', theme:'Staff-Level Thinking', color:'var(--w3)',
-    boss: { name:'The System Designer', challenge:'12-15 DSA patterns, working backend API', reward:500, resume:'Solved 12-15 LeetCode pattern-focused problems, built NestJS streaming backend with <200ms latency' },
-    tasks:[
-      { day:'Day 1', time:'2h', depth:'Deep', xp:125, t:'Design Zonesso architecture at scale', why:'4-5 pattern-focused problems solved' },
-      { day:'Day 2', time:'2h', depth:'Deep', xp:150, t:'Practice "Design WhatsApp" & record', why:'Repetition reduces hesitation' },
-      { day:'Day 3', time:'2h', depth:'Deep', xp:150, t:'Practice "Design TikTok AI" & record', why:'Scale constraints' },
-      { day:'Day 4', time:'2h', depth:'Medium', xp:100, t:'Study 5 design patterns (caching, sharding)', why:'Fundamental blocks' },
-      { day:'Day 5', time:'1h', depth:'Action', xp:200, t:'Mock interview with friend/ADPList', why:'Real pressure' },
-      { day:'Day 6', time:'1h', depth:'Action', xp:75, t:'Refine answers based on feedback', why:'Continuous improvement' },
-      { day:'Day 7', time:'2h', depth:'Action', xp:75, t:'Apply to 10 Staff Engineer roles', why:'Aim higher' },
-      { day:'Recurring', time:'1h', depth:'Medium', xp:50, t:'Behavioral Story Library', why:'Document 1 leadership/failure/conflict/perf story' }
-    ]
-  },
-  {
-    id:'w4', num:'WEEK 04', title:'RAG + Semantic Search', theme:'AI Specialist Differentiation', color:'var(--w4)',
-    boss: { name:'The AI Architect', challenge:'Ship RAG with <100ms latency', reward:300, resume:'Architected RAG search, improving discovery 45%' },
-    tasks:[
-      { day:'Day 1', time:'1.5h', depth:'Deep', xp:100, t:'Set up Pinecone/Weaviate (free tier)', why:'Vector backend' },
-      { day:'Day 2', time:'2h', depth:'Deep', xp:125, t:'Generate embeddings for Zonesso', why:'Data processing pipeline' },
-      { day:'Day 3', time:'3h', depth:'Deep', xp:175, t:'Build semantic search API in NestJS', why:'Search logic' },
-      { day:'Day 4', time:'2h', depth:'Deep', xp:150, t:'Integrate into React Native via React Query', why:'Frontend consumption' },
-      { day:'Day 5', time:'1.5h', depth:'Medium', xp:125, t:'Add offline fallback + caching', why:'Resilience' },
-      { day:'Day 6', time:'1h', depth:'Medium', xp:100, t:'Document: Building RAG for Mobile', why:'Authority' },
-      { day:'Day 7', time:'2h', depth:'Action', xp:75, t:'Apply to 10 jobs + 2 phone screens', why:'Sales funnel' },
-      { day:'Recurring', time:'1h', depth:'Medium', xp:50, t:'Behavioral Story Library', why:'Document 1 leadership/failure/conflict/perf story' }
-    ]
-  },
-  {
-    id:'w5', num:'WEEK 05', title:'Backend Depth + DevOps', theme:'Full-Stack Credibility', color:'var(--w5)',
-    boss: { name:'The DevOps Engineer', challenge:'Deploy zero downtime, rollback <5min', reward:600, resume:'Built <100ms semantic search, implemented crash monitoring with Sentry to reduce production crash frequency' },
-    tasks:[
-      { day:'Day 1', time:'2h', depth:'Deep', xp:125, t:'Dockerize entire Zonesso stack', why:'Portability' },
-      { day:'Day 2', time:'2h', depth:'Deep', xp:150, t:'Deploy to AWS EC2 + RDS', why:'Production host' },
-      { day:'Day 3', time:'2h', depth:'Deep', xp:150, t:'Set up GitHub Actions CI/CD', why:'Automation' },
-      { day:'Day 4', time:'1.5h', depth:'Medium', xp:100, t:'Add monitoring CloudWatch', why:'Visibility' },
-      { day:'Day 5', time:'1.5h', depth:'Deep', xp:125, t:'Load test: Simulate 10K users', why:'Stress testing' },
-      { day:'Day 6', time:'1h', depth:'Medium', xp:100, t:'Write post-mortem: Scaling to 10K', why:'Graceful degradation, improved release health' },
-      { day:'Day 7', time:'2h', depth:'Action', xp:75, t:'Apply to 10 jobs + 2 tech screens', why:'Keep interviewing' },
-      { day:'Recurring', time:'1h', depth:'Medium', xp:50, t:'Behavioral Story Library', why:'Document 1 leadership/failure/conflict/perf story' }
-    ]
-  },
-  {
-    id:'w6', num:'WEEK 06', title:'Interview Blitz', theme:'Closing the Deal', color:'var(--w6)',
-    boss: { name:'The Interview Master', challenge:'5 mock interviews >90% score', reward:500, resume:'Production deployment with monitoring, alerting, and load testing (1K concurrent users)' },
-    tasks:[
-      { day:'Day 1', time:'2h', depth:'Medium', xp:100, t:'Research 20 target companies', why:'Target list curation' },
-      { day:'Day 2', time:'2h', depth:'Action', xp:150, t:'Customize resume for 3 company types', why:'Tailored pitches' },
-      { day:'Day 3', time:'2h', depth:'Deep', xp:150, t:'Practice STAR behavioral questions', why:'Confidence' },
-      { day:'Day 4', time:'1h', depth:'Deep', xp:200, t:'Mock interview: System design', why:'Critique feedback' },
-      { day:'Day 5', time:'1h', depth:'Deep', xp:200, t:'Mock interview: Behavioral', why:'Story delivery' },
-      { day:'Day 6', time:'1h', depth:'Medium', xp:100, t:'Research salary bands on levels.fyi', why:'Negotiation baseline' },
-      { day:'Day 7', time:'3h', depth:'Action', xp:100, t:'Apply to 15 jobs + follow-ups', why:'Peak volume' },
-      { day:'Recurring', time:'1h', depth:'Medium', xp:50, t:'Behavioral Story Library', why:'Document 1 leadership/failure/conflict/perf story' }
-    ]
-  },
-  {
-    id:'w7', num:'WEEK 07', title:'Offer Collection', theme:'Leverage and Selection', color:'var(--w7)',
-    boss: { name:'The Negotiator', challenge:'Secure 2 offers, negotiate +10%', reward:600, resume:'Unlocked leverage' },
-    tasks:[
-      { day:'Day 1', time:'1h', depth:'Action', xp:50, t:'Follow up on pending apps', why:'Close loops' },
-      { day:'Day 2', time:'3h', depth:'Deep', xp:300, t:'Complete 2-3 technical interviews', why:'Pass rate improves' },
-      { day:'Day 3', time:'2h', depth:'Deep', xp:250, t:'Complete 2-3 behavioral interviews', why:'Team fit' },
-      { day:'Day 4', time:'2h', depth:'Medium', xp:500, t:'Refine STAR stories', why:'Polish the 8-10 stories collected in Behavioral Library' },
-      { day:'Day 5', time:'1h', depth:'Action', xp:400, t:'Negotiate first offer (ask +15K)', why:'Counter offer' },
-      { day:'Day 6', time:'0h', depth:'Action', xp:500, t:'Receive second offer for leverage', why:'Power play' },
-      { day:'Day 7', time:'2h', depth:'Medium', xp:200, t:'Evaluate comp, tech stack, growth', why:'Make choice' },
-      { day:'Recurring', time:'1h', depth:'Medium', xp:50, t:'Behavioral Story Library', why:'Document 1 leadership/failure/conflict/perf story' }
-    ]
-  },
-  {
-    id:'w8', num:'WEEK 08', title:'Decision + Transition', theme:'Deploy Your Career', color:'var(--w8)',
-    boss: { name:'The Escape Artist', challenge:'Sign $140K+ offer, leave gracefully', reward:1000, resume:'Staff Ready' },
-    tasks:[
-      { day:'Day 1', time:'1h', depth:'Action', xp:500, t:'Final negotiation on best offer', why:'Closing' },
-      { day:'Day 2', time:'30m', depth:'Action', xp:300, t:'Accept offer, notify employer', why:'Transition' },
-      { day:'Day 3', time:'2h', depth:'Medium', xp:400, t:'Document: How I got offers in 8 wks', why:'Legacy post' },
-      { day:'Day 4', time:'30m', depth:'Action', xp:200, t:'Post LinkedIn: New chapter', why:'Network update' },
-      { day:'Day 5', time:'2h', depth:'Medium', xp:500, t:'Help 2 other devs with job search', why:'Pay it forward' },
-      { day:'Day 6', time:'2h', depth:'Medium', xp:300, t:'Plan first 90 days at new role', why:'Onboarding success' },
-      { day:'Day 7', time:'0h', depth:'Action', xp:1000, t:'Celebrate + rest', why:'You made it' }
-    ]
-  }
-];
-
-const M2_MONTHS = [
-  {
-    id:'m3', num:'MONTH 03', title:'AI-Native Architecture', theme:'MLOps, Edge AI, Security', color:'var(--purple)',
-    boss: { name:'The AI Architect', challenge:'Conceptual 1M User Arch, measurable AI cost optimization', reward:3000, resume:'Led 1M user design, measurable AI cost optimization via caching & batching' },
-    tasks:[
-      { day:'Week 9', time:'5h', depth:'Medium', xp:500, t:'Observability + Cost Tracking + Feature Flags', why:'Production reliability & rollouts' },
-      { day:'Week 10', time:'5h', depth:'Deep', xp:500, t:'Edge AI: TF Lite, on-device inference', why:'On device compute' },
-      { day:'Week 11', time:'5h', depth:'Deep', xp:500, t:'Cost optimization (FinOps)', why:'Measurable optimization via caching/prompt tuning' },
-      { day:'Week 12', time:'5h', depth:'Deep', xp:500, t:'Technical leadership', why:'3 ADRs, mentor 1 engineer with growth plan' }
-    ]
-  },
-  {
-    id:'m4', num:'MONTH 04', title:'Platform Engineering', theme:'Design Systems, Perf Eng', color:'var(--purple)',
-    boss: { name:'The Platform Owner', challenge:'Reduce bug rate 25%', reward:3000, resume:'Led platform team, improved velocity 40%' },
-    tasks:[
-      { day:'Week 13', time:'5h', depth:'Deep', xp:500, t:'Design System Leadership', why:'Consistency' },
-      { day:'Week 14', time:'5h', depth:'Deep', xp:500, t:'Performance: Bundle analysis, profiling', why:'Speed' },
-      { day:'Week 15', time:'5h', depth:'Medium', xp:500, t:'DevEx: CI/CD, debugging guides', why:'DX multiplier' },
-      { day:'Week 16', time:'5h', depth:'Deep', xp:500, t:'Technical Roadmapping (6-month OKRs)', why:'Vision' }
-    ]
-  }
-];
-
-const M3_STAFF = [
-  {
-    id:'m7', num:'Q1-Q2 (Yr 2)', title:'Advisory Consultant', theme:'Consulting + Advisory', color:'var(--gold)',
-    boss: { name:'The Strategic Advisor', challenge:'Secure 2 startup clients', reward:7500, resume:'Advisory / technical consultant for early-stage startups' },
-    tasks:[
-      { day:'Phase 1', time:'10h', depth:'Deep', xp:1000, t:'Package expertise into offering', why:'Audit + Strategy format' },
-      { day:'Phase 2', time:'10h', depth:'Action', xp:1000, t:'Network with Seed/Series A founders', why:'Inbound/Outbound leads' },
-      { day:'Phase 3', time:'10h', depth:'Deep', xp:1000, t:'Secure equity/retainer deals', why:'$80K-$120K additional income' }
-    ]
-  },
-  {
-    id:'m9', num:'Q3-Q4 (Yr 2)', title:'Content + Courses', theme:'Scalable Income', color:'var(--gold)',
-    boss: { name:'The Technical Advisor', challenge:'Total Comp $250K-$350K', reward:7500, resume:'Industry Expert, Multi-Stream Income' },
-    tasks:[
-      { day:'Phase 1', time:'10h', depth:'Medium', xp:1000, t:'Launch technical newsletter', why:'Build audience' },
-      { day:'Phase 2', time:'10h', depth:'Medium', xp:1000, t:'Create YouTube architecture series', why:'Authority building' },
-      { day:'Phase 3', time:'10h', depth:'Deep', xp:1000, t:'Launch paid cohort/course', why:'$30K-$50K additional income' }
-    ]
-  }
-];
-
-// --- STATE MANAGEMENT ---
-const SKEY = 'rn_escape_velocity_v3';
-let S;
-
-function defaultState(){
-  return {
-    tasks: {}, xp: 0,
-    weeksCollapsed: {}, milestonesCollapsed: {m2:true, m3:true},
-    jobSearch: { applications: 0, interviews: 0, offers: 0 },
-    timerSecs: 1500, startDate: null
-  };
-}
-
-function loadState() {
-  try { const raw = localStorage.getItem(SKEY); if(raw) { S = {...defaultState(), ...JSON.parse(raw)}; return; } } catch(e){}
-  S = defaultState();
-}
-function save() { localStorage.setItem(SKEY, JSON.stringify(S)); }
-
-// --- LOGIC ---
-function calcLevel() {
-  return LEVELS.slice().reverse().find(l => S.xp >= l.xp) || LEVELS[0];
-}
-
-function updateTopBar() {
-  const lvl = calcLevel();
-  document.getElementById('levelDisp').textContent = `Lvl ${lvl.level}: ${lvl.title}`;
-  document.getElementById('xpDisp').textContent = `${S.xp} XP`;
-}
-
-function renderContent() {
-  renderSection('m1Body', M1_WEEKS);
-  renderSection('m2Body', M2_MONTHS);
-  renderSection('m3Body', M3_STAFF);
-}
-
-function renderSection(containerId, data) {
-  const container = document.getElementById(containerId);
-  if(!container) return;
-  
-  container.innerHTML = data.map(w => {
-    const tasksHtml = w.tasks.map((t, i) => {
-      const key = w.id+'_'+i;
-      const done = S.tasks[key];
-      return `
-        <div class="task-item ${done?'done':''}" onclick="toggleTask('${key}', ${t.xp}, this)">
-          <div class="task-cb ${done?'checked':''}"><i class="ph-bold ph-check"></i></div>
-          <div class="task-content">
-            <div class="task-text">${t.t}</div>
-            <div class="task-meta">
-              <span class="task-badge badge-day"><i class="ph-bold ph-calendar"></i> ${t.day}</span>
-              <span class="task-badge badge-depth"><i class="ph-bold ph-stack"></i> ${t.depth}</span>
-              <span class="task-badge"><i class="ph-bold ph-clock"></i> ${t.time}</span>
-              <span class="task-badge badge-xp">+${t.xp} XP</span>
-              <span style="font-size: 0.8rem; color: var(--txt3); margin-left: 0.5rem;">${t.why}</span>
-            </div>
+    <div class="layout">
+      <aside class="sidebar" id="leftSidebar">
+        <button class="sidebar-toggle-btn" onclick="toggleLeftSidebar()">
+          <span class="sb-toggle-label">Collapse</span>
+          <i class="ph-bold ph-caret-double-left" id="sbLeftIcon"></i>
+        </button>
+        <div class="sidebar-item active" id="sideM1" onclick="scrollToId('m1')">
+          <div class="sidebar-title">
+            <i class="ph-fill ph-sword sidebar-icon-only"></i
+            ><span class="sb-text">Escape Velocity</span>
           </div>
+          <div class="sidebar-sub">Weeks 1-8</div>
         </div>
-      `;
-    }).join('');
-
-    const collapsed = S.weeksCollapsed[w.id];
-    const bossDone = w.tasks.every((_,i) => S.tasks[w.id+'_'+i]);
-
-    return `
-      <div class="week-card glass-panel">
-        <div class="week-card-top" style="background:${w.color}; box-shadow: 0 0 15px ${w.color}; opacity: 0.8;"></div>
-        <div class="wc-header" onclick="toggleWeek('${w.id}')">
-          <div class="wc-left">
-            <div class="wc-num" style="color:${w.color}"><i class="ph-bold ph-hash"></i> ${w.num} | ${w.theme}</div>
-            <div class="wc-title">${w.title}</div>
+        <div class="sidebar-item m2" id="sideM2" onclick="scrollToId('m2')">
+          <div class="sidebar-title">
+            <i class="ph-fill ph-rocket sidebar-icon-only"></i
+            ><span class="sb-text">Career Accel</span>
           </div>
-          <i class="ph-bold ph-caret-down wc-arrow ${collapsed?'':'open'}"></i>
+          <div class="sidebar-sub">Months 3-6</div>
         </div>
-        <div class="wc-body ${collapsed?'hidden':''}">
-          <div class="wc-body-inner">
-            <div class="task-list" style="margin-top: 1rem;">${tasksHtml}</div>
-            
-            <div class="boss-battle-box" style="${bossDone ? 'border-color: var(--green); box-shadow: inset 0 0 20px rgba(16,185,129,0.15);' : ''}">
-              <div class="boss-title" style="${bossDone ? 'color: var(--green);' : ''}">
-                <i class="ph-fill ph-alien"></i> Boss: ${w.boss.name} ${bossDone ? '(DEFEATED)' : ''}
+        <div class="sidebar-item m3" id="sideM3" onclick="scrollToId('m3')">
+          <div class="sidebar-title">
+            <i class="ph-fill ph-crown sidebar-icon-only"></i
+            ><span class="sb-text">Industry Leader</span>
+          </div>
+          <div class="sidebar-sub">Years 2-3</div>
+        </div>
+      </aside>
+
+      <main class="main" id="mainContent">
+        <div class="focus-section glass-panel" id="focusContainer">
+          <div class="focus-header">
+            <i
+              class="ph-fill ph-crosshair"
+              style="font-size: 1.8rem; color: var(--blue)"
+            ></i>
+            <span
+              class="focus-title"
+              style="font-weight: 800; font-size: 1.2rem; color: #fff"
+              >Daily Standup (Focus)</span
+            >
+          </div>
+          <div class="focus-list" id="todayFocus"></div>
+        </div>
+
+        <div class="milestone-section" id="m1">
+          <div
+            class="milestone-header glass-panel m1-header"
+            onclick="toggleMilestone('m1')"
+          >
+            <div class="milestone-icon"><i class="ph-fill ph-sword"></i></div>
+            <div class="milestone-info">
+              <div class="milestone-name">Phase 1: Escape Velocity</div>
+              <div class="milestone-sub">
+                Weeks 1-8 · Target: $160K-$200K Offer
               </div>
-              <div class="boss-text"><strong>Challenge:</strong> ${w.boss.challenge}</div>
-              <div class="boss-text" style="color: var(--txt3); font-size: 0.8rem;"><strong>Resume:</strong> ${w.boss.resume}</div>
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
-                <span class="boss-reward">+${w.boss.reward} XP Bonus</span>
+            </div>
+            <i
+              class="ph-bold ph-caret-down milestone-toggle open"
+              id="m1Toggle"
+            ></i>
+          </div>
+          <div class="milestone-body open" id="m1Body"></div>
+        </div>
+
+        <div class="milestone-section" id="m2">
+          <div
+            class="milestone-header glass-panel m2-header"
+            onclick="toggleMilestone('m2')"
+          >
+            <div class="milestone-icon"><i class="ph-fill ph-rocket"></i></div>
+            <div class="milestone-info">
+              <div class="milestone-name">Phase 2: Career Acceleration</div>
+              <div class="milestone-sub">Months 3-6 · Target: $200K-$280K</div>
+            </div>
+            <i class="ph-bold ph-caret-down milestone-toggle" id="m2Toggle"></i>
+          </div>
+          <div class="milestone-body" id="m2Body"></div>
+        </div>
+
+        <div class="milestone-section" id="m3">
+          <div
+            class="milestone-header glass-panel m3-header"
+            onclick="toggleMilestone('m3')"
+          >
+            <div class="milestone-icon"><i class="ph-fill ph-crown"></i></div>
+            <div class="milestone-info">
+              <div class="milestone-name">Phase 3: Industry Leadership</div>
+              <div class="milestone-sub">Years 2-3 · Target: $250K-$350K</div>
+            </div>
+            <i class="ph-bold ph-caret-down milestone-toggle" id="m3Toggle"></i>
+          </div>
+          <div class="milestone-body" id="m3Body"></div>
+        </div>
+      </main>
+
+      <aside class="right-sidebar" id="rightSidebar">
+        <button class="rside-toggle" onclick="toggleRightSidebar()">
+          <span class="rside-toggle-label">Job Radar</span>
+          <i class="ph-bold ph-caret-double-right" id="rsideIcon"></i>
+        </button>
+
+        <div class="jst-mini" id="jstMiniView">
+          <div class="jst-mini-row">
+            <span class="jst-mini-val" id="jstMiniApp">0</span
+            ><span class="jst-mini-lbl">Apps</span>
+          </div>
+          <div class="jst-mini-row">
+            <span
+              class="jst-mini-val"
+              style="color: var(--purple)"
+              id="jstMiniInt"
+              >0</span
+            ><span class="jst-mini-lbl">Int</span>
+          </div>
+        </div>
+
+        <div class="jst-full glass-panel">
+          <div class="jst-title">
+            <i class="ph-fill ph-radar"></i> Offer Radar
+          </div>
+
+          <div class="jst-metric">
+            <div class="jst-label">
+              Applications <span class="jst-target">Goal: 50</span>
+            </div>
+            <div class="jst-row">
+              <input
+                class="jst-input"
+                type="number"
+                min="0"
+                id="jstApp"
+                oninput="updateJST('applications', this.value)"
+              />
+              <div class="jst-bar">
+                <div
+                  class="jst-bar-fill"
+                  id="jstAppBar"
+                  style="
+                    width: 0%;
+                    background: var(--blue);
+                    box-shadow: 0 0 8px var(--blue-glow);
+                  "
+                ></div>
               </div>
             </div>
           </div>
+
+          <div class="jst-metric">
+            <div class="jst-label">
+              Interviews <span class="jst-target">Goal: 10</span>
+            </div>
+            <div class="jst-row">
+              <input
+                class="jst-input"
+                type="number"
+                min="0"
+                id="jstInt"
+                oninput="updateJST('interviews', this.value)"
+              />
+              <div class="jst-bar">
+                <div
+                  class="jst-bar-fill"
+                  style="
+                    background: var(--purple);
+                    box-shadow: 0 0 8px var(--purple-glow);
+                  "
+                  id="jstIntBar"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="jst-metric">
+            <div class="jst-label">
+              Offers <span class="jst-target">Goal: 2</span>
+            </div>
+            <div class="jst-row">
+              <input
+                class="jst-input"
+                type="number"
+                min="0"
+                id="jstOff"
+                oninput="updateJST('offers', this.value)"
+              />
+              <div class="jst-bar">
+                <div
+                  class="jst-bar-fill"
+                  style="
+                    background: var(--green);
+                    box-shadow: 0 0 8px var(--green-glow);
+                  "
+                  id="jstOffBar"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <button class="jst-cta" onclick="applyThree()">
+            <i class="ph-bold ph-paper-plane-tilt"></i> Log 3 Apps
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <nav class="mobile-bot-nav">
+      <div class="mob-tab active" onclick="scrollToId('m1')">
+        <i class="ph-fill ph-sword"></i><span>Escape</span>
+      </div>
+      <div class="mob-tab" onclick="scrollToId('m2')">
+        <i class="ph-fill ph-rocket"></i><span>Accel</span>
+      </div>
+      <div class="mob-tab" onclick="scrollToId('m3')">
+        <i class="ph-fill ph-crown"></i><span>Lead</span>
+      </div>
+      <div class="mob-tab" onclick="openTimer()">
+        <i class="ph-bold ph-timer"></i><span>Focus</span>
+      </div>
+    </nav>
+
+    <div
+      class="cmd-palette-overlay"
+      id="cmdPalette"
+      onclick="if (event.target === this) closeCmd()"
+    >
+      <div class="cmd-modal">
+        <div class="cmd-input-wrap">
+          <i class="ph-bold ph-magnifying-glass"></i>
+          <input
+            type="text"
+            class="cmd-input"
+            id="cmdInput"
+            placeholder="Type a command (e.g. 'timer', 'log apps')..."
+            autocomplete="off"
+          />
+        </div>
+        <div class="cmd-list" id="cmdList"></div>
+      </div>
+    </div>
+
+    <div class="quick-fab-container" id="quickFab">
+      <div class="quick-fab-menu">
+        <button
+          class="fab-action"
+          onclick="
+            applyThree()
+            toggleFab()
+          "
+        >
+          <i class="ph-bold ph-paper-plane-tilt"></i> Log 3 Job Apps
+        </button>
+        <button
+          class="fab-action"
+          onclick="
+            openTimer()
+            toggleFab()
+          "
+        >
+          <i class="ph-bold ph-timer"></i> Start Deep Work
+        </button>
+        <button
+          class="fab-action"
+          onclick="
+            openSettings()
+            toggleFab()
+          "
+        >
+          <i class="ph-bold ph-calendar-plus"></i> Set Start Date
+        </button>
+      </div>
+      <button class="fab-main" onclick="toggleFab()">
+        <i class="ph-bold ph-plus"></i>
+      </button>
+    </div>
+
+    <div class="modal-overlay" id="timerModal">
+      <div class="modal" style="text-align: center">
+        <div class="modal-title" style="justify-content: center">
+          <i class="ph-fill ph-hourglass-high" style="color: var(--blue)"></i>
+          Deep Work Timer
+        </div>
+        <div class="timer-display" id="timerDisplayLg">25:00</div>
+        <div style="display: flex; gap: 1rem; justify-content: center">
+          <button
+            class="btn-primary"
+            id="timerStartBtn"
+            onclick="toggleTimer()"
+          >
+            <i class="ph-bold ph-play"></i> Start Focus
+          </button>
+          <button class="btn-secondary" onclick="resetTimer()">
+            <i class="ph-bold ph-arrow-counter-clockwise"></i>
+          </button>
+          <button class="btn-secondary" onclick="closeTimer()">
+            <i class="ph-bold ph-x"></i>
+          </button>
         </div>
       </div>
-    `;
-  }).join('');
-}
+    </div>
 
-function renderFocus() {
-  const el = document.getElementById('todayFocus');
-  let items = [];
-  
-  M1_WEEKS.forEach(w => {
-    w.tasks.forEach((t, i) => {
-      const key = w.id+'_'+i;
-      if(!S.tasks[key]) items.push({key: key, text: t.t, xp: t.xp, num: w.num});
-    });
-  });
-
-  let paceNudgeHtml = '';
-  if(S.startDate) {
-    const daysPassed = Math.floor((new Date() - new Date(S.startDate)) / 86400000);
-    if(daysPassed >= 0) {
-      const expectedWeek = Math.floor(daysPassed / 7) + 1;
-      let completedWeeks = 0;
-      M1_WEEKS.forEach(w => { if(w.tasks.every((_, i) => S.tasks[w.id+'_'+i])) completedWeeks++; });
-      
-      if(completedWeeks >= expectedWeek) {
-        paceNudgeHtml = `<div class="pace-nudge good"><i class="ph-fill ph-rocket-launch"></i> Ahead of schedule! Expected Week: ${expectedWeek} | Done: ${completedWeeks}</div>`;
-      } else {
-        paceNudgeHtml = `<div class="pace-nudge"><i class="ph-fill ph-warning-circle"></i> Catch-up Mode: Week ${expectedWeek}, but finished ${completedWeeks}. Focus!</div>`;
-      }
-    }
-  } else {
-    paceNudgeHtml = `<div class="pace-nudge"><i class="ph-fill ph-warning"></i> Set a Start Date in Settings to track your 8-week pace!</div>`;
-  }
-  
-  if(items.length === 0) {
-    el.innerHTML = paceNudgeHtml + '<div class="focus-empty"><i class="ph-fill ph-party" style="font-size: 2.5rem; margin-bottom: 0.5rem;"></i><span>All caught up! Excellent work.</span></div>';
-  } else {
-    const listHtml = items.slice(0,4).map((i, index) => `
-      <div class="focus-item" style="cursor: pointer; ${index === 0 ? 'border-left: 3px solid var(--blue); background: rgba(59,130,246,0.1);' : ''}" onclick="toggleTask('${i.key}', ${i.xp}, this)">
-        <div class="task-cb" style="width:20px; height:20px; border-radius:6px; pointer-events:none;"></div>
-        <span style="flex:1; font-weight: ${index === 0 ? '700' : '500'};">${i.text}</span>
-        <span style="color:var(--gold); font-size:0.75rem; font-family:'JetBrains Mono'; background: rgba(245,158,11,0.1); padding: 2px 6px; border-radius: 4px;">+${i.xp}</span>
+    <div class="modal-overlay" id="settingsModal">
+      <div class="modal">
+        <div class="modal-title"><i class="ph-fill ph-gear"></i> Settings</div>
+        <div style="margin-bottom: 1.5rem">
+          <label>Start Date (For Pace Tracker)</label><br />
+          <input
+            type="date"
+            id="startDateInput"
+            onchange="saveStartDate(this.value)"
+          />
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem">
+          <button class="btn-export" onclick="exportData()">
+            <i class="ph-bold ph-download-simple"></i> Export Backup (JSON)
+          </button>
+          <button class="btn-danger" onclick="confirmReset()">
+            <i class="ph-bold ph-trash"></i> Reset All Progress
+          </button>
+        </div>
+        <button
+          onclick="closeSettings()"
+          class="btn-primary"
+          style="width: 100%; margin-top: 1.5rem"
+        >
+          Close
+        </button>
       </div>
-    `).join('');
-    el.innerHTML = paceNudgeHtml + listHtml;
-  }
-}
+    </div>
 
-// --- ACTIONS ---
-function toggleTask(key, xpValue, el) {
-  const isDone = !S.tasks[key];
-  S.tasks[key] = isDone;
-  
-  const oldLevel = calcLevel().level;
-  
-  if(isDone) {
-    S.xp += xpValue;
-    if(navigator.vibrate) navigator.vibrate(40);
-  } else {
-    S.xp = Math.max(0, S.xp - xpValue);
-  }
+    <div class="toast" id="toast">
+      <i class="ph-bold ph-check-circle"></i> <span id="toastMsg">Success</span>
+    </div>
+    <canvas id="confettiCanvas"></canvas>
 
-  // Boss Check
-  const wid = key.split('_')[0];
-  const w = M1_WEEKS.find(x=>x.id===wid) || M2_MONTHS.find(x=>x.id===wid) || M3_STAFF.find(x=>x.id===wid);
-  
-  if(w && isDone) {
-    const allDone = w.tasks.every((_,i) => S.tasks[w.id+'_'+i]);
-    if(allDone) {
-      S.xp += w.boss.reward;
-      toast(`Boss Defeated: ${w.boss.name}! +${w.boss.reward} XP`);
-      shootConfetti();
-    }
-  } else if (w && !isDone) {
-    // If we unchecked a task in a previously completed week, remove boss reward
-    const wasAllDone = w.tasks.every((_,i) => {
-        if(w.id+'_'+i === key) return true; 
-        return S.tasks[w.id+'_'+i];
-    });
-    if(wasAllDone) {
-        S.xp = Math.max(0, S.xp - w.boss.reward);
-    }
-  }
-
-  const newLevel = calcLevel().level;
-  if(newLevel > oldLevel) {
-    setTimeout(() => { toast(`LEVEL UP! You are now Level ${newLevel}!`); shootConfetti(); }, 500);
-  }
-
-  save(); updateTopBar(); renderContent(); renderFocus();
-}
-
-function toggleWeek(id) { S.weeksCollapsed[id] = !S.weeksCollapsed[id]; save(); renderContent(); }
-function toggleMilestone(id) { S.milestonesCollapsed[id] = !S.milestonesCollapsed[id]; save(); updateDOM(); }
-function updateDOM() {
-  ['m1','m2','m3'].forEach(id => {
-    const b = document.getElementById(id+'Body'); const t = document.getElementById(id+'Toggle');
-    if(b) b.classList.toggle('open', !S.milestonesCollapsed[id]);
-    if(t) t.classList.toggle('open', !S.milestonesCollapsed[id]);
-  });
-}
-
-// Sidebar logic
-let isAutoScrolling = false;
-function scrollToId(id) {
-  isAutoScrolling = true;
-  document.getElementById(id).scrollIntoView({behavior:'smooth', block: 'start'});
-  document.querySelectorAll('.mob-tab, .sidebar-item').forEach(t => t.classList.remove('active'));
-  
-  if(id === 'm1') { document.getElementById('sideM1').classList.add('active'); document.querySelectorAll('.mob-tab')[0].classList.add('active'); }
-  else if(id === 'm2') { document.getElementById('sideM2').classList.add('active'); document.querySelectorAll('.mob-tab')[1].classList.add('active'); }
-  else if(id === 'm3') { document.getElementById('sideM3').classList.add('active'); document.querySelectorAll('.mob-tab')[2].classList.add('active'); }
-
-  if((id==='m2'||id==='m3') && S.milestonesCollapsed[id]) { S.milestonesCollapsed[id]=false; save(); updateDOM(); }
-  setTimeout(() => { isAutoScrolling = false; }, 800);
-}
-
-// Job Tracker
-function updateJST(field, val) { S.jobSearch[field] = parseInt(val) || 0; save(); syncJST(); }
-function applyThree() { S.jobSearch.applications += 3; save(); syncJST(); toast('+3 Apps Logged! Get it!'); shootConfetti(); }
-function syncJST() {
-  const js = S.jobSearch;
-  ['jstApp','jstInt'].forEach((id, i) => {
-    const el = document.getElementById(id); const val = [js.applications, js.interviews][i];
-    if(el && document.activeElement !== el) el.value = val;
-  });
-  document.getElementById('jstAppBar').style.width = Math.min((js.applications/50)*100, 100) + '%';
-  document.getElementById('jstIntBar').style.width = Math.min((js.interviews/10)*100, 100) + '%';
-  
-  document.getElementById('jstMiniApp').textContent = js.applications;
-  document.getElementById('jstMiniInt').textContent = js.interviews;
-}
-
-// Timer
-let timerInt; let isRunning = false;
-function openTimer() { document.getElementById('timerModal').classList.add('open'); renderTimerUI(); }
-function closeTimer() { document.getElementById('timerModal').classList.remove('open'); }
-function fmtTimer(s) { return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
-function renderTimerUI() {
-  const t = fmtTimer(S.timerSecs);
-  document.getElementById('timerDisplayLg').textContent = t;
-  document.getElementById('miniTimerDisp').textContent = t;
-  document.getElementById('miniTimerBtn').classList.toggle('running', isRunning);
-}
-function toggleTimer() {
-  if(isRunning) {
-    clearInterval(timerInt); isRunning = false;
-    document.getElementById('timerStartBtn').innerHTML = '<i class="ph-bold ph-play"></i> Resume Focus';
-    document.body.classList.remove('focus-mode');
-  } else {
-    isRunning = true;
-    document.getElementById('timerStartBtn').innerHTML = '<i class="ph-bold ph-pause"></i> Pause';
-    document.body.classList.add('focus-mode');
-    timerInt = setInterval(() => {
-      S.timerSecs--;
-      if(S.timerSecs <= 0) {
-        clearInterval(timerInt); isRunning = false; S.timerSecs = 1500;
-        document.body.classList.remove('focus-mode');
-        toast('Session Complete! +100 XP'); S.xp += 100; save(); updateTopBar(); shootConfetti();
-      }
-      renderTimerUI();
-    }, 1000);
-  }
-  renderTimerUI();
-}
-function resetTimer() { clearInterval(timerInt); isRunning = false; S.timerSecs = 1500; document.body.classList.remove('focus-mode'); renderTimerUI(); }
-
-// Settings & Fab & Cmd
-function openSettings() { document.getElementById('startDateInput').value = S.startDate || ''; document.getElementById('settingsModal').classList.add('open'); }
-function closeSettings() { document.getElementById('settingsModal').classList.remove('open'); renderFocus(); }
-function saveStartDate(v) { S.startDate = v; save(); }
-function toggleFab() { document.getElementById('quickFab').classList.toggle('open'); }
-function toggleLeftSidebar() { const el = document.getElementById('leftSidebar'); el.classList.toggle('collapsed'); document.getElementById('sbLeftIcon').className = el.classList.contains('collapsed') ? 'ph-bold ph-caret-double-right' : 'ph-bold ph-caret-double-left'; }
-function toggleRightSidebar() { const el = document.getElementById('rightSidebar'); el.classList.toggle('collapsed'); document.getElementById('rsideIcon').className = el.classList.contains('collapsed') ? 'ph-bold ph-caret-double-left' : 'ph-bold ph-caret-double-right'; }
-
-// Cmd+K Palette
-const COMMANDS = [
-  { icon: 'ph-timer', text: 'Start Focus Timer', action: () => { openTimer(); toggleTimer(); } },
-  { icon: 'ph-paper-plane-tilt', text: 'Log 3 Job Applications', action: () => applyThree() },
-  { icon: 'ph-sword', text: 'Go to Phase 1 (Escape Velocity)', action: () => scrollToId('m1') },
-  { icon: 'ph-rocket', text: 'Go to Phase 2 (Career Accel)', action: () => scrollToId('m2') },
-  { icon: 'ph-gear', text: 'Open Settings / Set Start Date', action: () => openSettings() }
-];
-let cmdSelectedIndex = 0;
-function openCmd() { document.getElementById('cmdPalette').classList.add('open'); document.getElementById('cmdInput').value = ''; renderCmdList(''); setTimeout(() => document.getElementById('cmdInput').focus(), 100); }
-function closeCmd() { document.getElementById('cmdPalette').classList.remove('open'); }
-function renderCmdList(query) {
-  const list = document.getElementById('cmdList');
-  const filtered = COMMANDS.filter(c => c.text.toLowerCase().includes(query.toLowerCase()));
-  if(!filtered.length) { list.innerHTML = `<div style="padding: 2rem; text-align: center; color: var(--txt3);">No commands found</div>`; return; }
-  cmdSelectedIndex = Math.min(cmdSelectedIndex, filtered.length - 1);
-  list.innerHTML = filtered.map((c, i) => `<div class="cmd-item ${i === cmdSelectedIndex ? 'selected' : ''}" onclick="executeCmd(${i})"><i class="ph-bold ${c.icon}"></i><span>${c.text}</span></div>`).join('');
-  window.currentFilteredCmds = filtered;
-}
-function executeCmd(index) { if (window.currentFilteredCmds && window.currentFilteredCmds[index]) { closeCmd(); window.currentFilteredCmds[index].action(); } }
-
-document.getElementById('cmdInput')?.addEventListener('input', (e) => { cmdSelectedIndex = 0; renderCmdList(e.target.value); });
-document.addEventListener('keydown', (e) => {
-  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openCmd(); }
-  if (!document.getElementById('cmdPalette').classList.contains('open')) return;
-  if (e.key === 'Escape') closeCmd();
-  if (e.key === 'ArrowDown') { e.preventDefault(); cmdSelectedIndex = Math.min(cmdSelectedIndex + 1, window.currentFilteredCmds.length - 1); renderCmdList(document.getElementById('cmdInput').value); }
-  if (e.key === 'ArrowUp') { e.preventDefault(); cmdSelectedIndex = Math.max(cmdSelectedIndex - 1, 0); renderCmdList(document.getElementById('cmdInput').value); }
-  if (e.key === 'Enter') { e.preventDefault(); executeCmd(cmdSelectedIndex); }
-});
-
-// Utils
-function toast(msg) { const el = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3000); }
-function shootConfetti() {
-  const canvas = document.getElementById('confettiCanvas'); canvas.style.display = 'block'; const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-  const particles = Array.from({length: 60}, () => ({ x: Math.random() * canvas.width, y: -20, vx: (Math.random() - 0.5) * 8, vy: Math.random() * 5 + 2, color: ['#3b82f6', '#8b5cf6', '#f59e0b', '#10b981'][Math.floor(Math.random()*4)], size: Math.random() * 8 + 4, life: 1, rot: Math.random() * 360 }));
-  function draw() {
-    ctx.clearRect(0,0,canvas.width,canvas.height); let alive = false;
-    particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.2; p.life -= 0.01; p.rot += 5; if(p.life > 0 && p.y < canvas.height) alive = true; ctx.save(); ctx.globalAlpha = Math.max(0, p.life); ctx.translate(p.x, p.y); ctx.rotate(p.rot * Math.PI / 180); ctx.fillStyle = p.color; ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size); ctx.restore(); });
-    if(alive) requestAnimationFrame(draw); else canvas.style.display = 'none';
-  } draw();
-}
-function exportData() { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(S)], { type: "application/json" })); a.download = "rn-roadmap.json"; a.click(); }
-function confirmReset() { if (confirm("Erase all progress?")) { S = defaultState(); save(); location.reload(); } }
-
-window.onload = () => { loadState(); updateTopBar(); renderContent(); renderFocus(); syncJST(); updateDOM(); renderTimerUI(); }
-</script>
-</body>
+    <!-- JavaScript Modules -->
+    <script type="module" src="js/main.js"></script>
+  </body>
 </html>
