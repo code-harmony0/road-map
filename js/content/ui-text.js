@@ -16,21 +16,21 @@ export const JOB_TRACKER = {
 
 // Focus Section
 export const FOCUS_SECTION = {
-  title: "Daily Standup (Focus)",
-  emptyMessage: "All caught up! Excellent work.",
-  setStartDatePrompt: "Set a Start Date in Settings to track your 8-week pace!",
+  title: "Execution Queue",
+  emptyMessage: "Execution queue is clear.",
+  setStartDatePrompt: "Set a start date to track your interview-readiness pace.",
   aheadSchedule: "Ahead of schedule! Expected Week: {expected} | Done: {completed}",
-  catchUp: "Catch-up Mode: Week {expected}, but finished {completed}. Focus!"
+  catchUp: "Catch-up mode: Week {expected}, finished {completed}. Prioritize the queue."
 };
 
 // Timer
 export const TIMER = {
-  title: 'Deep Work Timer',
-  startButton: 'Start Focus',
+  title: 'Deep Work Sprint',
+  startButton: 'Start Sprint',
   pauseButton: 'Pause',
-  resumeButton: 'Resume Focus',
-  completeMessage: 'Session Complete! +100 XP',
-  defaultMinutes: 25
+  resumeButton: 'Resume Sprint',
+  completeMessage: 'Sprint complete! +100 XP',
+  defaultMinutes: 50
 };
 
 // Settings
@@ -46,6 +46,6 @@ export const SETTINGS = {
 // Quick Actions (FAB)
 export const QUICK_ACTIONS = {
   logApps: { icon: 'ph-paper-plane-tilt', text: 'Log 3 Job Apps' },
-  startTimer: { icon: 'ph-timer', text: 'Start Deep Work' },
+  startTimer: { icon: 'ph-timer', text: 'Start 50m Sprint' },
   setDate: { icon: 'ph-calendar-plus', text: 'Set Start Date' }
 };

@@ -53,7 +53,7 @@ function init() {
   updateAllMilestonesDOM();
   renderTimerUI();
 
-  console.log('Escape Velocity initialized');
+  console.log('Senior Roadmap initialized');
 }
 
 /**
@@ -69,6 +69,7 @@ function bindCommandActions() {
     applyThree();
   });
 
+  bindAction('m0', () => scrollToId('m0'));
   bindAction('m1', () => scrollToId('m1'));
   bindAction('m2', () => scrollToId('m2'));
   bindAction('m3', () => scrollToId('m3'));

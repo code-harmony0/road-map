@@ -17,7 +17,7 @@ export function getDefaultState() {
     weeksCollapsed: {},
     milestonesCollapsed: { m2: true, m3: true },
     jobSearch: { applications: 0, interviews: 0, offers: 0 },
-    timerSecs: 1500,
+    timerSecs: 3000,
     startDate: null
   };
 }

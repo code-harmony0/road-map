@@ -1,29 +1,34 @@
-# Escape Velocity - 12 Week Roadmap to Senior Engineer
+# Senior Roadmap - Mobile Systems Engineer Career Plan
 
-An interactive, self-hosted, gamified roadmap built for personal career progression, but fully open source for anyone to use, fork, and customize for their own journey from Junior/Mid to Senior, Staff, and Industry Expert levels.
+An interactive, self-hosted roadmap for moving from an experienced React Native engineer into a stronger senior mobile systems profile. It keeps the plan practical: make existing work visible, sharpen interview signals, apply aggressively, and deepen systems skill after the move.
 
 ## Overview
 
-This roadmap provides a structured path focusing on backend architecture, AI integration, platform engineering, and interview preparation. It is divided into three major phases:
+This roadmap is divided into four phases:
 
-- **Phase 1: Escape Velocity** (Weeks 1-8) - Core skills (Backend, System Design, DevOps, AI setup) and interview blitz. Target: $160K-$200K Offer.
-- **Phase 2: Career Acceleration** (Months 3-6) - AI-Native Architecture, Platform Engineering, reducing bugs, and technical roadmapping. Target: $200K-$280K.
-- **Phase 3: Industry Leadership** (Years 2-3) - Advisory consulting, scalable income (newsletters, courses), and building authority. Target: $250K-$350K.
+- **Phase 0: Positioning** (Weeks 1-2) - Turn real shipped work into visible senior evidence.
+- **Phase 1: Interview-Ready** (Weeks 3-8) - Sharpen React Native, architecture, and interview execution without rebuilding from zero.
+- **Phase 2: Apply Aggressively** (Weeks 7-14) - Run a measured offer pipeline with 50 quality applications.
+- **Phase 3: Deepen Skills** (Months 4+) - Improve SQL, systems, and AI depth after the job move.
 
 ## Features
 
 - **Gamification & XP System** - Earn XP for daily tasks and "Level Up" from Junior to Industry Expert.
 - **Boss Battles** - Complete high-stakes challenges at the end of each week/month for bonus XP.
 - **Job Radar** - Track your job applications, interviews, and offers with visual progress bars and quick-logging shortcuts.
-- **Deep Work Timer (Focus Mode)** - Built-in 25-minute Pomodoro timer that dims UI distractions so you can enter deep flow states.
-- **Daily Standup (Focus)** - Identifies incomplete tasks for current weeks and suggests what to tackle next.
+- **Deep Work Sprint Timer** - Built-in 50-minute sprint timer that dims UI distractions for one high-leverage block.
+- **Execution Queue** - Identifies incomplete tasks across the current roadmap and suggests what to tackle next.
 - **Pace Tracker** - Set a start date to see if you are ahead of schedule or need to catch up.
 - **Local Storage & Backup** - All data is saved directly in your browser's local storage. Export/import your progress as JSON anytime.
 - **Keyboard Shortcuts / Cmd+K Modal** - Fast access to timers, job logging, and navigation via command palette.
 
+## Design Direction
+
+The current UI uses a modern execution-cockpit theme: dark functional surfaces, restrained glass panels, bento-style metrics, sharper hierarchy, and fast command-palette interactions. It makes the roadmap, offer pipeline, and deep-work sprint feel like one focused control surface.
+
 ## For Personal Use & Open Source
 
-I built this roadmap for my personal jump from mid-level to Senior/Staff engineer. I've designed it to be completely self-contained—meaning **no backend database, no complicated build steps, and no accounts required**.
+This roadmap is completely self-contained: **no backend database, no complicated build steps, and no accounts required**.
 
 If you like this structure or want to use it for your own career acceleration, **please feel free to fork, customize, and build upon it!** All data is stored locally in your browser, so you can host your own version on GitHub pages in seconds.
 
@@ -33,9 +38,10 @@ If you like this structure or want to use it for your own career acceleration, *
 2. Open `js/content/` folder - this is your **single source of truth** organized by responsibility:
    - `app.js` - App name and tagline
    - `levels.js` - XP thresholds and titles
-   - `phases/phase1.js` - Weeks 1-8 roadmap
-   - `phases/phase2.js` - Months 3-6 roadmap
-   - `phases/phase3.js` - Years 2-3 roadmap
+   - `phases/phase0.js` - Weeks 1-2 positioning roadmap
+   - `phases/phase1.js` - Weeks 3-8 interview roadmap
+   - `phases/phase2.js` - Weeks 7-14 application roadmap
+   - `phases/phase3.js` - Months 4+ depth roadmap
    - `navigation.js` - Sidebar and milestone headers
    - `ui-text.js` - Job tracker, focus, timer, settings text
    - `commands.js` - Command palette items
@@ -60,9 +66,10 @@ If you like this structure or want to use it for your own career acceleration, *
 │   │   ├── app.js         # App identity
 │   │   ├── levels.js      # Gamification levels
 │   │   ├── phases/        # Roadmap data by phase
-│   │   │   ├── phase1.js  # Weeks 1-8
-│   │   │   ├── phase2.js  # Months 3-6
-│   │   │   └── phase3.js  # Years 2-3
+│   │   │   ├── phase0.js  # Weeks 1-2
+│   │   │   ├── phase1.js  # Weeks 3-8
+│   │   │   ├── phase2.js  # Weeks 7-14
+│   │   │   └── phase3.js  # Months 4+
 │   │   ├── navigation.js  # Sidebar & headers
 │   │   ├── ui-text.js     # All UI text
 │   │   ├── commands.js    # Command palette

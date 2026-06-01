@@ -4,16 +4,17 @@
  */
 
 import { state } from "../core/State.js"
-import { M1_WEEKS, M2_MONTHS, M3_STAFF } from "../config/milestones.js"
+import { M0_WEEKS, M1_WEEKS, M2_WEEKS, M3_WEEKS } from "../config/milestones.js"
 import { toggleTask } from "../features/TaskManager.js"
 
 /**
  * Render all content sections
  */
 export function renderContent() {
+  renderSection("m0Body", M0_WEEKS)
   renderSection("m1Body", M1_WEEKS)
-  renderSection("m2Body", M2_MONTHS)
-  renderSection("m3Body", M3_STAFF)
+  renderSection("m2Body", M2_WEEKS)
+  renderSection("m3Body", M3_WEEKS)
 }
 
 /**

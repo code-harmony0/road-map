@@ -6,7 +6,7 @@
 import { state } from "../core/State.js"
 import { eventBus, EVENTS } from "../core/EventBus.js"
 import { addXP } from "./Gamification.js"
-import { M1_WEEKS, M2_MONTHS, M3_STAFF } from "../config/milestones.js"
+import { M0_WEEKS, M1_WEEKS, M2_WEEKS, M3_WEEKS } from "../config/milestones.js"
 
 /**
  * Toggle task completion
@@ -46,12 +46,12 @@ export function isTaskComplete(key) {
  */
 export function getIncompleteTasks() {
   const { tasks } = state.get()
-  const allMilestones = [...M1_WEEKS, ...M2_MONTHS, ...M3_STAFF]
+  const allMilestones = [...M0_WEEKS, ...M1_WEEKS, ...M2_WEEKS, ...M3_WEEKS]
   const incomplete = []
 
   allMilestones.forEach((m) => {
     m.tasks.forEach((t, i) => {
-      const key = `${m.id}_${i}`
+      const key = t.id || `${m.id}_${i}`
       if (!tasks[key]) {
         incomplete.push({
           key,

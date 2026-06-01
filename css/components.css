@@ -2,23 +2,28 @@
 .sidebar-item {
   display: flex;
   flex-direction: column;
-  padding: 1rem 1.5rem;
+  padding: 0.9rem 1.25rem;
   cursor: pointer;
-  border-right: 3px solid transparent;
+  border-right: 2px solid transparent;
   transition: all 0.3s var(--spring);
-  margin-bottom: 0.25rem;
+  margin: 0 0.75rem 0.35rem;
   white-space: nowrap;
+  border-radius: var(--radius-sm);
 }
 
 .sidebar-item:hover {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03));
-  padding-left: 1.75rem;
+  background: rgba(221, 255, 238, 0.045);
   color: #fff;
 }
 
 .sidebar-item.active {
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1));
+  background: linear-gradient(90deg, rgba(39, 215, 255, 0.14), rgba(39, 215, 255, 0.04));
   border-right-color: var(--blue);
+}
+
+.sidebar-item.active.m0 {
+  border-right-color: var(--green);
+  background: linear-gradient(90deg, rgba(51, 209, 122, 0.14), rgba(51, 209, 122, 0.04));
 }
 
 .sidebar-item.active.m2 {
@@ -52,8 +57,13 @@
 }
 
 .sidebar.collapsed .sidebar-item.active {
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(39, 215, 255, 0.15);
   box-shadow: 0 0 15px var(--blue-glow);
+}
+
+.sidebar.collapsed .sidebar-item.active.m0 {
+  background: rgba(51, 209, 122, 0.15);
+  box-shadow: 0 0 15px var(--green-glow);
 }
 
 .sidebar.collapsed .sidebar-item.active.m2 {
@@ -78,6 +88,10 @@
 
 .sidebar-item.active .sidebar-icon-only {
   color: var(--blue);
+}
+
+.sidebar-item.active.m0 .sidebar-icon-only {
+  color: var(--green);
 }
 
 .sidebar-item.active.m2 .sidebar-icon-only {
@@ -130,10 +144,10 @@
 }
 
 .jst-full {
-  padding: 1.5rem;
+  padding: 1.15rem;
   border-radius: var(--radius-lg);
   border: 1px solid var(--glass-border);
-  background: linear-gradient(180deg, rgba(30, 34, 40, 0.4), transparent);
+  background: linear-gradient(180deg, rgba(221, 255, 238, 0.055), rgba(8, 10, 9, 0.12));
 }
 
 .jst-title {
@@ -152,10 +166,10 @@
 
 .jst-metric {
   margin-bottom: 1.2rem;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 1rem;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: rgba(8, 10, 9, 0.44);
+  padding: 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border);
 }
 
 .jst-label {
@@ -216,10 +230,10 @@
   width: 100%;
   margin-top: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, var(--blue), #2563eb);
-  color: #fff;
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  color: var(--ink);
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   font-weight: 800;
   font-size: 0.95rem;
   box-shadow: 0 4px 15px var(--blue-glow);
@@ -230,7 +244,7 @@
 }
 
 .jst-cta:hover {
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-1px);
   box-shadow: 0 8px 25px var(--blue-glow);
 }
 
@@ -274,11 +288,11 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: rgba(20, 22, 28, 0.9);
+  background: rgba(12, 15, 13, 0.92);
   backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   padding: 0.75rem 1rem;
-  border-radius: 100px;
+  border-radius: var(--radius-sm);
   color: var(--txt);
   font-weight: 600;
   font-size: 0.85rem;
@@ -295,25 +309,25 @@
 .fab-main {
   width: 56px;
   height: 56px;
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(39, 215, 255, 0.15);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(59, 130, 246, 0.4);
+  border: 1px solid rgba(39, 215, 255, 0.4);
   border-radius: 50%;
   color: var(--blue);
   font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2), inset 0 0 15px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 8px 25px rgba(39, 215, 255, 0.2), inset 0 0 15px rgba(39, 215, 255, 0.1);
   cursor: pointer;
   transition: all 0.3s var(--spring);
 }
 
 .fab-main:hover {
-  background: rgba(59, 130, 246, 0.25);
-  border-color: rgba(59, 130, 246, 0.6);
-  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4), inset 0 0 20px rgba(59, 130, 246, 0.2);
-  transform: scale(1.05);
+  background: rgba(39, 215, 255, 0.25);
+  border-color: rgba(39, 215, 255, 0.6);
+  box-shadow: 0 8px 30px rgba(39, 215, 255, 0.4), inset 0 0 20px rgba(39, 215, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .quick-fab-container.open .fab-main {

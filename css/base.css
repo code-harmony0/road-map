@@ -11,24 +11,29 @@ html {
 body {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
   background-color: var(--bg);
-  background-image: 
-    radial-gradient(circle at 10% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 40%),
-    radial-gradient(circle at 90% 20%, rgba(139, 92, 246, 0.1) 0px, transparent 40%),
-    radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+  background-image:
+    linear-gradient(rgba(244, 247, 239, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 247, 239, 0.035) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(39, 215, 255, 0.08), transparent 34%, rgba(255, 176, 32, 0.07));
+  background-size: 44px 44px, 44px 44px, 100% 100%;
   background-attachment: fixed;
   color: var(--txt);
-  line-height: 1.6;
+  line-height: 1.55;
   overflow-x: hidden;
 }
 
 body.focus-mode {
-  background-image: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0px, transparent 60%);
+  background-image:
+    linear-gradient(rgba(51, 209, 122, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(51, 209, 122, 0.04) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(51, 209, 122, 0.1), transparent 40%, rgba(39, 215, 255, 0.08));
 }
 
 body.focus-mode .sidebar,
 body.focus-mode .right-sidebar,
 body.focus-mode .milestone-section,
-body.focus-mode .hero {
+body.focus-mode .hero,
+body.focus-mode .mission-brief {
   opacity: 0.2;
   filter: grayscale(100%) blur(4px);
   pointer-events: none;
@@ -49,11 +54,11 @@ a {
 button {
   cursor: pointer;
   font-family: inherit;
-  transition: transform 0.2s var(--spring), filter 0.2s, background 0.2s;
+  transition: transform 0.2s var(--spring), filter 0.2s, background 0.2s, border-color 0.2s;
 }
 
 button:active {
-  transform: scale(0.92);
+  transform: scale(0.97);
 }
 
 input {
@@ -82,4 +87,10 @@ i.ph-bold {
 @keyframes pulse-border {
   0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
   50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+}
+
+@keyframes scanline {
+  0% { transform: translateX(-100%); opacity: 0; }
+  20%, 80% { opacity: 0.5; }
+  100% { transform: translateX(100%); opacity: 0; }
 }

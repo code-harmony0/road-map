@@ -4,7 +4,7 @@
  */
 
 import { state } from "../core/State.js"
-import { M1_WEEKS } from "../config/milestones.js"
+import { M0_WEEKS, M1_WEEKS, M2_WEEKS, M3_WEEKS } from "../config/milestones.js"
 import { toggleTask } from "./TaskManager.js"
 
 /**
@@ -17,10 +17,10 @@ export function renderFocus() {
   const { tasks, startDate } = state.get()
   const incompleteTasks = []
 
-  // Collect all incomplete tasks
-  M1_WEEKS.forEach((w) => {
+  // Collect incomplete tasks in roadmap order.
+  ;[...M0_WEEKS, ...M1_WEEKS, ...M2_WEEKS, ...M3_WEEKS].forEach((w) => {
     w.tasks.forEach((t, i) => {
-      const key = `${w.id}_${i}`
+      const key = t.id || `${w.id}_${i}`
       if (!tasks[key]) {
         incompleteTasks.push({
           key,
@@ -40,7 +40,7 @@ export function renderFocus() {
     paceNudgeHtml = `
       <div class="pace-nudge">
         <i class="ph-fill ph-warning"></i>
-        Set a Start Date in Settings to track your 8-week pace!
+        Set a start date to track your interview-readiness pace.
       </div>
     `
   }
@@ -52,7 +52,7 @@ export function renderFocus() {
       `
       <div class="focus-empty">
         <i class="ph-fill ph-party" style="font-size: 2.5rem; margin-bottom: 0.5rem;"></i>
-        <span>All caught up! Excellent work.</span>
+        <span>Execution queue is clear.</span>
       </div>
     `
   } else {
@@ -94,8 +94,8 @@ function generatePaceNudge(startDate, tasks) {
   const expectedWeek = Math.floor(daysPassed / 7) + 1
   let completedWeeks = 0
 
-  M1_WEEKS.forEach((w) => {
-    const allDone = w.tasks.every((_, i) => tasks[`${w.id}_${i}`])
+  ;[...M0_WEEKS, ...M1_WEEKS].forEach((w) => {
+    const allDone = w.tasks.every((task, i) => tasks[task.id || `${w.id}_${i}`])
     if (allDone) completedWeeks++
   })
 

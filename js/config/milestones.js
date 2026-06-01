@@ -4,13 +4,13 @@
  */
 
 import {
+  PHASE_0_WEEKS as M0_WEEKS,
   PHASE_1_WEEKS as M1_WEEKS,
-  PLAN_B_WEEKS,
-  PHASE_2_MONTHS as M2_MONTHS,
-  PHASE_3_STAFF as M3_STAFF,
+  PHASE_2_WEEKS as M2_WEEKS,
+  PHASE_3_WEEKS as M3_WEEKS,
 } from "../content/index.js"
 
-export { M1_WEEKS, PLAN_B_WEEKS, M2_MONTHS, M3_STAFF }
+export { M0_WEEKS, M1_WEEKS, M2_WEEKS, M3_WEEKS }
 
 /**
  * Get all milestone data combined
@@ -18,10 +18,10 @@ export { M1_WEEKS, PLAN_B_WEEKS, M2_MONTHS, M3_STAFF }
  */
 export function getAllMilestones() {
   return {
+    m0: M0_WEEKS,
     m1: M1_WEEKS,
-    planB: PLAN_B_WEEKS,
-    m2: M2_MONTHS,
-    m3: M3_STAFF,
+    m2: M2_WEEKS,
+    m3: M3_WEEKS,
   }
 }
 
@@ -32,10 +32,10 @@ export function getAllMilestones() {
  */
 export function findMilestone(id) {
   return (
+    M0_WEEKS.find((x) => x.id === id) ||
     M1_WEEKS.find((x) => x.id === id) ||
-    PLAN_B_WEEKS.find((x) => x.id === id) ||
-    M2_MONTHS.find((x) => x.id === id) ||
-    M3_STAFF.find((x) => x.id === id) ||
+    M2_WEEKS.find((x) => x.id === id) ||
+    M3_WEEKS.find((x) => x.id === id) ||
     null
   )
 }

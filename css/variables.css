@@ -1,31 +1,36 @@
 :root {
   /* Background Colors */
-  --bg: #050505;
-  --glass-bg: rgba(20, 22, 28, 0.6);
-  --glass-hover: rgba(30, 34, 42, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-hover: rgba(255, 255, 255, 0.15);
+  --bg: #080a09;
+  --bg-elevated: #101412;
+  --panel: rgba(17, 22, 20, 0.86);
+  --panel-strong: rgba(23, 29, 26, 0.94);
+  --glass-bg: rgba(18, 24, 22, 0.74);
+  --glass-hover: rgba(29, 38, 34, 0.88);
+  --glass-border: rgba(221, 255, 238, 0.1);
+  --glass-border-hover: rgba(221, 255, 238, 0.24);
   
   /* Text Colors */
-  --txt: #f8fafc;
-  --txt2: #94a3b8;
-  --txt3: #64748b;
+  --txt: #f4f7ef;
+  --txt2: #aab7ae;
+  --txt3: #6f7c72;
   
   /* Accent Colors */
-  --blue: #3b82f6;
-  --blue-glow: rgba(59, 130, 246, 0.4);
+  --blue: #27d7ff;
+  --blue-glow: rgba(39, 215, 255, 0.28);
   
-  --purple: #8b5cf6;
-  --purple-glow: rgba(139, 92, 246, 0.4);
+  --purple: #a78bfa;
+  --purple-glow: rgba(167, 139, 250, 0.28);
   
-  --gold: #f59e0b;
-  --gold-glow: rgba(245, 158, 11, 0.4);
+  --gold: #ffb020;
+  --gold-glow: rgba(255, 176, 32, 0.28);
   
-  --green: #10b981;
-  --green-glow: rgba(16, 185, 129, 0.4);
+  --green: #33d17a;
+  --green-glow: rgba(51, 209, 122, 0.28);
   
-  --red: #ef4444;
-  --cyan: #06b6d4;
+  --red: #ff5c5c;
+  --cyan: #27d7ff;
+  --ink: #0c0f0d;
+  --warning: #ffb020;
   
   /* Layout Dimensions */
   --nav: 70px;
@@ -39,7 +44,7 @@
   --transition-sb: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   
   /* Border Radius */
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --radius-sm: 10px;
+  --radius-lg: 8px;
+  --radius-md: 8px;
+  --radius-sm: 6px;
 }

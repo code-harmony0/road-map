@@ -1,6 +1,6 @@
 /**
  * Timer Module
- * Pomodoro-style focus timer
+ * Deep work sprint timer
  */
 
 import { state } from '../core/State.js';
@@ -9,7 +9,7 @@ import { addXP } from './Gamification.js';
 import { shootConfetti } from './Confetti.js';
 import { toast } from '../ui/Toast.js';
 
-const DEFAULT_SECONDS = 1500; // 25 minutes
+const DEFAULT_SECONDS = 3000; // 50 minutes
 
 let timerInterval = null;
 let isRunning = false;
@@ -94,7 +94,7 @@ export function resetTimer() {
 function completeTimer() {
   pauseTimer();
   state.setTimer(DEFAULT_SECONDS);
-  toast('Session Complete! +100 XP');
+  toast('Sprint complete! +100 XP');
   addXP(100);
   shootConfetti();
   eventBus.emit(EVENTS.TIMER_COMPLETE, null);
@@ -108,7 +108,7 @@ function updateStartButton() {
   if (btn) {
     btn.innerHTML = isRunning
       ? '<i class="ph-bold ph-pause"></i> Pause'
-      : '<i class="ph-bold ph-play"></i> Start Focus';
+      : '<i class="ph-bold ph-play"></i> Start Sprint';
   }
 }
 

@@ -9,7 +9,7 @@ let isAutoScrolling = false;
 
 /**
  * Scroll to a milestone section
- * @param {string} id - Milestone ID ('m1', 'm2', 'm3')
+ * @param {string} id - Milestone ID ('m0', 'm1', 'm2', 'm3')
  */
 export function scrollToId(id) {
   isAutoScrolling = true;
@@ -23,7 +23,7 @@ export function scrollToId(id) {
   updateActiveStates(id);
 
   // Expand milestone if collapsed
-  if ((id === 'm2' || id === 'm3') && state.get().milestonesCollapsed[id]) {
+  if (state.get().milestonesCollapsed[id]) {
     state.toggleMilestone(id);
     updateMilestoneDOM(id);
   }
@@ -44,8 +44,8 @@ function updateActiveStates(id) {
   });
 
   // Set new active states
-  const sideMap = { m1: 'sideM1', m2: 'sideM2', m3: 'sideM3' };
-  const mobIndex = { m1: 0, m2: 1, m3: 2 };
+  const sideMap = { m0: 'sideM0', m1: 'sideM1', m2: 'sideM2', m3: 'sideM3' };
+  const mobIndex = { m0: 0, m1: 1, m2: 2, m3: 3 };
 
   const sideEl = document.getElementById(sideMap[id]);
   if (sideEl) {
@@ -120,7 +120,7 @@ export function toggleMilestone(id) {
  * Update all milestone DOM states
  */
 export function updateAllMilestonesDOM() {
-  ['m1', 'm2', 'm3'].forEach(id => updateMilestoneDOM(id));
+  ['m0', 'm1', 'm2', 'm3'].forEach(id => updateMilestoneDOM(id));
 }
 
 /**

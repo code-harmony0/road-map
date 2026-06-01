@@ -11,10 +11,10 @@ export { APP_NAME, APP_TAGLINE } from './app.js';
 export { LEVELS } from './levels.js';
 
 // Phases
-export { PHASE_1_WEEKS, TASK_DETAILS as PHASE_1_DETAILS, PHASE_1_FALLBACK } from './phases/phase1.js';
-export { PLAN_B_WEEKS, PLAN_B_DETAILS } from './plan_b/phase1.js';
-export { PHASE_2_MONTHS, TASK_DETAILS as PHASE_2_DETAILS } from './phases/phase2.js';
-export { PHASE_3_STAFF, TASK_DETAILS as PHASE_3_DETAILS } from './phases/phase3.js';
+export { PHASE_0_WEEKS, TASK_DETAILS as PHASE_0_DETAILS } from './phases/phase0.js';
+export { PHASE_1_WEEKS, TASK_DETAILS as PHASE_1_DETAILS } from './phases/phase1.js';
+export { PHASE_2_WEEKS, TASK_DETAILS as PHASE_2_DETAILS } from './phases/phase2.js';
+export { PHASE_3_WEEKS, TASK_DETAILS as PHASE_3_DETAILS } from './phases/phase3.js';
 
 // Navigation
 export { SIDEBAR_LABELS, MILESTONE_HEADERS } from './navigation.js';
