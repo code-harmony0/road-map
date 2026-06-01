@@ -1,0 +1,167 @@
+{
+  "/Users/codeaura/Projects/road-map/.graphify_detect.json": {
+    "mtime": 1780298644.0194032,
+    "ast_hash": "b654560087cde503cf59d6da8a6047ab",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/main.js": {
+    "mtime": 1780299180.0685718,
+    "ast_hash": "945a93697c59a78a6076366414a765be",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/ui/Renderer.js": {
+    "mtime": 1780298756.4936345,
+    "ast_hash": "24bde06ee79ce9bad56720066688dac5",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/ui/Sidebar.js": {
+    "mtime": 1780298757.053924,
+    "ast_hash": "a7989b2e8df7e240bea01c85b4d50d08",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/ui/CommandPalette.js": {
+    "mtime": 1778061766.6592796,
+    "ast_hash": "e494e84c56570817c39a3017e37efc6c",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/ui/Modal.js": {
+    "mtime": 1778061744.2058384,
+    "ast_hash": "356d573372947538fe1ccb7961218573",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/ui/Toast.js": {
+    "mtime": 1778061741.1355722,
+    "ast_hash": "2b493f66f8389bc97165068e3c93de90",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/core/EventBus.js": {
+    "mtime": 1778061650.7049265,
+    "ast_hash": "61a8e1cf08a08b0ba3318331340873fb",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/core/State.js": {
+    "mtime": 1778225152.997261,
+    "ast_hash": "8cf2d30addfcd8d7a320a55f319ed030",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/core/Storage.js": {
+    "mtime": 1780298757.2369764,
+    "ast_hash": "08c03657bcc5110357dcbac8856a4a3e",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/config/milestones.js": {
+    "mtime": 1780298468.7191527,
+    "ast_hash": "d933b5845d7a11f46e8e760c36fdb97f",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/config/levels.js": {
+    "mtime": 1778066057.4526947,
+    "ast_hash": "da86567b23e849d6047ac7480f1bff19",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/config/commands.js": {
+    "mtime": 1778066058.0455117,
+    "ast_hash": "02fafd48835123a35da040a4897f7dc6",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/features/Confetti.js": {
+    "mtime": 1778061719.0669613,
+    "ast_hash": "07521d578b56270ab4a4a126fcef525b",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/features/Timer.js": {
+    "mtime": 1780299184.7404299,
+    "ast_hash": "848d94e98bf6cb22aa1a212ba8e54cdd",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/features/FocusSection.js": {
+    "mtime": 1780298765.998731,
+    "ast_hash": "b6cd290e6ae14c7208c23c3b9b9ffca0",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/features/TaskManager.js": {
+    "mtime": 1780298756.6823611,
+    "ast_hash": "cc8a0e7d7ce9ea49c840b9809f4d1759",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/features/Gamification.js": {
+    "mtime": 1778062529.5826957,
+    "ast_hash": "5092eae6534c4c214140f8f34255266f",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/features/JobTracker.js": {
+    "mtime": 1778061704.3565438,
+    "ast_hash": "7e53ebf8730f2dcbae8137698188246b",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/ui-text.js": {
+    "mtime": 1780299110.1734653,
+    "ast_hash": "b6631b76c1553af65a665f3df6f2c87b",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/index.js": {
+    "mtime": 1780298468.3460095,
+    "ast_hash": "6074de307e11ee4c467a079c09c7b5a6",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/levels.js": {
+    "mtime": 1778066002.9063206,
+    "ast_hash": "b974fb6e6ca98121f92e148fcb51b126",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/navigation.js": {
+    "mtime": 1780299175.6311078,
+    "ast_hash": "c88aa6a8d0557a83733c75a42fd811ad",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/helpers.js": {
+    "mtime": 1780298468.5361595,
+    "ast_hash": "09edd9460f007104ce33040a49233dd0",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/commands.js": {
+    "mtime": 1780299119.50174,
+    "ast_hash": "f64c093f78d01a85075ebdb52e3a38b0",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/messages.js": {
+    "mtime": 1778066047.1294632,
+    "ast_hash": "40d821886e77131b96adbb8fa387ab25",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/app.js": {
+    "mtime": 1780299100.2399786,
+    "ast_hash": "9aa98252d98c3c070ce783607b2c39c3",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/phases/phase0.js": {
+    "mtime": 1780298220.5136628,
+    "ast_hash": "327aff1eaf233b63d3728ac3a42d63c2",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/phases/phase1.js": {
+    "mtime": 1780298307.8055472,
+    "ast_hash": "e00604877dbe886315c04ba260946a8a",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/phases/phase2.js": {
+    "mtime": 1780298307.8046992,
+    "ast_hash": "6773e78e62413a20e277cb4062ccb274",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/js/content/phases/phase3.js": {
+    "mtime": 1780298307.7968173,
+    "ast_hash": "4a9f3604ce870359983d6ab6136819f0",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/index.html": {
+    "mtime": 1780298985.873602,
+    "ast_hash": "2a267e2191cbde36821e1b7ca5cac3e5",
+    "semantic_hash": ""
+  },
+  "/Users/codeaura/Projects/road-map/README.md": {
+    "mtime": 1780299189.5184417,
+    "ast_hash": "dfc33075ea371fae792a478fcd09a2ea",
+    "semantic_hash": ""
+  }
+}
