@@ -33,6 +33,14 @@ export function closeTimer() {
   if (modal) {
     modal.classList.remove('open');
   }
+
+  // Focus mode makes the rest of the app pointer-events:none. Leaving it on
+  // with the modal gone locks the UI with no way back except a reload.
+  if (isRunning) {
+    pauseTimer();
+  } else {
+    document.body.classList.remove('focus-mode');
+  }
 }
 
 /**

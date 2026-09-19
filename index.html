@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Senior Roadmap | Mobile Systems Engineer</title>
+    <title>Training Log | Career Roadmap</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -22,7 +22,7 @@
   <body>
     <nav class="topbar">
       <div class="topbar-logo">
-        <i class="ph-fill ph-command"></i> Senior Roadmap
+        <i class="ph-bold ph-barbell"></i> Training Log
       </div>
       <div class="level-badge">
         <i class="ph-fill ph-medal" style="color: var(--purple)"></i>
@@ -31,6 +31,22 @@
       </div>
       <div class="topbar-spacer"></div>
       <div class="topbar-actions">
+        <button
+          class="icon-btn"
+          id="roadmapSwitch"
+          title="Switch roadmap"
+          onclick="cycleRoadmap()"
+          style="padding: 0.4rem 0.7rem; display: flex; align-items: center; gap: 0.4rem;"
+        >
+          <i class="ph-bold ph-arrows-left-right" style="color: var(--signal)"></i>
+          <span class="rm-label">
+            <span id="roadmapName">Two-Track</span>
+            <span id="roadmapTag">follow this</span>
+          </span>
+        </button>
+        <a href="interview-prep.html" class="icon-btn" style="text-decoration: none; padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; color: var(--txt); background: rgba(255, 255, 255, 0.05); display: flex; align-items: center; gap: 0.4rem;">
+          <i class="ph-fill ph-sword" style="color: var(--blue);"></i> Prep
+        </a>
         <button
           class="mini-timer-btn icon-btn"
           id="miniTimerBtn"
@@ -93,11 +109,11 @@
           <div class="mission-metrics" aria-label="Roadmap targets">
             <div class="metric-tile">
               <span>Target</span>
-              <strong>15-22 LPA</strong>
+              <strong>20-30 LPA</strong>
             </div>
             <div class="metric-tile">
               <span>Pipeline</span>
-              <strong>50 apps</strong>
+              <strong>~30 apps</strong>
             </div>
             <div class="metric-tile">
               <span>Sprint</span>
@@ -236,8 +252,7 @@
                   id="jstAppBar"
                   style="
                     width: 0%;
-                    background: var(--blue);
-                    box-shadow: 0 0 8px var(--blue-glow);
+                    background-color: var(--signal);
                   "
                 ></div>
               </div>
@@ -262,8 +277,7 @@
                   id="jstIntBar"
                   style="
                     width: 0%;
-                    background: var(--purple);
-                    box-shadow: 0 0 8px var(--purple-glow);
+                    background-color: var(--signal);
                   "
                 ></div>
               </div>
@@ -288,8 +302,7 @@
                   id="jstOffBar"
                   style="
                     width: 0%;
-                    background: var(--green);
-                    box-shadow: 0 0 8px var(--green-glow);
+                    background-color: var(--green);
                   "
                 ></div>
               </div>

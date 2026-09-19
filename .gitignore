@@ -1,0 +1,4 @@
+# Personal pipeline snapshot written by scripts/sync-career-ops.mjs
+career-ops.json
+.DS_Store
+firebase-debug.log

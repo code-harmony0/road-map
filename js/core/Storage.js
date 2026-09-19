@@ -4,6 +4,8 @@
  * Single Responsibility: Abstracts persistence layer
  */
 
+import { DEFAULT_ROADMAP } from '../content/roadmaps.js';
+
 const STORAGE_KEY = 'rn_escape_velocity_v3';
 
 /**
@@ -12,8 +14,10 @@ const STORAGE_KEY = 'rn_escape_velocity_v3';
  */
 export function getDefaultState() {
   return {
+    roadmap: DEFAULT_ROADMAP,
     tasks: {},
     xp: 0,
+    xpByRoadmap: {},
     weeksCollapsed: {},
     milestonesCollapsed: { m2: true, m3: true },
     jobSearch: { applications: 0, interviews: 0, offers: 0 },
@@ -30,7 +34,14 @@ export function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
-      return { ...getDefaultState(), ...JSON.parse(raw) };
+      const loaded = { ...getDefaultState(), ...JSON.parse(raw) };
+
+      // Migration: a single shared xp counter became per-roadmap. Existing XP
+      // belongs to whichever roadmap earned it, which is always v1.
+      if (!loaded.xpByRoadmap || Object.keys(loaded.xpByRoadmap).length === 0) {
+        loaded.xpByRoadmap = { v1: loaded.xp || 0 };
+      }
+      return loaded;
     }
   } catch (e) {
     console.error('Failed to load state from localStorage:', e);

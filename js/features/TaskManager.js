@@ -6,7 +6,7 @@
 import { state } from "../core/State.js"
 import { eventBus, EVENTS } from "../core/EventBus.js"
 import { addXP } from "./Gamification.js"
-import { M0_WEEKS, M1_WEEKS, M2_WEEKS, M3_WEEKS } from "../config/milestones.js"
+import { activeWeeks } from "../config/milestones.js"
 
 /**
  * Toggle task completion
@@ -24,8 +24,7 @@ export function toggleTask(key, xpValue) {
     }
   } else {
     // Remove XP when unchecking
-    const currentXP = state.get().xp
-    state.set({ xp: Math.max(0, currentXP - xpValue) }, true)
+    state.addXP(-xpValue)
   }
 
   return isDone
@@ -46,7 +45,7 @@ export function isTaskComplete(key) {
  */
 export function getIncompleteTasks() {
   const { tasks } = state.get()
-  const allMilestones = [...M0_WEEKS, ...M1_WEEKS, ...M2_WEEKS, ...M3_WEEKS]
+  const allMilestones = activeWeeks()
   const incomplete = []
 
   allMilestones.forEach((m) => {

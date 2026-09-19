@@ -7,7 +7,7 @@
 export const SCHEMA = {
   "version": "2.0",
   "structure": "normalized",
-  "note": "Phase 1: Interview-Ready (Weeks 3-8). The user is a 4-yr RN dev already worth 15-22 LPA in India. The goal here is NOT learning new tech (PostgreSQL/Docker/AI are Phase 3) but getting interview-ready with existing skills: LeetCode, RN depth, system-design FORMAT (experience already exists), and behavioral stories. Start applying (Phase 2) around Week 7, once ~60% through this phase.",
+  "note": "Phase 1: Interview-Ready (Weeks 3-8). The user is a 4-yr RN dev already worth 28-40 LPA in India. The goal here is NOT learning new tech (PostgreSQL/Docker/AI live in the Skill Ladder roadmap) but getting interview-ready with existing skills: LeetCode, RN depth, system-design FORMAT (experience already exists), and behavioral stories. Start applying (Phase 2) around Week 7, once ~60% through this phase.",
   "layers": {
     "roadmap": "core task objects (id, day, time, depth, xp, text, reason)",
     "details": "taskDetails map keyed by task.id",

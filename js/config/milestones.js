@@ -1,41 +1,60 @@
 /**
  * Milestone Configuration
- * Re-exports from content/ (single source of truth)
+ * Resolves the ACTIVE roadmap (see content/roadmaps.js) into phase data.
+ *
+ * Everything downstream asks for phases through these functions rather than
+ * importing a fixed set of arrays, so switching roadmaps is a state change.
  */
 
-import {
-  PHASE_0_WEEKS as M0_WEEKS,
-  PHASE_1_WEEKS as M1_WEEKS,
-  PHASE_2_WEEKS as M2_WEEKS,
-  PHASE_3_WEEKS as M3_WEEKS,
-} from "../content/index.js"
-
-export { M0_WEEKS, M1_WEEKS, M2_WEEKS, M3_WEEKS }
+import { ROADMAPS, DEFAULT_ROADMAP, ROADMAP_IDS } from "../content/roadmaps.js"
+import { state } from "../core/State.js"
 
 /**
- * Get all milestone data combined
- * @returns {object} Object with all phases
+ * The currently selected roadmap object
+ * @returns {object} Roadmap definition
  */
-export function getAllMilestones() {
-  return {
-    m0: M0_WEEKS,
-    m1: M1_WEEKS,
-    m2: M2_WEEKS,
-    m3: M3_WEEKS,
-  }
+export function activeRoadmap() {
+  return ROADMAPS[state.get().roadmap] || ROADMAPS[DEFAULT_ROADMAP]
 }
 
 /**
- * Find a week/month by ID
+ * Phases of the active roadmap, in order (always 4)
+ * @returns {Array} Phase objects with .weeks, .icon, .nav, .header
+ */
+export function activePhases() {
+  return activeRoadmap().phases
+}
+
+/**
+ * Every week/month card in the active roadmap, flattened in order
+ * @returns {Array} Milestone objects
+ */
+export function activeWeeks() {
+  return activePhases().flatMap((p) => p.weeks)
+}
+
+/**
+ * Find a week/month by ID across ALL roadmaps.
+ * Boss checks fire on task ids, which are globally unique, so this must not
+ * be scoped to the active roadmap.
  * @param {string} id - Week/Month ID
  * @returns {object|null} Milestone object or null
  */
 export function findMilestone(id) {
-  return (
-    M0_WEEKS.find((x) => x.id === id) ||
-    M1_WEEKS.find((x) => x.id === id) ||
-    M2_WEEKS.find((x) => x.id === id) ||
-    M3_WEEKS.find((x) => x.id === id) ||
-    null
-  )
+  for (const key of ROADMAP_IDS) {
+    for (const phase of ROADMAPS[key].phases) {
+      const found = phase.weeks.find((x) => x.id === id)
+      if (found) return found
+    }
+  }
+  return null
+}
+
+/**
+ * Active milestone data keyed by section id
+ * @returns {object} { m0, m1, m2, m3 }
+ */
+export function getAllMilestones() {
+  const phases = activePhases()
+  return { m0: phases[0].weeks, m1: phases[1].weeks, m2: phases[2].weeks, m3: phases[3].weeks }
 }

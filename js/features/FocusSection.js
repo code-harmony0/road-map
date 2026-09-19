@@ -4,7 +4,7 @@
  */
 
 import { state } from "../core/State.js"
-import { M0_WEEKS, M1_WEEKS, M2_WEEKS, M3_WEEKS } from "../config/milestones.js"
+import { activePhases, activeWeeks, activeRoadmap } from "../config/milestones.js"
 import { toggleTask } from "./TaskManager.js"
 
 /**
@@ -18,7 +18,7 @@ export function renderFocus() {
   const incompleteTasks = []
 
   // Collect incomplete tasks in roadmap order.
-  ;[...M0_WEEKS, ...M1_WEEKS, ...M2_WEEKS, ...M3_WEEKS].forEach((w) => {
+  activeWeeks().forEach((w) => {
     w.tasks.forEach((t, i) => {
       const key = t.id || `${w.id}_${i}`
       if (!tasks[key]) {
@@ -34,7 +34,10 @@ export function renderFocus() {
 
   // Generate pace nudge HTML
   let paceNudgeHtml = ""
-  if (startDate) {
+  if (!activeRoadmap().paced) {
+    // A capability roadmap has no weeks to be behind on.
+    paceNudgeHtml = ""
+  } else if (startDate) {
     paceNudgeHtml = generatePaceNudge(startDate, tasks)
   } else {
     paceNudgeHtml = `
@@ -61,12 +64,12 @@ export function renderFocus() {
       .map(
         (item, index) => `
       <div class="focus-item" 
-           style="${index === 0 ? "border-left: 3px solid var(--blue); background: rgba(59,130,246,0.1);" : ""}"
+           style=""
            onclick="window.handleFocusTask('${item.key}', ${item.xp})">
         <div class="task-cb" style="width:20px; height:20px; border-radius:6px; pointer-events:none;"></div>
         <span style="flex:1; font-weight: ${index === 0 ? "700" : "500"};">${item.text}</span>
-        <span style="color:var(--gold); font-size:0.75rem; font-family:'JetBrains Mono'; 
-                     background: rgba(245,158,11,0.1); padding: 2px 6px; border-radius: 4px;">
+        <span style="color:var(--signal); font-size:0.72rem; font-family:var(--font-data); font-weight:700;
+                     background: var(--sunk); padding: 2px 6px; border-radius: 2px;">
           +${item.xp}
         </span>
       </div>
@@ -94,7 +97,7 @@ function generatePaceNudge(startDate, tasks) {
   const expectedWeek = Math.floor(daysPassed / 7) + 1
   let completedWeeks = 0
 
-  ;[...M0_WEEKS, ...M1_WEEKS].forEach((w) => {
+  activePhases().slice(0, 2).flatMap((p) => p.weeks).forEach((w) => {
     const allDone = w.tasks.every((task, i) => tasks[task.id || `${w.id}_${i}`])
     if (allDone) completedWeeks++
   })

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Interview Prep — React Native</title>
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/interview-prep.css">
+</head>
+<body>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem; margin-right: 1.5rem;">
+                    <i class="ph ph-arrow-left"></i> Roadmap
+                </a>
+                <div class="brand">
+                    <i class="ph-fill ph-sword" style="color: var(--blue);"></i>
+                    Interview Prep
+                </div>
+                <div class="badge-tag">React Native</div>
+            </div>
+            
+            <div class="nav-right">
+                <div class="xp-display">
+                    <i class="ph-fill ph-star" style="color: var(--gold);"></i>
+                    <span id="globalXp">Daily Prep</span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="ip-layout">
+            
+            <!-- Left Sidebar: Filters -->
+            <aside class="ip-sidebar">
+                <input type="text" id="searchBar" class="ip-search" placeholder="Search questions..." />
+                
+                <div class="ip-filter-group">
+                    <div class="ip-filter-title">Categories</div>
+                    <div class="ip-filter-item cat-filter active" data-val="roadmap">
+                        <i class="ph ph-path"></i> My Roadmap
+                    </div>
+                    <div class="ip-filter-item cat-filter" data-val="all">
+                        <i class="ph ph-squares-four"></i> All Questions
+                    </div>
+                    <div class="ip-filter-item cat-filter" data-val="rn">
+                        <i class="ph ph-atom"></i> React Native
+                    </div>
+                    <div class="ip-filter-item cat-filter" data-val="behavioral">
+                        <i class="ph ph-users"></i> Behavioral
+                    </div>
+                    <div class="ip-filter-item cat-filter" data-val="system-design">
+                        <i class="ph ph-hard-drives"></i> System Design
+                    </div>
+                    <div class="ip-filter-item cat-filter" data-val="backend">
+                        <i class="ph ph-database"></i> Backend &amp; Data
+                    </div>
+                    <div class="ip-filter-item cat-filter" data-val="platform">
+                        <i class="ph ph-device-mobile"></i> Mobile Platform
+                    </div>
+                    <div class="ip-filter-item cat-filter" data-val="ai">
+                        <i class="ph ph-sparkle"></i> AI Engineering
+                    </div>
+                </div>
+
+                <div class="ip-filter-group">
+                    <div class="ip-filter-title">Mastery</div>
+                    <div class="ip-filter-item mast-filter active" data-val="all">
+                        <i class="ph ph-list-dashes"></i> Show All
+                    </div>
+                    <div class="ip-filter-item mast-filter" data-val="gaps">
+                        <i class="ph ph-warning-circle" style="color:var(--red)"></i> Gaps Only
+                    </div>
+                    <div class="ip-filter-item mast-filter" data-val="due">
+                        <i class="ph ph-clock-counter-clockwise" style="color:var(--gold)"></i> Due for Review
+                    </div>
+                    <div class="ip-filter-item mast-filter" data-val="mastered">
+                        <i class="ph ph-check-circle" style="color:var(--green)"></i> Mastered
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content: Dashboard & Questions -->
+            <main class="ip-main">
+                
+                <div class="ip-dashboard">
+                    <div class="ip-dash-item">
+                        <div class="ip-dash-header">
+                            <span>React Native</span>
+                            <span class="ip-dash-pct" id="dash-rn-pct">0%</span>
+                        </div>
+                        <div class="ip-dash-bar"><div class="ip-dash-fill" id="dash-rn-fill" style="width:0%"></div></div>
+                    </div>
+                    <div class="ip-dash-item">
+                        <div class="ip-dash-header">
+                            <span>Behavioral</span>
+                            <span class="ip-dash-pct" id="dash-beh-pct">0%</span>
+                        </div>
+                        <div class="ip-dash-bar"><div class="ip-dash-fill" id="dash-beh-fill" style="width:0%"></div></div>
+                    </div>
+                    <div class="ip-dash-item">
+                        <div class="ip-dash-header">
+                            <span>System Design</span>
+                            <span class="ip-dash-pct" id="dash-sys-pct">0%</span>
+                        </div>
+                        <div class="ip-dash-bar"><div class="ip-dash-fill" id="dash-sys-fill" style="width:0%"></div></div>
+                    </div>
+                </div>
+
+                <div class="ip-q-list" id="questionList">
+                    <!-- Populated by JS -->
+                </div>
+                <br/><br/><br/>
+            </main>
+
+            <!-- Right Panel: Story Bank & Log -->
+            <aside class="ip-right-panel">
+                <div class="ip-sb-header">
+                    <div class="ip-sb-title">
+                        <i class="ph-fill ph-book-open-text" style="color:var(--purple)"></i>
+                        Story Bank
+                    </div>
+                </div>
+                <div class="ip-story-list" id="storyList">
+                    <!-- Populated by JS -->
+                </div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="ip-modal-overlay" id="logModalOverlay">
+        <div class="ip-modal">
+            <div class="ip-modal-title">Log Real Interview</div>
+            <form id="logModalForm">
+                <input type="hidden" id="logQId" />
+                <div class="ip-form-group">
+                    <label>Question Asked</label>
+                    <input type="text" id="logQText" required placeholder="What exactly did they ask?" />
+                </div>
+                <div class="ip-form-group">
+                    <label>Company</label>
+                    <input type="text" id="logCompany" required placeholder="e.g. Meta, Uber..." />
+                </div>
+                <div class="ip-form-group">
+                    <label>Notes (How did you answer?)</label>
+                    <textarea id="logNotes" placeholder="I used my conflict story, but they probed on X..."></textarea>
+                </div>
+                <div class="ip-modal-actions">
+                    <button type="button" class="ip-mastery-btn" id="logModalCancel" style="border: 1px solid var(--glass-border)">Cancel</button>
+                    <button type="submit" class="jst-cta" style="width:auto; margin:0">Save Log</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="js/interview-prep/main.js"></script>
+</body>
+</html>

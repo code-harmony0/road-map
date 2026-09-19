@@ -7,7 +7,7 @@
 export const SCHEMA = {
   "version": "2.0",
   "structure": "normalized",
-  "note": "Phase 2: Apply Aggressively (Weeks 7-14), overlapping Phase 1. Math: ~50 quality apps -> 3-5 interview processes -> 1-2 offers. Pipeline takes 8-12 weeks. Target: 15-25 LPA Indian product company OR 3-5 lakh/mo remote. Do NOT quit current job until a signed offer is in hand.",
+  "note": "Phase 2: Apply Aggressively (Weeks 7-14), overlapping Phase 1. Math: ~30 quality apps -> 3-5 interview processes -> 1-2 offers. Pipeline takes 8-12 weeks. Target: 28-40 LPA Indian product company OR Gulf 22-30k AED. Do NOT quit current job until a signed offer is in hand.",
   "layers": {
     "roadmap": "core task objects",
     "details": "taskDetails map keyed by task.id",
@@ -76,22 +76,22 @@ export const WEEKS = [
     "boss": {
       "id": "boss-p2w2",
       "name": "The Machine",
-      "challenge": "Reach 30-50 total applications with consistent weekly volume and disciplined follow-up",
+      "challenge": "Reach ~30 total applications at 4 per week, with disciplined follow-up",
       "rewardXP": 700,
       "resumeLine": null,
       "successCriteria": [
-        "30-50 total applications sent",
+        "~30 total applications sent",
         "10-15 remote roles added (Wellfound, RemoteRocketship)",
         "Follow-up every 5-7 days with value-add",
         "Recruiter replies answered within 4 hours"
       ],
       "howToComplete": [
-        "Send 5-10 quality apps/week",
+        "Send 4 quality apps/week (45 min each)",
         "Add remote roles to the mix (avoid US-only)",
         "Follow up on every open application",
         "Keep the tracker current"
       ],
-      "deliverables": ["30-50 total applications", "Active follow-up log", "Recruiter pipeline"],
+      "deliverables": ["~30 total applications", "Active follow-up log", "Recruiter pipeline"],
       "passFail": {
         "pass": "30+ apps with disciplined follow-up",
         "fail": "Stalled after the first wave, no follow-up"
@@ -104,8 +104,8 @@ export const WEEKS = [
         "time": "3h/week",
         "depth": "Medium",
         "xp": 200,
-        "text": "Send 5-10 quality apps/week; add 10-15 remote roles to reach 30-50 total",
-        "reason": "Math: 5-10% response means ~50 apps for 1-2 offers"
+        "text": "Send 4 quality apps/week; add remote roles to reach ~30 total",
+        "reason": "Math: 15% first-round rate means ~30 apps for 1-2 offers"
       },
       {
         "id": "p2-w2-followup",
@@ -127,7 +127,7 @@ export const WEEKS = [
     "boss": {
       "id": "boss-p2w3",
       "name": "The Negotiator",
-      "challenge": "Convert interviews into 1-2 offers and negotiate up to 15-22 LPA",
+      "challenge": "Convert interviews into 1-2 offers and negotiate up to 28-40 LPA",
       "rewardXP": 1000,
       "resumeLine": null,
       "successCriteria": [
@@ -164,7 +164,7 @@ export const WEEKS = [
         "time": "3h",
         "depth": "Deep",
         "xp": 400,
-        "text": "Negotiate: research bands, hold for 15-22 LPA, leverage competing offers",
+        "text": "Negotiate: research bands, hold for 28L+, leverage competing offers",
         "reason": "Negotiation is the highest-ROI hour of the whole search"
       }
     ]
@@ -206,8 +206,8 @@ export const DETAILS = {
     "connectsTo": "p2-w2-volume"
   },
   "p2-w2-volume": {
-    "objective": "Sustain 5-10 quality applications per week to reach 30-50 total.",
-    "why": "It's a numbers game with a 5-10% response rate. ~50 quality apps yields 3-5 interview processes and 1-2 offers.",
+    "objective": "Sustain 4 quality applications per week to reach ~30 total.",
+    "why": "A tailored application costs 45 minutes, so 4/week is what 3 hours buys. At a 15% first-round rate, ~30 apps yields 3-5 interview processes and 1-2 offers. Targeting is the lever, not volume.",
     "steps": [
       "Send 5-10 tailored apps each week — quality over raw volume.",
       "Add 10-15 remote roles via Wellfound and RemoteRocketship (avoid US-only due to geo-adjustment).",
@@ -215,7 +215,7 @@ export const DETAILS = {
       "Update the tracker after every batch."
     ],
     "tools": ["Wellfound", "RemoteRocketship", "LinkedIn", "Tracker"],
-    "deliverable": "30-50 total applications.",
+    "deliverable": "~30 total applications.",
     "definitionOfDone": "30+ apps sent across Indian + remote roles, all tracked.",
     "commonMistakes": ["Burning out with a single huge batch then stopping", "US-only remote (pay gets geo-adjusted down)", "Dropping personalization"],
     "resumeLine": null,
@@ -254,13 +254,13 @@ export const DETAILS = {
     "connectsTo": "p2-w3-negotiate"
   },
   "p2-w3-negotiate": {
-    "objective": "Negotiate offers up to the 15-22 LPA range.",
+    "objective": "Negotiate offers into the 28-40 LPA range.",
     "why": "Negotiation is the single highest-ROI hour of the whole search. Most people accept the first number and leave lakhs on the table — especially dangerous coming from a 57K/mo anchor.",
     "steps": [
       "Research salary bands for each role before talking numbers (AmbitionBox, levels.fyi).",
       "Never anchor on your current salary — anchor on market rate for 4 YOE.",
       "If you have competing offers, use them as leverage (factually, not bluffing).",
-      "Don't accept the first 10-12 LPA offer; hold for 15-22 LPA.",
+      "Don't accept the first offer; hold for 28L+.",
       "Get the final offer in writing before resigning."
     ],
     "tools": ["AmbitionBox", "levels.fyi", "Email"],

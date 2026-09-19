@@ -1,50 +1,84 @@
+/**
+ * Design tokens — "Training Log"
+ *
+ * The world: a strength-programme logbook, not a sci-fi cockpit. Graphite paper,
+ * chalk lettering, one signal colour that means "act", tabular numerals for every
+ * figure. Flat surfaces separated by hairlines, not glass separated by glow.
+ *
+ * Rules this palette enforces:
+ *   - ONE saturated accent (--signal). Everything else is graphite or chalk.
+ *   - Phase colours are identity marks, used at 1px or as small type. Never fills.
+ *   - No zero-offset colour halos. Shadows have offset and blur or they don't exist.
+ */
+
 :root {
-  /* Background Colors */
-  --bg: #080a09;
-  --bg-elevated: #101412;
-  --panel: rgba(17, 22, 20, 0.86);
-  --panel-strong: rgba(23, 29, 26, 0.94);
-  --glass-bg: rgba(18, 24, 22, 0.74);
-  --glass-hover: rgba(29, 38, 34, 0.88);
-  --glass-border: rgba(221, 255, 238, 0.1);
-  --glass-border-hover: rgba(221, 255, 238, 0.24);
-  
-  /* Text Colors */
-  --txt: #f4f7ef;
-  --txt2: #aab7ae;
-  --txt3: #6f7c72;
-  
-  /* Accent Colors */
-  --blue: #27d7ff;
-  --blue-glow: rgba(39, 215, 255, 0.28);
-  
-  --purple: #a78bfa;
-  --purple-glow: rgba(167, 139, 250, 0.28);
-  
-  --gold: #ffb020;
-  --gold-glow: rgba(255, 176, 32, 0.28);
-  
-  --green: #33d17a;
-  --green-glow: rgba(51, 209, 122, 0.28);
-  
-  --red: #ff5c5c;
-  --cyan: #27d7ff;
-  --ink: #0c0f0d;
-  --warning: #ffb020;
-  
-  /* Layout Dimensions */
-  --nav: 70px;
-  --sidebar: 260px;
-  --sidebar-col: 80px;
-  --right: 320px;
-  --right-col: 80px;
-  
-  /* Animation Curves */
-  --spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  --transition-sb: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  
-  /* Border Radius */
-  --radius-lg: 8px;
-  --radius-md: 8px;
-  --radius-sm: 6px;
+  /* Ground — graphite, warmed very slightly so it doesn't read as dead black */
+  --bg: #15171b;
+  --bg-elevated: #1a1d22;
+  --panel: #1a1d22;
+  --panel-strong: #1f232a;
+  --sunk: #101216;
+
+  /* Legacy aliases kept so existing rules resolve; now flat, not glass */
+  --glass-bg: #1a1d22;
+  --glass-hover: #22262d;
+  --glass-border: #2b3038;
+  --glass-border-hover: #3d434d;
+
+  /* Chalk */
+  --txt: #e9e7e2;
+  --txt2: #ced3db;
+  --txt3: #a9aeb7;
+
+  /* The one signal colour. Used for: active nav, primary action, live focus. */
+  --signal: #f0531c;
+  --signal-dim: #b53d14;
+  --signal-wash: rgba(240, 83, 28, 0.11);
+
+  /* State, not decoration */
+  --green: #5f9e6d;
+  --green-wash: rgba(95, 158, 109, 0.13);
+  --red: #cf5a4a;
+  --warning: #d29343;
+
+  /* Phase identity marks — desaturated to sit on graphite without shouting */
+  --blue: #6f9ec4;
+  --blue-wash: rgba(111, 158, 196, 0.13);
+  --purple: #9b8bc4;
+  --purple-wash: rgba(155, 139, 196, 0.13);
+  --gold: #cf9a45;
+  --gold-wash: rgba(207, 154, 69, 0.13);
+  --cyan: #6f9ec4;
+  --ink: #0d0f12;
+
+  /* Glow tokens retained for compatibility, neutralised to soft shadow tints */
+  --blue-glow: rgba(0, 0, 0, 0.4);
+  --purple-glow: rgba(0, 0, 0, 0.4);
+  --gold-glow: rgba(0, 0, 0, 0.4);
+  --green-glow: rgba(0, 0, 0, 0.4);
+
+  /* Real depth: offset + blur. Never a halo. */
+  --lift-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --lift-2: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --lift-3: 0 16px 40px rgba(0, 0, 0, 0.55);
+
+  /* Layout */
+  --nav: 64px;
+  --sidebar: 250px;
+  --sidebar-col: 76px;
+  --right: 310px;
+  --right-col: 76px;
+
+  /* Motion — one ease, used everywhere, so nothing feels bolted on */
+  --spring: cubic-bezier(0.16, 1, 0.3, 1); /* ease-out-expo */
+  --transition-sb: 0.32s cubic-bezier(0.2, 0.9, 0.25, 1);
+
+  /* Corners: a logbook has edges, not pills */
+  --radius-lg: 4px;
+  --radius-md: 4px;
+  --radius-sm: 3px;
+
+  /* Type */
+  --font-ui: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-data: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 }

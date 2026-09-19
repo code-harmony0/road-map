@@ -1,0 +1,681 @@
+/* ── Interview Prep Styles ── */
+
+.ip-layout {
+  display: flex;
+  height: calc(100vh - var(--nav));
+  overflow: hidden;
+}
+
+.ip-sidebar {
+  width: var(--sidebar);
+  background: rgba(21, 23, 27, 0.4);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  overflow-y: auto;
+}
+
+.ip-main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  position: relative;
+}
+
+.ip-right-panel {
+  width: 380px;
+  background: rgba(21, 23, 27, 0.4);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-left: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* ── Dashboard ── */
+.ip-dashboard {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.ip-dash-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ip-dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-grow: 1;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--txt2);
+}
+
+.ip-dash-pct {
+  color: var(--txt);
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+}
+
+.ip-dash-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ip-dash-fill {
+  height: 100%;
+  background-image: 
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    linear-gradient(90deg, var(--blue), var(--green));
+  background-size: 200% 100%, 100% 100%;
+  animation: shimmer 2.5s infinite linear;
+  transition: width 0.5s var(--spring);
+}
+
+/* ── Question Cards ── */
+.ip-q-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ip-q-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  transition: all 0.3s var(--spring);
+  animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ip-q-list > .ip-q-card:nth-child(1) { animation-delay: 0.05s; }
+.ip-q-list > .ip-q-card:nth-child(2) { animation-delay: 0.10s; }
+.ip-q-list > .ip-q-card:nth-child(3) { animation-delay: 0.15s; }
+.ip-q-list > .ip-q-card:nth-child(4) { animation-delay: 0.20s; }
+.ip-q-list > .ip-q-card:nth-child(5) { animation-delay: 0.25s; }
+.ip-q-list > .ip-q-card:nth-child(n+6) { animation-delay: 0.30s; }
+
+.ip-q-card:hover {
+  background: rgba(221, 255, 238, 0.045);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px) scale(1.005);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.ip-q-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ip-q-title {
+  font-size: 1.10rem;
+  font-weight: 600;
+  color: var(--txt);
+  line-height: 1.4;
+}
+
+.ip-q-meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.ip-badge {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--txt2);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.ip-badge.due {
+  background: rgba(255, 176, 32, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(255, 176, 32, 0.3);
+}
+
+/* ── Mastery Toggle ── */
+.ip-mastery-group {
+  display: flex;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem;
+  gap: 0.25rem;
+}
+
+.ip-mastery-btn {
+  padding: 0.4rem 0.8rem;
+  font-size: 1.00rem;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--txt3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ip-mastery-btn:hover {
+  color: var(--txt);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ip-mastery-btn:active {
+  transform: scale(0.92);
+  transition: transform 0.1s var(--spring);
+}
+
+.ip-mastery-btn.active.gap {
+  background: rgba(255, 92, 92, 0.15);
+  color: var(--red);
+}
+
+.ip-mastery-btn.active.studying {
+  background: rgba(255, 176, 32, 0.15);
+  color: var(--gold);
+}
+
+.ip-mastery-btn.active.mastered {
+  background: rgba(51, 209, 122, 0.15);
+  color: var(--green);
+}
+
+/* ── Answer Area ── */
+.ip-q-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.ip-action-link {
+  color: var(--blue);
+  font-size: 0.90rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+}
+
+.ip-action-link:hover {
+  text-decoration: underline;
+}
+
+.ip-action-link:active {
+  transform: scale(0.95);
+  transition: transform 0.1s var(--spring);
+}
+
+.ip-answer {
+  display: none;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--glass-border);
+  color: var(--txt2);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+@keyframes slideDownFade {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ip-answer.expanded {
+  display: block;
+  animation: slideDownFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ip-answer ul, .ip-answer ol {
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.ip-answer li {
+  margin-bottom: 0.5rem;
+}
+
+.ip-answer code {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  color: var(--purple);
+}
+
+/* ── Story Bank ── */
+.ip-sb-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ip-sb-title {
+  font-size: 1.10rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ip-story-list {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ip-story-card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.ip-story-header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ip-story-header:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ip-story-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.ip-story-body {
+  display: none;
+  padding: 1rem;
+  border-top: 1px solid var(--glass-border);
+  font-size: 1.05rem;
+  color: var(--txt2);
+}
+
+.ip-story-card.expanded .ip-story-body {
+  display: block;
+}
+
+.ip-story-field {
+  margin-bottom: 1rem;
+}
+
+.ip-story-field label {
+  display: block;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  color: var(--blue);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.ip-story-field p {
+  line-height: 1.5;
+}
+
+.ip-story-field input, .ip-story-field textarea {
+  width: 100%;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--glass-border);
+  color: var(--txt);
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1.05rem;
+}
+
+.ip-story-field textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+/* ── Sidebar Filters ── */
+.ip-filter-group {
+  margin-bottom: 2rem;
+}
+
+.ip-filter-title {
+  padding: 0 1.25rem;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  color: var(--txt3);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.ip-filter-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  color: var(--txt2);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  border-left: 2px solid transparent;
+}
+
+.ip-filter-item:hover {
+  color: var(--txt);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ip-filter-item.active {
+  color: var(--blue);
+  background: linear-gradient(90deg, rgba(39, 215, 255, 0.1), transparent);
+  border-left-color: var(--blue);
+  font-weight: 600;
+}
+
+.ip-search {
+  margin: 0 1rem 1.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--txt);
+  width: calc(100% - 2rem);
+  font-family: inherit;
+}
+
+.ip-search:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+/* ── Modals ── */
+.ip-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.ip-modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.ip-modal {
+  background: var(--panel-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  width: 90%;
+  max-width: 500px;
+  padding: 2rem;
+  transform: translateY(20px);
+  transition: transform 0.2s var(--spring);
+}
+
+.ip-modal-overlay.active .ip-modal {
+  transform: translateY(0);
+}
+
+.ip-modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.ip-form-group {
+  margin-bottom: 1.25rem;
+}
+
+.ip-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  color: var(--txt2);
+}
+
+.ip-form-group input, .ip-form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--txt);
+  font-family: inherit;
+}
+
+.ip-form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.ip-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* ===========================================================================
+   Header — these classes were used in interview-prep.html but defined in NO
+   stylesheet, which is why the nav rendered as a stacked list. Styled here in
+   the training-log world so prep stops looking like a different product.
+   =========================================================================== */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-nav {
+  height: var(--nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 1.25rem;
+  background: rgba(21, 23, 27, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.nav-left > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  color: var(--txt2);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: border-color 0.18s var(--spring), color 0.18s;
+}
+
+.nav-left > a:hover {
+  border-color: var(--signal);
+  color: var(--txt);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-variation-settings: 'wdth' 112;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--txt);
+}
+
+.brand i { color: var(--signal) !important; }
+
+.badge-tag {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  background: rgba(97, 218, 251, 0.15);
+  border: 1px solid rgba(97, 218, 251, 0.3);
+  color: #61dafb;
+  white-space: nowrap;
+}
+
+.xp-display {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.65rem;
+  background: var(--sunk);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-data);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--txt2);
+  white-space: nowrap;
+}
+
+.xp-display i { color: var(--signal) !important; }
+
+/* --- Bring the prep body into the one-signal system --- */
+.ip-filter-item.active {
+  border-left: 2px solid var(--signal);
+  background: var(--panel-strong);
+  border-radius: 0;
+}
+
+.ip-filter-item.active i { color: var(--signal); }
+
+.ip-filter-title,
+.ip-sb-title {
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--txt3);
+  font-weight: 600;
+}
+
+.ip-q-title {
+  font-variation-settings: 'wdth' 96;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.ip-action-link { color: var(--txt2); }
+.ip-action-link:hover { color: var(--signal); }
+
+.ip-dash-fill { background: var(--signal); border-radius: 0; }
+.ip-dash-pct { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+
+.ip-search {
+  border-radius: var(--radius-sm);
+  background: var(--sunk);
+  border: 1px solid var(--glass-border);
+}
+
+.ip-search:focus {
+  outline: none;
+  border-color: var(--signal);
+}
+
+@media (max-width: 720px) {
+  .top-nav { height: auto; padding: 0.6rem 0.9rem; flex-wrap: wrap; }
+  .badge-tag { display: none; }
+}
+
+/* Active filter label was still the old blue. */
+.ip-filter-item.active,
+.ip-mastery-btn.active { color: var(--txt) !important; }
+.ip-sb-title i { color: var(--txt3) !important; }
+.ip-dash-header span:first-child { font-size: 0.90rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--txt2); }
+
+/* --- Story provenance: where each claim comes from --- */
+.ip-story-source {
+  margin-top: 0.85rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-data);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: var(--txt3);
+}
+
+.ip-story-source i { color: var(--green); font-size: 0.90rem; }
+
+/* A story you still have to write reads as unfinished, not as content. */
+.ip-story-card.needs-input {
+  border-color: var(--warning);
+  background: rgba(210, 147, 67, 0.05);
+}
+
+.ip-story-card.needs-input .ip-story-name { color: var(--warning); }
+.ip-story-card.needs-input .ip-story-source i { color: var(--warning); }

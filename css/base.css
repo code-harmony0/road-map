@@ -9,24 +9,67 @@ html {
 }
 
 body {
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-family: var(--font-ui);
+  font-variation-settings: 'wdth' 100;
   background-color: var(--bg);
-  background-image:
-    linear-gradient(rgba(244, 247, 239, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(244, 247, 239, 0.035) 1px, transparent 1px),
-    linear-gradient(135deg, rgba(39, 215, 255, 0.08), transparent 34%, rgba(255, 176, 32, 0.07));
-  background-size: 44px 44px, 44px 44px, 100% 100%;
+  /* Ruled paper, not a sci-fi grid: horizontal rules only, barely there. */
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(95, 158, 109, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(65, 126, 219, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(135, 96, 219, 0.08) 0%, transparent 40%),
+    repeating-linear-gradient(
+      180deg,
+      rgba(233, 231, 226, 0.022) 0px,
+      rgba(233, 231, 226, 0.022) 1px,
+      transparent 1px,
+      transparent 32px
+    );
   background-attachment: fixed;
   color: var(--txt);
   line-height: 1.55;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Every figure in this app lines up in a column somewhere. */
+.wc-load, .task-badge, .jst-input, .jst-target, .timer-display,
+.level-text, .xp-text, .jst-mini-val, .boss-reward, .mission-metrics strong {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Browser surfaces belong to the design too. */
+::selection { background: var(--signal); color: #fff; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; border-radius: 2px; }
+* { scrollbar-color: var(--glass-border) transparent; scrollbar-width: thin; }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 body.focus-mode {
-  background-image:
-    linear-gradient(rgba(51, 209, 122, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(51, 209, 122, 0.04) 1px, transparent 1px),
-    linear-gradient(135deg, rgba(51, 209, 122, 0.1), transparent 40%, rgba(39, 215, 255, 0.08));
+  background-image: none;
+  background-color: var(--sunk);
 }
 
 body.focus-mode .sidebar,
@@ -41,7 +84,8 @@ body.focus-mode .mission-brief {
 
 body.focus-mode .focus-section {
   transform: scale(1.02);
-  box-shadow: 0 0 50px rgba(59, 130, 246, 0.15);
+  box-shadow: var(--lift-3);
+  border-color: var(--signal);
   z-index: 1000;
   position: relative;
 }
@@ -79,18 +123,32 @@ i.ph-bold {
 }
 
 @keyframes check-pop {
-  0% { transform: scale(0) rotate(-15deg); }
-  50% { transform: scale(1.3) rotate(10deg); }
-  100% { transform: scale(1) rotate(0); }
+  0% { transform: scale(0.4); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes pulse-border {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-  50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  0%, 100% { border-color: var(--green); }
+  50% { border-color: var(--glass-border); }
 }
 
 @keyframes scanline {
   0% { transform: translateX(-100%); opacity: 0; }
   20%, 80% { opacity: 0.5; }
   100% { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes slideUpFade {
+  0% { transform: translateY(12px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes taskCompleteFlash {
+  0% { background: rgba(95, 158, 109, 0.2); }
+  100% { background: var(--glass-bg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }

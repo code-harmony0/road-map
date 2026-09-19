@@ -11,5 +11,6 @@ export const COMMANDS = [
   { id: 'm1', icon: 'ph-sword', text: 'Go to Phase 1 (Interview-Ready)' },
   { id: 'm2', icon: 'ph-rocket', text: 'Go to Phase 2 (Apply Aggressively)' },
   { id: 'm3', icon: 'ph-crown', text: 'Go to Phase 3 (Deepen Skills)' },
+  { id: 'roadmap', icon: 'ph-arrows-left-right', text: 'Switch Roadmap (Escape Velocity / Two-Track / Skill Ladder)' },
   { id: 'settings', icon: 'ph-gear', text: 'Open Settings / Set Start Date' }
 ];

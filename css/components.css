@@ -16,26 +16,6 @@
   color: #fff;
 }
 
-.sidebar-item.active {
-  background: linear-gradient(90deg, rgba(39, 215, 255, 0.14), rgba(39, 215, 255, 0.04));
-  border-right-color: var(--blue);
-}
-
-.sidebar-item.active.m0 {
-  border-right-color: var(--green);
-  background: linear-gradient(90deg, rgba(51, 209, 122, 0.14), rgba(51, 209, 122, 0.04));
-}
-
-.sidebar-item.active.m2 {
-  border-right-color: var(--purple);
-  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1));
-}
-
-.sidebar-item.active.m3 {
-  border-right-color: var(--gold);
-  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.1));
-}
-
 .sidebar-title {
   font-size: 0.95rem;
   font-weight: 700;
@@ -56,32 +36,12 @@
   margin: 0.5rem 1rem;
 }
 
-.sidebar.collapsed .sidebar-item.active {
-  background: rgba(39, 215, 255, 0.15);
-  box-shadow: 0 0 15px var(--blue-glow);
-}
-
-.sidebar.collapsed .sidebar-item.active.m0 {
-  background: rgba(51, 209, 122, 0.15);
-  box-shadow: 0 0 15px var(--green-glow);
-}
-
-.sidebar.collapsed .sidebar-item.active.m2 {
-  background: rgba(139, 92, 246, 0.15);
-  box-shadow: 0 0 15px var(--purple-glow);
-}
-
-.sidebar.collapsed .sidebar-item.active.m3 {
-  background: rgba(245, 158, 11, 0.15);
-  box-shadow: 0 0 15px var(--gold-glow);
-}
-
 .sidebar.collapsed .sidebar-sub {
   display: none;
 }
 
 .sidebar-icon-only {
-  font-size: 1.3rem;
+  font-size: 1.30rem;
   color: var(--txt2);
   transition: color 0.3s;
 }
@@ -103,7 +63,7 @@
 }
 
 .sidebar-sub {
-  font-size: 0.8rem;
+  font-size: 1.00rem;
   color: var(--txt3);
   margin-top: 0.3rem;
 }
@@ -130,14 +90,14 @@
 
 .jst-mini-val {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 1.1rem;
+  font-size: 1.10rem;
   font-weight: 800;
   display: block;
   text-shadow: 0 0 10px currentColor;
 }
 
 .jst-mini-lbl {
-  font-size: 0.65rem;
+  font-size: 0.85rem;
   color: var(--txt3);
   text-transform: uppercase;
   font-weight: 700;
@@ -147,21 +107,32 @@
   padding: 1.15rem;
   border-radius: var(--radius-lg);
   border: 1px solid var(--glass-border);
-  background: linear-gradient(180deg, rgba(221, 255, 238, 0.055), rgba(8, 10, 9, 0.12));
+  background: var(--panel);
 }
 
 .jst-title {
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.10rem;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
+.jst-sync {
+  margin: -1.1rem 0 1.2rem;
+  font-family: var(--font-data);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--txt3);
+}
+
+.jst-input[readonly] { cursor: default; opacity: 0.85; }
+
 .jst-title i {
   color: var(--blue);
-  font-size: 1.2rem;
+  font-size: 1.20rem;
 }
 
 .jst-metric {
@@ -173,7 +144,7 @@
 }
 
 .jst-label {
-  font-size: 0.8rem;
+  font-size: 1.00rem;
   color: var(--txt2);
   font-weight: 600;
   margin-bottom: 0.5rem;
@@ -200,7 +171,7 @@
   padding: 0.4rem;
   color: var(--txt);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 1.1rem;
+  font-size: 1.10rem;
   font-weight: 700;
   text-align: center;
   outline: none;
@@ -209,7 +180,7 @@
 
 .jst-input:focus {
   border-color: var(--blue);
-  box-shadow: 0 0 0 2px var(--blue-glow);
+  border-color: var(--signal);
 }
 
 .jst-bar {
@@ -224,28 +195,44 @@
   height: 100%;
   border-radius: 3px;
   transition: width 0.8s var(--spring);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.5s infinite linear;
 }
 
 .jst-cta {
   width: 100%;
   margin-top: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, var(--blue), var(--green));
+  background: var(--signal);
   color: var(--ink);
   border: none;
   border-radius: var(--radius-sm);
   font-weight: 800;
   font-size: 0.95rem;
-  box-shadow: 0 4px 15px var(--blue-glow);
+  box-shadow: var(--lift-1);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s var(--spring);
 }
 
 .jst-cta:hover {
+  filter: brightness(1.1);
   transform: translateY(-1px);
-  box-shadow: 0 8px 25px var(--blue-glow);
+  box-shadow: var(--lift-2);
+}
+
+.jst-cta:active {
+  transform: scale(0.95);
+  transition: transform 0.1s var(--spring);
 }
 
 /* ── Quick Capture FAB ── */
@@ -289,14 +276,14 @@
   align-items: center;
   gap: 0.75rem;
   background: rgba(12, 15, 13, 0.92);
-  backdrop-filter: blur(12px);
+
   border: 1px solid var(--glass-border);
   padding: 0.75rem 1rem;
   border-radius: var(--radius-sm);
   color: var(--txt);
   font-weight: 600;
-  font-size: 0.85rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-size: 1.05rem;
+  box-shadow: var(--lift-2);
   transition: all 0.2s;
 }
 
@@ -310,11 +297,11 @@
   width: 56px;
   height: 56px;
   background: rgba(39, 215, 255, 0.15);
-  backdrop-filter: blur(12px);
+
   border: 1px solid rgba(39, 215, 255, 0.4);
   border-radius: 50%;
   color: var(--blue);
-  font-size: 1.5rem;
+  font-size: 1.50rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -343,3 +330,675 @@
   border-color: rgba(239, 68, 68, 0.6);
   box-shadow: 0 4px 25px rgba(239, 68, 68, 0.4);
 }
+
+
+/* Week card load meter — the plan's honesty check, visible without opening a card */
+.wc-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.wc-load {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.90rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--txt3);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-sm, 6px);
+}
+
+@media (max-width: 640px) {
+  .wc-load { font-size: 0.82rem; padding: 0.2rem 0.4rem; }
+}
+
+/* One active lane marker, one colour. The phase's own colour lives on its
+   card rule and its milestone header, not repeated in four places. */
+.sidebar-item.active { background: var(--panel-strong); }
+.sidebar.collapsed .sidebar-item.active { background: var(--signal-wash); }
+
+/* ===========================================================================
+   TRAINING LOG — scoreboard layer
+   The gamification reads as a logbook stat block: expanded chalk lettering,
+   tabular figures, a segmented rail. No badges, no glow, no gradient.
+   =========================================================================== */
+
+/* --- Topbar: fix the switcher colliding with Prep, and set the voice --- */
+.topbar { gap: 0.6rem; }
+
+.topbar-logo {
+  font-variation-settings: 'wdth' 112;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.topbar-actions { gap: 0.45rem; flex-shrink: 0; }
+
+#roadmapSwitch { white-space: nowrap; }
+
+/* Name on top, status underneath: stacks instead of truncating */
+.rm-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+
+#roadmapName {
+  font-family: var(--font-data);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--txt);
+}
+
+#roadmapTag {
+  font-family: var(--font-data);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--txt3);
+}
+
+#roadmapTag.primary { color: var(--signal); }
+#roadmapTag:empty { display: none; }
+
+/* --- Level block: the stat line at the top of a training log --- */
+.level-badge {
+  border: 1px solid var(--glass-border);
+  gap: 0.65rem;
+  padding: 0.3rem 0.7rem;
+  white-space: nowrap;
+}
+
+.level-text {
+  font-variation-settings: 'wdth' 88;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.94rem;
+  color: var(--txt);
+}
+
+.xp-text {
+  font-family: var(--font-data);
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--signal);
+  letter-spacing: 0.02em;
+}
+
+/* --- Mission brief: the programme header --- */
+.mission-brief { border-radius: var(--radius-lg); }
+
+.mission-copy .eyebrow { display: none; }  /* the heading carries its own weight */
+
+.mission-copy h1 {
+  font-variation-settings: 'wdth' 92;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.mission-copy p { max-width: 62ch; color: var(--txt2); }
+
+.mission-metrics { gap: 1px; background: var(--glass-border); }
+
+.metric-tile {
+  background: var(--panel);
+  border: none !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.4rem;
+  padding: 0.9rem 1rem;
+  min-height: 0 !important;
+}
+
+.metric-tile span {
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--txt3);
+  font-weight: 600;
+}
+
+.metric-tile strong {
+  font-family: var(--font-data);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--txt);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* --- Sidebar: lane markers, active gets the one signal colour --- */
+.sidebar-item {
+  border-left: 2px solid transparent;
+  border-radius: 0;
+  transition: border-color 0.2s var(--spring), background 0.2s;
+}
+
+.sidebar-item.active .sb-text { color: var(--txt); }
+
+.sidebar-title {
+  font-variation-settings: 'wdth' 94;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.sidebar-sub {
+  font-family: var(--font-data);
+  font-size: 0.86rem;
+  letter-spacing: 0.03em;
+  color: var(--txt3);
+}
+
+/* --- Week cards: a logged training block --- */
+.week-card {
+  border-radius: var(--radius-lg);
+  transition: border-color 0.2s var(--spring);
+}
+
+.week-card:hover { border-color: var(--glass-border-hover); }
+
+/* Phase identity stays a 2px rule, never a glowing slab */
+.week-card-top {
+  height: 2px !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  border-radius: 0;
+}
+
+.wc-num {
+  font-family: var(--font-data);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.wc-title {
+  font-variation-settings: 'wdth' 96;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* --- Task rows: check off a set --- */
+.task-item {
+  border-radius: var(--radius-sm);
+  border-left: 2px solid transparent;
+  transition: background 0.16s, border-color 0.16s;
+}
+
+.task-item:hover { border-left-color: var(--glass-border-hover); }
+
+.task-item.done { opacity: 0.42; }
+
+.task-item.done .task-text { text-decoration: line-through; text-decoration-thickness: 1px; }
+
+.task-cb { border-radius: 2px; }
+
+.task-cb.checked {
+  background: var(--green) !important;
+  border-color: var(--green) !important;
+}
+
+.task-text { font-weight: 500; letter-spacing: -0.005em; }
+
+.task-badge {
+  font-family: var(--font-data);
+  font-size: 0.83rem;
+  letter-spacing: 0.03em;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.badge-xp { 
+  color: var(--signal) !important; 
+  background: var(--signal-wash) !important;
+  border-color: rgba(240, 83, 28, 0.2) !important;
+}
+
+/* --- Task detail: the "how to actually do this" drawer --- */
+.task-detail {
+  margin-top: 0.6rem;
+  border-top: 1px solid var(--glass-border);
+  padding-top: 0.5rem;
+  cursor: default;
+}
+
+.task-detail[open] {
+  background: var(--bg-elevated);
+  padding: 0.8rem 1rem 1rem;
+  border-radius: var(--radius-md);
+  margin-top: 0.8rem;
+  border: 1px solid var(--glass-border);
+}
+
+.task-detail summary {
+  cursor: pointer;
+  font-family: var(--font-data);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--txt2);
+  list-style: none;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.task-detail summary::-webkit-details-marker { display: none; }
+.task-detail summary:hover { color: var(--signal); }
+.task-detail[open] summary { 
+  color: var(--signal); 
+  margin-bottom: 0.5rem;
+}
+
+.task-reason {
+  margin-top: 0.6rem;
+  font-size: 0.88rem;
+  color: var(--txt3);
+  line-height: 1.5;
+}
+
+.td-block { margin-top: 0.75rem; }
+
+.td-block h4 {
+  font-family: var(--font-data);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--txt3);
+  margin: 0 0 0.3rem;
+}
+
+.td-block p,
+.td-block li {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--txt2);
+}
+
+.td-block ol,
+.td-block ul { margin: 0; padding-left: 1.1rem; }
+
+.td-block li + li { margin-top: 0.25rem; }
+
+.td-block a { color: var(--blue); }
+
+/* --- Boss battle: the block's PR attempt --- */
+.boss-battle-box {
+  border-radius: var(--radius-sm);
+  border-style: solid;
+  position: relative;
+}
+
+.boss-title {
+  font-variation-settings: 'wdth' 90;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 1.05rem;
+}
+
+.boss-reward {
+  font-family: var(--font-data);
+  font-weight: 700;
+  color: var(--signal);
+  letter-spacing: 0.02em;
+}
+
+/* --- Load meter, restyled into the logbook voice --- */
+.wc-load {
+  background: var(--sunk);
+  border-color: var(--glass-border);
+  color: var(--txt2);
+}
+
+/* --- Offer radar: the meet results board --- */
+.jst-title {
+  font-variation-settings: 'wdth' 90;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 0.98rem;
+}
+
+.jst-label { font-size: 0.90rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--txt3); }
+.jst-target { font-family: var(--font-data); color: var(--txt3); }
+.jst-input { font-family: var(--font-data); font-weight: 700; border-radius: var(--radius-sm); }
+.jst-bar { border-radius: 0; background: var(--sunk); }
+.jst-bar-fill { border-radius: 0; box-shadow: none !important; }
+
+.jst-cta {
+  background: var(--signal) !important;
+  color: #fff !important;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-variation-settings: 'wdth' 92;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.98rem;
+  box-shadow: var(--lift-1);
+}
+
+.jst-cta:hover { background: var(--signal-dim) !important; box-shadow: var(--lift-2); }
+
+/* --- Execution queue --- */
+.focus-title {
+  font-variation-settings: 'wdth' 90;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.95rem !important;
+}
+
+.focus-item { border-radius: var(--radius-sm); }
+.pace-nudge { border-radius: var(--radius-sm); font-size: 1.02rem; }
+
+/* --- Milestone headers --- */
+.milestone-name {
+  font-variation-settings: 'wdth' 94;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.milestone-sub { color: var(--txt2); font-size: 1.02rem; }
+
+.milestone-icon { border-radius: var(--radius-sm); }
+
+/* --- Buttons --- */
+.btn-primary {
+  background: var(--signal);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn-primary:hover { background: var(--signal-dim); }
+
+.fab-main { background: var(--signal) !important; box-shadow: var(--lift-2) !important; }
+
+@media (max-width: 900px) {
+  .rm-label { display: none; }
+  #roadmapSwitch { max-width: none; padding: 0.4rem 0.55rem !important; }
+}
+
+
+/* --- Defect fixes from the first inspection round --- */
+
+/* .icon-btn's fixed 42px square was clamping the roadmap switcher's label. */
+#roadmapSwitch {
+  width: auto;
+  min-width: 42px;
+  height: 42px;
+}
+
+/* The Prep link is a peer of the icon buttons, so it inherits their shape. */
+.topbar-actions a.icon-btn {
+  width: auto;
+  padding: 0 0.75rem;
+  font-variation-settings: 'wdth' 92;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.95rem !important;
+  background: var(--panel) !important;
+  border: 1px solid var(--glass-border);
+}
+
+.mini-timer-btn {
+  width: auto;
+  padding: 0 0.75rem;
+  font-family: var(--font-data);
+  font-weight: 700;
+  font-size: 1.00rem;
+  color: var(--txt) !important;
+}
+
+/* Milestone icons: chalk on graphite, tinted by the phase, never a filled disc. */
+.milestone-icon {
+  background: var(--sunk) !important;
+  border: 1px solid var(--glass-border);
+  color: var(--txt2);
+}
+
+.m0-header .milestone-icon { color: var(--gold); }
+.m1-header .milestone-icon { color: var(--blue); }
+.m2-header .milestone-icon { color: var(--purple); }
+.m3-header .milestone-icon { color: var(--green); }
+
+/* Sidebar icons follow the same one-weight system. */
+.sidebar-icon-only { color: var(--txt3); }
+.sidebar-item.active .sidebar-icon-only { color: var(--signal); }
+
+/* Next-up row in the execution queue gets the signal, not a stray blue. */
+.focus-item:first-of-type {
+  border-left: 2px solid var(--signal) !important;
+  background: var(--signal-wash) !important;
+}
+
+/* ===========================================================================
+   THE ONE MOVE — figures as structure
+   This app is nothing but numbers: week ordinals, hours, XP, pay bands, reps
+   done. They were all set small and apologetic. A printed training programme
+   sets them large enough to read across a room. Everything else stays quiet so
+   the figures carry the page.
+   =========================================================================== */
+
+/* --- Lane number on every card --- */
+.wc-header {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 0 !important;
+}
+
+.wc-lane {
+  flex: 0 0 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  border-right: 1px solid var(--glass-border);
+  background: var(--sunk);
+  position: relative;
+}
+
+.wc-lane::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--lane, var(--txt3));
+}
+
+.wc-figure {
+  font-family: var(--font-data);
+  font-size: 2.35rem;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+  color: var(--txt);
+  font-variant-numeric: tabular-nums;
+}
+
+.wc-unit {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--txt3);
+  margin-top: 0.3rem;
+}
+
+.wc-left {
+  flex: 1;
+  min-width: 0;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+}
+
+.wc-num {
+  font-family: var(--font-ui);
+  font-size: 0.80rem !important;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.wc-title {
+  font-size: 1.20rem !important;
+  font-variation-settings: 'wdth' 96;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.wc-right { padding-right: 1.1rem; }
+
+/* --- Phase completion rail: the number this app exists to move --- */
+.milestone-header { position: relative; padding-bottom: 1.4rem !important; }
+
+.phase-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: var(--sunk);
+  display: flex;
+  align-items: center;
+}
+
+.phase-rail-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s var(--spring);
+}
+
+.phase-rail.complete .phase-rail-fill { background: var(--green); }
+
+.phase-count {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 9px;
+  font-family: var(--font-data);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--txt3);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* --- Mission brief at full strength --- */
+.mission-brief { padding: 1.75rem !important; }
+
+.mission-copy h1 {
+  font-size: clamp(2rem, 3.4vw, 3.1rem) !important;
+  font-variation-settings: 'wdth' 88;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+.metric-tile strong { font-size: 1.50rem !important; letter-spacing: -0.04em; }
+
+/* --- Scoreboard: the level block earns its size --- */
+.level-badge {
+  padding: 0.32rem 0.55rem 0.32rem 0.75rem !important;
+  background: var(--sunk) !important;
+}
+
+.level-badge > i { display: none; }
+
+.xp-text {
+  font-size: 0.95rem !important;
+  letter-spacing: -0.03em;
+  background: var(--signal);
+  color: #fff;
+  padding: 0.12rem 0.42rem;
+  border-radius: 2px;
+}
+
+/* --- XP badge on a task: the rep counter --- */
+.badge-xp {
+  background: var(--signal-wash) !important;
+  color: var(--signal) !important;
+  font-weight: 700;
+}
+
+/* --- Offer radar figures --- */
+.jst-input {
+  font-size: 1.15rem !important;
+  letter-spacing: -0.03em;
+  background: var(--sunk) !important;
+}
+
+.jst-bar { height: 6px !important; }
+
+/* --- Boss: a stamped result, not a notice --- */
+.boss-battle-box { padding-top: 1.1rem !important; }
+
+.boss-battle-box::after {
+  content: "PENDING";
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--font-data);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 0.18rem 0.5rem;
+  background: var(--sunk);
+  color: var(--txt3);
+  border-left: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.week-card:has(.boss-battle-box[style*="--green"])::after { content: none; }
+
+@media (max-width: 640px) {
+  .wc-lane { flex-basis: 64px; }
+  .wc-figure { font-size: 1.75rem; }
+  .wc-title { font-size: 1.00rem !important; }
+  .mission-brief { padding: 1.15rem !important; }
+}
+
+
+/* --- Final round: one colour system for card chrome and icons --- */
+.week-card { border-color: var(--glass-border) !important; }
+.week-card:hover { border-color: var(--glass-border-hover) !important; }
+
+/* The phase colour lives on the lane rule and the top hairline only. */
+.sidebar-icon-only,
+.mob-tab i { color: var(--txt3) !important; }
+.sidebar-item.active .sidebar-icon-only,
+.mob-tab.active i { color: var(--signal) !important; }
+
+.task-badge { border: 1px solid var(--glass-border); }
+.task-badge i { display: none; }
+.badge-xp { border-color: transparent !important; }

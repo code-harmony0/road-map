@@ -17,7 +17,17 @@ class StateManager {
    * @returns {object} Current state
    */
   get() {
-    return { ...this.state };
+    // xp reads as the active roadmap's total; three roadmaps sharing one
+    // counter made every level threshold meaningless.
+    return { ...this.state, xp: this.roadmapXP() };
+  }
+
+  /**
+   * XP earned on the active roadmap
+   * @returns {number} XP total
+   */
+  roadmapXP() {
+    return this.state.xpByRoadmap?.[this.state.roadmap] || 0;
   }
 
   /**
@@ -69,11 +79,12 @@ class StateManager {
    * @param {number} amount - XP amount to add (can be negative)
    */
   addXP(amount) {
-    const prevXP = this.state.xp;
-    this.state.xp = Math.max(0, this.state.xp + amount);
+    const next = Math.max(0, this.roadmapXP() + amount);
+    this.state.xpByRoadmap = { ...this.state.xpByRoadmap, [this.state.roadmap]: next };
+    this.state.xp = next;
     saveState(this.state);
 
-    eventBus.emit(EVENTS.XP_CHANGED, { xp: this.state.xp, delta: amount });
+    eventBus.emit(EVENTS.XP_CHANGED, { xp: next, delta: amount });
     eventBus.emit(EVENTS.STATE_CHANGED, this.state);
   }
 
@@ -134,6 +145,18 @@ class StateManager {
   setStartDate(date) {
     this.state.startDate = date;
     saveState(this.state);
+  }
+
+  /**
+   * Switch the active roadmap. Task progress is keyed by globally unique task
+   * ids, so both roadmaps keep their own completions.
+   * @param {string} id - Roadmap ID ('v1' | 'v2' | 'v3')
+   */
+  setRoadmap(id) {
+    this.state.roadmap = id;
+    this.state.xp = this.state.xpByRoadmap?.[id] || 0;
+    saveState(this.state);
+    eventBus.emit(EVENTS.STATE_CHANGED, this.state);
   }
 
   /**
