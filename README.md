@@ -52,7 +52,7 @@ nothing and dies on reboot.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/road-map.git
+git clone https://github.com/code-harmony0/road-map.git
 cd road-map
 
 # Serve it (required — ES modules are blocked on file://)
