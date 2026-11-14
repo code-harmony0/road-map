@@ -3,453 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Training Log | Career Roadmap</title>
+    <title>Roadmap</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap"
       rel="stylesheet"
     />
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-    <!-- CSS Modules -->
-    <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/layout.css" />
-    <link rel="stylesheet" href="css/components.css" />
-    <link rel="stylesheet" href="css/sections.css" />
-    <link rel="stylesheet" href="css/modals.css" />
+    <link rel="stylesheet" href="css/app.css" />
   </head>
   <body>
-    <nav class="topbar">
-      <div class="topbar-logo">
-        <i class="ph-bold ph-barbell"></i> Training Log
-      </div>
-      <div class="level-badge">
-        <i class="ph-fill ph-medal" style="color: var(--purple)"></i>
-        <span class="level-text" id="levelDisp">Lvl 1: Junior</span>
-        <span class="xp-text" id="xpDisp">0 XP</span>
-      </div>
-      <div class="topbar-spacer"></div>
-      <div class="topbar-actions">
-        <button
-          class="icon-btn"
-          id="roadmapSwitch"
-          title="Switch roadmap"
-          onclick="cycleRoadmap()"
-          style="padding: 0.4rem 0.7rem; display: flex; align-items: center; gap: 0.4rem;"
-        >
-          <i class="ph-bold ph-arrows-left-right" style="color: var(--signal)"></i>
-          <span class="rm-label">
-            <span id="roadmapName">Two-Track</span>
-            <span id="roadmapTag">follow this</span>
-          </span>
-        </button>
-        <a href="interview-prep.html" class="icon-btn" style="text-decoration: none; padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; color: var(--txt); background: rgba(255, 255, 255, 0.05); display: flex; align-items: center; gap: 0.4rem;">
-          <i class="ph-fill ph-sword" style="color: var(--blue);"></i> Prep
-        </a>
-        <button
-          class="mini-timer-btn icon-btn"
-          id="miniTimerBtn"
-          onclick="openTimer()"
-        >
-          <i class="ph-bold ph-timer"></i> <span id="miniTimerDisp">50:00</span>
-        </button>
-        <button class="icon-btn" onclick="openSettings()">
-          <i class="ph-bold ph-gear"></i>
-        </button>
-      </div>
-    </nav>
-
-    <div class="layout">
-      <aside class="sidebar" id="leftSidebar">
-        <button class="sidebar-toggle-btn" onclick="toggleLeftSidebar()">
-          <span class="sb-toggle-label">Collapse</span>
-          <i class="ph-bold ph-caret-double-left" id="sbLeftIcon"></i>
-        </button>
-        <div class="sidebar-item active m0" id="sideM0" onclick="scrollToId('m0')">
-          <div class="sidebar-title">
-            <i class="ph-fill ph-target sidebar-icon-only"></i
-            ><span class="sb-text">Positioning</span>
-          </div>
-          <div class="sidebar-sub">Weeks 1-2</div>
+    <!--
+      THESIS: a climb, not a checklist. A mountain ridge at the top shows the whole route with you on it; the single task to do now sits right under it with everything needed to do it.
+      OWN-WORLD: night sky over a ridge: deep navy ground with an aurora glow (teal and violet), off-white ink, teal for ground covered, one amber marker for "you are here", violet-blue gradient for the one action; frosted rail and task card, soft glow shadows.
+      STORY: open it beside your editor, see how far up you are, read the steps, press D, watch the marker climb.
+      FIRST VIEWPORT: ridge hero with the milestone title, count and your marker; segmented task progress; the current task card at display size with steps and a sticky Mark done; frosted route rail on the left.
+      FORM: trekking route card fused with terminal wayfinding (next decision first); 6th of the grounded list, seed 7b5118f5.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+    -->
+    <a class="skip" href="#app">Skip to the current task</a>
+    <header class="bar">
+      <div class="bar-in">
+        <span class="brand">
+          <svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20 9.5 7l4 6.5L16 10l6 10z"/></svg>
+          Roadmap
+        </span>
+        <div class="overall" id="overall" role="img" aria-label="Progress">
+          <span class="overall-track"><span class="overall-fill" id="overallBar"></span></span>
+          <span class="overall-text"><span id="overallText">0 of 0</span> tasks</span>
         </div>
-        <div class="sidebar-item m1" id="sideM1" onclick="scrollToId('m1')">
-          <div class="sidebar-title">
-            <i class="ph-fill ph-sword sidebar-icon-only"></i
-            ><span class="sb-text">Interview Ready</span>
-          </div>
-          <div class="sidebar-sub">Weeks 3-8</div>
-        </div>
-        <div class="sidebar-item m2" id="sideM2" onclick="scrollToId('m2')">
-          <div class="sidebar-title">
-            <i class="ph-fill ph-rocket sidebar-icon-only"></i
-            ><span class="sb-text">Apply Aggressively</span>
-          </div>
-          <div class="sidebar-sub">Weeks 7-14</div>
-        </div>
-        <div class="sidebar-item m3" id="sideM3" onclick="scrollToId('m3')">
-          <div class="sidebar-title">
-            <i class="ph-fill ph-crown sidebar-icon-only"></i
-            ><span class="sb-text">Deepen Skills</span>
-          </div>
-          <div class="sidebar-sub">Months 4+</div>
-        </div>
-      </aside>
-
-      <main class="main" id="mainContent">
-        <section class="mission-brief glass-panel">
-          <div class="mission-copy">
-            <div class="eyebrow">execution cockpit</div>
-            <h1>Become visible, interview-ready, and fairly paid.</h1>
-            <p>
-              A focused senior RN roadmap: position the work you already shipped,
-              sharpen interview signals, then run a measured offer pipeline.
-            </p>
-          </div>
-          <div class="mission-metrics" aria-label="Roadmap targets">
-            <div class="metric-tile">
-              <span>Target</span>
-              <strong>20-30 LPA</strong>
-            </div>
-            <div class="metric-tile">
-              <span>Pipeline</span>
-              <strong>~30 apps</strong>
-            </div>
-            <div class="metric-tile">
-              <span>Sprint</span>
-              <strong>50 min</strong>
-            </div>
-          </div>
-        </section>
-
-        <div class="focus-section glass-panel" id="focusContainer">
-          <div class="focus-header">
-            <i
-              class="ph-fill ph-crosshair"
-              style="font-size: 1.8rem; color: var(--blue)"
-            ></i>
-            <span
-              class="focus-title"
-              style="font-weight: 800; font-size: 1.2rem; color: #fff"
-              >Execution Queue</span
-            >
-          </div>
-          <div class="focus-list" id="todayFocus"></div>
-        </div>
-
-        <div class="milestone-section" id="m0">
-          <div
-            class="milestone-header glass-panel m0-header"
-            onclick="toggleMilestone('m0')"
-          >
-            <div class="milestone-icon"><i class="ph-fill ph-target"></i></div>
-            <div class="milestone-info">
-              <div class="milestone-name">Phase 0: Positioning</div>
-              <div class="milestone-sub">
-                Weeks 1-2 · Make 4 years of real work visible
-              </div>
-            </div>
-            <i
-              class="ph-bold ph-caret-down milestone-toggle open"
-              id="m0Toggle"
-            ></i>
-          </div>
-          <div class="milestone-body open" id="m0Body"></div>
-        </div>
-
-        <div class="milestone-section" id="m1">
-          <div
-            class="milestone-header glass-panel m1-header"
-            onclick="toggleMilestone('m1')"
-          >
-            <div class="milestone-icon"><i class="ph-fill ph-sword"></i></div>
-            <div class="milestone-info">
-              <div class="milestone-name">Phase 1: Interview-Ready</div>
-              <div class="milestone-sub">
-                Weeks 3-8 · Sharpen existing skills, do not rebuild
-              </div>
-            </div>
-            <i
-              class="ph-bold ph-caret-down milestone-toggle open"
-              id="m1Toggle"
-            ></i>
-          </div>
-          <div class="milestone-body open" id="m1Body"></div>
-        </div>
-
-        <div class="milestone-section" id="m2">
-          <div
-            class="milestone-header glass-panel m2-header"
-            onclick="toggleMilestone('m2')"
-          >
-            <div class="milestone-icon"><i class="ph-fill ph-rocket"></i></div>
-            <div class="milestone-info">
-              <div class="milestone-name">Phase 2: Apply Aggressively</div>
-              <div class="milestone-sub">Weeks 7-14 · 50 quality applications</div>
-            </div>
-            <i class="ph-bold ph-caret-down milestone-toggle" id="m2Toggle"></i>
-          </div>
-          <div class="milestone-body" id="m2Body"></div>
-        </div>
-
-        <div class="milestone-section" id="m3">
-          <div
-            class="milestone-header glass-panel m3-header"
-            onclick="toggleMilestone('m3')"
-          >
-            <div class="milestone-icon"><i class="ph-fill ph-crown"></i></div>
-            <div class="milestone-info">
-              <div class="milestone-name">Phase 3: Deepen Skills</div>
-              <div class="milestone-sub">Months 4+ · SQL, systems, and AI after the move</div>
-            </div>
-            <i class="ph-bold ph-caret-down milestone-toggle" id="m3Toggle"></i>
-          </div>
-          <div class="milestone-body" id="m3Body"></div>
-        </div>
-      </main>
-
-      <aside class="right-sidebar" id="rightSidebar">
-        <button class="rside-toggle" onclick="toggleRightSidebar()">
-          <span class="rside-toggle-label">Job Radar</span>
-          <i class="ph-bold ph-caret-double-right" id="rsideIcon"></i>
-        </button>
-
-        <div class="jst-mini" id="jstMiniView">
-          <div class="jst-mini-row">
-            <span class="jst-mini-val" id="jstMiniApp">0</span
-            ><span class="jst-mini-lbl">Apps</span>
-          </div>
-          <div class="jst-mini-row">
-            <span
-              class="jst-mini-val"
-              style="color: var(--purple)"
-              id="jstMiniInt"
-              >0</span
-            ><span class="jst-mini-lbl">Int</span>
-          </div>
-        </div>
-
-        <div class="jst-full glass-panel">
-          <div class="jst-title">
-            <i class="ph-fill ph-radar"></i> Offer Radar
-          </div>
-
-          <div class="jst-metric">
-            <div class="jst-label">
-              Applications <span class="jst-target">Goal: 50</span>
-            </div>
-            <div class="jst-row">
-              <input
-                class="jst-input"
-                type="number"
-                min="0"
-                id="jstApp"
-                oninput="updateJST('applications', this.value)"
-              />
-              <div class="jst-bar">
-                <div
-                  class="jst-bar-fill"
-                  id="jstAppBar"
-                  style="
-                    width: 0%;
-                    background-color: var(--signal);
-                  "
-                ></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="jst-metric">
-            <div class="jst-label">
-              Interviews <span class="jst-target">Goal: 10</span>
-            </div>
-            <div class="jst-row">
-              <input
-                class="jst-input"
-                type="number"
-                min="0"
-                id="jstInt"
-                oninput="updateJST('interviews', this.value)"
-              />
-              <div class="jst-bar">
-                <div
-                  class="jst-bar-fill"
-                  id="jstIntBar"
-                  style="
-                    width: 0%;
-                    background-color: var(--signal);
-                  "
-                ></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="jst-metric">
-            <div class="jst-label">
-              Offers <span class="jst-target">Goal: 2</span>
-            </div>
-            <div class="jst-row">
-              <input
-                class="jst-input"
-                type="number"
-                min="0"
-                id="jstOff"
-                oninput="updateJST('offers', this.value)"
-              />
-              <div class="jst-bar">
-                <div
-                  class="jst-bar-fill"
-                  id="jstOffBar"
-                  style="
-                    width: 0%;
-                    background-color: var(--green);
-                  "
-                ></div>
-              </div>
-            </div>
-          </div>
-
-          <button class="jst-cta" onclick="applyThree()">
-            <i class="ph-bold ph-paper-plane-tilt"></i> Log 3 Apps
+        <a class="bar-link" href="interview-prep.html"><span class="long">Interview prep</span><span class="short">Prep</span></a>
+        <div class="timer">
+          <button class="timer-btn" id="timerToggle" data-action="timer-toggle" data-running="false" aria-label="Start 50-minute focus timer">
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M5 3.2v9.6l7.6-4.8z"/></svg>
+            <span id="timerText">50:00</span>
           </button>
-        </div>
-      </aside>
-    </div>
-
-    <nav class="mobile-bot-nav">
-      <div class="mob-tab active" onclick="scrollToId('m0')">
-        <i class="ph-fill ph-target"></i><span>Setup</span>
-      </div>
-      <div class="mob-tab" onclick="scrollToId('m1')">
-        <i class="ph-fill ph-sword"></i><span>Ready</span>
-      </div>
-      <div class="mob-tab" onclick="scrollToId('m2')">
-        <i class="ph-fill ph-rocket"></i><span>Apply</span>
-      </div>
-      <div class="mob-tab" onclick="scrollToId('m3')">
-        <i class="ph-fill ph-crown"></i><span>Depth</span>
-      </div>
-      <div class="mob-tab" onclick="openTimer()">
-        <i class="ph-bold ph-timer"></i><span>Focus</span>
-      </div>
-    </nav>
-
-    <div
-      class="cmd-palette-overlay"
-      id="cmdPalette"
-      onclick="if (event.target === this) closeCmd()"
-    >
-      <div class="cmd-modal">
-        <div class="cmd-input-wrap">
-          <i class="ph-bold ph-magnifying-glass"></i>
-          <input
-            type="text"
-            class="cmd-input"
-            id="cmdInput"
-            placeholder="Type a command (e.g. 'timer', 'log apps')..."
-            autocomplete="off"
-          />
-        </div>
-        <div class="cmd-list" id="cmdList"></div>
-      </div>
-    </div>
-
-    <div class="quick-fab-container" id="quickFab">
-      <div class="quick-fab-menu">
-        <button
-          class="fab-action"
-          onclick="
-            applyThree()
-            toggleFab()
-          "
-        >
-          <i class="ph-bold ph-paper-plane-tilt"></i> Log 3 Job Apps
-        </button>
-        <button
-          class="fab-action"
-          onclick="
-            openTimer()
-            toggleFab()
-          "
-        >
-            <i class="ph-bold ph-timer"></i> Start 50m Sprint
-        </button>
-        <button
-          class="fab-action"
-          onclick="
-            openSettings()
-            toggleFab()
-          "
-        >
-          <i class="ph-bold ph-calendar-plus"></i> Set Start Date
-        </button>
-      </div>
-      <button class="fab-main" onclick="toggleFab()">
-        <i class="ph-bold ph-plus"></i>
-      </button>
-    </div>
-
-    <div class="modal-overlay" id="timerModal">
-      <div class="modal" style="text-align: center">
-        <div class="modal-title" style="justify-content: center">
-          <i class="ph-fill ph-hourglass-high" style="color: var(--blue)"></i>
-          Deep Work Sprint
-        </div>
-        <div class="timer-display" id="timerDisplayLg">50:00</div>
-        <p class="timer-subtitle">One high-leverage block. No tab hopping.</p>
-        <div style="display: flex; gap: 1rem; justify-content: center">
-          <button
-            class="btn-primary"
-            id="timerStartBtn"
-            onclick="toggleTimer()"
-          >
-            <i class="ph-bold ph-play"></i> Start Sprint
-          </button>
-          <button class="btn-secondary" onclick="resetTimer()">
-            <i class="ph-bold ph-arrow-counter-clockwise"></i>
-          </button>
-          <button class="btn-secondary" onclick="closeTimer()">
-            <i class="ph-bold ph-x"></i>
-          </button>
+          <button class="timer-reset" id="timerReset" data-action="timer-reset" aria-label="Reset timer" hidden>Reset</button>
         </div>
       </div>
+    </header>
+    <div class="shell">
+      <nav class="rail" id="rail" aria-label="Route"></nav>
+      <main class="main" id="app"></main>
     </div>
-
-    <div class="modal-overlay" id="settingsModal">
-      <div class="modal">
-        <div class="modal-title"><i class="ph-fill ph-gear"></i> Settings</div>
-        <div style="margin-bottom: 1.5rem">
-          <label>Start Date (For Pace Tracker)</label><br />
-          <input
-            type="date"
-            id="startDateInput"
-            onchange="saveStartDate(this.value)"
-          />
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 1rem">
-          <button class="btn-export" onclick="exportData()">
-            <i class="ph-bold ph-download-simple"></i> Export Backup (JSON)
-          </button>
-          <button class="btn-danger" onclick="confirmReset()">
-            <i class="ph-bold ph-trash"></i> Reset All Progress
-          </button>
-        </div>
-        <button
-          onclick="closeSettings()"
-          class="btn-primary"
-          style="width: 100%; margin-top: 1.5rem"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-
-    <div class="toast" id="toast">
-      <i class="ph-bold ph-check-circle"></i> <span id="toastMsg">Success</span>
-    </div>
-    <canvas id="confettiCanvas"></canvas>
-
-    <!-- JavaScript Modules -->
+    <input type="file" id="importFile" accept="application/json,.json" hidden />
+    <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button class="toast-act" id="toastAction" hidden></button></div>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

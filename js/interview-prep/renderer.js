@@ -4,15 +4,13 @@
  */
 
 import { updateMastery } from './store.js';
-import { allQuestions, ROADMAP_CATEGORIES, activeRoadmapId } from './filter.js';
+import { allQuestions, PREP_CATEGORIES } from './filter.js';
 
 export function renderDashboard(state) {
   const container = document.querySelector('.ip-dashboard');
   if (!container) return;
 
-  // The dashboard tracks whichever categories the active roadmap prepares for,
-  // so switching roadmaps changes what mastery means.
-  const cats = ROADMAP_CATEGORIES[activeRoadmapId()] || [];
+  const cats = PREP_CATEGORIES;
   const shown = cats.filter((c) => c !== 'Performance');
 
   container.innerHTML = shown

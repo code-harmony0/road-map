@@ -8,7 +8,6 @@ import { behavioralQuestions } from './data/behavioral.js';
 import { systemDesignQuestions } from './data/system-design.js';
 import { backendQuestions } from './data/backend-questions.js';
 import { platformQuestions } from './data/platform-questions.js';
-import { DEFAULT_ROADMAP } from '../content/roadmaps.js';
 
 export const allQuestions = [
   ...rnQuestions,
@@ -18,30 +17,8 @@ export const allQuestions = [
   ...platformQuestions
 ];
 
-/**
- * Which question categories each roadmap actually prepares you for. Prep should
- * follow the roadmap you are running, not show you TurboModule questions while
- * you are still on Rung 1.
- */
-export const ROADMAP_CATEGORIES = {
-  v1: ['React Native Core', 'Performance', 'Behavioral', 'Mobile System Design'],
-  v2: ['React Native Core', 'Mobile Platform', 'Performance', 'Behavioral', 'Mobile System Design', 'Backend & Data'],
-  v3: ['Backend & Data', 'Mobile Platform', 'AI Engineering', 'Mobile System Design']
-};
-
-/**
- * The roadmap the main app is currently on. Read from its own storage key so
- * the two pages stay in step without a shared runtime.
- * @returns {string} Roadmap id
- */
-export function activeRoadmapId() {
-  try {
-    const raw = localStorage.getItem('rn_escape_velocity_v3');
-    return raw ? JSON.parse(raw).roadmap || DEFAULT_ROADMAP : DEFAULT_ROADMAP;
-  } catch {
-    return DEFAULT_ROADMAP;
-  }
-}
+/** The categories this plan prepares you for (the "My Roadmap" filter and dashboard). */
+export const PREP_CATEGORIES = ['React Native Core', 'Mobile Platform', 'Performance', 'Behavioral', 'Mobile System Design', 'Backend & Data'];
 
 export function getFilteredQuestions(state, categoryFilter = 'all', masteryFilter = 'all', searchQuery = '') {
   return allQuestions.filter(q => {
@@ -54,7 +31,7 @@ export function getFilteredQuestions(state, categoryFilter = 'all', masteryFilte
     else if (categoryFilter === 'platform') catMatch = q.category === 'Mobile Platform';
     else if (categoryFilter === 'ai') catMatch = q.category === 'AI Engineering';
     else if (categoryFilter === 'roadmap') {
-      catMatch = (ROADMAP_CATEGORIES[activeRoadmapId()] || []).includes(q.category);
+      catMatch = PREP_CATEGORIES.includes(q.category);
     }
     
     // Mastery Match

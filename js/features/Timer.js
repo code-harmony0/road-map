@@ -1,166 +1,58 @@
 /**
- * Timer Module
- * Deep work sprint timer
+ * Focus timer: a 50-minute sprint in the top bar. Held in memory only, and it
+ * updates its own text, so a running timer never repaints the page.
  */
-
-import { state } from '../core/State.js';
-import { eventBus, EVENTS } from '../core/EventBus.js';
-import { addXP } from './Gamification.js';
-import { shootConfetti } from './Confetti.js';
 import { toast } from '../ui/Toast.js';
 
-const DEFAULT_SECONDS = 3000; // 50 minutes
+const SPRINT = 50 * 60;
+let remaining = SPRINT;
+let handle = null;
 
-let timerInterval = null;
-let isRunning = false;
+const fmt = (s) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
-/**
- * Open timer modal
- */
-export function openTimer() {
-  const modal = document.getElementById('timerModal');
-  if (modal) {
-    modal.classList.add('open');
-  }
-  renderTimerUI();
-}
-
-/**
- * Close timer modal
- */
-export function closeTimer() {
-  const modal = document.getElementById('timerModal');
-  if (modal) {
-    modal.classList.remove('open');
-  }
-
-  // Focus mode makes the rest of the app pointer-events:none. Leaving it on
-  // with the modal gone locks the UI with no way back except a reload.
-  if (isRunning) {
-    pauseTimer();
-  } else {
-    document.body.classList.remove('focus-mode');
-  }
-}
-
-/**
- * Toggle timer start/pause
- */
-export function toggleTimer() {
-  if (isRunning) {
-    pauseTimer();
-  } else {
-    startTimer();
-  }
-}
-
-/**
- * Start the timer
- */
-function startTimer() {
-  isRunning = true;
-  document.body.classList.add('focus-mode');
-  updateStartButton();
-
-  timerInterval = setInterval(() => {
-    const currentSecs = state.get().timerSecs;
-
-    if (currentSecs <= 0) {
-      completeTimer();
-      return;
-    }
-
-    state.setTimer(currentSecs - 1);
-    renderTimerUI();
-  }, 1000);
-}
-
-/**
- * Pause the timer
- */
-function pauseTimer() {
-  isRunning = false;
-  clearInterval(timerInterval);
-  document.body.classList.remove('focus-mode');
-  updateStartButton();
-  renderTimerUI();
-}
-
-/**
- * Reset timer to default
- */
-export function resetTimer() {
-  pauseTimer();
-  state.setTimer(DEFAULT_SECONDS);
-  document.body.classList.remove('focus-mode');
-  renderTimerUI();
-}
-
-/**
- * Timer completed
- */
-function completeTimer() {
-  pauseTimer();
-  state.setTimer(DEFAULT_SECONDS);
-  toast('Sprint complete! +100 XP');
-  addXP(100);
-  shootConfetti();
-  eventBus.emit(EVENTS.TIMER_COMPLETE, null);
-}
-
-/**
- * Update start button text based on state
- */
-function updateStartButton() {
-  const btn = document.getElementById('timerStartBtn');
+function paint() {
+  const text = document.getElementById('timerText');
+  const btn = document.getElementById('timerToggle');
+  const reset = document.getElementById('timerReset');
+  if (text) text.textContent = fmt(remaining);
+  document.title = handle !== null ? `${fmt(remaining)} · Roadmap` : 'Roadmap';
   if (btn) {
-    btn.innerHTML = isRunning
-      ? '<i class="ph-bold ph-pause"></i> Pause'
-      : '<i class="ph-bold ph-play"></i> Start Sprint';
+    const running = handle !== null;
+    btn.dataset.running = String(running);
+    btn.setAttribute('aria-label', running ? 'Pause focus timer' : 'Start 50-minute focus timer');
+    btn.querySelector('svg').innerHTML = running ? '<path d="M4.5 3h2.6v10H4.5zM8.9 3h2.6v10H8.9z"/>' : '<path d="M5 3.2v9.6l7.6-4.8z"/>';
   }
+  if (reset) reset.hidden = remaining === SPRINT && handle === null;
 }
 
-/**
- * Render timer UI
- */
-export function renderTimerUI() {
-  const seconds = state.get().timerSecs;
-  const formatted = formatTime(seconds);
-
-  // Update large display
-  const lgDisplay = document.getElementById('timerDisplayLg');
-  if (lgDisplay) {
-    lgDisplay.textContent = formatted;
-  }
-
-  // Update mini display
-  const miniDisplay = document.getElementById('miniTimerDisp');
-  if (miniDisplay) {
-    miniDisplay.textContent = formatted;
-  }
-
-  // Update mini button state
-  const miniBtn = document.getElementById('miniTimerBtn');
-  if (miniBtn) {
-    miniBtn.classList.toggle('running', isRunning);
-  }
+function stop() {
+  clearInterval(handle);
+  handle = null;
 }
 
-/**
- * Format seconds to MM:SS
- * @param {number} seconds - Seconds to format
- * @returns {string} Formatted time
- */
-function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+export function toggleTimer() {
+  if (handle !== null) {
+    stop();
+  } else {
+    handle = setInterval(() => {
+      remaining -= 1;
+      if (remaining <= 0) {
+        stop();
+        remaining = SPRINT;
+        toast('Sprint done. Take a break, then pick the next task.');
+      }
+      paint();
+    }, 1000);
+  }
+  paint();
 }
 
-/**
- * Check if timer is currently running
- * @returns {boolean} True if running
- */
-export function isTimerRunning() {
-  return isRunning;
+export function resetTimer() {
+  stop();
+  remaining = SPRINT;
+  paint();
+}
+
+export function initTimer() {
+  paint();
 }

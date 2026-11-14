@@ -1,46 +1,22 @@
 /**
- * Storage Module
- * Handles all localStorage operations with error handling
- * Single Responsibility: Abstracts persistence layer
+ * Storage: localStorage persistence with error handling.
+ * `tasks` and `homeGates` keep their old names so saved progress carries over.
  */
-
-import { DEFAULT_ROADMAP } from '../content/roadmaps.js';
-
 const STORAGE_KEY = 'rn_escape_velocity_v3';
 
-/**
- * Default application state
- * @returns {object} Default state object
- */
+// Keys from earlier versions of the UI. Dropped on load.
+const LEGACY_KEYS = ['xp', 'xpByRoadmap', 'weeksCollapsed', 'milestonesCollapsed', 'jobSearch', 'timerSecs', 'startDate', 'roadmap', 'view', 'weeksOpen'];
+
 export function getDefaultState() {
-  return {
-    roadmap: DEFAULT_ROADMAP,
-    tasks: {},
-    xp: 0,
-    xpByRoadmap: {},
-    weeksCollapsed: {},
-    milestonesCollapsed: { m2: true, m3: true },
-    jobSearch: { applications: 0, interviews: 0, offers: 0 },
-    timerSecs: 3000,
-    startDate: null
-  };
+  return { tasks: {}, homeGates: {}, selected: null };
 }
 
-/**
- * Load state from localStorage
- * @returns {object} Loaded state or default state
- */
 export function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const loaded = { ...getDefaultState(), ...JSON.parse(raw) };
-
-      // Migration: a single shared xp counter became per-roadmap. Existing XP
-      // belongs to whichever roadmap earned it, which is always v1.
-      if (!loaded.xpByRoadmap || Object.keys(loaded.xpByRoadmap).length === 0) {
-        loaded.xpByRoadmap = { v1: loaded.xp || 0 };
-      }
+      LEGACY_KEYS.forEach((k) => delete loaded[k]);
       return loaded;
     }
   } catch (e) {
@@ -49,41 +25,10 @@ export function loadState() {
   return getDefaultState();
 }
 
-/**
- * Save state to localStorage
- * @param {object} state - State to save
- */
 export function saveState(state) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch (e) {
     console.error('Failed to save state to localStorage:', e);
-  }
-}
-
-/**
- * Export state as JSON file download
- * @param {object} state - State to export
- */
-export function exportState(state) {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'rn-roadmap-backup.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-/**
- * Clear all stored data
- */
-export function clearState() {
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-  } catch (e) {
-    console.error('Failed to clear localStorage:', e);
   }
 }

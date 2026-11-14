@@ -2,3 +2,6 @@
 career-ops.json
 .DS_Store
 firebase-debug.log
+
+# Local design-review captures
+.impeccable/

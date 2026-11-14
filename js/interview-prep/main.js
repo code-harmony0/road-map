@@ -3,7 +3,7 @@
  */
 
 import { getPrepState, saveStories } from './store.js';
-import { getFilteredQuestions, allQuestions, activeRoadmapId } from './filter.js';
+import { getFilteredQuestions, allQuestions } from './filter.js';
 import { renderDashboard, renderQuestions, renderStories, renderLog } from './renderer.js';
 import { setupLogger } from './logger.js';
 import { defaultStories } from './data/stories.js';
@@ -12,12 +12,7 @@ let currentState;
 let currentCatFilter = 'roadmap';
 let currentMasteryFilter = 'all';
 
-const ROADMAP_NAMES = { v1: 'Escape Velocity', v2: 'Two-Track Escape', v3: 'Skill Ladder' };
-
 function init() {
-  const badge = document.querySelector('.badge-tag');
-  if (badge) badge.textContent = ROADMAP_NAMES[activeRoadmapId()] || 'Roadmap';
-
   currentState = getPrepState();
   
   // Seed stories if null

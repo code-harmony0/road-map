@@ -6,9 +6,6 @@ cd "$(dirname "$0")" || exit 1
 PORT=8642
 URL="http://localhost:$PORT/index.html"
 
-# Offer Radar reads career-ops' real tracker instead of hand-typed numbers.
-command -v node >/dev/null 2>&1 && node scripts/sync-career-ops.mjs || true
-
 # Reuse a server that's already serving THIS app; anything else on the port is a stranger.
 if ! curl -sf "$URL" 2>/dev/null | grep -q "Senior Roadmap"; then
   nohup python3 -m http.server "$PORT" >/dev/null 2>&1 &

@@ -1,25 +1,19 @@
 /**
- * Toast Module
- * Notification system
+ * Toast: one short status message, optionally with one action (Undo).
+ * Announced to screen readers.
  */
+let timer = null;
 
-const DEFAULT_DURATION = 3000;
-
-/**
- * Show a toast notification
- * @param {string} message - Message to display
- * @param {number} duration - Duration in milliseconds
- */
-export function toast(message, duration = DEFAULT_DURATION) {
+export function toast(message, action, duration = 5000) {
   const el = document.getElementById('toast');
-  const msgEl = document.getElementById('toastMsg');
-
-  if (!el || !msgEl) return;
-
-  msgEl.textContent = message;
+  const msg = document.getElementById('toastMsg');
+  const btn = document.getElementById('toastAction');
+  if (!el || !msg || !btn) return;
+  msg.textContent = message;
+  btn.hidden = !action;
+  btn.onclick = action ? () => { action.run(); el.classList.remove('show'); } : null;
+  if (action) btn.textContent = action.label;
   el.classList.add('show');
-
-  setTimeout(() => {
-    el.classList.remove('show');
-  }, duration);
+  clearTimeout(timer);
+  timer = setTimeout(() => el.classList.remove('show'), duration);
 }

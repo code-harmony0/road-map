@@ -62,11 +62,5 @@ export const eventBus = new EventBus();
 
 // Event names constants
 export const EVENTS = {
-  STATE_CHANGED: 'state:changed',
-  XP_CHANGED: 'xp:changed',
-  LEVEL_UP: 'level:up',
-  TASK_TOGGLED: 'task:toggled',
-  BOSS_DEFEATED: 'boss:defeated',
-  TIMER_COMPLETE: 'timer:complete',
-  JOB_STATS_CHANGED: 'job:stats-changed'
+  STATE_CHANGED: 'state:changed'
 };
